@@ -1,19 +1,49 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useState, useCallback } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { pathComponent, routePaths } from './pathComponent';
+import { navigateTo, redirectTo, openWindow, historyPush } from './historyPush';
+import getHistory from './history';
+const Routers = (props) => {
+    const [updateRoute, setUpdateRoute] = useState(0);
+    const cb = useCallback(() => {
+        const unlisten = getHistory.listen((location, action) => {});
+    }, []);
 
-const LogIn = lazy(() => import('../pages/LogIn'));
-const Home = lazy(() => import('../pages/Home'));
-// const About = lazy(() => import('./routes/About'));
+    return (
+        <Router
+            basename=""
+            forceRefresh={false}
+            history={getHistory}
+            getUserConfirmation={() => {
+                console.log('getUserConfirmation=');
+            }}
+        >
+            <Suspense fallback={<div>Loading...</div>}>
+                <Switch>
+                    {pathComponent.map((item, index) => {
+                        console.log('item=', item);
+                        return (
+                            <Route
+                                key={index}
+                                exact
+                                nam={item.name}
+                                path={item.path}
+                                component={item.component}
+                            />
+                        );
+                    })}
+                </Switch>
+            </Suspense>
+        </Router>
+    );
+};
 
-const Routers = () => (
-  <Router>
-    <Suspense fallback={<div>Loading...</div>}>
-      <Switch>
-        <Route exact path="/log-in" component={LogIn}/>
-        <Route path="/" component={Home}/>
-      </Switch>
-    </Suspense>
-  </Router>
-);
-
-export default  Routers
+export default Routers;
+export {
+    navigateTo,
+    redirectTo,
+    openWindow,
+    historyPush,
+    getHistory,
+    routePaths,
+};

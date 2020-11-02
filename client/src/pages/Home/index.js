@@ -1,34 +1,59 @@
 import React from 'react';
-class Home extends React.Component {
-    componentWillMount() {
-        console.log('Component WILL MOUNT!')
-    }
-    componentDidMount() {
-         console.log('Component DID MOUNT!')
-    }
-    componentWillReceiveProps(newProps) {
-          console.log('Component WILL RECEIVE PROPS!')
-    }
-    shouldComponentUpdate(newProps, newState) {
-          return true;
-    }
-    componentWillUpdate(nextProps, nextState) {
-          console.log('Component WILL UPDATE!');
-    }
-    componentDidUpdate(prevProps, prevState) {
-          console.log('Component DID UPDATE!')
-    }
-    componentWillUnmount() {
-           console.log('Component WILL UNMOUNT!')
-    }
-   
-      render() {
-        return (
-          <div>
-            home
-          </div>
-        );
-      }
-  }
+import     './index.less';
+import { Form, Input, Button, Checkbox } from 'antd';
 
-  export default Home
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
+const tailLayout = {
+  wrapperCol: { offset: 8, span: 16 },
+};
+
+const Home = () => {
+  const onFinish = values => {
+    console.log('Success:', values);
+  };
+
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
+  };
+
+  return (
+    <Form
+      {...layout}
+      name="basic"
+      initialValues={{ remember: true }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+    >
+      <Form.Item
+        label="Username"
+        name="username"
+        rules={[{ required: true, message: 'Please input your username!' }]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label="Password"
+        name="password"
+        rules={[{ required: true, message: 'Please input your password!' }]}
+      >
+        <Input.Password />
+      </Form.Item>
+
+      <Form.Item {...tailLayout} name="remember" valuePropName="checked">
+        <Checkbox>Remember me</Checkbox>
+      </Form.Item>
+
+      <Form.Item {...tailLayout}>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
+  );
+};
+
+export default Home
