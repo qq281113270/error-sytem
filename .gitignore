@@ -1,3 +1,26 @@
+<<<<<<< HEAD
 node_modules/*
 server/node_modules/*
 client/node_modules/*
+=======
+# common
+node_modules
+bower_components
+.DS_Store
+*~
+**/.*
+
+# webstorm files
+idea-out
+*.iml
+*.ipr
+*.iws
+
+# generated files
+_doc
+.testlib
+lib
+lib-esm
+release
+stats.html
+>>>>>>> 675c44186fb4a914b15ebce15d5bcf5dde098e49
