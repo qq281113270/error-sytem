@@ -1,59 +1,96 @@
-import React from 'react';
-import     './index.less';
-import { Form, Input, Button, Checkbox } from 'antd';
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+  UploadOutlined,
+  HomeOutlined,
+} from "@ant-design/icons";
+import "./index.less";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
+import React, { Suspense, lazy, useState, useCallback } from "react";
+import { routePaths, historyPush, getHistory, pathComponent } from "@/router";
+import { Layout, Menu, Select } from "antd";
+import Sider from "@/common/component/Sider";
+import Header from "@/common/component/Header";
+// Header
 
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
+const { Option } = Select;
+const Index = lazy(() => import("@/pages/Home/pages/Index"));
+const { Content } = Layout;
 
-const Home = () => {
-  const onFinish = values => {
-    console.log('Success:', values);
+export default class extends React.Component {
+  state = {
+    collapsed: false,
+    selectedKeys: ["1"],
   };
 
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
+  getChildrenComponent = () => {
+    return pathComponent.find((item) => item.name == "home")?.children || [];
   };
 
-  return (
-    <Form
-      {...layout}
-      name="basic"
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-    >
-      <Form.Item
-        label="Username"
-        name="username"
-        rules={[{ required: true, message: 'Please input your username!' }]}
-      >
-        <Input />
-      </Form.Item>
+  toggle = () => {
+    const { collapsed } = this.state;
+    this.setState({
+      collapsed: !collapsed,
+    });
+  };
 
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: 'Please input your password!' }]}
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-        <Checkbox>Remember me</Checkbox>
-      </Form.Item>
-
-      <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
-  );
-};
-
-export default Home
+  render() {
+    const { selectedKeys, collapsed } = this.state;
+    return (
+      <Layout className="root-layout">
+        <Sider collapsed={collapsed} />
+        <Layout className="site-layout">
+          <Header
+            collapsed={collapsed}
+            onChangeCollapsed={() => {
+              this.toggle();
+            }}
+          ></Header>
+          <Router
+            basename=""
+            forceRefresh={false}
+            history={getHistory}
+            getUserConfirmation={() => {
+              console.log("getUserConfirmation=");
+            }}
+          >
+            <Suspense fallback={<div>Loading...</div>}>
+              <Content
+                className="site-layout-background"
+                style={{
+                  margin: "24px 16px",
+                  padding: 24,
+                  // minHeight: 280,
+                }}
+              >
+                <Switch>
+                  {this.getChildrenComponent().map((item, index) => {
+                    return (
+                      <Route
+                        key={index}
+                        exact
+                        nam={item.name}
+                        path={item.path}
+                        component={item.component}
+                      />
+                    );
+                  })}
+                  {/* <Route from="/*">404</Route> */}
+                  <Redirect exact from="/*" to="/index" />
+                  {/* <Redirect exact from="/" to="/index" />   */}
+                </Switch>
+              </Content>
+            </Suspense>
+          </Router>
+        </Layout>
+      </Layout>
+    );
+  }
+}

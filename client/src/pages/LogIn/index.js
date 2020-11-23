@@ -78,13 +78,7 @@ const Index = (props) => {
                         <Button className="submit" onClick={()=>{
                             // window.location
                             const {location,history}=props;
-                            // console.log('location=',location)
-                            // console.log('props=',props)
-                            // console.log('props=',props)
-                            // history.push('/register')
-                             
-                              // console.log('routePaths=',routePaths.register)
-                              // console.log('historyPush=',historyPush)
+ 
                               historyPush({
                                     props,
                                     url:routePaths.register

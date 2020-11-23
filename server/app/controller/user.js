@@ -67,13 +67,14 @@ class Controller {
         ctx.response.body =  'd'
     }
 
-    static login(ctx, next) {
+    static async login (ctx, next) {
         ctx.set("Content-Type", "application/json")
         var parameter = ctx.request.body; // 获取请求参数
         console.log('ctx.request.body=',ctx.request.body)
+        console.log('userService.login=',userService.login)
         //添加service
-        const data = await userService.login(parameter,ctx,next);
-        ctx.response.body= data
+         const data = await userService.login(parameter,ctx,next);
+          ctx.response.body= data
     }
 }
 

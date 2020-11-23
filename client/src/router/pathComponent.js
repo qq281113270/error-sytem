@@ -2,13 +2,27 @@ import React, {  lazy } from 'react';
 const LogIn = lazy(() => import('@/pages/LogIn'));
 const Register = lazy(() => import('../pages/Register'));
 const Home = lazy(() => import('../pages/Home'));
+const Index = lazy(() => import('@/pages/Home/pages/Index'));
+const ScriptException = lazy(() => import('@/pages/Home/pages/ScriptException'));
 
 const pathComponent= [
     // 主页
     {
         name:'home',
         path:'/',
-        component:Home
+        component:Home,
+        children:[
+            {
+                name:'home',
+                path:'/index',
+                component:Index,
+            },
+            {
+                name:'scriptException',
+                path:'/script-exception',
+                component:ScriptException,
+            }
+        ]
     },
     {
         name:'logLn',

@@ -41,7 +41,7 @@ class Service {
     console.log('userData=',userData)
   }
 
-  static  async login(parameter,ctx,next){
+  static  async login(parameter={},ctx,next){
     console.log('parameter=',parameter)
      return parameter
   }

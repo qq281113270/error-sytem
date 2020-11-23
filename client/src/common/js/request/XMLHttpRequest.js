@@ -15,11 +15,11 @@ const queryStringify = (data) => {
 
 }
 
-console.log('queryStringify=',queryStringify({
-    name:'yao guan shou',
-    age:'16',
-    address:'guang xi yu lin'
-}))
+// console.log('queryStringify=',queryStringify({
+//     name:'yao guan shou',
+//     age:'16',
+//     address:'guang xi yu lin'
+// }))
 
 
 
@@ -27,13 +27,13 @@ console.log('queryStringify=',queryStringify({
 class XHR {
     constructor(options) {
         // const { method = 'POST', url = '' } = options;
-        this.defaultConfig={
-            timeout:3000,
-        }
-        this.options ={
-            ...this.defaultConfig,
-            ...options,
-        }
+        // this.defaultConfig={
+        //     timeout:3000,
+        // }
+        // this.options ={
+        //     ...this.defaultConfig,
+        //     ...options,
+        // }
     }
     // init() {
     //     this.createXHR();
@@ -43,6 +43,16 @@ class XHR {
     //     this.setRequestHeader();
     //     this.send();
     // }
+    ininData(options){
+        this.defaultConfig={
+            timeout:3000,
+        }
+        this.options ={
+            ...this.defaultConfig,
+            ...options,
+        }  
+        return this;
+    }
     queryStringify (data) {
         const keys = Object.keys(data);
         let formStr = '';
@@ -57,7 +67,8 @@ class XHR {
         });
         return formStr.substr(1);
     }
-    xhRequest () {
+    xhRequest (options) {
+        this.ininData(options)
         this.createXHR();
         this.setTimeout();
         this.setWithCredentials();
