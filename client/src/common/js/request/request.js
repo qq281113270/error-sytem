@@ -1,5 +1,7 @@
 import XMLHttpRequest from "./XMLHttpRequest";
 import baseUrl from "./baseUrl";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { gql } from "@apollo/client";
 
 export default class Request {
   static baseUrl = baseUrl;
@@ -18,13 +20,14 @@ export default class Request {
     );
   }
   static guid() {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (
-      c
-    ) {
-      var r = (Math.random() * 16) | 0,
-        v = c == "x" ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+      /[xy]/g,
+      function (c) {
+        var r = (Math.random() * 16) | 0,
+          v = c == "x" ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      }
+    );
   }
   static setLoad(options) {
     const { isLoad = true, url, requestId = "", parameter } = options;
@@ -252,3 +255,69 @@ export default class Request {
         });
   }
 }
+
+
+export class  Graphql{
+    constructor(options){
+        this.url=url;
+    }
+    query(){
+
+    const options=   {
+        query: gql`
+          query GetRates {
+            rates(currency: "USD") {
+              currency
+            }
+          }
+        `,
+        variables:'123'
+      }
+     return Request.get(this.url,{
+
+     })   
+    }
+    mutate( ){
+     const options  = {
+        mutation:"1", // 封装好的GraphQL,
+        variables: { 
+          'input': {
+            '_personPostId': 1
+          }
+        }
+      }
+       return Request.post(this.url,{
+       
+       })  
+    }
+   static  gql (/* arguments */) {
+      var args = Array.prototype.slice.call(arguments);
+    
+      var literals = args[0];
+      var result = typeof literals === "string" ? literals : literals[0];
+    
+      for (var i = 1; i < args.length; i++) {
+        if (args[i] && args[i].kind && args[i].kind === "Document") {
+          result += args[i].loc.source.body;
+        } else {
+          result += args[i];
+        }
+    
+        result += literals[i];
+      }
+    
+       console.log('result======',result)
+    };
+
+}
+
+export const GraphqlClient = new Graphql({
+  url:'http://www.baidu.com'
+})
+
+ 
+
+ 
+
+ 
+ 

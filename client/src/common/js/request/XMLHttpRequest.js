@@ -208,7 +208,6 @@ class XHR {
          console.log('this.xmlHttp.readyState=',this.xmlHttp.readyState)
         if (this.xmlHttp.readyState == 4) {
             if (this.xmlHttp.status == 200) {
-                console.log('this.xmlHttp.status=',this.xmlHttp.status)
                 complete(
                     dataType == 'json'
                         ? JSON.parse(this.xmlHttp.responseText)
@@ -216,10 +215,10 @@ class XHR {
                     this.xmlHttp
                 );
                 success(
-                    // dataType == 'json'
-                    //     ? JSON.parse(this.xmlHttp.responseText)
-                    //     : this.xmlHttp.responseText,
-                    // this.xmlHttp
+                    dataType == 'json'
+                        ? JSON.parse(this.xmlHttp.responseText)
+                        : this.xmlHttp.responseText,
+                    this.xmlHttp
                 );
             } 
             

@@ -5,7 +5,9 @@ const addUser = async ({
     phone,
     password,
 })=>{
-   const sql=`insert into user(name,phone,password) values(${name},'${phone}',md5(${password}));`
+
+   const sql=`insert into user(name,phone,password) values('${name}','${phone}',md5('${password}'));`
+    console.log('sql=',sql)
    return  await exec(sql)
 }
 
@@ -17,7 +19,7 @@ const queryUser=async(andConditionData={},orConditionData={},sql)=>{
     sql=`select * from user where `
     const andKeys = Object.keys(andConditionData);
     andKeys.forEach(key=>{
-        sql+=key=='password'?` ${key}=md5(${andConditionData[key]}) and`:  ` ${key}=${andConditionData[key]} and`
+        sql+=key=='password'?` ${key}=md5('${andConditionData[key]}') and`:  ` ${key}=${andConditionData[key]} and`
     })
     sql=sql.substring(0,sql.length-3);
 

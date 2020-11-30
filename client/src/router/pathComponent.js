@@ -6,6 +6,16 @@ const Index = lazy(() => import('@/pages/Home/pages/Index'));
 const ScriptException = lazy(() => import('@/pages/Home/pages/ScriptException'));
 
 const pathComponent= [
+    {
+        name:'logLn',
+        path:'/log-in',
+        component:LogIn
+    },
+    {
+        name:'register',
+        path:'/register',
+        component:Register
+    },
     // 主页
     {
         name:'home',
@@ -24,16 +34,7 @@ const pathComponent= [
             }
         ]
     },
-    {
-        name:'logLn',
-        path:'/log-in',
-        component:LogIn
-    },
-    {
-        name:'register',
-        path:'/register',
-        component:Register
-    },
+
 
    
 ]

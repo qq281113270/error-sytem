@@ -48,7 +48,14 @@ export default class extends React.Component {
         <Sider collapsed={collapsed} />
         <Layout className="site-layout">
           <Header
+            // avatar="头像地址"
+            nickname="账号名称"
+            areaCode="账号"
+            mobile="手机号码"
             collapsed={collapsed}
+            onClick={(type)=>{
+              console.log('type=',type)
+            }}
             onChangeCollapsed={() => {
               this.toggle();
             }}

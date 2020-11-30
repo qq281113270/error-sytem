@@ -22,10 +22,10 @@ class Service {
        phone,
        password, 
     }=parameter
-   this.queryUser({
-     id:1,
-     password:1
-   })
+  //  this.queryUser({
+  //    id:1,
+  //    password:1
+  //  })
    const data = await  addUser({
       name,phone,password
     })

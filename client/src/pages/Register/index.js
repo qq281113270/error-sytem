@@ -13,10 +13,11 @@ const tailLayout = {
 };
 
 const Index = () => {
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         // console.log('register=', register);
         // console.log('Success:', values);
-        register(values);
+      const data  =  await  register(values);
+      console.log('data====',data)
     };
 
     const onFinishFailed = (errorInfo) => {
