@@ -51,6 +51,7 @@ class Route {
         .then((data) => {
           const { errors }=data
           if (errors) {
+            // ctx.status=400;
             ctx.response.body = merge(
               {
                 errors
@@ -72,6 +73,7 @@ class Route {
         .then((data) => {
           const { errors }=data
           if (errors) {
+            // ctx.status=400;
             ctx.response.body = merge(
               {
                 errors

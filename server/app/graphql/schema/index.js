@@ -42,7 +42,7 @@ export default new GraphQLSchema({
   // mutation 变异
   mutation: new GraphQLObjectType({
     name: "Mutation",
-    fields: checkMutationSchemaName({}, user.mutation, home.mutation),
+    fields: checkMutationSchemaName({}, user.mutation),
   }),
 });
 
