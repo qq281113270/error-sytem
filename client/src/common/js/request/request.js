@@ -1,14 +1,20 @@
 import XMLHttpRequest from "./XMLHttpRequest";
 import baseUrl from "./baseUrl";
-import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { gql } from "@apollo/client";
+// import { ApolloClient, InMemoryCache } from "@apollo/client";
+// import { gql } from "@apollo/client";
+// import { request } from 'graphql-request'
+
+
+
+
 
 export default class Request {
   static baseUrl = baseUrl;
   static requestQueue = [];
   static defaultHeader = {
-    "content-type": "application/x-www-form-urlencoded",
-    // 'Content-Type': 'application/json;charset=utf-8',
+    // "content-type": "application/x-www-form-urlencoded",
+     'Content-Type': 'application/json;charset=utf-8',
+    
   };
   // 去除 // 地址
   static transformUrl(url) {
@@ -49,6 +55,7 @@ export default class Request {
       url,
       parameter,
       method: "POST",
+      // dataType:'form',
       ...options,
     };
     this.setLoad({
@@ -259,36 +266,35 @@ export default class Request {
 
 export class  Graphql{
     constructor(options){
-        this.url=url;
+      const {url}=options
+       this.url=url;
     }
-    query(){
+    query(data){
 
-    const options=   {
-        query: gql`
-          query GetRates {
-            rates(currency: "USD") {
-              currency
-            }
-          }
-        `,
-        variables:'123'
-      }
-     return Request.get(this.url,{
-
-     })   
+    // const options=   {
+    //     query: Graphql.gql`
+    //       query GetRates {
+    //         rates(currency: "USD") {
+    //           currency
+    //         }
+    //       }
+    //     `,
+    //     variables:'123'
+    //   }
+      console.log('data==',data)
+     return Request.get(this.url,data)   
     }
-    mutate( ){
-     const options  = {
-        mutation:"1", // 封装好的GraphQL,
-        variables: { 
-          'input': {
-            '_personPostId': 1
-          }
-        }
-      }
-       return Request.post(this.url,{
-       
-       })  
+    mutate(data){
+    //  const options  = {
+    //     mutation:"1", // 封装好的GraphQL,
+    //     variables: { 
+    //       'input': {
+    //         '_personPostId': 1
+    //       }
+    //     }
+    //   }
+      console.log('data1==',data)
+       return Request.post(this.url,data)  
     }
    static  gql (/* arguments */) {
       var args = Array.prototype.slice.call(arguments);
@@ -305,14 +311,24 @@ export class  Graphql{
     
         result += literals[i];
       }
-    
-       console.log('result======',result)
+      return result
+
     };
+    // static gql(chunks) {
+    //   var variables = [];
+    //   for (var _i = 1; _i < arguments.length; _i++) {
+    //       variables[_i - 1] = arguments[_i];
+    //   }
+    //   return chunks.reduce(  (accumulator, chunk, index)=> { return "" + accumulator + chunk + (index in variables ? variables[index] : ''); }, '');
+    // }
 
 }
 
+
+ 
+export const gql = Graphql.gql
 export const GraphqlClient = new Graphql({
-  url:'http://www.baidu.com'
+  url:'/data'
 })
 
  

@@ -3,6 +3,8 @@ import '@/common/css/base.less';
 import './index.less';
 import { Form, Input, Button, Checkbox } from 'antd';
 import {routePaths,historyPush,getHistory} from '@/router';
+import { login,createUser } from '@/common/js/request/index';
+ 
 
 
 // import getHistory from './history'
@@ -20,6 +22,11 @@ const Index = (props) => {
    
     const onFinish = (values) => {
         console.log('Success:', values);
+        // login()
+        createUser({
+            // name:'abc'
+        })
+
     };
 
     const onFinishFailed = (errorInfo) => {

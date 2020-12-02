@@ -1,8 +1,3 @@
-import {promise} from './common'
- 
+import { promise, merge } from "./common";
 
-export{
-    promise, 
-}
-     
- 
+export { merge, promise };

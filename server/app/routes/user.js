@@ -27,10 +27,11 @@ class Route {
     }
     init() {
         this.middleware();
-        this.routers();
+        this.registered();
+        this.login();
         this.router.use(nowRoute.routes());//第二种挂载方式  这里前面不需要加前缀 /user
     }
-    routers() {
+    registered() {
         // 添加url
         nowRoute.post('/register', controller.add);
     }
