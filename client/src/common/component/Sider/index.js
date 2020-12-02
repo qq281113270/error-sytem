@@ -228,7 +228,7 @@ export default memo(
     const onSearch = useCallback((val) => {});
 
     return (
-      <Sider className="sider" trigger={null} collapsible collapsed={collapsed}>
+      <Sider width="250" className="sider" trigger={null} collapsible collapsed={collapsed}>
         <Menu
           theme="dark"
           mode="inline"
@@ -241,6 +241,7 @@ export default memo(
         >
           <Menu.Item key="-1" icon={<HomeOutlined />}>
             <Select
+              style={{width:'185px'}}
               className="menu-select"
               showSearch
               placeholder="请选择项目"
