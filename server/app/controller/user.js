@@ -20,10 +20,8 @@ class Controller {
     }
 
     static async login (ctx, next) {
-        ctx.set("Content-Type", "application/json")
+        // ctx.set("Content-Type", "application/json")
         var parameter = ctx.request.body; // 获取请求参数
-        console.log('ctx.request.body=',ctx.request.body)
-        console.log('userService.login=',userService.login)
         //添加service
          const data = await userService.login(ctx,next,parameter);
          ctx.response.body = data

@@ -19,14 +19,14 @@ const queryUser = async (andConditionData = {}, orConditionData = {}, sql) => {
     sql +=
       key == "password"
         ? ` ${key}=md5('${andConditionData[key]}') and`
-        : ` ${key}=${andConditionData[key]} and`;
+        : ` ${key}='${andConditionData[key]}' and`;
   });
 
   orKeys.forEach((key) => {
     sql +=
       key == "password"
-        ? ` ${key}=md5(${orConditionData[key]}) or`
-        : ` ${key}=${orConditionData[key]} or`;
+        ? ` ${key}=md5('${orConditionData[key]}') or`
+        : ` ${key}='${orConditionData[key]}' or`;
   });
   sql =
     andKeys.length >= 1 && orKeys.length == 0

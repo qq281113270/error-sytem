@@ -1,4 +1,7 @@
 import { addUser, deleteUser, queryUser } from "../../db/user";
+import { unsupported } from "../constant";
+import { merge } from "../urils";
+
 class Service {
   static list(page) {
     console.log("page=", page);
@@ -34,10 +37,9 @@ class Service {
 
     userInfo = userInfo.length >= 1 ? userInfo[0] : null;
     if (userInfo && userInfo.id) {
-      return {
-        code: 200,
+      return merge(unsupported, {
         msg: "该用户名已经被注册过,请重新输入用户名",
-      };
+      });
     }
 
     userInfo = await this.queryUser({
@@ -45,10 +47,9 @@ class Service {
     });
     userInfo = userInfo.length >= 1 ? userInfo[0] : null;
     if (userInfo && userInfo.id) {
-      return {
-        code: 200,
+      return merge(unsupported, {
         msg: "该手机号码已经被注册过,请重新输入手机号码",
-      };
+      });
     }
     const data = await addUser({
       name,
@@ -69,6 +70,7 @@ class Service {
   }
 
   static async login(ctx, next, parameter = {}) {
+    
     return parameter;
   }
 }

@@ -49,15 +49,12 @@ class Route {
       const { query = "", variables = {} } = ctx.query;
       graphql(schema, query, { ctx, next }, variables)
         .then((data) => {
-          const { errors }=data
+          const { errors } = data;
           if (errors) {
             // ctx.status=400;
-            ctx.response.body = merge(
-              {
-                errors
-              },
-              graphqlError
-            );
+            ctx.response.body = merge(graphqlError, {
+              errors,
+            });
           }
         })
         .catch((error) => {
@@ -71,15 +68,12 @@ class Route {
 
       graphql(schema, mutation, { ctx, next }, variables)
         .then((data) => {
-          const { errors }=data
+          const { errors } = data;
           if (errors) {
             // ctx.status=400;
-            ctx.response.body = merge(
-              {
-                errors
-              },
-              graphqlError
-            );
+            ctx.response.body = merge(graphqlError, {
+              errors,
+            });
           }
         })
         .catch((error) => {
