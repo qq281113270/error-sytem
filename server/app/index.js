@@ -1,7 +1,7 @@
 import Koa from 'koa'
-import {promise} from './urils'
+import {promise} from './utils'
 // import { connection, exec} from '../db/mysql'
-import { CheckTable,connection, exec,addUser } from '../db/index.js'
+import { CheckTable,connection, exec,addUser } from './db/index.js'
 
 console.log('addUser=',addUser)
 

@@ -1,44 +1,55 @@
-
-import controller from '../controller/user';
-import Router from 'koa-router'  // koa 路由中间件
-const  nowRoute = new Router({
-	prefix: '/user' // 给路由统一加个前缀：
-});
+import controller from "../controller/user";
+import Router from "koa-router"; // koa 路由中间件
 
 class Route {
-    constructor(app, router) {
-        this.app = app;
-        this.router = router;
-        this.init();
-    }
-    middleware() {
-        // 处理404
-        // this.app.use('/user',function* (next) {
-        //     try {
-        //         yield* next;
-        //     } catch (e) {
-        //         this.status = 500;
-        //         this.body = '500';
-        //     }
-        //     if (parseInt(this.status) === 404) {
-        //         this.body = '404';
-        //     }
-        // });
-    }
-    init() {
-        this.middleware();
-        this.registered();
-        this.login();
-        this.router.use(nowRoute.routes());//第二种挂载方式  这里前面不需要加前缀 /user
-    }
-    registered() {
-        // 添加url
-        nowRoute.post('/register', controller.add);
-    }
-    login() {
-        // 添加url
-        nowRoute.post('/login', controller.login);
-    }
+  constructor(app, router) {
+    this.app = app;
+    this.router = router;
+    this.init();
+  }
+  createRouter() {
+    this.secondaryRoute = new Router({
+      prefix: "/user", // 给路由统一加个前缀：
+    });
+    return this.secondaryRoute;
+  }
+  middleware() {
+    // 处理404
+    // this.app.use('/user',function* (next) {
+    //     try {
+    //         yield* next;
+    //     } catch (e) {
+    //         this.status = 500;
+    //         this.body = '500';
+    //     }
+    //     if (parseInt(this.status) === 404) {
+    //         this.body = '404';
+    //     }
+    // });
+  }
+  // 添加路由
+  addRouters() {
+    // 添加路由
+    this.registered();
+    this.login();
+    this.router.use(this.secondaryRoute.routes()); //挂载二级路由
+  }
+  init() {
+    // 创建路由
+    this.createRouter();
+    // 添加中间件
+    this.middleware();
+    // 添加路由
+    this.addRouters();
+  }
+  registered() {
+    // 添加 接口
+    this.secondaryRoute.post("/register", controller.add);
+  }
+  login() {
+    // 添加 接口
+    this.secondaryRoute.post("/login", controller.login);
+  }
 }
 
 export default Route;

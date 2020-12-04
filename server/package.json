@@ -23,8 +23,10 @@
     "babel-preset-es2017": "^6.24.1",
     "cross-env": "^7.0.2",
     "http-errors": "^1.8.0",
+    "jwt-redis": "^6.0.0",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "redis": "^3.0.2"
   },
   "scripts": {
     "start": "npm run dev",

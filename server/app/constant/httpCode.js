@@ -10,4 +10,12 @@ const unsupported = {
   msg :"服务器已经理解请求，但是拒绝执行它",
 }
 
-export {graphqlError,unsupported };
+const unauthorized = {
+  // 当前请求需要用户验证. 如果验证不通过则返回401
+  code :401,
+  msg :"当前请求需要用户验证.",
+}
+
+ 
+
+export {graphqlError,unsupported ,unauthorized };

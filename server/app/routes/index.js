@@ -22,16 +22,20 @@ import User from "./user";
 import { common } from "../middleware/index";
 import schema from "../graphql/schema";
 import httpError from "http-errors";
-import { merge } from "../urils";
-import { graphqlError } from "../constant";
-
-const router = require("../../config/router");
+import { merge } from "../utils";
+import { graphllError } from "../constant";
+import Router from "koa-router";
 
 class Route {
   constructor(app) {
     this.app = app;
-    this.router = router;
+    // this.router = router;
     this.init();
+  }
+  createRouter() {
+    this.router = new Router({
+      prefix: "/api", // 给路由统一加个前缀：
+    });
   }
   // 添加中间件
   middleware() {
@@ -40,8 +44,8 @@ class Route {
   }
 
   // 添加路由
-  routers() {
-    new User(this.app, router);
+  addRouters() {
+    new User(this.app, this.router);
     // new Home(this.app,router);
 
     // 查询
@@ -51,8 +55,7 @@ class Route {
         .then((data) => {
           const { errors } = data;
           if (errors) {
-            // ctx.status=400;
-            ctx.response.body = merge(graphqlError, {
+            ctx.response.body = merge(graphllError, {
               errors,
             });
           }
@@ -70,8 +73,7 @@ class Route {
         .then((data) => {
           const { errors } = data;
           if (errors) {
-            // ctx.status=400;
-            ctx.response.body = merge(graphqlError, {
+            ctx.response.body = merge(graphllError, {
               errors,
             });
           }
@@ -80,13 +82,16 @@ class Route {
           console.log("error==", error);
         });
     });
+    // 挂载路由中间件
+    this.app.use(this.router.routes()).use(this.router.allowedMethods());
   }
   init() {
+    //创建路由
+    this.createRouter()
     // 添加中间件
     this.middleware();
     // 添加路由
-    this.routers();
-    this.app.use(this.router.routes()).use(router.allowedMethods());
+    this.addRouters();
   }
 }
 

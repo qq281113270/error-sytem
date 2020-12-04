@@ -1,6 +1,6 @@
-import { addUser, deleteUser, queryUser } from "../../db/user";
-import { unsupported } from "../constant";
-import { merge } from "../urils";
+import { addUser, deleteUser, queryUser } from "../db/user";
+import { unsupported, unauthorized } from "../constant";
+import { merge, createToken, checkToken } from "../utils";
 
 class Service {
   static list(page) {
@@ -37,9 +37,9 @@ class Service {
 
     userInfo = userInfo.length >= 1 ? userInfo[0] : null;
     if (userInfo && userInfo.id) {
-      return merge(unsupported, {
-        msg: "该用户名已经被注册过,请重新输入用户名",
-      });
+      return {
+        status: 1,
+      };
     }
 
     userInfo = await this.queryUser({
@@ -47,9 +47,9 @@ class Service {
     });
     userInfo = userInfo.length >= 1 ? userInfo[0] : null;
     if (userInfo && userInfo.id) {
-      return merge(unsupported, {
-        msg: "该手机号码已经被注册过,请重新输入手机号码",
-      });
+      return {
+        status: 2,
+      };
     }
     const data = await addUser({
       name,
@@ -58,8 +58,7 @@ class Service {
     });
     if (data) {
       return {
-        code: 200,
-        msg: "注册成功",
+        status: 3,
       };
     }
   }
@@ -70,8 +69,50 @@ class Service {
   }
 
   static async login(ctx, next, parameter = {}) {
-    
-    return parameter;
+    const { username: name, phone, password } = parameter;
+    /*
+     1 查询用户名是否被注册过，
+     2 查询手机号码是否被注册过
+     3 如果都没有被注册那么就可以注册
+    */
+    let userInfo = await this.queryUser({
+      name,
+    });
+
+    userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+    if (!userInfo) {
+      return {
+        status: 1,
+      };
+    }
+
+    userInfo = await this.queryUser({
+      password,
+    });
+    userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+    if (!userInfo) {
+      return {
+        status: 2,
+      };
+    }
+    userInfo = await queryUser({
+      name,
+      password,
+    });
+    userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+
+    const token = await createToken(userInfo.id);
+    console.log("userInfo=====", userInfo);
+    console.log(" token=====", token);
+    const data = await checkToken(token, userInfo.id);
+    console.log("data=====", data);
+
+    if (userInfo) {
+      //登录成功
+      return {
+        status: 3,
+      };
+    }
   }
 }
 

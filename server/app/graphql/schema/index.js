@@ -5,7 +5,6 @@ import {
   GraphQLString,
   GraphQLList,
 } from "graphql/type";
-import { merge } from "../../urils/index";
 //会员模块
 import user from "./user";
 import home from "./home";
