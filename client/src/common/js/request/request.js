@@ -1,20 +1,12 @@
 import XMLHttpRequest from "./XMLHttpRequest";
 import baseUrl from "./baseUrl";
-// import { ApolloClient, InMemoryCache } from "@apollo/client";
-// import { gql } from "@apollo/client";
-// import { request } from 'graphql-request'
-
-
-
-
-
+import { error as errorMessage, warning as warningMessage, success as successMessage  } from "./requestMessage";
 export default class Request {
   static baseUrl = baseUrl;
   static requestQueue = [];
   static defaultHeader = {
     // "content-type": "application/x-www-form-urlencoded",
-     'Content-Type': 'application/json;charset=utf-8',
-    
+    "Content-Type": "application/json;charset=utf-8",
   };
   // 去除 // 地址
   static transformUrl(url) {
@@ -173,8 +165,18 @@ export default class Request {
               requestId,
             },
             success: (...ags) => {
-              success(...ags);
-              resolve(...ags);
+              const data = ags.length?ags[0]:null
+              if(data){
+                const {code,msg=''}=data;
+                if(code==200){
+                  success(...ags);
+                  resolve(...ags);
+                  return ;
+                }
+                errorMessage(msg)
+              }
+              error(...ags);
+              reject(ags);
             },
             error: (...ags) => {
               error(...ags);
@@ -236,6 +238,7 @@ export default class Request {
               requestId,
             },
             success: (...ags) => {
+              console.log('ags=',ags)
               success(...ags);
               resolve(...ags);
             },
@@ -254,6 +257,7 @@ export default class Request {
             requestId,
           },
           success: (...ags) => {
+            console.log('ags=',ags)
             success(...ags);
           },
           error: (...ags) => {
@@ -263,14 +267,12 @@ export default class Request {
   }
 }
 
-
-export class  Graphql{
-    constructor(options){
-      const {url}=options
-       this.url=url;
-    }
-    query(data){
-
+export class Graphql {
+  constructor(options) {
+    const { url } = options;
+    this.url = url;
+  }
+  query(data) {
     // const options=   {
     //     query: Graphql.gql`
     //       query GetRates {
@@ -281,59 +283,46 @@ export class  Graphql{
     //     `,
     //     variables:'123'
     //   }
-      console.log('data==',data)
-     return Request.get(this.url,data)   
-    }
-    mutate(data){
+    return Request.get(this.url, data);
+  }
+  mutate(data) {
     //  const options  = {
     //     mutation:"1", // 封装好的GraphQL,
-    //     variables: { 
+    //     variables: {
     //       'input': {
     //         '_personPostId': 1
     //       }
     //     }
     //   }
-      console.log('data1==',data)
-       return Request.post(this.url,data)  
-    }
-   static  gql (/* arguments */) {
-      var args = Array.prototype.slice.call(arguments);
-    
-      var literals = args[0];
-      var result = typeof literals === "string" ? literals : literals[0];
-    
-      for (var i = 1; i < args.length; i++) {
-        if (args[i] && args[i].kind && args[i].kind === "Document") {
-          result += args[i].loc.source.body;
-        } else {
-          result += args[i];
-        }
-    
-        result += literals[i];
+    return Request.post(this.url, data);
+  }
+  static gql(/* arguments */) {
+    var args = Array.prototype.slice.call(arguments);
+
+    var literals = args[0];
+    var result = typeof literals === "string" ? literals : literals[0];
+
+    for (var i = 1; i < args.length; i++) {
+      if (args[i] && args[i].kind && args[i].kind === "Document") {
+        result += args[i].loc.source.body;
+      } else {
+        result += args[i];
       }
-      return result
 
-    };
-    // static gql(chunks) {
-    //   var variables = [];
-    //   for (var _i = 1; _i < arguments.length; _i++) {
-    //       variables[_i - 1] = arguments[_i];
-    //   }
-    //   return chunks.reduce(  (accumulator, chunk, index)=> { return "" + accumulator + chunk + (index in variables ? variables[index] : ''); }, '');
-    // }
-
+      result += literals[i];
+    }
+    return result;
+  }
+  // static gql(chunks) {
+  //   var variables = [];
+  //   for (var _i = 1; _i < arguments.length; _i++) {
+  //       variables[_i - 1] = arguments[_i];
+  //   }
+  //   return chunks.reduce(  (accumulator, chunk, index)=> { return "" + accumulator + chunk + (index in variables ? variables[index] : ''); }, '');
+  // }
 }
 
-
- 
-export const gql = Graphql.gql
+export const gql = Graphql.gql;
 export const GraphqlClient = new Graphql({
-  url:'/data'
-})
-
- 
-
- 
-
- 
- 
+  url: "/data",
+});

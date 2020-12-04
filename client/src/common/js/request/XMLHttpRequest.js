@@ -1,4 +1,4 @@
-import { CheckDataType } from "../../../utils/CheckDataType";
+import { CheckDataType } from "@/utils/CheckDataType";
 
 class XHR {
   constructor(options) {

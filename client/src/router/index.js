@@ -1,28 +1,42 @@
-import React, { Suspense, lazy, useState, useCallback } from "react";
+import React, {
+  Suspense,
+  lazy,
+  useState,
+  useCallback,
+  useEffect,
+  Component,
+} from "react";
 import {
-  BrowserRouter as Router,
+  // 不要使用BrowserRouter坑
+  // BrowserRouter as Router,
+  Router,
   Route,
   Switch,
   Redirect,
 } from "react-router-dom";
 import { pathComponent, routePaths } from "./pathComponent";
 import { navigateTo, redirectTo, openWindow, historyPush } from "./historyPush";
+import   {getHistory,history,listen} from "./history";
 
-import getHistory from "./history";
 const Routers = (props) => {
-  const [updateRoute, setUpdateRoute] = useState(0);
-  const cb = useCallback(() => {
-    const unlisten = getHistory.listen((location, action) => {});
-  }, []);
+ 
+  useEffect(() => {
+    // 监听路由变化
+    // listen((location, action)=>{
+    //   console.log('location=====',location)
+    //   console.log('action=====',action)
+    // })
+  },[]);
+ 
 
   return (
     <Router
-      basename=""
-      forceRefresh={false}
-      history={getHistory}
-      getUserConfirmation={() => {
-        console.log("getUserConfirmation=");
-      }}
+      // basename=""
+      //  forceRefresh={false}
+       history={history}
+      // getUserConfirmation={() => {
+      //   console.log("getUserConfirmation=");
+      // }}
     >
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
@@ -37,7 +51,6 @@ const Routers = (props) => {
               />
             );
           })}
-       
         </Switch>
       </Suspense>
     </Router>
@@ -51,6 +64,8 @@ export {
   openWindow,
   historyPush,
   getHistory,
+  history,
   routePaths,
   pathComponent,
+  listen,
 };

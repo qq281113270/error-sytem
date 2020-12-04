@@ -1,6 +1,4 @@
-import getHistory from './history'
-
-// import getHistory from 'toss.history';
+import {  history as  getHistory } from './history'
 // 获取url地址
 const getNewUrlArr = (parameter) => {
     let newUrlArr = [];
@@ -85,7 +83,7 @@ const serialize = (data) => {
 
 export const historyPush = (parameter) => {
     const {
-             props = {}, // 组件的props 
+            props = {}, // 组件的props 
             params = {}, //地址传参
             query = {}, //get 传参
             isOpenWin = false, // 是否重新打开新的窗口

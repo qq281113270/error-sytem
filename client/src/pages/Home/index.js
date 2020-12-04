@@ -8,13 +8,13 @@ import {
 } from "@ant-design/icons";
 import "./index.less";
 import {
-  BrowserRouter as Router,
+  Router,
   Route,
   Switch,
   Redirect,
 } from "react-router-dom";
 import React, { Suspense, lazy, useState, useCallback } from "react";
-import { routePaths, historyPush, getHistory, pathComponent } from "@/router";
+import { routePaths, historyPush, getHistory,history, pathComponent } from "@/router";
 import { Layout, Menu, Select } from "antd";
 import Sider from "@/common/component/Sider";
 import Header from "@/common/component/Header";
@@ -61,12 +61,12 @@ export default class extends React.Component {
             }}
           ></Header>
           <Router
-            basename=""
-            forceRefresh={false}
-            history={getHistory}
-            getUserConfirmation={() => {
-              console.log("getUserConfirmation=");
-            }}
+            // basename=""
+            // forceRefresh={false}
+            history={history}
+            // getUserConfirmation={() => {
+            //   console.log("getUserConfirmation=");
+            // }}
           >
             <Suspense fallback={<div>Loading...</div>}>
               <Content

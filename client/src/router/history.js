@@ -1,19 +1,24 @@
-import { createBrowserHistory, createHashHistory } from 'history'
- const history  = createBrowserHistory({
-     basename: '', // 基链接
-     forceRefresh: true, // 是否强制刷新整个页面
-    //  keyLength: 6, // location.key的长度
+import { createBrowserHistory, createHashHistory } from "history";
+export const history = createBrowserHistory({
+   basename: "/", // 基链接
+   forceRefresh: false, // 是否强制刷新整个页面
+   keyLength: 10, // location.key的长度
+  //  getUserConfirmation: (message,callback) =>{
+  //    console.log('message=====',message)
+  //  } // 跳转拦截函数
+});
+
+export const getHistory = (props={}) =>
+  createBrowserHistory({
+     basename: "/", // 基链接
+    forceRefresh: false, // 是否强制刷新整个页面
+    // keyLength: 10, // location.key的长度
     //  getUserConfirmation: (message,callback) => callback(window.confirm(message)) // 跳转拦截函数
-})
+    ...props,
+  });
 
-// const location = history.location; 获取location对象
-// const unlisten = history.listen( (location, action) => {
-
-// } )
- 
-// unlisten() // 监听解绑
-
-
-
-
-  export default   history
+export const listen = (fn=()=>{}) => {
+  return history.listen((location, action) => {
+    fn(location, action);
+  });
+};
