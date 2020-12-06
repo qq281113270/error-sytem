@@ -1,5 +1,5 @@
-const mysql = require('mysql')
-const { MYSQL_CONF } = require('../config/db')
+import mysql from 'mysql';
+import { MYSQL_CONF } from '../config';
 
 // 创建链接对象
 const connection  = mysql.createConnection(MYSQL_CONF)

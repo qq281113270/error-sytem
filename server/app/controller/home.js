@@ -5,7 +5,7 @@ class Controller {
         var page = ctx.params.page; // 获取请求参数
         //添加service
         const data = service.list(page);
-        console.log('data=', data);
+
         ctx.response.body = `<dl>
             <dt>title:${data.title}</dt>
             <dd>time:${data.time}</dd>

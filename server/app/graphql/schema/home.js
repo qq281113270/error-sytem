@@ -28,10 +28,7 @@ import {
         type: new GraphQLNonNull(GraphQLString),
         description: 'The id of the user.',
         // resolve: (user, params, source, fieldASTs) => {
-        //     console.log('user====',user)
-        //     console.log('params====',params)
-        //     console.log('source====',source)
-        //     console.log('fieldASTs====',fieldASTs)
+
   
         // //   var projections = getProjection(fieldASTs);
         // //   return User.find({

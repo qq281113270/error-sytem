@@ -28,11 +28,11 @@ class Controller {
   }
   static edit(ctx, next) {
     ctx.set("Content-Type", "application/json");
-    console.log("add=");
+
     var page = ctx.params.page; // 获取请求参数
     //添加service
     // const data = userService.list(page);
-    // console.log('data=', data);
+
     // ctx.response.body = "d";
   }
 

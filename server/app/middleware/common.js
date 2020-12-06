@@ -22,8 +22,6 @@ const common = (app, router) => {
 
     // 添加获取参数中间件
     app.use(bodyParser());
-    console.log(1)
-
     // // 添加跨域
     // app.use(async (ctx, next)=> {
     //   console.log(ctx.request.headers)
