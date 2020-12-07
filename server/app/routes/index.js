@@ -23,7 +23,7 @@ import { common } from "../middleware/index";
 import schema from "../graphql/schema";
 import httpError from "http-errors";
 import { merge } from "../utils";
-import { graphllError } from "../constant";
+import { graphqlError } from "../constant";
 import Router from "koa-router";
 
 class Route {
@@ -55,7 +55,7 @@ class Route {
         .then((data) => {
           const { errors } = data;
           if (errors) {
-            ctx.response.body = merge(graphllError, {
+            ctx.response.body = merge(graphqlError, {
               errors,
             });
           }
@@ -73,7 +73,7 @@ class Route {
         .then((data) => {
           const { errors } = data;
           if (errors) {
-            ctx.response.body = merge(graphllError, {
+            ctx.response.body = merge(graphqlError, {
               errors,
             });
           }

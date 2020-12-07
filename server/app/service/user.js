@@ -1,9 +1,7 @@
 import { addUser, deleteUser, queryUser } from "../db/user";
 import { unsupported, unauthorized } from "../constant";
 import { merge } from "../utils";
-import {  createToken, checkToken, destroyToken   } from "../redis";
-
- 
+import { createToken, checkToken, destroyToken, getUserIfo } from "../redis";
 
 class Service {
   static list(page) {
@@ -106,21 +104,9 @@ class Service {
 
     /*
      创建 createToken  
-
     */
-     console.log('createToken====',createToken)
-    try {
-      const token = await   createToken(userInfo.id);
-      console.log("userInfo=====", userInfo);
-      console.log(" token=====", token);
-    } catch(e){
-      console.log("e=====", e);
-     
-    }
- 
-    // const data = await checkToken(token, userInfo.id);
-    // console.log("data=====", data);
-
+    const token = await createToken(userInfo);
+    ctx.response.userInfo = userInfo;
     if (userInfo) {
       //登录成功
       return {

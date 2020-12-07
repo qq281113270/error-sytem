@@ -54,9 +54,27 @@ class RedisClass {
             }
         });
     }
-    set(key, str, callback = () => {}) {
+    set(key, value, callback = () => {},options=()=>{}) {
+      return promise((resolve, reject) => {
+        this.redisClient.set(key, value, (error, res) => {
+            if (error) {
+                callback(error);
+                reject(error);
+            } else {
+                let keys = Object.keys(options) 
+                keys.forEach((_key)=>{
+                  this.redisClient[_key](key,options[key])
+                })
+                callback(res);
+                resolve(res);
+            }
+        });
+    });
+
+    }
+    get(key,callback=()=>{}) {
         return promise((resolve, reject) => {
-            this.redisClient.set(key, str, (error, res) => {
+            this.redisClient.get(key, (error, res) => {
                 if (error) {
                     callback(error);
                     reject(error);
@@ -66,9 +84,9 @@ class RedisClass {
             });
         });
     }
-    get(key) {
+    del(key,callback=()=>{}){
         return promise((resolve, reject) => {
-            this.redisClient.set(key, (error, res) => {
+            this.redisClient.del(key, (error, res) => {
                 if (error) {
                     callback(error);
                     reject(error);
@@ -83,9 +101,7 @@ class RedisClass {
         return this;
     }
 }
-// host: '127.0.0.1',
-// password: '123456',
-// port: '6378',
+ 
 
 export const Redis = new RedisClass(
     REDIS_CONF.port,
