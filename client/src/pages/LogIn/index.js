@@ -1,7 +1,7 @@
 import React from "react";
 import "@/common/css/base.less";
 import "./index.less";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, message, Checkbox } from "antd";
 import { routePaths, historyPush, getHistory } from "@/router";
 import { login, createUser } from "@/common/js/request/index";
 import { checkPhone, checkUser, checkPassword } from "@/utils";
@@ -15,12 +15,15 @@ const tailLayout = {
 };
 
 const Index = (props) => {
-  const onFinish = (values) => {
-    console.log("Success:", values);
-    login(values)
-    // createUser({
-    //   // name:'abc'
-    // });
+  const onFinish = async (values) => {
+    await login(values);
+
+    message.success("登录成功");
+    setTimeout(() => {
+      historyPush({
+        url: "/",
+      });
+    }, 1500);
   };
 
   const onFinishFailed = (errorInfo) => {

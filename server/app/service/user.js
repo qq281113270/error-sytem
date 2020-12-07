@@ -25,6 +25,8 @@ class Service {
 
     return dataList.list[page] || {};
   }
+
+  //注册用户
   static async add(ctx, next, parameter) {
     const { username: name, phone, password } = parameter;
     /*
@@ -63,18 +65,21 @@ class Service {
       };
     }
   }
-  static edit() {}
+  // 编辑用户
+  static async edit(ctx, next, parameter) {}
+  // 数据库中查询用户
   static async queryUser(...ags) {
     const userData = await queryUser(...ags);
     return userData;
   }
-
+  // 登录
   static async login(ctx, next, parameter = {}) {
     const { username: name, phone, password } = parameter;
     /*
-     1 查询用户名是否被注册过，
-     2 查询手机号码是否被注册过
-     3 如果都没有被注册那么就可以注册
+      1.先查询用户名是否正确，
+      2.查询用户和密码是否正确
+      3.创建token,存储到redis中
+      4.把用户信息挂载response中
     */
     let userInfo = await this.queryUser({
       name,
@@ -106,14 +111,14 @@ class Service {
      创建 createToken  
     */
     const token = await createToken(userInfo);
-    delete userInfo.password
+    delete userInfo.password;
     ctx.response.userInfo = userInfo;
     if (userInfo) {
       //登录成功
       return {
         status: 3,
         token,
-        userInfo
+        userInfo,
       };
     }
   }

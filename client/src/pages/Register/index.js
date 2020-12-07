@@ -2,9 +2,11 @@ import React from "react";
 import { register } from "@/common/js/request/index";
 import "@/common/css/base.less";
 import "./index.less";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox,message } from "antd";
 import { routePaths, historyPush, getHistory } from "@/router";
 import { checkPhone, checkUser, checkPassword } from "@/utils";
+
+ 
 
 const layout = {
   labelCol: { span: 8 },
@@ -19,7 +21,12 @@ const Index = () => {
     // console.log('register=', register);
     // console.log('Success:', values);
     const data = await register(values);
-    console.log("data====", data);
+    message.success('注册成功');
+    setTimeout(() => {
+      historyPush({
+        url: routePaths.logLn,
+      });
+    },1500);
   };
 
   const onFinishFailed = (errorInfo) => {
