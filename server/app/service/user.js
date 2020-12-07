@@ -106,11 +106,14 @@ class Service {
      创建 createToken  
     */
     const token = await createToken(userInfo);
+    delete userInfo.password
     ctx.response.userInfo = userInfo;
     if (userInfo) {
       //登录成功
       return {
         status: 3,
+        token,
+        userInfo
       };
     }
   }

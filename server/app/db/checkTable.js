@@ -9,7 +9,7 @@ class CheckTable {
         sql: `CREATE TABLE user(
                     id INT(11) PRIMARY KEY  auto_increment primary key,
                     name VARCHAR(25),
-                    phone INT(11),
+                    phone VARCHAR(200),
                     password VARCHAR(255)
                 ) AUTO_INCREMENT=1;
            `,
