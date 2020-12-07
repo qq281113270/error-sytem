@@ -3,9 +3,10 @@ import thunk from "redux-thunk";
 import { createLogger } from "redux-logger";
 // import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
+import reducers from "./reducers";
 import { helloSaga } from "./sagas";
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(reducer, applyMiddleware(sagaMiddleware));
+const store = createStore(reducers, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(helloSaga); // Hello, Sagas!
 
 // const middleware = [thunk];

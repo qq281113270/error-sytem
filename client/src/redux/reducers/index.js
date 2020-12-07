@@ -3,8 +3,11 @@ import {
     SELECT_SUBREDDIT, 
     INVALIDATE_SUBREDDIT,
     REQUEST_POSTS,
-    RECEIVE_POSTS
+    RECEIVE_POSTS,
+    USER_FETCH_SUCCEEDED
 } from './actions'
+
+ 
 
 const selectedSubreddit = (state = 'reactjs', action) => {
   switch (action.type) {
@@ -47,6 +50,20 @@ const selectedSubreddit = (state = 'reactjs', action) => {
 //   }
 // }
 
+
+ 
+const initialState = { user: {} };
+ 
+ const userReducers =  (state = initialState, action) => {
+ switch (action.type) {
+  case USER_FETCH_SUCCEEDED:
+   return { ...state, user: action.user };
+  default:
+   return state;
+ }
+}
+
+
 //reducers
 const postsBySubreddit = (state = { }, action) => {
   // debugger
@@ -70,7 +87,8 @@ const postsBySubreddit = (state = { }, action) => {
 //合并 reduers
 const rootReducer = combineReducers({
   postsBySubreddit,
-  selectedSubreddit
+  selectedSubreddit,
+  userReducers
 })
 
 export default rootReducer
