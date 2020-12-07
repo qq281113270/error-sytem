@@ -54,7 +54,7 @@ const selectedSubreddit = (state = 'reactjs', action) => {
  
 const initialState = { user: {} };
  
-export default (state = initialState, action) => {
+ const userReducers =  (state = initialState, action) => {
  switch (action.type) {
   case USER_FETCH_SUCCEEDED:
    return { ...state, user: action.user };
@@ -87,7 +87,8 @@ const postsBySubreddit = (state = { }, action) => {
 //合并 reduers
 const rootReducer = combineReducers({
   postsBySubreddit,
-  selectedSubreddit
+  selectedSubreddit,
+  userReducers
 })
 
 export default rootReducer
