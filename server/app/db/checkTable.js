@@ -39,6 +39,16 @@ class CheckTable {
             );
           `,
       },
+      {
+        name: 'role',
+        sql: `
+        CREATE TABLE role(
+          id INT(11) PRIMARY KEY,
+          name VARCHAR(25),
+          root TINYINT(2)
+          );
+        `,
+    },
     ];
     this.init();
   }
