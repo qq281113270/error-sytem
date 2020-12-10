@@ -1,13 +1,42 @@
-import { createStore, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import { createLogger } from "redux-logger";
-// import { createStore, applyMiddleware } from "redux";
-import createSagaMiddleware from "redux-saga";
-import reducers from "./reducers";
-import { helloSaga } from "./sagas";
-const sagaMiddleware = createSagaMiddleware();
-const store = createStore(reducers, applyMiddleware(sagaMiddleware));
-sagaMiddleware.run(helloSaga); // Hello, Sagas!
+import { createStore, applyMiddleware,combineReducers } from 'redux'
+
+import createSagaMiddleware from 'redux-saga'
+// import reducer from "./reducers";
+import * as reducers from './reducers'
+import   $userReducers from './models/register'
+import mySaga from './saga'
+
+
+console.log('$userReducers=',$userReducers)
+console.log('$reducers=',reducers)
+
+//合并 reduers
+const rootReducer = combineReducers({
+...reducers,
+...$userReducers,
+})
+
+// export default rootReducer
+
+
+
+
+
+
+
+
+
+
+// create the saga middleware
+const sagaMiddleware = createSagaMiddleware()
+// mount it on the Store
+const store =  createStore(
+  rootReducer,
+  applyMiddleware(sagaMiddleware)
+)
+
+// then run the saga
+sagaMiddleware.run(mySaga)
 
 // const middleware = [thunk];
 // if (process.env.NODE_ENV !== "production") {

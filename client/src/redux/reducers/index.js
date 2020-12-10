@@ -1,18 +1,23 @@
 import { combineReducers } from 'redux'
+import userReducers from './user1'
+
 import {
     SELECT_SUBREDDIT, 
     INVALIDATE_SUBREDDIT,
     REQUEST_POSTS,
     RECEIVE_POSTS,
     USER_FETCH_SUCCEEDED
-} from './actions'
+} from '../actions'
 
  
 
-const selectedSubreddit = (state = 'reactjs', action) => {
+export const selectedSubreddit = (state = 'reactjs', action) => {
+   
   switch (action.type) {
     case SELECT_SUBREDDIT:
-      return action.subreddit
+      return {
+         name:'你好'
+      }
     default:
       return state
   }
@@ -54,18 +59,18 @@ const selectedSubreddit = (state = 'reactjs', action) => {
  
 const initialState = { user: {} };
  
- const userReducers =  (state = initialState, action) => {
- switch (action.type) {
-  case USER_FETCH_SUCCEEDED:
-   return { ...state, user: action.user };
-  default:
-   return state;
- }
-}
+//  const userReducers =  (state = initialState, action) => {
+//  switch (action.type) {
+//   case USER_FETCH_SUCCEEDED:
+//    return { ...state, user: action.user };
+//   default:
+//    return state;
+//  }
+// }
 
 
 //reducers
-const postsBySubreddit = (state = { }, action) => {
+export const postsBySubreddit = (state = { }, action) => {
   // debugger
   switch (action.type) {
     case INVALIDATE_SUBREDDIT:
@@ -83,12 +88,13 @@ const postsBySubreddit = (state = { }, action) => {
       return state
   }
 }
+export {userReducers};
 
 //合并 reduers
-const rootReducer = combineReducers({
-  postsBySubreddit,
-  selectedSubreddit,
-  userReducers
-})
+// const rootReducer = combineReducers({
+//     postsBySubreddit,
+//     selectedSubreddit,
+//     userReducers
+// })
 
-export default rootReducer
+// export default rootReducer

@@ -48,7 +48,7 @@ class CheckTable {
           root TINYINT(2)
           );
         `,
-    },
+       },
     ];
     this.init();
   }

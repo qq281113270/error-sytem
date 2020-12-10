@@ -16,7 +16,7 @@ const pathComponent= [
         path:'/register',
         component:Register
     },
-    // 主页
+    // 主页二级路由
     {
         name:'home',
         path:'/',

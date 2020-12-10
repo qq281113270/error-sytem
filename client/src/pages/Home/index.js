@@ -6,33 +6,86 @@ import {
   UploadOutlined,
   HomeOutlined,
 } from "@ant-design/icons";
+import { connect } from "react-redux";
 import "./index.less";
-import {
-  Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
 import React, { Suspense, lazy, useState, useCallback } from "react";
-import { routePaths, historyPush, getHistory,history, pathComponent } from "@/router";
+import {
+  routePaths,
+  historyPush,
+  getHistory,
+  history,
+  pathComponent,
+} from "@/router";
 import { Layout, Menu, Select } from "antd";
 import Sider from "@/common/component/Sider";
 import Header from "@/common/component/Header";
+import modelsStore from "@/redux/models/store";
+import Store from "@/redux/store";
+
+const { store: modelsstore } = modelsStore;
+
 // Header
 
 const { Option } = Select;
 const Index = lazy(() => import("@/pages/Home/pages/Index"));
 const { Content } = Layout;
+const mapStateToProps = (state) => {
+  console.log("state=", state);
+  return { text: state.text };
+};
 
-export default class extends React.Component {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onClick: () => {
+      dispatch({
+        type: "setUserInfo",
+        payload: {
+          name: "yao guan shou",
+          age: 29,
+        },
+      });
+    },
+    fetchDatas: () => {
+      // dispatch(getDatas());
+    },
+  };
+};
+
+class Home extends React.Component {
   state = {
     collapsed: false,
     selectedKeys: ["1"],
+    n:1
   };
 
   getChildrenComponent = () => {
     return pathComponent.find((item) => item.name == "home")?.children || [];
   };
+  componentDidUpdate(preProps,preState,spanshot){
+    // console.log("this.props1111======", this.props);
+    // console.log("preProps======", preProps);
+  }
+  componentDidMount() {
+    // console.log("this.props======", this.props);
+    // console.log("modelsstore=========", modelsstore);
+    // console.log("Store=========", Store);
+setInterval(() => {
+  this.setState({
+    n:this.state.n+1
+  })
+}, 1000);
+    const {
+      dispatch: {
+        user: { setUserInfo },
+      },
+    } = this.props;
+    console.log('setUserInfo=======',setUserInfo)
+    setUserInfo({
+      name: "yao yao shou  ",
+      age: "29",
+    });
+  }
 
   toggle = () => {
     const { collapsed } = this.state;
@@ -53,8 +106,8 @@ export default class extends React.Component {
             areaCode="账号"
             mobile="手机号码"
             collapsed={collapsed}
-            onClick={(type)=>{
-              console.log('type=',type)
+            onClick={(type) => {
+              console.log("type=", type);
             }}
             onChangeCollapsed={() => {
               this.toggle();
@@ -101,3 +154,34 @@ export default class extends React.Component {
     );
   }
 }
+
+const mapRedux = (Component) => {
+  console.log("modelsstore===============", modelsstore);
+  console.log("Store=========", Store);
+  const {
+    user: {
+      dispatch: { setUserInfo },
+    },
+  } = modelsstore;
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      dispatch: {
+        user: {
+          setUserInfo: (data) => {
+            setUserInfo(dispatch, data);
+          },
+        },
+      },
+    };
+  };
+  const mapStateToProps = (state) => {
+    return {
+      state:{
+        ...state['user'],
+      }
+    } ;
+  };
+  return connect(mapStateToProps, mapDispatchToProps)(Home);
+};
+
+export default mapRedux(Home, ["user"]);
