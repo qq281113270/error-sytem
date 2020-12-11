@@ -1,6 +1,6 @@
 import store from "./modelsStore";
 import * as reducers from "./reducers";
-// 注册 reducer 
+// 注册 reducer
 export const register = (rootReducer) => {
   const {
     state: initState,
@@ -8,7 +8,7 @@ export const register = (rootReducer) => {
     name,
     effects = () => ({}),
   } = rootReducer;
- 
+
   let reducersKeys = Object.keys(reducers);
   let effectsObj = effects();
   let effectsKeys = Object.keys(effectsObj);
@@ -35,7 +35,7 @@ export const register = (rootReducer) => {
               dispatch({
                 type: `${name}_${key}`,
                 payload: {
-                //   ...state,
+                  //   ...state,
                   ...data,
                 },
               });
@@ -64,7 +64,8 @@ export const register = (rootReducer) => {
                 actions.type = type;
                 dispatch(actions);
               };
-              let effectsObj = effects(newDispatch);
+              //   let effectsObj = effects(newDispatch);
+              let effectsObj = effects(dispatch);
 
               return await effectsObj[key](state, { payload: data });
             },
@@ -100,7 +101,7 @@ export const register = (rootReducer) => {
 // 注册 reducers
 export const registers = (reducers) => {
   let newReducers = {};
-  let actions = {};
+  //   let actions = {};
   let reducer = {};
   for (let key in reducers) {
     reducers[key].name = reducers[key].name || key;
@@ -112,9 +113,8 @@ export const registers = (reducers) => {
         [reducer.name]: reducer.reducer,
       },
       actions: {
-
         ...(newReducers.actions || {}),
-        [reducer.name]:reducer.actions
+        [reducer.name]: reducer.actions,
         // ...reducer.actions,
       },
     };

@@ -76,7 +76,7 @@ class Home extends React.Component {
 
 
     setTimeout(() => {
-      setUserInfo({
+      login({
         name: "login123",
         age: "29",
       });

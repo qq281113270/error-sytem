@@ -1,3 +1,4 @@
+import { actions } from "@/redux/store";
 export default {
   name: "user",
   state: {
@@ -6,12 +7,13 @@ export default {
   },
   reducers: {
     setUserInfo(state, { payload }) {
+      debugger;
       return {
         ...state,
-        userInfo:{
+        userInfo: {
           ...state.userInfo,
           ...payload,
-        }
+        },
       };
     },
 
@@ -29,8 +31,14 @@ export default {
     return {
       // 登陆
       login(state, { payload }) {
+        const {
+          //模块
+          user: { setUserInfo },
+        } = actions;
+        // console.log('actions============',actions)
+        // console.log('setUserInfo============',setUserInfo)
         dispatch({
-          type: "setUserInfo",
+          type: setUserInfo,
           payload: payload,
         });
       },
