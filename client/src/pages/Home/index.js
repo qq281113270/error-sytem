@@ -20,10 +20,10 @@ import {
 import { Layout, Menu, Select } from "antd";
 import Sider from "@/common/component/Sider";
 import Header from "@/common/component/Header";
-import modelsStore from "@/redux/models/store";
-import Store from "@/redux/store";
+import reducersStore from "@/redux/models/modelsStore";
+import Store,{mapRedux} from "@/redux";
 
-const { store: modelsstore } = modelsStore;
+const { store: reducersstore } = reducersStore;
 
 // Header
 
@@ -56,35 +56,33 @@ class Home extends React.Component {
   state = {
     collapsed: false,
     selectedKeys: ["1"],
-    n:1
+    n: 1,
   };
 
   getChildrenComponent = () => {
     return pathComponent.find((item) => item.name == "home")?.children || [];
   };
-  componentDidUpdate(preProps,preState,spanshot){
-    // console.log("this.props1111======", this.props);
-    // console.log("preProps======", preProps);
+  componentDidUpdate(preProps, preState, spanshot) {
+    console.log("this.props======", this.props);
   }
   componentDidMount() {
-    // console.log("this.props======", this.props);
-    // console.log("modelsstore=========", modelsstore);
-    // console.log("Store=========", Store);
-setInterval(() => {
-  this.setState({
-    n:this.state.n+1
-  })
-}, 1000);
+
     const {
-      dispatch: {
-        user: { setUserInfo },
-      },
+      dispatch:{
+        user: { setUserInfo, login, fetchUser },
+      }
     } = this.props;
-    console.log('setUserInfo=======',setUserInfo)
-    setUserInfo({
-      name: "yao yao shou  ",
-      age: "29",
-    });
+
+
+
+    setTimeout(() => {
+      setUserInfo({
+        name: "login123",
+        age: "29",
+      });
+    }, 1000);
+
+ 
   }
 
   toggle = () => {
@@ -155,33 +153,5 @@ setInterval(() => {
   }
 }
 
-const mapRedux = (Component) => {
-  console.log("modelsstore===============", modelsstore);
-  console.log("Store=========", Store);
-  const {
-    user: {
-      dispatch: { setUserInfo },
-    },
-  } = modelsstore;
-  const mapDispatchToProps = (dispatch) => {
-    return {
-      dispatch: {
-        user: {
-          setUserInfo: (data) => {
-            setUserInfo(dispatch, data);
-          },
-        },
-      },
-    };
-  };
-  const mapStateToProps = (state) => {
-    return {
-      state:{
-        ...state['user'],
-      }
-    } ;
-  };
-  return connect(mapStateToProps, mapDispatchToProps)(Home);
-};
 
-export default mapRedux(Home, ["user"]);
+export default mapRedux(['user'])(Home);

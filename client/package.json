@@ -39,6 +39,7 @@
     "jest-watch-typeahead": "0.4.2",
     "less": "^3.12.2",
     "less-loader": "^7.0.0",
+    "lodash": "^4.17.20",
     "mini-css-extract-plugin": "0.9.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.6.4",
@@ -72,8 +73,7 @@
     "test": "cross-env  NODE_ENV=production node scripts/test.js"
   },
   "eslintConfig": {
-    "extends": "react-app" 
-  
+    "extends": "react-app"
   },
   "browserslist": {
     "production": [
@@ -140,8 +140,7 @@
   "babel": {
     "presets": [
       "react-app"
-    ] 
- 
+    ]
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.12.1",
@@ -151,6 +150,8 @@
     "cross-env": "^7.0.3",
     "history": "^4.10.1",
     "react-redux": "^7.2.2",
-    "redux-devtools": "^3.7.0"
+    "redux-devtools": "^3.7.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
   }
 }

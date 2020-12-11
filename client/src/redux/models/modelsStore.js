@@ -1,11 +1,13 @@
 class ModelsStore {
   constructor() {
-    this.store = null;
+    this.store = {};
   }
   get(key) {
-    return (
-      key in this.store && this.store.hasOwnProperty(key) && this.store[key]
-    );
+    if(key in this.store && this.store.hasOwnProperty(key) && this.store[key]){
+      return this.store[key]
+    }
+    this.set(key, {}) 
+    return {}
   }
   set(key, value) {
     this.store = {
