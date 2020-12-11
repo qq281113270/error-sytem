@@ -121,7 +121,6 @@ export default (modelsNames) => {
     };
 
     const mapStateToProps = (state) => {
-      console.log("state==", state);
       return {
         actions: getActionsToProps(reducersStore, actions, modelsNames),
         state: {

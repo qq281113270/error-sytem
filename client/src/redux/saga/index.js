@@ -13,7 +13,6 @@ function* Saga() {
     delete reducers[key].name;
     let reducersKeys = Object.keys(reducers[key]);
     for (let _key of reducersKeys) {
-      console.log("name", `${name}_${_key}`);
       yield takeEvery(`${name}_${_key}`, reducers[key][_key]);
     }
   }
