@@ -21,7 +21,7 @@ import { Layout, Menu, Select } from "antd";
 import Sider from "@/common/component/Sider";
 import Header from "@/common/component/Header";
 import reducersStore from "@/redux/models/modelsStore";
-import Store,{mapRedux} from "@/redux";
+import Store, { mapRedux } from "@/redux";
 
 const { store: reducersstore } = reducersStore;
 
@@ -65,24 +65,18 @@ class Home extends React.Component {
   componentDidUpdate(preProps, preState, spanshot) {
     console.log("this.props======", this.props);
   }
-  componentDidMount() {
-
+  async componentDidMount() {
     const {
-      dispatch:{
+      dispatch: {
         user: { setUserInfo, login, fetchUser },
-      }
+      },
     } = this.props;
 
-
-
-    setTimeout(() => {
-      login({
-        name: "login123",
-        age: "29",
-      });
-    }, 1000);
-
- 
+    const data = await login({
+      name: "login123",
+      age: "29",
+    });
+    console.log("data=======", data);
   }
 
   toggle = () => {
@@ -153,5 +147,4 @@ class Home extends React.Component {
   }
 }
 
-
-export default mapRedux( )(Home);
+export default mapRedux()(Home);

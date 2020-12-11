@@ -30,17 +30,18 @@ export default {
   effects: (dispatch) => {
     return {
       // 登陆
-      login(state, { payload }) {
+      async login(state, { payload }) {
         const {
           //模块
           user: { setUserInfo },
         } = actions;
-        // console.log('actions============',actions)
-        // console.log('setUserInfo============',setUserInfo)
         dispatch({
           type: setUserInfo,
           payload: payload,
         });
+        return {
+          name:'你好'
+        }
       },
     };
   },
