@@ -6,7 +6,6 @@ export default {
   },
   reducers: {
     setOrderInfo(state, { payload: orderInfo }) {
-      debugger
       return {
         ...state,
         ...orderInfo,

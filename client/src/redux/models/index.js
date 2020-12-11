@@ -1,7 +1,4 @@
-import reducers  from "./register";
-// console.log('reducers=',reducers)
-// console.log('actions========',actions)
+import reducers from "./register";
 
 export * from "./register";
 export default reducers;
-// export { actions };

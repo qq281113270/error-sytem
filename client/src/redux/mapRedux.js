@@ -55,16 +55,19 @@ const getStateToProps = (reducersStore, state, modelsNames) => {
   const reducersStoreKeys = Object.keys(reducersStore);
   let stateToProps = {};
 
-  if (
-    CheckDataType.isUndefined(modelsNames) === true ||
-    CheckDataType.isArray(modelsNames) === true ||
-    CheckDataType.isString(modelsNames) === true
-  ) {
-    flag = true;
+  //   if (
+  //     CheckDataType.isUndefined(modelsNames) === true ||
+  //     CheckDataType.isArray(modelsNames) === true ||
+  //     CheckDataType.isString(modelsNames) === true
+  //   ) {
+  //     flag = true;
+  //   }
+  if (CheckDataType.isUndefined(modelsNames) === true) {
+    return state;
   }
+
   for (let reducersStoreKey of reducersStoreKeys) {
     if (
-      !flag ||
       (CheckDataType.isArray(modelsNames) === true &&
         !modelsNames.includes(reducersStoreKey)) ||
       (CheckDataType.isString(modelsNames) === true &&
@@ -118,6 +121,7 @@ export default (modelsNames) => {
     };
 
     const mapStateToProps = (state) => {
+      console.log("state==", state);
       return {
         actions: getActionsToProps(reducersStore, actions, modelsNames),
         state: {

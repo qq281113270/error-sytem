@@ -154,4 +154,4 @@ class Home extends React.Component {
 }
 
 
-export default mapRedux(['user'])(Home);
+export default mapRedux( )(Home);

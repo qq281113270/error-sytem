@@ -2,14 +2,16 @@ export default {
   name: "user",
   state: {
     currentUser: {},
-    // userInfo: {},
+    userInfo: {},
   },
   reducers: {
-    setUserInfo(state, { payload: userInfo }) {
- 
+    setUserInfo(state, { payload }) {
       return {
         ...state,
-        ...userInfo,
+        userInfo:{
+          ...state.userInfo,
+          ...payload,
+        }
       };
     },
 
