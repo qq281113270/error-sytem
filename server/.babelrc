@@ -1,11 +1,24 @@
 {
-    "presets": [
-      ["env", {
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
         "targets": {
           "node": true
         }
-      }],
-      "es2015",
-      "es2017"
+      },
+      "stage-0"
     ]
-  }
+  ],
+  "plugins": [
+    "@babel/plugin-transform-runtime",
+    [
+      "@babel/plugin-transform-regenerator",
+      {
+        "asyncGenerators": false,
+        "generators": false,
+        "async": false
+      }
+    ]
+  ]
+}

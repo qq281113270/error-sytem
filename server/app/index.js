@@ -1,10 +1,12 @@
+import "@babel/polyfill";
 import Koa from 'koa';
 import { promise } from './utils';
 import { CheckTable, connection, exec, addUser } from './db/index.js';
 import { Redis } from './redis';
-
-const Route = require('./routes/index');
-
+import Route from './routes/index';
+ 
+     
+     
 class App {
     constructor() {
         this.app = new Koa();

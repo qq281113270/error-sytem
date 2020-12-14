@@ -1,5 +1,7 @@
 import mysql from 'mysql';
-import { MYSQL_CONF } from '../config';
+import { MYSQL_CONF } from '../config/index';
+console.log('mysql============',mysql)
+console.log('MYSQL_CONF============',MYSQL_CONF)
 
 // 创建链接对象
 const connection  = mysql.createConnection(MYSQL_CONF)
