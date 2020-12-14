@@ -1,4 +1,6 @@
 import { actions } from "@/redux/store";
+import { getUserInfo } from "@/common/js/request";
+ 
 export default {
   name: "user",
   state: {
@@ -7,7 +9,6 @@ export default {
   },
   reducers: {
     setUserInfo(state, { payload }) {
-      debugger;
       return {
         ...state,
         userInfo: {
@@ -29,6 +30,10 @@ export default {
   },
   effects: (dispatch) => {
     return {
+      async   getUserInfo (){
+         
+        const data =await   getUserInfo()
+      },
       // 登陆
       async login(state, { payload }) {
         const {

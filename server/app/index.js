@@ -51,10 +51,14 @@ class App {
         new Route(this.app);
     }
     listen() {
-        this.app.listen(3100, () => {
+        this.server = this.app.listen(3100, () => {
             console.log('服务器启动成功:http://localhost:3100/');
         });
+
+        this.server.setTimeout(5 * 60 * 1000);
     }
 }
+
+
 
 export default new App();

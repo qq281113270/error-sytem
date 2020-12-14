@@ -31,7 +31,7 @@ const checkSchemaName =   (name)=> {
 
 const checkQuerySchemaName = checkSchemaName('query');
 const checkMutationSchemaName = checkSchemaName('mutation');
-
+// console.log('checkQuerySchemaName({}, user.query)=',checkQuerySchemaName({}, user.query))
 export default new GraphQLSchema({
   //query 查询
   query: new GraphQLObjectType({

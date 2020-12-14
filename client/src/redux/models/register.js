@@ -1,5 +1,5 @@
 import store from "./modelsStore";
-import * as reducers from "./reducers";
+
 // 注册 reducer
 export const register = (rootReducer) => {
   const {
@@ -121,6 +121,5 @@ export const registers = (reducers) => {
   }
   return newReducers;
 };
-const registersReducers = registers(reducers);
-export const actions = registersReducers.actions;
-export default registersReducers.reducers;
+
+

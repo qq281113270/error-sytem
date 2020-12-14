@@ -22,7 +22,7 @@ import Sider from "@/common/component/Sider";
 import Header from "@/common/component/Header";
 import reducersStore from "@/redux/models/modelsStore";
 import Store, { mapRedux } from "@/redux";
-
+import { login, createUser,hello,getUser } from '@/common/js/request/index';
 const { store: reducersstore } = reducersStore;
 
 // Header
@@ -35,22 +35,22 @@ const mapStateToProps = (state) => {
   return { text: state.text };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onClick: () => {
-      dispatch({
-        type: "setUserInfo",
-        payload: {
-          name: "yao guan shou",
-          age: 29,
-        },
-      });
-    },
-    fetchDatas: () => {
-      // dispatch(getDatas());
-    },
-  };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     onClick: () => {
+//       dispatch({
+//         type: "setUserInfo",
+//         payload: {
+//           name: "yao guan shou",
+//           age: 29,
+//         },
+//       });
+//     },
+//     fetchDatas: () => {
+//       // dispatch(getDatas());
+//     },
+//   };
+// };
 
 class Home extends React.Component {
   state = {
@@ -68,10 +68,15 @@ class Home extends React.Component {
   async componentDidMount() {
     const {
       dispatch: {
-        user: { setUserInfo, login, fetchUser },
+        user: { setUserInfo, login, fetchUser,getUserInfo },
       },
     } = this.props;
-
+    getUserInfo()
+    // hello()
+    getUser()
+    createUser({
+       name:'12323'
+    })
     const data = await login({
       name: "login123",
       age: "29",

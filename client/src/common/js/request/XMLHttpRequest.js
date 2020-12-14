@@ -21,7 +21,7 @@ class XHR {
   // }
   ininData(options) {
     this.defaultConfig = {
-      timeout: 3000,
+      timeout: 300000,
     };
     this.options = {
       ...this.defaultConfig,
@@ -157,6 +157,7 @@ class XHR {
     const { timeout = null } = this.options;
     if (timeout) {
       this.xmlHttp.timeout = timeout;
+      console.log('timeout=',timeout)
       this.onTimeout();
     }
   }

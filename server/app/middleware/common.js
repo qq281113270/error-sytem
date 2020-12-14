@@ -1,5 +1,6 @@
 import  bodyParser  from 'koa-bodyparser';
 import  cors  from 'koa2-cors';
+import cookie from 'koa-cookie';
  
 const common = (app, router) => {
     // 处理404
@@ -22,6 +23,8 @@ const common = (app, router) => {
 
     // 添加获取参数中间件
     app.use(bodyParser());
+    // 添加 cookie
+    // app.use(cookie());
     // // 添加跨域
     // app.use(async (ctx, next)=> {
     //   console.log(ctx.request.headers)
@@ -46,7 +49,7 @@ const common = (app, router) => {
     // //       await next();
     // //     }
     //   });
-
+    // 跨域
       app.use(cors());
 
 };

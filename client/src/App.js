@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Provider } from "react-redux";
 import Router from "./router/index";
 import store from "./redux/store";
-// import Router from "./router/index";
 // import logo from './logo.svg';
 import "./App.css";
 import zhCN from "antd/es/locale/zh_CN";
