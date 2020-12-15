@@ -8,7 +8,7 @@ const isEnvDevelopment = webpackEnv === "development";
 //   是否是生产环境
 const isEnvProduction = webpackEnv === "production";
 
-module.exports = ()=>( {
+module.exports = {
   entry: ["webpack/hot/poll?1000", "./app/index"],
   watch: true,
   output: {
@@ -80,4 +80,4 @@ module.exports = ()=>( {
       entryOnly: false,
     }),
   ],
-});
+};

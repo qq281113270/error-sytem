@@ -27,7 +27,7 @@ import { makeExecutableSchema } from "graphql-tools";
 // import Home from "./home";
 import User from "./user";
 import { common } from "../middleware/index";
-import { user } from "../graphql/schema";
+import { user } from "../graphql/schema"; 
 // const webpack = require("webpack");
 // const webpackDevMiddleware = require("webpack-dev-middleware");
 // const config = require("../../webpack.config.js");
@@ -47,7 +47,7 @@ const typeDefs = `
   }
 `;
 
- 
+  
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
