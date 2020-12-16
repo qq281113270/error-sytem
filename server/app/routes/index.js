@@ -28,19 +28,13 @@ import { makeExecutableSchema } from "graphql-tools";
 import User from "./user";
 import { common } from "../middleware/index";
 import { user } from "../graphql/schema"; 
-// const webpack = require("webpack");
-// const webpackDevMiddleware = require("webpack-dev-middleware");
-// const config = require("../../webpack.config.js");
-// const compiler = webpack(config);
-
 // import  userResolvers,  * as userSchema  from '../graphql/schema/user/index.js';
 
-// const { ApolloServer, gql } = require('apollo-server-koa');
-// import { ApolloServer, gql } from 'apollo-server-koa';
+
 
 // console.log('userResolvers===',userResolvers)
 // console.log('userSchema===',userSchema)
-// // Construct a schema, using GraphQL schema language
+//  Construct a schema, using GraphQL schema language
 const typeDefs = `
   type Query {
     hello: String

@@ -6,7 +6,7 @@ import { Redis } from "./redis";
 import Route from "./routes/index";
 import kill from "kill-port";
 import { port } from "./config";
-
+console.log(12345)
 class App {
   constructor() {
           this.app = new koa();
