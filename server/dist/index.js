@@ -1604,7 +1604,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-console.log(123);
 
 class App {
   constructor() {
@@ -2085,7 +2084,7 @@ module.exports = require("redis");;
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => "bbb0fa5d5a4ded529722"
+/******/ 		__webpack_require__.h = () => "6f0a156dd9610bea667b"
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
