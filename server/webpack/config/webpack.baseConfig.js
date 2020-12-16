@@ -1,18 +1,15 @@
-const webpack = require("webpack");
-const path = require("path");
-const nodeExternals = require("webpack-node-externals");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const webpackEnv = process.env.NODE_ENV; // 环境参数
-//   是否是测试开发环境
-const isEnvDevelopment = webpackEnv === "development";
-//   是否是生产环境
-const isEnvProduction = webpackEnv === "production";
+import webpack from "webpack";
+import { merge } from "webpack-merge";
+import path from "path";
+import nodeExternals from "webpack-node-externals";
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import WebpackBar from "webpackbar";
 
-module.exports = {
+export default {
   entry: ["webpack/hot/poll?1000", "./app/index"],
   watch: true,
   output: {
-    path: path.join(__dirname, "dist"),
+    path: path.join(__dirname, "../../dist"),
     filename: "index.js",
     publicPath: "/",
     library: "server",
@@ -25,17 +22,17 @@ module.exports = {
       "webpack://[namespace]/[resource-path]?[loaders]",
   },
   optimization: {
-    // 压缩
-    minimize: isEnvProduction,
+    // // 压缩
+    // minimize: isEnvProduction,
   },
   target: "node",
-  devtool: webpackEnv ? "source-map" : "eval", // 生产环境和开发环境判断
+  // devtool: webpackEnv ? "source-map" : "eval", // 生产环境和开发环境判断
 
   node: {
     __filename: true,
     __dirname: true,
   },
-  mode: "development",
+  // mode: "development",
   externals: [nodeExternals({ allowlist: ["webpack/hot/poll?1000"] })],
   module: {
     rules: [
@@ -68,6 +65,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new WebpackBar(),
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),

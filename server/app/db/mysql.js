@@ -1,7 +1,6 @@
 import mysql from 'mysql';
 import { MYSQL_CONF } from '../config/index';
-console.log('mysql============',mysql)
-console.log('MYSQL_CONF============',MYSQL_CONF)
+ 
 
 // 创建链接对象
 const connection  = mysql.createConnection(MYSQL_CONF)
@@ -10,7 +9,7 @@ const connection  = mysql.createConnection(MYSQL_CONF)
 // 统一执行 sql 的函数
 const  exec = async (sql)=> {
     return   await  new Promise((resolve, reject) => {
-        console.log('sql========',sql)
+        console.log('sql=',sql)
         connection.query(sql, (err, result) => {
             if (err) {
                 reject(err)

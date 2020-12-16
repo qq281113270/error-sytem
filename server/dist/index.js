@@ -21,9 +21,11 @@ return /******/ (() => { // webpackBootstrap
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "tokenExpires": () => /* binding */ tokenExpires
+/* harmony export */   "tokenExpires": () => /* binding */ tokenExpires,
+/* harmony export */   "port": () => /* binding */ port
 /* harmony export */ });
 var tokenExpires = 24 * 60 * 60 * 1000;
+var port = 3100;
 
 /***/ }),
 
@@ -84,6 +86,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "MYSQL_CONF": () => /* reexport safe */ _db_js__WEBPACK_IMPORTED_MODULE_0__.MYSQL_CONF,
 /* harmony export */   "setExpirationTime": () => /* reexport safe */ _token_js__WEBPACK_IMPORTED_MODULE_2__.setExpirationTime,
+/* harmony export */   "port": () => /* reexport safe */ _constant_js__WEBPACK_IMPORTED_MODULE_3__.port,
 /* harmony export */   "tokenExpires": () => /* reexport safe */ _constant_js__WEBPACK_IMPORTED_MODULE_3__.tokenExpires
 /* harmony export */ });
 /* harmony import */ var _db_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./db.js */ "./app/config/db.js");
@@ -589,9 +592,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-console.log('mysql============', (mysql__WEBPACK_IMPORTED_MODULE_2___default()));
-console.log('MYSQL_CONF============', _config_index__WEBPACK_IMPORTED_MODULE_3__.MYSQL_CONF); // 创建链接对象
+ // 创建链接对象
 
 var connection = mysql__WEBPACK_IMPORTED_MODULE_2___default().createConnection(_config_index__WEBPACK_IMPORTED_MODULE_3__.MYSQL_CONF); // 统一执行 sql 的函数
 
@@ -603,7 +604,7 @@ var exec = /*#__PURE__*/function () {
           case 0:
             _context.next = 2;
             return new Promise(function (resolve, reject) {
-              console.log('sql========', sql);
+              console.log('sql=', sql);
               connection.query(sql, function (err, result) {
                 if (err) {
                   reject(err);
@@ -907,6 +908,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _db_index_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./db/index.js */ "./app/db/index.js");
 /* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./redis */ "./app/redis/index.js");
 /* harmony import */ var _routes_index__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./routes/index */ "./app/routes/index.js");
+/* harmony import */ var kill_port__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! kill-port */ "kill-port");
+/* harmony import */ var kill_port__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(kill_port__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./config */ "./app/config/index.js");
+
+
 
 
 
@@ -972,11 +978,11 @@ var App = /*#__PURE__*/function () {
                 _context2.next = 2;
                 return (0,_utils__WEBPACK_IMPORTED_MODULE_6__.promise)(function (reslove, reject) {
                   _redis__WEBPACK_IMPORTED_MODULE_8__.Redis.connect(function () {
-                    console.log('Redis 链接成功');
+                    console.log("Redis 链接成功");
                     reslove();
                   });
                   _redis__WEBPACK_IMPORTED_MODULE_8__.Redis.error(function () {
-                    console.log('Redis 链接错误');
+                    console.log("Redis 链接错误");
                     reject();
                   });
                 });
@@ -1007,13 +1013,13 @@ var App = /*#__PURE__*/function () {
                 return (0,_utils__WEBPACK_IMPORTED_MODULE_6__.promise)(function (reslove, reject) {
                   _db_index_js__WEBPACK_IMPORTED_MODULE_7__.connection.connect(function (err) {
                     if (err) {
-                      console.log('数据库连失败');
+                      console.log("数据库连失败");
                       reject();
                       throw err;
                     }
 
                     new _db_index_js__WEBPACK_IMPORTED_MODULE_7__.CheckTable();
-                    console.log('mysql数据库连接成功');
+                    console.log("mysql数据库连接成功");
                     reslove();
                   });
                 });
@@ -1041,8 +1047,11 @@ var App = /*#__PURE__*/function () {
   }, {
     key: "listen",
     value: function listen() {
-      this.server = this.app.listen(3100, function () {
-        console.log('服务器启动成功:http://localhost:3100/');
+      // try {
+      //   kill(port, "tcp");
+      // } catch (e) {}
+      this.server = this.app.listen(_config__WEBPACK_IMPORTED_MODULE_11__.port, function () {
+        console.log("\u670D\u52A1\u5668\u542F\u52A8\u6210\u529F:http://localhost:".concat(_config__WEBPACK_IMPORTED_MODULE_11__.port, "/"));
       });
       this.server.setTimeout(5 * 60 * 1000);
     }
@@ -2421,10 +2430,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/webpack/hot/log-apply-result.js":
-/*!******************************************************!*\
-  !*** ./node_modules/webpack/hot/log-apply-result.js ***!
-  \******************************************************/
+/***/ "./node_modules/_webpack@5.10.2@webpack/hot/log-apply-result.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/_webpack@5.10.2@webpack/hot/log-apply-result.js ***!
+  \**********************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 /*
@@ -2435,7 +2444,7 @@ module.exports = function (updatedModules, renewedModules) {
 	var unacceptedModules = updatedModules.filter(function (moduleId) {
 		return renewedModules && renewedModules.indexOf(moduleId) < 0;
 	});
-	var log = __webpack_require__(/*! ./log */ "./node_modules/webpack/hot/log.js");
+	var log = __webpack_require__(/*! ./log */ "./node_modules/_webpack@5.10.2@webpack/hot/log.js");
 
 	if (unacceptedModules.length > 0) {
 		log(
@@ -2475,10 +2484,10 @@ module.exports = function (updatedModules, renewedModules) {
 
 /***/ }),
 
-/***/ "./node_modules/webpack/hot/log.js":
-/*!*****************************************!*\
-  !*** ./node_modules/webpack/hot/log.js ***!
-  \*****************************************/
+/***/ "./node_modules/_webpack@5.10.2@webpack/hot/log.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/_webpack@5.10.2@webpack/hot/log.js ***!
+  \*********************************************************/
 /***/ ((module) => {
 
 var logLevel = "info";
@@ -2544,10 +2553,10 @@ module.exports.formatError = function (err) {
 
 /***/ }),
 
-/***/ "./node_modules/webpack/hot/poll.js?1000":
-/*!***********************************************!*\
-  !*** ./node_modules/webpack/hot/poll.js?1000 ***!
-  \***********************************************/
+/***/ "./node_modules/_webpack@5.10.2@webpack/hot/poll.js?1000":
+/*!***************************************************************!*\
+  !*** ./node_modules/_webpack@5.10.2@webpack/hot/poll.js?1000 ***!
+  \***************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var __resourceQuery = "?1000";
@@ -2558,7 +2567,7 @@ var __resourceQuery = "?1000";
 /*globals __resourceQuery */
 if (true) {
 	var hotPollInterval = +__resourceQuery.substr(1) || 0;
-	var log = __webpack_require__(/*! ./log */ "./node_modules/webpack/hot/log.js");
+	var log = __webpack_require__(/*! ./log */ "./node_modules/_webpack@5.10.2@webpack/hot/log.js");
 
 	var checkForUpdate = function checkForUpdate(fromUpdate) {
 		if (module.hot.status() === "idle") {
@@ -2569,7 +2578,7 @@ if (true) {
 						if (fromUpdate) log("info", "[HMR] Update applied.");
 						return;
 					}
-					__webpack_require__(/*! ./log-apply-result */ "./node_modules/webpack/hot/log-apply-result.js")(updatedModules, updatedModules);
+					__webpack_require__(/*! ./log-apply-result */ "./node_modules/_webpack@5.10.2@webpack/hot/log-apply-result.js")(updatedModules, updatedModules);
 					checkForUpdate(true);
 				})
 				.catch(function (err) {
@@ -2719,6 +2728,17 @@ module.exports = require("jsonwebtoken");;
 
 "use strict";
 module.exports = require("jwt-redis");;
+
+/***/ }),
+
+/***/ "kill-port":
+/*!****************************!*\
+  !*** external "kill-port" ***!
+  \****************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("kill-port");;
 
 /***/ }),
 
@@ -2877,7 +2897,7 @@ module.exports = require("redis");;
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => "1203f8cebe3ec64ad615"
+/******/ 		__webpack_require__.h = () => "f6279d9bb59fbcff743b"
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
@@ -3711,7 +3731,7 @@ module.exports = require("redis");;
 /******/ 	// module cache are used so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	__webpack_require__("./node_modules/webpack/hot/poll.js?1000");
+/******/ 	__webpack_require__("./node_modules/_webpack@5.10.2@webpack/hot/poll.js?1000");
 /******/ 	return __webpack_require__("./app/index.js");
 /******/ })()
 ;
