@@ -1,16 +1,17 @@
 import "@babel/polyfill";
-import Koa from "koa";
+import koa from "koa";
 import { promise } from "./utils";
 import { CheckTable, connection, exec, addUser } from "./db/index.js";
 import { Redis } from "./redis";
 import Route from "./routes/index";
 import kill from "kill-port";
 import { port } from "./config";
+console.log(123) 
 
 class App {
   constructor() {
-     this.app = new Koa();
-    this.init();
+          this.app = new koa();
+            this.init();
   }
   async init() {
     // redis链接

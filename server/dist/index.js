@@ -1,3 +1,6 @@
+require("@babel/polyfill");
+const mysql = require("mysql");
+const koa = require("koa");
 require("source-map-support").install();
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -24,8 +27,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "tokenExpires": () => /* binding */ tokenExpires,
 /* harmony export */   "port": () => /* binding */ port
 /* harmony export */ });
-var tokenExpires = 24 * 60 * 60 * 1000;
-var port = 3100;
+const tokenExpires = 24 * 60 * 60 * 1000;
+const port = 3100;
 
 /***/ }),
 
@@ -40,9 +43,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "MYSQL_CONF": () => /* binding */ MYSQL_CONF
 /* harmony export */ });
-var env = "development"; // 环境参数
+const env = "development"; // 环境参数
 
-var MYSQL_CONF = null;
+let MYSQL_CONF = null;
 
 if (env === 'development') {
   MYSQL_CONF = {
@@ -112,9 +115,9 @@ __webpack_require__.r(__webpack_exports__);
   \*****************************/
 /***/ ((module) => {
 
-var env = "development"; // 环境参数
+const env = "development"; // 环境参数
 
-var REDIS_CONF = null;
+let REDIS_CONF = null;
 
 if (env === 'development') {
   REDIS_CONF = {
@@ -140,7 +143,7 @@ if (env === 'production') {
 }
 
 module.exports = {
-  REDIS_CONF: REDIS_CONF
+  REDIS_CONF
 };
 
 /***/ }),
@@ -158,9 +161,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constant */ "./app/config/constant.js");
 
-var setExpirationTime = function setExpirationTime() {
-  var millisecond = new Date().getTime();
-  var expiresTime = new Date(millisecond + _constant__WEBPACK_IMPORTED_MODULE_0__.tokenExpires); //一天后过期
+const setExpirationTime = () => {
+  const millisecond = new Date().getTime();
+  const expiresTime = new Date(millisecond + _constant__WEBPACK_IMPORTED_MODULE_0__.tokenExpires); //一天后过期
 
   return expiresTime; // da.toUTCString(); //将 1598789234953这种格式的转换成=> "Sat, 29 Aug 2020 12:06:33 GMT"
 };
@@ -180,16 +183,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "unsupported": () => /* binding */ unsupported,
 /* harmony export */   "unauthorized": () => /* binding */ unauthorized
 /* harmony export */ });
-var graphqlError = {
+const graphqlError = {
   code: 400,
   msg: "请求参数有误，graphql语法错误"
 };
-var unsupported = {
+const unsupported = {
   //对于当前请求的方法和所请求的资源，请求中提交的实体并不是服务器中所支持的格式，因此请求被拒绝。
   code: 415,
   msg: "服务器已经理解请求，但是拒绝执行它"
 };
-var unauthorized = {
+const unauthorized = {
   // 当前请求需要用户验证. 如果验证不通过则返回401
   code: 401,
   msg: "当前请求需要用户验证."
@@ -228,165 +231,87 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "@babel/runtime/helpers/asyncToGenerator");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "@babel/runtime/helpers/classCallCheck");
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "@babel/runtime/helpers/createClass");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _service_user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../service/user */ "./app/service/user.js");
-/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../constant */ "./app/constant/index.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
+/* harmony import */ var _service_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../service/user */ "./app/service/user.js");
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constant */ "./app/constant/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
 
 
 
 
+class Controller {
+  static async add(ctx, next) {
+    // ctx.set("Content-Type", "application/json")
+    const parameter = ctx.request.body; // 获取请求参数
+    //添加service
 
+    const data = await _service_user__WEBPACK_IMPORTED_MODULE_0__.default.add(ctx, next, parameter);
 
+    const getMessage = data => {
+      const {
+        status
+      } = data;
+      const message = {
+        1: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(_constant__WEBPACK_IMPORTED_MODULE_1__.unsupported, {
+          msg: "该用户名已经被注册过,请重新输入用户名"
+        }),
+        2: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(_constant__WEBPACK_IMPORTED_MODULE_1__.unsupported, {
+          msg: "该手机号码已经被注册过,请重新输入手机号码"
+        }),
+        3: () => ({
+          code: 200,
+          msg: "注册成功"
+        })
+      };
+      return message[status]();
+    };
 
-
-var Controller = /*#__PURE__*/function () {
-  function Controller() {
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default()(this, Controller);
+    ctx.response.body = getMessage(data);
   }
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3___default()(Controller, null, [{
-    key: "add",
-    value: function () {
-      var _add = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(ctx, next) {
-        var parameter, data, getMessage;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                // ctx.set("Content-Type", "application/json")
-                parameter = ctx.request.body; // 获取请求参数
-                //添加service
+  static edit(ctx, next) {
+    ctx.set("Content-Type", "application/json");
+    var page = ctx.params.page; // 获取请求参数
+    //添加service
+    // const data = userService.list(page);
+    // ctx.response.body = "d";
+  }
 
-                _context.next = 3;
-                return _service_user__WEBPACK_IMPORTED_MODULE_4__.default.add(ctx, next, parameter);
+  static async login(ctx, next) {
+    // ctx.set("Content-Type", "application/json")
+    var parameter = ctx.request.body; // 获取请求参数
+    //添加service
 
-              case 3:
-                data = _context.sent;
+    const data = await _service_user__WEBPACK_IMPORTED_MODULE_0__.default.login(ctx, next, parameter);
 
-                getMessage = function getMessage(data) {
-                  var status = data.status;
-                  var message = {
-                    1: function _() {
-                      return (0,_utils__WEBPACK_IMPORTED_MODULE_6__.merge)(_constant__WEBPACK_IMPORTED_MODULE_5__.unsupported, {
-                        msg: "该用户名已经被注册过,请重新输入用户名"
-                      });
-                    },
-                    2: function _() {
-                      return (0,_utils__WEBPACK_IMPORTED_MODULE_6__.merge)(_constant__WEBPACK_IMPORTED_MODULE_5__.unsupported, {
-                        msg: "该手机号码已经被注册过,请重新输入手机号码"
-                      });
-                    },
-                    3: function _() {
-                      return {
-                        code: 200,
-                        msg: "注册成功"
-                      };
-                    }
-                  };
-                  return message[status]();
-                };
-
-                ctx.response.body = getMessage(data);
-
-              case 6:
-              case "end":
-                return _context.stop();
-            }
+    const getMessage = data => {
+      const {
+        status,
+        token,
+        userInfo
+      } = data;
+      const message = {
+        1: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(_constant__WEBPACK_IMPORTED_MODULE_1__.unauthorized, {
+          msg: "用户名错误，请重新输入用户名"
+        }),
+        2: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(_constant__WEBPACK_IMPORTED_MODULE_1__.unauthorized, {
+          msg: "密码错误请重新输入密码"
+        }),
+        3: () => ({
+          code: 200,
+          msg: "登录成功",
+          data: {
+            token,
+            userInfo
           }
-        }, _callee);
-      }));
+        })
+      };
+      return message[status]();
+    };
 
-      function add(_x, _x2) {
-        return _add.apply(this, arguments);
-      }
+    ctx.response.body = getMessage(data);
+  }
 
-      return add;
-    }()
-  }, {
-    key: "edit",
-    value: function edit(ctx, next) {
-      ctx.set("Content-Type", "application/json");
-      var page = ctx.params.page; // 获取请求参数
-      //添加service
-      // const data = userService.list(page);
-      // ctx.response.body = "d";
-    }
-  }, {
-    key: "login",
-    value: function () {
-      var _login = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(ctx, next) {
-        var parameter, data, getMessage;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                // ctx.set("Content-Type", "application/json")
-                parameter = ctx.request.body; // 获取请求参数
-                //添加service
-
-                _context2.next = 3;
-                return _service_user__WEBPACK_IMPORTED_MODULE_4__.default.login(ctx, next, parameter);
-
-              case 3:
-                data = _context2.sent;
-
-                getMessage = function getMessage(data) {
-                  var status = data.status,
-                      token = data.token,
-                      userInfo = data.userInfo;
-                  var message = {
-                    1: function _() {
-                      return (0,_utils__WEBPACK_IMPORTED_MODULE_6__.merge)(_constant__WEBPACK_IMPORTED_MODULE_5__.unauthorized, {
-                        msg: "用户名错误，请重新输入用户名"
-                      });
-                    },
-                    2: function _() {
-                      return (0,_utils__WEBPACK_IMPORTED_MODULE_6__.merge)(_constant__WEBPACK_IMPORTED_MODULE_5__.unauthorized, {
-                        msg: "密码错误请重新输入密码"
-                      });
-                    },
-                    3: function _() {
-                      return {
-                        code: 200,
-                        msg: "登录成功",
-                        data: {
-                          token: token,
-                          userInfo: userInfo
-                        }
-                      };
-                    }
-                  };
-                  return message[status]();
-                };
-
-                ctx.response.body = getMessage(data);
-
-              case 6:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }));
-
-      function login(_x3, _x4) {
-        return _login.apply(this, arguments);
-      }
-
-      return login;
-    }()
-  }]);
-
-  return Controller;
-}();
+}
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Controller);
 
@@ -403,143 +328,90 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "CheckTable": () => /* binding */ CheckTable
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "@babel/runtime/helpers/asyncToGenerator");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "@babel/runtime/helpers/classCallCheck");
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "@babel/runtime/helpers/createClass");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mysql */ "./app/db/mysql.js");
+/* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mysql */ "./app/db/mysql.js");
 
 
+const {
+  MYSQL_CONF
+} = __webpack_require__(/*! ../config/db */ "./app/config/db.js");
 
-
-
-
-var _require = __webpack_require__(/*! ../config/db */ "./app/config/db.js"),
-    MYSQL_CONF = _require.MYSQL_CONF;
-
-var CheckTable = /*#__PURE__*/function () {
-  function CheckTable() {
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default()(this, CheckTable);
-
+class CheckTable {
+  constructor() {
     this.tables = [{
       name: "user",
-      sql: "CREATE TABLE user(\n                    id INT(11) PRIMARY KEY  auto_increment primary key,\n                    name VARCHAR(25),\n                    phone VARCHAR(200),\n                    password VARCHAR(255)\n                ) AUTO_INCREMENT=1;\n           "
+      sql: `CREATE TABLE user(
+                    id INT(11) PRIMARY KEY  auto_increment primary key,
+                    name VARCHAR(25),
+                    phone VARCHAR(200),
+                    password VARCHAR(255)
+                ) AUTO_INCREMENT=1;
+           `
     }, {
       name: 'collect',
-      sql: "\n         CREATE TABLE collect(\n              id INT(11) PRIMARY KEY,\n              name VARCHAR(25)  NOT NULL,\n              phone INT(11)  NOT NULL,\n              user_id INT(11)  NOT NULL,\n              FOREIGN KEY(user_id) REFERENCES user(id)\n         );\n         "
+      sql: `
+         CREATE TABLE collect(
+              id INT(11) PRIMARY KEY,
+              name VARCHAR(25)  NOT NULL,
+              phone INT(11)  NOT NULL,
+              user_id INT(11)  NOT NULL,
+              FOREIGN KEY(user_id) REFERENCES user(id)
+         );
+         `
     }, {
       name: 'code',
-      sql: "\n          CREATE TABLE code(\n            id INT(11) PRIMARY KEY,\n            name VARCHAR(25),\n            collect_id INT(11),\n            FOREIGN KEY(collect_id) REFERENCES collect(id),\n            user_id INT(11),\n            FOREIGN KEY(user_id) REFERENCES user(id)\n            );\n          "
+      sql: `
+          CREATE TABLE code(
+            id INT(11) PRIMARY KEY,
+            name VARCHAR(25),
+            collect_id INT(11),
+            FOREIGN KEY(collect_id) REFERENCES collect(id),
+            user_id INT(11),
+            FOREIGN KEY(user_id) REFERENCES user(id)
+            );
+          `
     }, {
       name: 'role',
-      sql: "\n        CREATE TABLE role(\n          id INT(11) PRIMARY KEY,\n          name VARCHAR(25),\n          root TINYINT(2)\n          );\n        "
+      sql: `
+        CREATE TABLE role(
+          id INT(11) PRIMARY KEY,
+          name VARCHAR(25),
+          root TINYINT(2)
+          );
+        `
     }];
     this.init();
   }
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3___default()(CheckTable, [{
-    key: "init",
-    value: function init() {
-      var _this = this;
+  init() {
+    this.tables.forEach(table => {
+      this.queryTable(table);
+    });
+  }
 
-      this.tables.forEach(function (table) {
-        _this.queryTable(table);
+  createTable() {}
+
+  async checkTable(data, table) {
+    if (data.length == 0) {
+      await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(table.sql).then(data => {
+        console.log("创建表成功");
+      }).catch(error => {
+        console.log("创建表失败=", error);
       });
     }
-  }, {
-    key: "createTable",
-    value: function createTable() {}
-  }, {
-    key: "checkTable",
-    value: function () {
-      var _checkTable = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(data, table) {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!(data.length == 0)) {
-                  _context.next = 3;
-                  break;
-                }
+  }
 
-                _context.next = 3;
-                return (0,_mysql__WEBPACK_IMPORTED_MODULE_4__.exec)(table.sql).then(function (data) {
-                  console.log("创建表成功");
-                })["catch"](function (error) {
-                  console.log("创建表失败=", error);
-                });
+  async queryTable(table) {
+    const sql = `
+           SELECT
+           TABLE_NAME FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA='${MYSQL_CONF.database}' 
+           AND TABLE_NAME= '${table.name}'`;
+    await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(sql).then(async data => {
+      await this.checkTable(data, table);
+    }).catch(() => {});
+  }
 
-              case 3:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      function checkTable(_x, _x2) {
-        return _checkTable.apply(this, arguments);
-      }
-
-      return checkTable;
-    }()
-  }, {
-    key: "queryTable",
-    value: function () {
-      var _queryTable = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3(table) {
-        var _this2 = this;
-
-        var sql;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                sql = "\n           SELECT\n           TABLE_NAME FROM INFORMATION_SCHEMA.TABLES\n           WHERE TABLE_SCHEMA='".concat(MYSQL_CONF.database, "' \n           AND TABLE_NAME= '").concat(table.name, "'");
-                _context3.next = 3;
-                return (0,_mysql__WEBPACK_IMPORTED_MODULE_4__.exec)(sql).then( /*#__PURE__*/function () {
-                  var _ref = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(data) {
-                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-                      while (1) {
-                        switch (_context2.prev = _context2.next) {
-                          case 0:
-                            _context2.next = 2;
-                            return _this2.checkTable(data, table);
-
-                          case 2:
-                          case "end":
-                            return _context2.stop();
-                        }
-                      }
-                    }, _callee2);
-                  }));
-
-                  return function (_x4) {
-                    return _ref.apply(this, arguments);
-                  };
-                }())["catch"](function () {});
-
-              case 3:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }));
-
-      function queryTable(_x3) {
-        return _queryTable.apply(this, arguments);
-      }
-
-      return queryTable;
-    }()
-  }]);
-
-  return CheckTable;
-}();
+}
 
 
 
@@ -582,54 +454,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "connection": () => /* binding */ connection,
 /* harmony export */   "exec": () => /* binding */ exec
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "@babel/runtime/helpers/asyncToGenerator");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var mysql__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! mysql */ "mysql");
-/* harmony import */ var mysql__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(mysql__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _config_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/index */ "./app/config/index.js");
-
-
+/* harmony import */ var mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mysql */ "mysql");
+/* harmony import */ var mysql__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mysql__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _config_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config/index */ "./app/config/index.js");
 
  // 创建链接对象
 
-var connection = mysql__WEBPACK_IMPORTED_MODULE_2___default().createConnection(_config_index__WEBPACK_IMPORTED_MODULE_3__.MYSQL_CONF); // 统一执行 sql 的函数
+const connection = mysql__WEBPACK_IMPORTED_MODULE_0___default().createConnection(_config_index__WEBPACK_IMPORTED_MODULE_1__.MYSQL_CONF); // 统一执行 sql 的函数
 
-var exec = /*#__PURE__*/function () {
-  var _ref = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(sql) {
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return new Promise(function (resolve, reject) {
-              console.log('sql=', sql);
-              connection.query(sql, function (err, result) {
-                if (err) {
-                  reject(err);
-                  return;
-                }
-
-                resolve(result);
-              });
-            });
-
-          case 2:
-            return _context.abrupt("return", _context.sent);
-
-          case 3:
-          case "end":
-            return _context.stop();
-        }
+const exec = async sql => {
+  return await new Promise((resolve, reject) => {
+    console.log('sql=', sql);
+    connection.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return;
       }
-    }, _callee);
-  }));
 
-  return function exec(_x) {
-    return _ref.apply(this, arguments);
-  };
-}();
+      resolve(result);
+    });
+  });
+};
 
 
 
@@ -648,128 +493,43 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "deleteUser": () => /* binding */ deleteUser,
 /* harmony export */   "queryUser": () => /* binding */ queryUser
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "@babel/runtime/helpers/asyncToGenerator");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mysql */ "./app/db/mysql.js");
-
-
+/* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mysql */ "./app/db/mysql.js");
  // 添加用户
 
-var addUser = /*#__PURE__*/function () {
-  var _ref2 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(_ref) {
-    var name, phone, password, sql;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            name = _ref.name, phone = _ref.phone, password = _ref.password;
-            sql = "insert into user(name,phone,password) values('".concat(name, "','").concat(phone, "',md5('").concat(password, "'));");
-            _context.next = 4;
-            return (0,_mysql__WEBPACK_IMPORTED_MODULE_2__.exec)(sql);
-
-          case 4:
-            return _context.abrupt("return", _context.sent);
-
-          case 5:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function addUser(_x) {
-    return _ref2.apply(this, arguments);
-  };
-}(); //查询用户
+const addUser = async ({
+  name,
+  phone,
+  password
+}) => {
+  const sql = `insert into user(name,phone,password) values('${name}','${phone}',md5('${password}'));`;
+  return await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(sql);
+}; //查询用户
 
 
-var queryUser = /*#__PURE__*/function () {
-  var _ref3 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-    var andConditionData,
-        orConditionData,
-        sql,
-        andKeys,
-        orKeys,
-        _args2 = arguments;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            andConditionData = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : {};
-            orConditionData = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : {};
-            sql = _args2.length > 2 ? _args2[2] : undefined;
-            andKeys = Object.keys(andConditionData);
-            orKeys = Object.keys(orConditionData);
+const queryUser = async (andConditionData = {}, orConditionData = {}, sql) => {
+  const andKeys = Object.keys(andConditionData);
+  const orKeys = Object.keys(orConditionData);
 
-            if (!sql) {
-              _context2.next = 9;
-              break;
-            }
+  if (sql) {
+    return await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(sql);
+  }
 
-            _context2.next = 8;
-            return (0,_mysql__WEBPACK_IMPORTED_MODULE_2__.exec)(sql);
-
-          case 8:
-            return _context2.abrupt("return", _context2.sent);
-
-          case 9:
-            sql = "select * from user where ";
-            andKeys.forEach(function (key) {
-              sql += key == "password" ? " ".concat(key, "=md5('").concat(andConditionData[key], "') and") : " ".concat(key, "='").concat(andConditionData[key], "' and");
-            });
-            orKeys.forEach(function (key) {
-              sql += key == "password" ? " ".concat(key, "=md5('").concat(orConditionData[key], "') or") : " ".concat(key, "='").concat(orConditionData[key], "' or");
-            });
-            sql = andKeys.length >= 1 && orKeys.length == 0 ? sql.substring(0, sql.length - 3) : orKeys.length >= 1 ? sql.substring(0, sql.length - 2) : sql;
-            _context2.next = 15;
-            return (0,_mysql__WEBPACK_IMPORTED_MODULE_2__.exec)(sql);
-
-          case 15:
-            return _context2.abrupt("return", _context2.sent);
-
-          case 16:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2);
-  }));
-
-  return function queryUser() {
-    return _ref3.apply(this, arguments);
-  };
-}(); //删除用户
+  sql = `select * from user where `;
+  andKeys.forEach(key => {
+    sql += key == "password" ? ` ${key}=md5('${andConditionData[key]}') and` : ` ${key}='${andConditionData[key]}' and`;
+  });
+  orKeys.forEach(key => {
+    sql += key == "password" ? ` ${key}=md5('${orConditionData[key]}') or` : ` ${key}='${orConditionData[key]}' or`;
+  });
+  sql = andKeys.length >= 1 && orKeys.length == 0 ? sql.substring(0, sql.length - 3) : orKeys.length >= 1 ? sql.substring(0, sql.length - 2) : sql;
+  return await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(sql);
+}; //删除用户
 
 
-var deleteUser = /*#__PURE__*/function () {
-  var _ref4 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3(id) {
-    var sql;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            sql = "DELETE  FROM user  WHERE id=".concat(id, ";");
-            _context3.next = 3;
-            return (0,_mysql__WEBPACK_IMPORTED_MODULE_2__.exec)(sql);
-
-          case 3:
-            return _context3.abrupt("return", _context3.sent);
-
-          case 4:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3);
-  }));
-
-  return function deleteUser(_x2) {
-    return _ref4.apply(this, arguments);
-  };
-}(); // 导出
+const deleteUser = async id => {
+  const sql = `DELETE  FROM user  WHERE id=${id};`;
+  return await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(sql);
+}; // 导出
 
 
 
@@ -793,7 +553,7 @@ __webpack_require__.r(__webpack_exports__);
  //会员模块
 
 
-var user = {
+const user = {
   userResolvers: _user__WEBPACK_IMPORTED_MODULE_1__.default,
   userSchema: _user__WEBPACK_IMPORTED_MODULE_1__
 }; // import user from "./user";
@@ -841,9 +601,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 // Provide resolver functions for your schema fields
-var hello = function hello() {
-  return 'Hello world!';
-};
+const hello = () => 'Hello world!';
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mutation: {// createUser,
@@ -851,7 +609,7 @@ var hello = function hello() {
   query: {
     // user,
     // getUserInfo,
-    hello: hello
+    hello
   }
 }); // export default {
 //         Query:{
@@ -877,190 +635,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "hello": () => /* binding */ hello
 /* harmony export */ });
-var hello = "\ntype Query {\n  hello: String\n}\n";
-
-/***/ }),
-
-/***/ "./app/index.js":
-/*!**********************!*\
-  !*** ./app/index.js ***!
-  \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "@babel/runtime/helpers/asyncToGenerator");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "@babel/runtime/helpers/classCallCheck");
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "@babel/runtime/helpers/createClass");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/polyfill */ "@babel/polyfill");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var koa__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! koa */ "koa");
-/* harmony import */ var koa__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(koa__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils */ "./app/utils/index.js");
-/* harmony import */ var _db_index_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./db/index.js */ "./app/db/index.js");
-/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./redis */ "./app/redis/index.js");
-/* harmony import */ var _routes_index__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./routes/index */ "./app/routes/index.js");
-/* harmony import */ var kill_port__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! kill-port */ "kill-port");
-/* harmony import */ var kill_port__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(kill_port__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./config */ "./app/config/index.js");
-
-
-
-
-
-
-
-
-
-
-
-
-
-var App = /*#__PURE__*/function () {
-  function App() {
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default()(this, App);
-
-    this.app = new (koa__WEBPACK_IMPORTED_MODULE_5___default())();
-    this.init();
-  }
-
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3___default()(App, [{
-    key: "init",
-    value: function () {
-      var _init = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return this.connectRedis();
-
-              case 2:
-                _context.next = 4;
-                return this.connectSql();
-
-              case 4:
-                //加载路由
-                this.addRoute(); // 设置监听端口
-
-                this.listen();
-
-              case 6:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function init() {
-        return _init.apply(this, arguments);
-      }
-
-      return init;
-    }()
-  }, {
-    key: "connectRedis",
-    value: function () {
-      var _connectRedis = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return (0,_utils__WEBPACK_IMPORTED_MODULE_6__.promise)(function (reslove, reject) {
-                  _redis__WEBPACK_IMPORTED_MODULE_8__.Redis.connect(function () {
-                    console.log("Redis 链接成功");
-                    reslove();
-                  });
-                  _redis__WEBPACK_IMPORTED_MODULE_8__.Redis.error(function () {
-                    console.log("Redis 链接错误");
-                    reject();
-                  });
-                });
-
-              case 2:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }));
-
-      function connectRedis() {
-        return _connectRedis.apply(this, arguments);
-      }
-
-      return connectRedis;
-    }()
-  }, {
-    key: "connectSql",
-    value: function () {
-      var _connectSql = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return (0,_utils__WEBPACK_IMPORTED_MODULE_6__.promise)(function (reslove, reject) {
-                  _db_index_js__WEBPACK_IMPORTED_MODULE_7__.connection.connect(function (err) {
-                    if (err) {
-                      console.log("数据库连失败");
-                      reject();
-                      throw err;
-                    }
-
-                    new _db_index_js__WEBPACK_IMPORTED_MODULE_7__.CheckTable();
-                    console.log("mysql数据库连接成功");
-                    reslove();
-                  });
-                });
-
-              case 2:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }));
-
-      function connectSql() {
-        return _connectSql.apply(this, arguments);
-      }
-
-      return connectSql;
-    }()
-  }, {
-    key: "addRoute",
-    value: function addRoute() {
-      // 导入路由
-      new _routes_index__WEBPACK_IMPORTED_MODULE_9__.default(this.app);
-    }
-  }, {
-    key: "listen",
-    value: function listen() {
-      // try {
-      //   kill(port, "tcp");
-      // } catch (e) {}
-      this.server = this.app.listen(_config__WEBPACK_IMPORTED_MODULE_11__.port, function () {
-        console.log("\u670D\u52A1\u5668\u542F\u52A8\u6210\u529F:http://localhost:".concat(_config__WEBPACK_IMPORTED_MODULE_11__.port, "/"));
-      });
-      this.server.setTimeout(5 * 60 * 1000);
-    }
-  }]);
-
-  return App;
-}();
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new App());
+const hello = `
+type Query {
+  hello: String
+}
+`;
 
 /***/ }),
 
@@ -1085,7 +664,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var common = function common(app, router) {
+const common = (app, router) => {
   // 处理404
   // app.use(function* (next) {
   //     try {
@@ -1197,34 +776,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "destroyToken": () => /* binding */ destroyToken,
 /* harmony export */   "userIdCheckToken": () => /* binding */ userIdCheckToken
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "@babel/runtime/helpers/asyncToGenerator");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./redis */ "./app/redis/redis.js");
-/* harmony import */ var jwt_redis__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jwt-redis */ "jwt-redis");
-/* harmony import */ var jwt_redis__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jwt_redis__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! jsonwebtoken */ "jsonwebtoken");
-/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(jsonwebtoken__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
-
-
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./redis */ "./app/redis/redis.js");
+/* harmony import */ var jwt_redis__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jwt-redis */ "jwt-redis");
+/* harmony import */ var jwt_redis__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jwt_redis__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jsonwebtoken */ "jsonwebtoken");
+/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jsonwebtoken__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
 
 
 
  // const jwtr = new JWTR(redisClient);
 // const { sign, verify, destroy } = jwtr;
 
-var sign = (jsonwebtoken__WEBPACK_IMPORTED_MODULE_4___default().sign),
-    verify = (jsonwebtoken__WEBPACK_IMPORTED_MODULE_4___default().verify),
-    decode = (jsonwebtoken__WEBPACK_IMPORTED_MODULE_4___default().decode); // var secret = "secret";
+const {
+  sign,
+  verify,
+  decode
+} = (jsonwebtoken__WEBPACK_IMPORTED_MODULE_2___default()); // var secret = "secret";
 // var jti = "test";
 // var payload = { jti };
 // 用用户id验证token
 
-var userIdCheckToken = function userIdCheckToken(userId) {
-  return (0,_utils__WEBPACK_IMPORTED_MODULE_5__.promise)(function (resolve, reject) {
-    _redis__WEBPACK_IMPORTED_MODULE_2__.redisClient.keys("userid_".concat(userId, "_*"), function (error, value) {
+const userIdCheckToken = userId => {
+  return (0,_utils__WEBPACK_IMPORTED_MODULE_3__.promise)((resolve, reject) => {
+    _redis__WEBPACK_IMPORTED_MODULE_0__.redisClient.keys(`userid_${userId}_*`, (error, value) => {
       if (error) {
         reject(error);
       } else {
@@ -1235,9 +810,9 @@ var userIdCheckToken = function userIdCheckToken(userId) {
 }; //验证token
 
 
-var checkToken = function checkToken(token) {
-  return (0,_utils__WEBPACK_IMPORTED_MODULE_5__.promise)(function (resolve, reject) {
-    _redis__WEBPACK_IMPORTED_MODULE_2__.redisClient.keys("userid_*_".concat(token), function (error, value) {
+const checkToken = token => {
+  return (0,_utils__WEBPACK_IMPORTED_MODULE_3__.promise)((resolve, reject) => {
+    _redis__WEBPACK_IMPORTED_MODULE_0__.redisClient.keys(`userid_*_${token}`, (error, value) => {
       if (error) {
         reject(error);
       } else {
@@ -1247,160 +822,43 @@ var checkToken = function checkToken(token) {
   });
 };
 
-var createToken = /*#__PURE__*/function () {
-  var _ref = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-    var userInfo,
-        payload,
-        _userInfo$id,
-        id,
-        token,
-        userIdTokens,
-        _args2 = arguments;
+const createToken = async (userInfo = {}, payload = {}) => {
+  const {
+    id = ""
+  } = userInfo; //  产生token
 
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            userInfo = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : {};
-            payload = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : {};
-            _userInfo$id = userInfo.id, id = _userInfo$id === void 0 ? "" : _userInfo$id; //  产生token
+  payload = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.merge)({
+    ctime: Date.now() //创建时间
 
-            payload = (0,_utils__WEBPACK_IMPORTED_MODULE_5__.merge)({
-              ctime: Date.now() //创建时间
+  }, payload); //创建token
 
-            }, payload); //创建token
+  const token = await sign(payload, `${id}`, {
+    expiresIn: 0
+  }); //获取用户token key
 
-            _context2.next = 6;
-            return sign(payload, "".concat(id), {
-              expiresIn: 0
-            });
+  const userIdTokens = await userIdCheckToken(id);
 
-          case 6:
-            token = _context2.sent;
-            _context2.next = 9;
-            return userIdCheckToken(id);
-
-          case 9:
-            userIdTokens = _context2.sent;
-
-            if (userIdTokens && userIdTokens.length >= 1) {
-              // 删除多余的key实现单点登录
-              userIdTokens.forEach( /*#__PURE__*/function () {
-                var _ref2 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(key) {
-                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-                    while (1) {
-                      switch (_context.prev = _context.next) {
-                        case 0:
-                          _context.next = 2;
-                          return _redis__WEBPACK_IMPORTED_MODULE_2__.Redis.del(key);
-
-                        case 2:
-                        case "end":
-                          return _context.stop();
-                      }
-                    }
-                  }, _callee);
-                }));
-
-                return function (_x) {
-                  return _ref2.apply(this, arguments);
-                };
-              }());
-            } // 重新设置 redis 
+  if (userIdTokens && userIdTokens.length >= 1) {
+    // 删除多余的key实现单点登录
+    userIdTokens.forEach(async key => {
+      await _redis__WEBPACK_IMPORTED_MODULE_0__.Redis.del(key);
+    });
+  } // 重新设置 redis 
 
 
-            _context2.next = 13;
-            return _redis__WEBPACK_IMPORTED_MODULE_2__.Redis.set("userid_".concat(id, "_").concat(token), JSON.stringify(userInfo));
-
-          case 13:
-            return _context2.abrupt("return", token);
-
-          case 14:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2);
-  }));
-
-  return function createToken() {
-    return _ref.apply(this, arguments);
-  };
-}(); //销毁token
+  await _redis__WEBPACK_IMPORTED_MODULE_0__.Redis.set(`userid_${id}_${token}`, JSON.stringify(userInfo));
+  return token;
+}; //销毁token
 
 
-var destroyToken = /*#__PURE__*/function () {
-  var _ref3 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4(tokenOrId) {
-    var userIdTokens, tokens;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            _context4.next = 2;
-            return userIdCheckToken(tokenOrId);
-
-          case 2:
-            _context4.t0 = _context4.sent;
-
-            if (_context4.t0) {
-              _context4.next = 5;
-              break;
-            }
-
-            _context4.t0 = [];
-
-          case 5:
-            userIdTokens = _context4.t0;
-            _context4.next = 8;
-            return checkToken(tokenOrId);
-
-          case 8:
-            _context4.t1 = _context4.sent;
-
-            if (_context4.t1) {
-              _context4.next = 11;
-              break;
-            }
-
-            _context4.t1 = [];
-
-          case 11:
-            tokens = _context4.t1;
-            (0,_utils__WEBPACK_IMPORTED_MODULE_5__.merge)(userIdTokens, tokens).forEach( /*#__PURE__*/function () {
-              var _ref4 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3(key) {
-                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-                  while (1) {
-                    switch (_context3.prev = _context3.next) {
-                      case 0:
-                        _context3.next = 2;
-                        return _redis__WEBPACK_IMPORTED_MODULE_2__.Redis.del(key);
-
-                      case 2:
-                      case "end":
-                        return _context3.stop();
-                    }
-                  }
-                }, _callee3);
-              }));
-
-              return function (_x3) {
-                return _ref4.apply(this, arguments);
-              };
-            }());
-            return _context4.abrupt("return", "成功删除token");
-
-          case 14:
-          case "end":
-            return _context4.stop();
-        }
-      }
-    }, _callee4);
-  }));
-
-  return function destroyToken(_x2) {
-    return _ref3.apply(this, arguments);
-  };
-}();
+const destroyToken = async tokenOrId => {
+  const userIdTokens = (await userIdCheckToken(tokenOrId)) || [];
+  const tokens = (await checkToken(tokenOrId)) || [];
+  (0,_utils__WEBPACK_IMPORTED_MODULE_3__.merge)(userIdTokens, tokens).forEach(async key => {
+    await _redis__WEBPACK_IMPORTED_MODULE_0__.Redis.del(key);
+  });
+  return "成功删除token";
+};
 
 
 
@@ -1419,86 +877,39 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "redisClient": () => /* binding */ redisClient,
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "@babel/runtime/helpers/classCallCheck");
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "@babel/runtime/helpers/createClass");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var redis__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redis */ "redis");
-/* harmony import */ var redis__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(redis__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../config */ "./app/config/index.js");
+/* harmony import */ var redis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redis */ "redis");
+/* harmony import */ var redis__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redis__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config */ "./app/config/index.js");
 
 
 
 
-
-
-var RedisClass = /*#__PURE__*/function () {
-  function RedisClass(port, url) {
-    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, RedisClass);
-
+class RedisClass {
+  constructor(port, url, options = {}) {
     this.port = port;
     this.url = url;
     this.options = options;
   } //连接
 
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(RedisClass, [{
-    key: "createRedisClient",
-    value: function createRedisClient() {
-      this.redisClient = redis__WEBPACK_IMPORTED_MODULE_2___default().createClient(this.port, this.url, this.options);
-    } // 连接
+  createRedisClient() {
+    this.redisClient = redis__WEBPACK_IMPORTED_MODULE_0___default().createClient(this.port, this.url, this.options);
+  } // 连接
 
-  }, {
-    key: "connect",
-    value: function connect() {
-      var _this = this;
 
-      var callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
-      return (0,_utils__WEBPACK_IMPORTED_MODULE_3__.promise)(function (resolve, reject) {
-        _this.redisClient.on('connect', function () {
-          callback();
-          resolve();
-        });
+  connect(callback = () => {}) {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
+      this.redisClient.on('connect', () => {
+        callback();
+        resolve();
       });
-    }
-  }, {
-    key: "ready",
-    value: function ready() {
-      var _this2 = this;
+    });
+  }
 
-      var callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
-      return (0,_utils__WEBPACK_IMPORTED_MODULE_3__.promise)(function (resolve, reject) {
-        _this2.redisClient.on('ready', function (err, res) {
-          if (err) {
-            callback(error);
-            reject(error);
-          } else {
-            resolve(res);
-          }
-        });
-      });
-    }
-  }, {
-    key: "error",
-    value: function error() {
-      var _this3 = this;
-
-      var callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
-      return (0,_utils__WEBPACK_IMPORTED_MODULE_3__.promise)(function (resolve, reject) {
-        _this3.redisClient.on('error', function (error) {
-          callback(error);
-          reject(error);
-        });
-      });
-    }
-  }, {
-    key: "end",
-    value: function end() {
-      var callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
-      this.redisClient.on('end', function (err, res) {
+  ready(callback = () => {}) {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
+      this.redisClient.on('ready', (err, res) => {
         if (err) {
           callback(error);
           reject(error);
@@ -1506,78 +917,83 @@ var RedisClass = /*#__PURE__*/function () {
           resolve(res);
         }
       });
-    }
-  }, {
-    key: "set",
-    value: function set(key, value) {
-      var _this4 = this;
+    });
+  }
 
-      var callback = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function () {};
-      var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
-      return (0,_utils__WEBPACK_IMPORTED_MODULE_3__.promise)(function (resolve, reject) {
-        _this4.redisClient.set(key, value, function (error, res) {
-          if (error) {
-            callback(error);
-            reject(error);
-          } else {
-            var keys = Object.keys(options);
-            keys.forEach(function (_key) {
-              _this4.redisClient[_key](key, options[key]);
-            });
-            callback(res);
-            resolve(res);
-          }
-        });
+  error(callback = () => {}) {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
+      this.redisClient.on('error', error => {
+        callback(error);
+        reject(error);
       });
-    }
-  }, {
-    key: "get",
-    value: function get(key) {
-      var _this5 = this;
+    });
+  }
 
-      var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
-      return (0,_utils__WEBPACK_IMPORTED_MODULE_3__.promise)(function (resolve, reject) {
-        _this5.redisClient.get(key, function (error, res) {
-          if (error) {
-            callback(error);
-            reject(error);
-          } else {
-            resolve(res);
-          }
-        });
+  end(callback = () => {}) {
+    this.redisClient.on('end', (err, res) => {
+      if (err) {
+        callback(error);
+        reject(error);
+      } else {
+        resolve(res);
+      }
+    });
+  }
+
+  set(key, value, callback = () => {}, options = () => {}) {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
+      this.redisClient.set(key, value, (error, res) => {
+        if (error) {
+          callback(error);
+          reject(error);
+        } else {
+          let keys = Object.keys(options);
+          keys.forEach(_key => {
+            this.redisClient[_key](key, options[key]);
+          });
+          callback(res);
+          resolve(res);
+        }
       });
-    }
-  }, {
-    key: "del",
-    value: function del(key) {
-      var _this6 = this;
+    });
+  }
 
-      var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
-      return (0,_utils__WEBPACK_IMPORTED_MODULE_3__.promise)(function (resolve, reject) {
-        _this6.redisClient.del(key, function (error, res) {
-          if (error) {
-            callback(error);
-            reject(error);
-          } else {
-            resolve(res);
-          }
-        });
+  get(key, callback = () => {}) {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
+      this.redisClient.get(key, (error, res) => {
+        if (error) {
+          callback(error);
+          reject(error);
+        } else {
+          resolve(res);
+        }
       });
-    }
-  }, {
-    key: "init",
-    value: function init() {
-      this.createRedisClient();
-      return this;
-    }
-  }]);
+    });
+  }
 
-  return RedisClass;
-}();
+  del(key, callback = () => {}) {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
+      this.redisClient.del(key, (error, res) => {
+        if (error) {
+          callback(error);
+          reject(error);
+        } else {
+          resolve(res);
+        }
+      });
+    });
+  }
 
-var Redis = new RedisClass(_config__WEBPACK_IMPORTED_MODULE_4__.REDIS_CONF.port, _config__WEBPACK_IMPORTED_MODULE_4__.REDIS_CONF.host, _config__WEBPACK_IMPORTED_MODULE_4__.REDIS_CONF.options);
+  init() {
+    this.createRedisClient();
+    return this;
+  }
+
+}
+
+const Redis = new RedisClass(_config__WEBPACK_IMPORTED_MODULE_2__.REDIS_CONF.port, _config__WEBPACK_IMPORTED_MODULE_2__.REDIS_CONF.host, _config__WEBPACK_IMPORTED_MODULE_2__.REDIS_CONF.options);
 Redis.init();
-var redisClient = Redis.redisClient;
+const redisClient = Redis.redisClient;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RedisClass);
 
 /***/ }),
@@ -1593,75 +1009,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getUserIfo": () => /* binding */ getUserIfo
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "@babel/runtime/helpers/asyncToGenerator");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _jwt__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./jwt */ "./app/redis/jwt.js");
-/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./redis */ "./app/redis/redis.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
-
-
+/* harmony import */ var _jwt__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./jwt */ "./app/redis/jwt.js");
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./redis */ "./app/redis/redis.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
 
 
  // 获取用户信息
 
-var getUserIfo = /*#__PURE__*/function () {
-  var _ref = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(tokenOrId) {
-    var userIdTokens, tokens, data;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return (0,_jwt__WEBPACK_IMPORTED_MODULE_2__.userIdCheckToken)(tokenOrId);
-
-          case 2:
-            _context.t0 = _context.sent;
-
-            if (_context.t0) {
-              _context.next = 5;
-              break;
-            }
-
-            _context.t0 = [];
-
-          case 5:
-            userIdTokens = _context.t0;
-            _context.next = 8;
-            return (0,_jwt__WEBPACK_IMPORTED_MODULE_2__.checkToken)(tokenOrId);
-
-          case 8:
-            _context.t1 = _context.sent;
-
-            if (_context.t1) {
-              _context.next = 11;
-              break;
-            }
-
-            _context.t1 = [];
-
-          case 11:
-            tokens = _context.t1;
-            _context.next = 14;
-            return _redis__WEBPACK_IMPORTED_MODULE_3__.Redis.get((0,_utils__WEBPACK_IMPORTED_MODULE_4__.merge)(userIdTokens, tokens)[0]);
-
-          case 14:
-            data = _context.sent;
-            return _context.abrupt("return", data);
-
-          case 16:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function getUserIfo(_x) {
-    return _ref.apply(this, arguments);
-  };
-}();
+const getUserIfo = async tokenOrId => {
+  const userIdTokens = (await (0,_jwt__WEBPACK_IMPORTED_MODULE_0__.userIdCheckToken)(tokenOrId)) || [];
+  const tokens = (await (0,_jwt__WEBPACK_IMPORTED_MODULE_0__.checkToken)(tokenOrId)) || [];
+  const data = await _redis__WEBPACK_IMPORTED_MODULE_1__.Redis.get((0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(userIdTokens, tokens)[0]);
+  return data;
+};
 
 
 
@@ -1678,36 +1038,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_objectDestructuringEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/objectDestructuringEmpty */ "@babel/runtime/helpers/objectDestructuringEmpty");
-/* harmony import */ var _babel_runtime_helpers_objectDestructuringEmpty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_objectDestructuringEmpty__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "@babel/runtime/helpers/asyncToGenerator");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "@babel/runtime/helpers/classCallCheck");
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "@babel/runtime/helpers/createClass");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var graphql_type__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! graphql/type */ "graphql/type");
-/* harmony import */ var graphql_type__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(graphql_type__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! graphql */ "graphql");
-/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(graphql__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var http_errors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! http-errors */ "http-errors");
-/* harmony import */ var http_errors__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(http_errors__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
-/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../constant */ "./app/constant/index.js");
-/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! koa-router */ "koa-router");
-/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var graphql_tools__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! graphql-tools */ "graphql-tools");
-/* harmony import */ var graphql_tools__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(graphql_tools__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./user */ "./app/routes/user.js");
-/* harmony import */ var _middleware_index__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../middleware/index */ "./app/middleware/index.js");
-/* harmony import */ var _graphql_schema__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../graphql/schema */ "./app/graphql/schema/index.js");
-
-
-
-
-
+/* harmony import */ var graphql_type__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! graphql/type */ "graphql/type");
+/* harmony import */ var graphql_type__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(graphql_type__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! graphql */ "graphql");
+/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(graphql__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var http_errors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! http-errors */ "http-errors");
+/* harmony import */ var http_errors__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(http_errors__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constant */ "./app/constant/index.js");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! koa-router */ "koa-router");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var graphql_tools__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! graphql-tools */ "graphql-tools");
+/* harmony import */ var graphql_tools__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(graphql_tools__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./user */ "./app/routes/user.js");
+/* harmony import */ var _middleware_index__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../middleware/index */ "./app/middleware/index.js");
+/* harmony import */ var _graphql_schema__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../graphql/schema */ "./app/graphql/schema/index.js");
 
  // import schema from '../graphql/schema';
 
@@ -1730,215 +1075,186 @@ __webpack_require__.r(__webpack_exports__);
 // console.log('userSchema===',userSchema)
 // // Construct a schema, using GraphQL schema language
 
-var typeDefs = "\n  type Query {\n    hello: String\n  }\n"; // Provide resolver functions for your schema fields
+const typeDefs = `
+  type Query {
+    hello: String
+  }
+`; // Provide resolver functions for your schema fields
 
-var resolvers = {
+const resolvers = {
   Query: {
-    hello: function hello() {
-      return "Hello world!";
-    }
+    hello: () => "Hello world!"
   }
 };
 
-var Route = /*#__PURE__*/function () {
-  function Route(app) {
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Route);
-
+class Route {
+  constructor(app) {
     this.app = app; // this.router = router;
 
     this.init();
   }
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Route, [{
-    key: "createRouter",
-    value: function createRouter() {
-      this.router = new (koa_router__WEBPACK_IMPORTED_MODULE_10___default())({
-        prefix: "/api" // 给路由统一加个前缀：
+  createRouter() {
+    this.router = new (koa_router__WEBPACK_IMPORTED_MODULE_5___default())({
+      prefix: "/api" // 给路由统一加个前缀：
+
+    });
+  } // 添加中间件
+
+
+  middleware() {
+    // this.app.use(
+    //   webpackDevMiddleware(compiler, {
+    //     publicPath: config.output.publicPath,
+    //   })
+    // );
+    // 添加 404 500 中间件
+    (0,_middleware_index__WEBPACK_IMPORTED_MODULE_8__.common)(this.app, this.router);
+  }
+
+  checkToken() {
+    this.router.use(async (ctx, next) => {
+      // console.log('ctx.request==',ctx.request.header)
+      const {
+        request: {
+          header
+        },
+        cookies
+      } = ctx;
+      let token = cookies.get("token") || header.token;
+      console.log("token=", token); //   ctx.cookies.set('cid','comedy',{
+      //     domain:'localhost',     //写cookie所在的域名
+      //     path:'/index',          //写cookie所在的路径
+      //     maxAge:60*1000,         //写cookie有效时长
+      //     expires:7,
+      //     httpOnly:false,
+      //     overwrite:false
+      // })
+      // ctx.body = 'cookie is ok'
+
+      console.log("中间键1开始");
+      await next();
+      console.log("中间键1结束");
+    });
+  } // 添加路由
+
+
+  addRouters() {
+    new _user__WEBPACK_IMPORTED_MODULE_7__.default(this.app, this.router); // new Home(this.app,router);
+
+    console.log("checkToken====");
+    this.checkToken(); // 查询
+
+    this.router.get("/data", async (ctx, next) => {
+      const {
+        query: {
+          query = "",
+          variables = {}
+        },
+        response,
+        request
+      } = ctx;
+      const {
+        body: {// mutation = '', variables = {}
+        }
+      } = request; // const { query = '', variables = {} } = ctx.query;
+      // const { response } = ctx;
+      // console.log('schema==',schema)
+
+      console.log("query==", query);
+      console.log("variables==", variables);
+      console.log("token=====", ctx.cookies.get("token")); // ctx.response.body = {
+      //   name:'123'
+      // }
+
+      const baseSchema = `
+                    schema {
+                        query: Query
+                        mutation: Mutation
+                    }
+              `;
+      const schema = (0,graphql_tools__WEBPACK_IMPORTED_MODULE_6__.makeExecutableSchema)({
+        typeDefs: [// baseSchema,
+        typeDefs //   baseSchema,
+        //   userType,
+        //   songType,
+        //   playlistType
+        ],
+        resolvers: resolvers //  merge(
+        //   {},
+        //   userResolvers,
+        //   songResolvers,
+        //   playlistResolvers
+        // )
 
       });
-    } // 添加中间件
+      await (0,graphql__WEBPACK_IMPORTED_MODULE_1__.graphql)(schema, query, {
+        ctx,
+        next
+      }, variables).then(data => {
+        const {
+          errors
+        } = data;
+        console.log("data=", data);
+        console.log("stringify data=", JSON.stringify(data));
 
-  }, {
-    key: "middleware",
-    value: function middleware() {
-      // this.app.use(
-      //   webpackDevMiddleware(compiler, {
-      //     publicPath: config.output.publicPath,
-      //   })
-      // );
-      // 添加 404 500 中间件
-      (0,_middleware_index__WEBPACK_IMPORTED_MODULE_13__.common)(this.app, this.router);
-    }
-  }, {
-    key: "checkToken",
-    value: function checkToken() {
-      this.router.use( /*#__PURE__*/function () {
-        var _ref = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee(ctx, next) {
-          var header, cookies, token;
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  // console.log('ctx.request==',ctx.request.header)
-                  header = ctx.request.header, cookies = ctx.cookies;
-                  token = cookies.get("token") || header.token;
-                  console.log("token=", token); //   ctx.cookies.set('cid','comedy',{
-                  //     domain:'localhost',     //写cookie所在的域名
-                  //     path:'/index',          //写cookie所在的路径
-                  //     maxAge:60*1000,         //写cookie有效时长
-                  //     expires:7,
-                  //     httpOnly:false,
-                  //     overwrite:false
-                  // })
-                  // ctx.body = 'cookie is ok'
+        if (errors) {
+          response.body = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.merge)(_constant__WEBPACK_IMPORTED_MODULE_4__.graphqlError, {
+            errors
+          });
+        } else {
+          console.log("get==", data); // ctx.response.body = {
+          //   name:'123'
+          // }
 
-                  console.log("中间键1开始");
-                  _context.next = 6;
-                  return next();
+          response.body = data; // JSON.stringify(data);
+        }
+      }).catch(error => {
+        console.log("error==", error);
+      });
+    }); // //变异
+    // this.router.post('/data', async (ctx, next) => {
+    //     const {
+    //         // query: { query = '', variables = {} },
+    //         response,
+    //         request,
+    //     } = ctx;
+    //     const {
+    //         body: { mutation = '', variables = {} },
+    //     } = request;
+    //     await graphql(schema, mutation, { ctx, next }, variables)
+    //         .then((data) => {
+    //             const { errors } = data;
+    //             if (errors) {
+    //                 response.body = merge(graphqlError, {
+    //                     errors,
+    //                 });
+    //             } else {
+    //                 console.log('post==', data);
+    //                 response.body = data;
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.log('error==', error);
+    //         });
+    // });
+    //  const server = new ApolloServer({ typeDefs, resolvers });
+    //  this.router.get('/data',server.getMiddleware())
+    // 挂载路由中间件
 
-                case 6:
-                  console.log("中间键1结束");
+    this.app.use(this.router.routes()).use(this.router.allowedMethods()); // this.app.use(this.router.routes()).use(this.router.allowedMethods());
+  }
 
-                case 7:
-                case "end":
-                  return _context.stop();
-              }
-            }
-          }, _callee);
-        }));
+  init() {
+    // 添加中间件
+    this.middleware(); //创建路由
 
-        return function (_x, _x2) {
-          return _ref.apply(this, arguments);
-        };
-      }());
-    } // 添加路由
+    this.createRouter(); // 添加路由
 
-  }, {
-    key: "addRouters",
-    value: function addRouters() {
-      new _user__WEBPACK_IMPORTED_MODULE_12__.default(this.app, this.router); // new Home(this.app,router);
+    this.addRouters();
+  }
 
-      console.log("checkToken====");
-      this.checkToken(); // 查询
-
-      this.router.get("/data", /*#__PURE__*/function () {
-        var _ref2 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee2(ctx, next) {
-          var _ctx$query, _ctx$query$query, query, _ctx$query$variables, variables, response, request, baseSchema, schema;
-
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee2$(_context2) {
-            while (1) {
-              switch (_context2.prev = _context2.next) {
-                case 0:
-                  _ctx$query = ctx.query, _ctx$query$query = _ctx$query.query, query = _ctx$query$query === void 0 ? "" : _ctx$query$query, _ctx$query$variables = _ctx$query.variables, variables = _ctx$query$variables === void 0 ? {} : _ctx$query$variables, response = ctx.response, request = ctx.request;
-
-                  _babel_runtime_helpers_objectDestructuringEmpty__WEBPACK_IMPORTED_MODULE_0___default()(request.body); // const { query = '', variables = {} } = ctx.query;
-                  // const { response } = ctx;
-                  // console.log('schema==',schema)
-
-
-                  console.log("query==", query);
-                  console.log("variables==", variables);
-                  console.log("token=====", ctx.cookies.get("token")); // ctx.response.body = {
-                  //   name:'123'
-                  // }
-
-                  baseSchema = "\n                    schema {\n                        query: Query\n                        mutation: Mutation\n                    }\n              ";
-                  schema = (0,graphql_tools__WEBPACK_IMPORTED_MODULE_11__.makeExecutableSchema)({
-                    typeDefs: [// baseSchema,
-                    typeDefs //   baseSchema,
-                    //   userType,
-                    //   songType,
-                    //   playlistType
-                    ],
-                    resolvers: resolvers //  merge(
-                    //   {},
-                    //   userResolvers,
-                    //   songResolvers,
-                    //   playlistResolvers
-                    // )
-
-                  });
-                  _context2.next = 9;
-                  return (0,graphql__WEBPACK_IMPORTED_MODULE_6__.graphql)(schema, query, {
-                    ctx: ctx,
-                    next: next
-                  }, variables).then(function (data) {
-                    var errors = data.errors;
-                    console.log("data=", data);
-                    console.log("stringify data=", JSON.stringify(data));
-
-                    if (errors) {
-                      response.body = (0,_utils__WEBPACK_IMPORTED_MODULE_8__.merge)(_constant__WEBPACK_IMPORTED_MODULE_9__.graphqlError, {
-                        errors: errors
-                      });
-                    } else {
-                      console.log("get==", data); // ctx.response.body = {
-                      //   name:'123'
-                      // }
-
-                      response.body = data; // JSON.stringify(data);
-                    }
-                  })["catch"](function (error) {
-                    console.log("error==", error);
-                  });
-
-                case 9:
-                case "end":
-                  return _context2.stop();
-              }
-            }
-          }, _callee2);
-        }));
-
-        return function (_x3, _x4) {
-          return _ref2.apply(this, arguments);
-        };
-      }()); // //变异
-      // this.router.post('/data', async (ctx, next) => {
-      //     const {
-      //         // query: { query = '', variables = {} },
-      //         response,
-      //         request,
-      //     } = ctx;
-      //     const {
-      //         body: { mutation = '', variables = {} },
-      //     } = request;
-      //     await graphql(schema, mutation, { ctx, next }, variables)
-      //         .then((data) => {
-      //             const { errors } = data;
-      //             if (errors) {
-      //                 response.body = merge(graphqlError, {
-      //                     errors,
-      //                 });
-      //             } else {
-      //                 console.log('post==', data);
-      //                 response.body = data;
-      //             }
-      //         })
-      //         .catch((error) => {
-      //             console.log('error==', error);
-      //         });
-      // });
-      //  const server = new ApolloServer({ typeDefs, resolvers });
-      //  this.router.get('/data',server.getMiddleware())
-      // 挂载路由中间件
-
-      this.app.use(this.router.routes()).use(this.router.allowedMethods()); // this.app.use(this.router.routes()).use(this.router.allowedMethods());
-    }
-  }, {
-    key: "init",
-    value: function init() {
-      // 添加中间件
-      this.middleware(); //创建路由
-
-      this.createRouter(); // 添加路由
-
-      this.addRouters();
-    }
-  }]);
-
-  return Route;
-}();
+}
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Route);
 
@@ -1955,86 +1271,69 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "@babel/runtime/helpers/classCallCheck");
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "@babel/runtime/helpers/createClass");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _controller_user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../controller/user */ "./app/controller/user.js");
-/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! koa-router */ "koa-router");
-/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_3__);
-
-
+/* harmony import */ var _controller_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../controller/user */ "./app/controller/user.js");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! koa-router */ "koa-router");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_1__);
 
  // koa 路由中间件
 
-var Route = /*#__PURE__*/function () {
-  function Route(app, router) {
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, Route);
-
+class Route {
+  constructor(app, router) {
     this.app = app;
     this.router = router;
     this.init();
   }
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Route, [{
-    key: "createRouter",
-    value: function createRouter() {
-      this.secondaryRoute = new (koa_router__WEBPACK_IMPORTED_MODULE_3___default())({
-        prefix: "/user" // 给路由统一加个前缀：
+  createRouter() {
+    this.secondaryRoute = new (koa_router__WEBPACK_IMPORTED_MODULE_1___default())({
+      prefix: "/user" // 给路由统一加个前缀：
 
-      });
-      return this.secondaryRoute;
-    }
-  }, {
-    key: "middleware",
-    value: function middleware() {// 处理404
-      // this.app.use('/user',function* (next) {
-      //     try {
-      //         yield* next;
-      //     } catch (e) {
-      //         this.status = 500;
-      //         this.body = '500';
-      //     }
-      //     if (parseInt(this.status) === 404) {
-      //         this.body = '404';
-      //     }
-      // });
-    } // 添加路由
+    });
+    return this.secondaryRoute;
+  }
 
-  }, {
-    key: "addRouters",
-    value: function addRouters() {
-      // 添加路由
-      this.registered();
-      this.login();
-      this.router.use(this.secondaryRoute.routes()); //挂载二级路由
-    }
-  }, {
-    key: "init",
-    value: function init() {
-      // 创建路由
-      this.createRouter(); // 添加中间件
+  middleware() {// 处理404
+    // this.app.use('/user',function* (next) {
+    //     try {
+    //         yield* next;
+    //     } catch (e) {
+    //         this.status = 500;
+    //         this.body = '500';
+    //     }
+    //     if (parseInt(this.status) === 404) {
+    //         this.body = '404';
+    //     }
+    // });
+  } // 添加路由
 
-      this.middleware(); // 添加路由
 
-      this.addRouters();
-    }
-  }, {
-    key: "registered",
-    value: function registered() {
-      // 添加 接口
-      this.secondaryRoute.post("/register", _controller_user__WEBPACK_IMPORTED_MODULE_2__.default.add);
-    }
-  }, {
-    key: "login",
-    value: function login() {
-      // 添加 接口
-      this.secondaryRoute.post("/login", _controller_user__WEBPACK_IMPORTED_MODULE_2__.default.login);
-    }
-  }]);
+  addRouters() {
+    // 添加路由
+    this.registered();
+    this.login();
+    this.router.use(this.secondaryRoute.routes()); //挂载二级路由
+  }
 
-  return Route;
-}();
+  init() {
+    // 创建路由
+    this.createRouter(); // 添加中间件
+
+    this.middleware(); // 添加路由
+
+    this.addRouters();
+  }
+
+  registered() {
+    // 添加 接口
+    this.secondaryRoute.post("/register", _controller_user__WEBPACK_IMPORTED_MODULE_0__.default.add);
+  }
+
+  login() {
+    // 添加 接口
+    this.secondaryRoute.post("/login", _controller_user__WEBPACK_IMPORTED_MODULE_0__.default.login);
+  }
+
+}
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Route);
 
@@ -2051,324 +1350,170 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "@babel/runtime/helpers/asyncToGenerator");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "@babel/runtime/helpers/classCallCheck");
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "@babel/runtime/helpers/createClass");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _db_user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../db/user */ "./app/db/user.js");
-/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../constant */ "./app/constant/index.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
-/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../redis */ "./app/redis/index.js");
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../config */ "./app/config/index.js");
+/* harmony import */ var _db_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../db/user */ "./app/db/user.js");
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constant */ "./app/constant/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../redis */ "./app/redis/index.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../config */ "./app/config/index.js");
 
 
 
 
 
 
+class Service {
+  static list(page) {
+    console.log('page=', page);
+    const dataList = {
+      list: [{
+        time: '2019-7-10',
+        id: 1,
+        title: 'this is news 1',
+        url: '/news/1'
+      }, {
+        time: '2019-8-10',
+        id: 2,
+        title: 'this is news 2',
+        url: '/news/2'
+      }]
+    };
+    return dataList.list[page] || {};
+  } //注册用户
 
 
+  static async add(ctx, next, parameter) {
+    const {
+      username: name,
+      phone,
+      password
+    } = parameter;
+    /*
+    1 查询用户名是否被注册过，
+    2 查询手机号码是否被注册过
+    3 如果都没有被注册那么就可以注册
+    */
+
+    let userInfo = await this.queryUser({
+      name
+    });
+    userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+
+    if (userInfo && userInfo.id) {
+      return {
+        status: 1
+      };
+    }
+
+    userInfo = await this.queryUser({
+      phone
+    });
+    userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+
+    if (userInfo && userInfo.id) {
+      return {
+        status: 2
+      };
+    }
+
+    const data = await (0,_db_user__WEBPACK_IMPORTED_MODULE_0__.addUser)({
+      name,
+      phone,
+      password
+    });
+
+    if (data) {
+      return {
+        status: 3
+      };
+    }
+  } // 编辑用户
 
 
-var Service = /*#__PURE__*/function () {
-  function Service() {
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default()(this, Service);
+  static async edit(ctx, next, parameter) {} // 数据库中查询用户
+
+
+  static async queryUser(...ags) {
+    const userData = await (0,_db_user__WEBPACK_IMPORTED_MODULE_0__.queryUser)(...ags);
+    return userData;
+  } // 登录
+
+
+  static async login(ctx, next, parameter = {}) {
+    const {
+      username: name,
+      phone,
+      password
+    } = parameter;
+    const {
+      request,
+      response,
+      cookies
+    } = ctx;
+    /*
+    1.先查询用户名是否正确，
+    2.查询用户和密码是否正确
+    3.创建token,存储到redis中
+    4.把用户信息挂载response中
+    */
+
+    let userInfo = await this.queryUser({
+      name
+    });
+    userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+
+    if (!userInfo) {
+      return {
+        status: 1
+      };
+    }
+
+    userInfo = await this.queryUser({
+      password
+    });
+    userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+
+    if (!userInfo) {
+      return {
+        status: 2
+      };
+    }
+
+    userInfo = await (0,_db_user__WEBPACK_IMPORTED_MODULE_0__.queryUser)({
+      name,
+      password
+    });
+    userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+    /*
+    创建 createToken  
+    */
+
+    const token = await (0,_redis__WEBPACK_IMPORTED_MODULE_3__.createToken)(userInfo);
+    delete userInfo.password;
+    ctx.response.userInfo = userInfo;
+    console.log('setExpirationTime=', (0,_config__WEBPACK_IMPORTED_MODULE_4__.setExpirationTime)()); // console.log('token=', token);
+    // console.log('request=', request);
+    // console.log('session=', session);
+
+    console.log('cookies===', cookies); // cookie.expires = false;
+    // cookie.maxAge = 5 * 60 * 1000;
+
+    cookies.set('token', token, {
+      httpOnly: false,
+      overwrite: false // expires: setExpirationTime(),
+
+    });
+
+    if (userInfo) {
+      //登录成功
+      return {
+        status: 3,
+        token,
+        userInfo
+      };
+    }
   }
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3___default()(Service, null, [{
-    key: "list",
-    value: function list(page) {
-      console.log('page=', page);
-      var dataList = {
-        list: [{
-          time: '2019-7-10',
-          id: 1,
-          title: 'this is news 1',
-          url: '/news/1'
-        }, {
-          time: '2019-8-10',
-          id: 2,
-          title: 'this is news 2',
-          url: '/news/2'
-        }]
-      };
-      return dataList.list[page] || {};
-    } //注册用户
-
-  }, {
-    key: "add",
-    value: function () {
-      var _add = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(ctx, next, parameter) {
-        var name, phone, password, userInfo, data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                name = parameter.username, phone = parameter.phone, password = parameter.password;
-                /*
-                1 查询用户名是否被注册过，
-                2 查询手机号码是否被注册过
-                3 如果都没有被注册那么就可以注册
-                */
-
-                _context.next = 3;
-                return this.queryUser({
-                  name: name
-                });
-
-              case 3:
-                userInfo = _context.sent;
-                userInfo = userInfo.length >= 1 ? userInfo[0] : null;
-
-                if (!(userInfo && userInfo.id)) {
-                  _context.next = 7;
-                  break;
-                }
-
-                return _context.abrupt("return", {
-                  status: 1
-                });
-
-              case 7:
-                _context.next = 9;
-                return this.queryUser({
-                  phone: phone
-                });
-
-              case 9:
-                userInfo = _context.sent;
-                userInfo = userInfo.length >= 1 ? userInfo[0] : null;
-
-                if (!(userInfo && userInfo.id)) {
-                  _context.next = 13;
-                  break;
-                }
-
-                return _context.abrupt("return", {
-                  status: 2
-                });
-
-              case 13:
-                _context.next = 15;
-                return (0,_db_user__WEBPACK_IMPORTED_MODULE_4__.addUser)({
-                  name: name,
-                  phone: phone,
-                  password: password
-                });
-
-              case 15:
-                data = _context.sent;
-
-                if (!data) {
-                  _context.next = 18;
-                  break;
-                }
-
-                return _context.abrupt("return", {
-                  status: 3
-                });
-
-              case 18:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function add(_x, _x2, _x3) {
-        return _add.apply(this, arguments);
-      }
-
-      return add;
-    }() // 编辑用户
-
-  }, {
-    key: "edit",
-    value: function () {
-      var _edit = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(ctx, next, parameter) {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }));
-
-      function edit(_x4, _x5, _x6) {
-        return _edit.apply(this, arguments);
-      }
-
-      return edit;
-    }() // 数据库中查询用户
-
-  }, {
-    key: "queryUser",
-    value: function () {
-      var _queryUser2 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        var userData,
-            _args3 = arguments;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return _db_user__WEBPACK_IMPORTED_MODULE_4__.queryUser.apply(void 0, _args3);
-
-              case 2:
-                userData = _context3.sent;
-                return _context3.abrupt("return", userData);
-
-              case 4:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }));
-
-      function queryUser() {
-        return _queryUser2.apply(this, arguments);
-      }
-
-      return queryUser;
-    }() // 登录
-
-  }, {
-    key: "login",
-    value: function () {
-      var _login = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4(ctx, next) {
-        var parameter,
-            name,
-            phone,
-            password,
-            request,
-            response,
-            cookies,
-            userInfo,
-            token,
-            _args4 = arguments;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                parameter = _args4.length > 2 && _args4[2] !== undefined ? _args4[2] : {};
-                name = parameter.username, phone = parameter.phone, password = parameter.password;
-                request = ctx.request, response = ctx.response, cookies = ctx.cookies;
-                /*
-                1.先查询用户名是否正确，
-                2.查询用户和密码是否正确
-                3.创建token,存储到redis中
-                4.把用户信息挂载response中
-                */
-
-                _context4.next = 5;
-                return this.queryUser({
-                  name: name
-                });
-
-              case 5:
-                userInfo = _context4.sent;
-                userInfo = userInfo.length >= 1 ? userInfo[0] : null;
-
-                if (userInfo) {
-                  _context4.next = 9;
-                  break;
-                }
-
-                return _context4.abrupt("return", {
-                  status: 1
-                });
-
-              case 9:
-                _context4.next = 11;
-                return this.queryUser({
-                  password: password
-                });
-
-              case 11:
-                userInfo = _context4.sent;
-                userInfo = userInfo.length >= 1 ? userInfo[0] : null;
-
-                if (userInfo) {
-                  _context4.next = 15;
-                  break;
-                }
-
-                return _context4.abrupt("return", {
-                  status: 2
-                });
-
-              case 15:
-                _context4.next = 17;
-                return (0,_db_user__WEBPACK_IMPORTED_MODULE_4__.queryUser)({
-                  name: name,
-                  password: password
-                });
-
-              case 17:
-                userInfo = _context4.sent;
-                userInfo = userInfo.length >= 1 ? userInfo[0] : null;
-                /*
-                创建 createToken  
-                */
-
-                _context4.next = 21;
-                return (0,_redis__WEBPACK_IMPORTED_MODULE_7__.createToken)(userInfo);
-
-              case 21:
-                token = _context4.sent;
-                delete userInfo.password;
-                ctx.response.userInfo = userInfo;
-                console.log('setExpirationTime=', (0,_config__WEBPACK_IMPORTED_MODULE_8__.setExpirationTime)()); // console.log('token=', token);
-                // console.log('request=', request);
-                // console.log('session=', session);
-
-                console.log('cookies===', cookies); // cookie.expires = false;
-                // cookie.maxAge = 5 * 60 * 1000;
-
-                cookies.set('token', token, {
-                  httpOnly: false,
-                  overwrite: false // expires: setExpirationTime(),
-
-                });
-
-                if (!userInfo) {
-                  _context4.next = 29;
-                  break;
-                }
-
-                return _context4.abrupt("return", {
-                  status: 3,
-                  token: token,
-                  userInfo: userInfo
-                });
-
-              case 29:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4, this);
-      }));
-
-      function login(_x7, _x8) {
-        return _login.apply(this, arguments);
-      }
-
-      return login;
-    }()
-  }]);
-
-  return Service;
-}();
+}
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Service);
 
@@ -2386,14 +1531,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "promise": () => /* binding */ promise,
 /* harmony export */   "merge": () => /* binding */ merge
 /* harmony export */ });
-var promise = function promise() {
-  var fn = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
-  return new Promise(function (resolve, reject) {
+const promise = (fn = () => {}) => {
+  return new Promise((resolve, reject) => {
     fn(resolve, reject);
   });
 };
 
-var merge = Object.assign || function (target) {
+const merge = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i];
 
@@ -2430,10 +1574,109 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/_webpack@5.10.2@webpack/hot/log-apply-result.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/_webpack@5.10.2@webpack/hot/log-apply-result.js ***!
-  \**********************************************************************/
+/***/ "./app/index.js":
+/*!**********************!*\
+  !*** ./app/index.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/polyfill */ "@babel/polyfill");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var koa__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! koa */ "koa");
+/* harmony import */ var koa__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(koa__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./app/utils/index.js");
+/* harmony import */ var _db_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./db/index.js */ "./app/db/index.js");
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./redis */ "./app/redis/index.js");
+/* harmony import */ var _routes_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./routes/index */ "./app/routes/index.js");
+/* harmony import */ var kill_port__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! kill-port */ "kill-port");
+/* harmony import */ var kill_port__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(kill_port__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./config */ "./app/config/index.js");
+
+
+
+
+
+
+
+
+console.log(123);
+
+class App {
+  constructor() {
+    this.app = new (koa__WEBPACK_IMPORTED_MODULE_1___default())();
+    this.init();
+  }
+
+  async init() {
+    // redis链接
+    await this.connectRedis(); // 数据库连接
+
+    await this.connectSql(); //加载路由
+
+    this.addRoute(); // 设置监听端口
+
+    this.listen();
+  }
+
+  async connectRedis() {
+    await (0,_utils__WEBPACK_IMPORTED_MODULE_2__.promise)((reslove, reject) => {
+      _redis__WEBPACK_IMPORTED_MODULE_4__.Redis.connect(() => {
+        console.log("Redis 链接成功");
+        reslove();
+      });
+      _redis__WEBPACK_IMPORTED_MODULE_4__.Redis.error(() => {
+        console.log("Redis 链接错误");
+        reject();
+      });
+    });
+  }
+
+  async connectSql() {
+    await (0,_utils__WEBPACK_IMPORTED_MODULE_2__.promise)((reslove, reject) => {
+      _db_index_js__WEBPACK_IMPORTED_MODULE_3__.connection.connect(err => {
+        if (err) {
+          console.log("数据库连失败");
+          reject();
+          throw err;
+        }
+
+        new _db_index_js__WEBPACK_IMPORTED_MODULE_3__.CheckTable();
+        console.log("mysql数据库连接成功");
+        reslove();
+      });
+    });
+  }
+
+  addRoute() {
+    // 导入路由
+    new _routes_index__WEBPACK_IMPORTED_MODULE_5__.default(this.app);
+  }
+
+  listen() {
+    // try {
+    //   kill(port, "tcp");
+    // } catch (e) {}
+    this.server = this.app.listen(_config__WEBPACK_IMPORTED_MODULE_7__.port, () => {
+      console.log(`服务器启动成功:http://localhost:${_config__WEBPACK_IMPORTED_MODULE_7__.port}/`);
+    });
+    this.server.setTimeout(5 * 60 * 1000);
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new App());
+
+/***/ }),
+
+/***/ "./node_modules/webpack/hot/log-apply-result.js":
+/*!******************************************************!*\
+  !*** ./node_modules/webpack/hot/log-apply-result.js ***!
+  \******************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 /*
@@ -2444,7 +1687,7 @@ module.exports = function (updatedModules, renewedModules) {
 	var unacceptedModules = updatedModules.filter(function (moduleId) {
 		return renewedModules && renewedModules.indexOf(moduleId) < 0;
 	});
-	var log = __webpack_require__(/*! ./log */ "./node_modules/_webpack@5.10.2@webpack/hot/log.js");
+	var log = __webpack_require__(/*! ./log */ "./node_modules/webpack/hot/log.js");
 
 	if (unacceptedModules.length > 0) {
 		log(
@@ -2484,10 +1727,10 @@ module.exports = function (updatedModules, renewedModules) {
 
 /***/ }),
 
-/***/ "./node_modules/_webpack@5.10.2@webpack/hot/log.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/_webpack@5.10.2@webpack/hot/log.js ***!
-  \*********************************************************/
+/***/ "./node_modules/webpack/hot/log.js":
+/*!*****************************************!*\
+  !*** ./node_modules/webpack/hot/log.js ***!
+  \*****************************************/
 /***/ ((module) => {
 
 var logLevel = "info";
@@ -2553,10 +1796,10 @@ module.exports.formatError = function (err) {
 
 /***/ }),
 
-/***/ "./node_modules/_webpack@5.10.2@webpack/hot/poll.js?1000":
-/*!***************************************************************!*\
-  !*** ./node_modules/_webpack@5.10.2@webpack/hot/poll.js?1000 ***!
-  \***************************************************************/
+/***/ "./node_modules/webpack/hot/poll.js?1000":
+/*!***********************************************!*\
+  !*** ./node_modules/webpack/hot/poll.js?1000 ***!
+  \***********************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var __resourceQuery = "?1000";
@@ -2567,7 +1810,7 @@ var __resourceQuery = "?1000";
 /*globals __resourceQuery */
 if (true) {
 	var hotPollInterval = +__resourceQuery.substr(1) || 0;
-	var log = __webpack_require__(/*! ./log */ "./node_modules/_webpack@5.10.2@webpack/hot/log.js");
+	var log = __webpack_require__(/*! ./log */ "./node_modules/webpack/hot/log.js");
 
 	var checkForUpdate = function checkForUpdate(fromUpdate) {
 		if (module.hot.status() === "idle") {
@@ -2578,7 +1821,7 @@ if (true) {
 						if (fromUpdate) log("info", "[HMR] Update applied.");
 						return;
 					}
-					__webpack_require__(/*! ./log-apply-result */ "./node_modules/_webpack@5.10.2@webpack/hot/log-apply-result.js")(updatedModules, updatedModules);
+					__webpack_require__(/*! ./log-apply-result */ "./node_modules/webpack/hot/log-apply-result.js")(updatedModules, updatedModules);
 					checkForUpdate(true);
 				})
 				.catch(function (err) {
@@ -2607,61 +1850,6 @@ if (true) {
 
 "use strict";
 module.exports = require("@babel/polyfill");;
-
-/***/ }),
-
-/***/ "@babel/runtime/helpers/asyncToGenerator":
-/*!**********************************************************!*\
-  !*** external "@babel/runtime/helpers/asyncToGenerator" ***!
-  \**********************************************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("@babel/runtime/helpers/asyncToGenerator");;
-
-/***/ }),
-
-/***/ "@babel/runtime/helpers/classCallCheck":
-/*!********************************************************!*\
-  !*** external "@babel/runtime/helpers/classCallCheck" ***!
-  \********************************************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("@babel/runtime/helpers/classCallCheck");;
-
-/***/ }),
-
-/***/ "@babel/runtime/helpers/createClass":
-/*!*****************************************************!*\
-  !*** external "@babel/runtime/helpers/createClass" ***!
-  \*****************************************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("@babel/runtime/helpers/createClass");;
-
-/***/ }),
-
-/***/ "@babel/runtime/helpers/objectDestructuringEmpty":
-/*!******************************************************************!*\
-  !*** external "@babel/runtime/helpers/objectDestructuringEmpty" ***!
-  \******************************************************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("@babel/runtime/helpers/objectDestructuringEmpty");;
-
-/***/ }),
-
-/***/ "@babel/runtime/regenerator":
-/*!*********************************************!*\
-  !*** external "@babel/runtime/regenerator" ***!
-  \*********************************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("@babel/runtime/regenerator");;
 
 /***/ }),
 
@@ -2897,7 +2085,7 @@ module.exports = require("redis");;
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => "f6279d9bb59fbcff743b"
+/******/ 		__webpack_require__.h = () => "bbb0fa5d5a4ded529722"
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
@@ -3731,7 +2919,7 @@ module.exports = require("redis");;
 /******/ 	// module cache are used so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	__webpack_require__("./node_modules/_webpack@5.10.2@webpack/hot/poll.js?1000");
+/******/ 	__webpack_require__("./node_modules/webpack/hot/poll.js?1000");
 /******/ 	return __webpack_require__("./app/index.js");
 /******/ })()
 ;

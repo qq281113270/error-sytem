@@ -1,5 +1,5 @@
 import "@babel/polyfill";
-import Koa from "koa";
+import koa from "koa";
 import webpack from "webpack";
 import webpackDevMiddleware from "webpack-dev-middleware";
 import config from "./config/index";
@@ -16,10 +16,10 @@ import { port } from "../app/config";
 import opn from "opn";
 // 引入http-proxy-middleware插件，此插件是用来代理请求的只能用于开发环境，目的主要是解决跨域请求后台api
 import proxyMiddleware from "http-proxy-middleware";
-
+// console.log('config========',config)
 class App {
   constructor() {
-    this.app = new Koa();
+    this.app = new koa();
     this.init();
   }
 
@@ -53,6 +53,14 @@ class App {
                 colors: true,
               }) + "\n\n"
             );
+            // process.stdout.write(stats.toString({
+            //     colors: true,
+            //     modules: false,
+            //     children: false,
+            //     chunks: false,
+            //     chunkModules: false
+            //   }) + '\n\n')
+          
             console.log(chalk.cyan("  Build complete.\n"));
           }
         : undefined
