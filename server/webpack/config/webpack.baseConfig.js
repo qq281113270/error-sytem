@@ -7,6 +7,7 @@ import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import WebpackBar from "webpackbar";
 import HappyPack from "happypack";
 import TerserPlugin from "terser-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import SpeedMeasurePlugin from "speed-measure-webpack-plugin";
 import WebpackBuildDllPlugin from "webpack-build-dll-plugin";

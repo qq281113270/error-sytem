@@ -41,6 +41,7 @@
         "graphql-tools": "^7.0.2",
         "happypack": "^5.0.1",
         "hard-source-webpack-plugin": "^0.13.1",
+        "html-webpack-plugin": "^4.5.0",
         "http-errors": "^1.8.0",
         "inquirer": "^7.3.3",
         "jsonwebtoken": "^8.5.1",
