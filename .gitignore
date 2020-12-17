@@ -1,6 +1,8 @@
 node_modules/*
 server/node_modules/*
-server/dist
+server/dist/index.*
+server/dist/index.js
+server/dist/index.js.map
 server/dist/*
 client/node_modules/*
 # common
