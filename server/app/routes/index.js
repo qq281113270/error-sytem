@@ -27,9 +27,12 @@ import { makeExecutableSchema } from "graphql-tools";
 // import Home from "./home";
 import User from "./user";
 import { common } from "../middleware/index";
-import { user } from "../graphql/schema"; 
+// import { user } from "../graphql/schema"; 
 // import  userResolvers,  * as userSchema  from '../graphql/schema/user/index.js';
 
+
+import * as module from "../module"; 
+console.log('module========',module.user)
 
 
 // console.log('userResolvers===',userResolvers)

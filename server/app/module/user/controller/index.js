@@ -1,4 +1,4 @@
-import userService from "../service/user";
+import userService from "../service";
 import { unsupported, unauthorized } from "../constant";
 import { merge } from "../utils";
 class Controller {

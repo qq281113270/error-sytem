@@ -1,14 +1,14 @@
-import controller from "../controller/user";
-import Router from "koa-router"; // koa 路由中间件
+import controller from "../controller";
+import koaRoute from "koa-router"; // koa 路由中间件
 
-class Route {
-  constructor(app, router) {
+class router {
+  constructor(app, rootRouter) {
     this.app = app;
-    this.router = router;
+    this.router = rootRouter;
     this.init();
   }
   createRouter() {
-    this.secondaryRoute = new Router({
+    this.secondaryRoute = new koaRoute({
       prefix: "/user", // 给路由统一加个前缀：
     });
     return this.secondaryRoute;
@@ -44,12 +44,12 @@ class Route {
   }
   registered() {
     // 添加 接口
-    this.secondaryRoute.post("/register", controller.add);
+    // this.secondaryRoute.post("/register", controller.add);
   }
   login() {
     // 添加 接口
-    this.secondaryRoute.post("/login", controller.login);
+    // this.secondaryRoute.post("/login", controller.login);
   }
 }
 
-export default Route;
+export default router;

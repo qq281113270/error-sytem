@@ -43,28 +43,43 @@ class App {
     const spinner = ora("building.....");
     spinner.start();
     const compiler = webpack(
-      config,
-      this.isEnvDevelopment
-        ? (err, stats) => {
-            spinner.stop();
-            if (err) throw err;
-            process.stdout.write(
-              stats.toString({
-                colors: true,
-              }) + "\n\n"
-            );
-            // process.stdout.write(stats.toString({
-            //     colors: true,
-            //     modules: false,
-            //     children: false,
-            //     chunks: false,
-            //     chunkModules: false
-            //   }) + '\n\n')
-          
-            console.log(chalk.cyan("  Build complete.\n"));
-          }
-        : undefined
+      config
+      // this.isEnvDevelopment
+      //   ?
+      //  (err, stats) => {
+      //     spinner.stop();
+      //     if (err) throw err;
+      //     process.stdout.write(
+      //       stats.toString({
+      //         colors: true,
+      //       }) + "\n\n"
+      //     );
+      //     // process.stdout.write(stats.toString({
+      //     //     colors: true,
+      //     //     modules: false,
+      //     //     children: false,
+      //     //     chunks: false,
+      //     //     chunkModules: false
+      //     //   }) + '\n\n')
+
+      //     console.log(chalk.cyan("  Build complete.\n"));
+      //   }
+      // : undefined
     );
+
+    const watching = compiler.watch({}, (err, stats) => {
+      spinner.stop();
+      if (err) throw err;
+      process.stdout.write(
+        stats.toString({
+          colors: true,
+        }) + "\n\n"
+      );
+      !this.isEnvDevelopment && watching.close(() => {
+        console.log("Watching Ended.");
+      });
+    });
+
     // if (this.isEnvDevelopment) {
     // compiler.watch(
     //   {

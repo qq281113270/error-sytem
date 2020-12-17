@@ -34,7 +34,7 @@ export default //    smp.wrap(
   },
 
   // 是否监听文件
-  // watch: true,
+  watch: false,
   //dllPlugin 插件需要的包
   // resolve: {
   //   // 1.不需要node polyfilss webpack 去掉了node polyfilss 需要自己手动添加
@@ -77,47 +77,47 @@ export default //    smp.wrap(
     runtimeChunk: {
       name: (entrypoint) => `runtime~${entrypoint.name}`,
     },
-
-    splitChunks: {
-      chunks: "async",
-      minSize: 20000,
-      minRemainingSize: 0,
-      maxSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 30,
-      maxInitialRequests: 30,
-      automaticNameDelimiter: "~",
-      enforceSizeThreshold: 50000,
-      cacheGroups: {
-        // vendor: {
-        //     //第三方依赖
-        //     priority: 1, //设置优先级，首先抽离第三方模块
-        //     name: 'vendor',
-        //     test: /node_modules/,
-        //     chunks: 'initial',
-        //     minSize: 0,
-        //     minChunks: 1, //最少引入了1次
-        // },
-        // //缓存组
-        // common: {
-        //     //公共模块
-        //     chunks: 'initial',
-        //     name: 'common',
-        //     minSize: 100, //大小超过100个字节
-        //     minChunks: 3, //最少引入了3次
-        // },
-        defaultVendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-          reuseExistingChunk: true,
-        },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true,
-        },
-      },
-    },
+    // 开启下面这个会有bug
+    // splitChunks: {
+    //   chunks: "async",
+    //   minSize: 20000,
+    //   minRemainingSize: 0,
+    //   maxSize: 0,
+    //   minChunks: 1,
+    //   maxAsyncRequests: 30,
+    //   maxInitialRequests: 30,
+    //   automaticNameDelimiter: "~",
+    //   enforceSizeThreshold: 50000,
+    //   cacheGroups: {
+    //     // vendor: {
+    //     //     //第三方依赖
+    //     //     priority: 1, //设置优先级，首先抽离第三方模块
+    //     //     name: 'vendor',
+    //     //     test: /node_modules/,
+    //     //     chunks: 'initial',
+    //     //     minSize: 0,
+    //     //     minChunks: 1, //最少引入了1次
+    //     // },
+    //     // //缓存组
+    //     // common: {
+    //     //     //公共模块
+    //     //     chunks: 'initial',
+    //     //     name: 'common',
+    //     //     minSize: 100, //大小超过100个字节
+    //     //     minChunks: 3, //最少引入了3次
+    //     // },
+    //     defaultVendors: {
+    //       test: /[\\/]node_modules[\\/]/,
+    //       priority: -10,
+    //       reuseExistingChunk: true,
+    //     },
+    //     default: {
+    //       minChunks: 2,
+    //       priority: -20,
+    //       reuseExistingChunk: true,
+    //     },
+    //   },
+    // },
     // Chunk end
     minimizer: [
       // This is only used in production mode
