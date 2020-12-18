@@ -1,1 +1,2390 @@
-require("@babel/polyfill"),require("source-map-support").install(),function(n,e){"object"===typeof exports&&"object"===typeof module?module.exports=e():"function"===typeof define&&define.amd?define("server",[],e):"object"===typeof exports?exports.server=e():n.server=e()}(this,(function(){return(()=>{var exports={id:826,ids:[826]};exports.modules={979:(__unused_webpack_module,__webpack_exports__,__webpack_require__)=>{"use strict";eval('/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   "S": () => /* binding */ tokenExpires,\n/* harmony export */   "N": () => /* binding */ port\n/* harmony export */ });\nconst tokenExpires = 24 * 60 * 60 * 1000;\nconst port = 3100;\n\n//# sourceURL=webpack://server/./app/config/constant.js?')},456:(__unused_webpack_module,__webpack_exports__,__webpack_require__)=>{"use strict";eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"MYSQL_CONF\": () => /* binding */ MYSQL_CONF\n/* harmony export */ });\nconst env = \"production\"; // \u73af\u5883\u53c2\u6570\n\nlet MYSQL_CONF = null;\n\nif (env === 'development') {\n  MYSQL_CONF = {\n    host: '127.0.0.1',\n    user: 'root',\n    password: '123456',\n    port: '3306',\n    database: 'admin',\n    // charset:'utf8mb4',   //\u5b57\u7b26\u96c6\u4e00\u5b9a\u8981\u5199\uff0c\u5426\u5219\u8868\u60c5\u5305\u5b58\u50a8\u4e0d\u4e86\n    multipleStatements: true // \u662f\u5426\u8bb8\u4e00\u4e2aquery\u4e2d\u6709\u591a\u4e2aMySQL\u8bed\u53e5 \uff08\u9ed8\u8ba4\uff1afalse\uff09\n\n  };\n}\n\nif (env === 'production') {\n  MYSQL_CONF = {\n    host: '127.0.0.1',\n    user: 'root',\n    password: '123456',\n    port: '3306',\n    database: 'admin',\n    charset: 'utf8mb4',\n    //\u5b57\u7b26\u96c6\u4e00\u5b9a\u8981\u5199\uff0c\u5426\u5219\u8868\u60c5\u5305\u5b58\u50a8\u4e0d\u4e86\n    multipleStatements: true // \u662f\u5426\u8bb8\u4e00\u4e2aquery\u4e2d\u6709\u591a\u4e2aMySQL\u8bed\u53e5 \uff08\u9ed8\u8ba4\uff1afalse\uff09\n\n  };\n}\n\n\n\n//# sourceURL=webpack://server/./app/config/db.js?")},530:(__unused_webpack_module,__webpack_exports__,__webpack_require__)=>{"use strict";eval('/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   "A": () => /* reexport safe */ _db_js__WEBPACK_IMPORTED_MODULE_0__.MYSQL_CONF,\n/* harmony export */   "setExpirationTime": () => /* reexport safe */ _token_js__WEBPACK_IMPORTED_MODULE_2__.v,\n/* harmony export */   "port": () => /* reexport safe */ _constant_js__WEBPACK_IMPORTED_MODULE_3__.N\n/* harmony export */ });\n/* harmony import */ var _db_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(456);\n/* harmony import */ var _redis_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(524);\n/* harmony import */ var _redis_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_redis_js__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony reexport (checked) */ if(__webpack_require__.o(_redis_js__WEBPACK_IMPORTED_MODULE_1__, "REDIS_CONF")) __webpack_require__.d(__webpack_exports__, { "REDIS_CONF": function() { return _redis_js__WEBPACK_IMPORTED_MODULE_1__.REDIS_CONF; } });\n/* harmony reexport (checked) */ if(__webpack_require__.o(_redis_js__WEBPACK_IMPORTED_MODULE_1__, "port")) __webpack_require__.d(__webpack_exports__, { "port": function() { return _redis_js__WEBPACK_IMPORTED_MODULE_1__.port; } });\n/* harmony reexport (checked) */ if(__webpack_require__.o(_redis_js__WEBPACK_IMPORTED_MODULE_1__, "setExpirationTime")) __webpack_require__.d(__webpack_exports__, { "setExpirationTime": function() { return _redis_js__WEBPACK_IMPORTED_MODULE_1__.setExpirationTime; } });\n/* harmony import */ var _token_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(56);\n/* harmony import */ var _constant_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(979);\n\n\n\n // export const MYSQL_CONF={\n//     name:123\n// }\n\n//# sourceURL=webpack://server/./app/config/index.js?')},524:module=>{eval("const env = \"production\"; // \u73af\u5883\u53c2\u6570\n\nlet REDIS_CONF = null;\n\nif (env === 'development') {\n  REDIS_CONF = {\n    host: '127.0.0.1',\n    //\u5730\u5740\n    port: '6378',\n    // \u7aef\u53e3\n    options: {\n      auth_pass: 123456 // \u5bc6\u7801\n\n    }\n  };\n}\n\nif (env === 'production') {\n  REDIS_CONF = {\n    host: '127.0.0.1',\n    port: '6378',\n    options: {\n      auth_pass: 123456\n    }\n  };\n}\n\nmodule.exports = {\n  REDIS_CONF\n};\n\n//# sourceURL=webpack://server/./app/config/redis.js?")},56:(__unused_webpack_module,__webpack_exports__,__webpack_require__)=>{"use strict";eval('/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   "v": () => /* binding */ setExpirationTime\n/* harmony export */ });\n/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(979);\n\nconst setExpirationTime = () => {\n  const millisecond = new Date().getTime();\n  const expiresTime = new Date(millisecond + _constant__WEBPACK_IMPORTED_MODULE_0__/* .tokenExpires */ .S); //\u4e00\u5929\u540e\u8fc7\u671f\n\n  return expiresTime; // da.toUTCString(); //\u5c06 1598789234953\u8fd9\u79cd\u683c\u5f0f\u7684\u8f6c\u6362\u6210=> "Sat, 29 Aug 2020 12:06:33 GMT"\n};\n\n//# sourceURL=webpack://server/./app/config/token.js?')},502:(__unused_webpack_module,__webpack_exports__,__webpack_require__)=>{"use strict";eval('// ESM COMPAT FLAG\n__webpack_require__.r(__webpack_exports__);\n\n// EXPORTS\n__webpack_require__.d(__webpack_exports__, {\n  "default": () => /* binding */ app\n});\n\n// NAMESPACE OBJECT: ./app/module/user/graphql/schema/resolvers/Mutation/index.js\nvar Mutation_namespaceObject = {};\n__webpack_require__.r(Mutation_namespaceObject);\n__webpack_require__.d(Mutation_namespaceObject, {\n  "userAdd": () => userAdd\n});\n\n// NAMESPACE OBJECT: ./app/module/user/graphql/schema/resolvers/Query/index.js\nvar Query_namespaceObject = {};\n__webpack_require__.r(Query_namespaceObject);\n__webpack_require__.d(Query_namespaceObject, {\n  "userQuery": () => userQuery\n});\n\n// NAMESPACE OBJECT: ./app/module/user/graphql/schema/resolvers/Subscription/index.js\nvar Subscription_namespaceObject = {};\n__webpack_require__.r(Subscription_namespaceObject);\n__webpack_require__.d(Subscription_namespaceObject, {\n  "userTest": () => userTest\n});\n\n// NAMESPACE OBJECT: ./app/module/user/graphql/schema/resolvers/index.js\nvar resolvers_namespaceObject = {};\n__webpack_require__.r(resolvers_namespaceObject);\n__webpack_require__.d(resolvers_namespaceObject, {\n  "Mutation": () => Mutation_namespaceObject,\n  "Query": () => Query_namespaceObject,\n  "Subscription": () => Subscription_namespaceObject\n});\n\n// NAMESPACE OBJECT: ./app/module/user/graphql/schema/typeDefs/index.js\nvar schema_typeDefs_namespaceObject = {};\n__webpack_require__.r(schema_typeDefs_namespaceObject);\n__webpack_require__.d(schema_typeDefs_namespaceObject, {\n  "hello": () => hello\n});\n\n;// CONCATENATED MODULE: external "@babel/polyfill"\nconst polyfill_namespaceObject = require("@babel/polyfill");;\n;// CONCATENATED MODULE: external "koa"\nconst external_koa_namespaceObject = require("koa");;\nvar external_koa_default = /*#__PURE__*/__webpack_require__.n(external_koa_namespaceObject);\n;// CONCATENATED MODULE: ./app/utils/common.js\nconst common_promise = (fn = () => {}) => {\n  return new Promise((resolve, reject) => {\n    fn(resolve, reject);\n  });\n};\n\nconst common_merge = Object.assign || function (target) {\n  for (var i = 1; i < arguments.length; i++) {\n    var source = arguments[i];\n\n    for (var key in source) {\n      if (Object.prototype.hasOwnProperty.call(source, key)) {\n        target[key] = source[key];\n      }\n    }\n  }\n\n  return target;\n};\n\n\n;// CONCATENATED MODULE: ./app/utils/index.js\n // export * from "./jwt";\n\n\n;// CONCATENATED MODULE: external "mysql"\nconst external_mysql_namespaceObject = require("mysql");;\nvar external_mysql_default = /*#__PURE__*/__webpack_require__.n(external_mysql_namespaceObject);\n// EXTERNAL MODULE: ./app/config/index.js\nvar config = __webpack_require__(530);\n;// CONCATENATED MODULE: ./app/db/mysql.js\n\n // \u521b\u5efa\u94fe\u63a5\u5bf9\u8c61\n\nconst connection = external_mysql_default().createConnection(config/* MYSQL_CONF */.A); // \u7edf\u4e00\u6267\u884c sql \u7684\u51fd\u6570\n\nconst mysql_exec = async sql => {\n  return await new Promise((resolve, reject) => {\n    console.log(\'sql=\', sql);\n    connection.query(sql, (err, result) => {\n      if (err) {\n        reject(err);\n        return;\n      }\n\n      resolve(result);\n    });\n  });\n};\n\n\n;// CONCATENATED MODULE: ./app/db/checkTable.js\n\n\nconst {\n  MYSQL_CONF\n} = __webpack_require__(456);\n\nclass CheckTable {\n  constructor() {\n    this.tables = [{\n      name: "user",\n      sql: `CREATE TABLE user(\n                    id INT(11) PRIMARY KEY  auto_increment primary key,\n                    name VARCHAR(25),\n                    phone VARCHAR(200),\n                    password VARCHAR(255)\n                ) AUTO_INCREMENT=1;\n           `\n    }, {\n      name: \'collect\',\n      sql: `\n         CREATE TABLE collect(\n              id INT(11) PRIMARY KEY,\n              name VARCHAR(25)  NOT NULL,\n              phone INT(11)  NOT NULL,\n              user_id INT(11)  NOT NULL,\n              FOREIGN KEY(user_id) REFERENCES user(id)\n         );\n         `\n    }, {\n      name: \'code\',\n      sql: `\n          CREATE TABLE code(\n            id INT(11) PRIMARY KEY,\n            name VARCHAR(25),\n            collect_id INT(11),\n            FOREIGN KEY(collect_id) REFERENCES collect(id),\n            user_id INT(11),\n            FOREIGN KEY(user_id) REFERENCES user(id)\n            );\n          `\n    }, {\n      name: \'role\',\n      sql: `\n        CREATE TABLE role(\n          id INT(11) PRIMARY KEY,\n          name VARCHAR(25),\n          root TINYINT(2)\n          );\n        `\n    }];\n    this.init();\n  }\n\n  init() {\n    this.tables.forEach(table => {\n      this.queryTable(table);\n    });\n  }\n\n  createTable() {}\n\n  async checkTable(data, table) {\n    if (data.length == 0) {\n      await mysql_exec(table.sql).then(data => {\n        console.log("\u521b\u5efa\u8868\u6210\u529f");\n      }).catch(error => {\n        console.log("\u521b\u5efa\u8868\u5931\u8d25=", error);\n      });\n    }\n  }\n\n  async queryTable(table) {\n    const sql = `\n           SELECT\n           TABLE_NAME FROM INFORMATION_SCHEMA.TABLES\n           WHERE TABLE_SCHEMA=\'${MYSQL_CONF.database}\' \n           AND TABLE_NAME= \'${table.name}\'`;\n    await mysql_exec(sql).then(async data => {\n      await this.checkTable(data, table);\n    }).catch(() => {});\n  }\n\n}\n\n\n;// CONCATENATED MODULE: ./app/db/user.js\n // \u6dfb\u52a0\u7528\u6237\n\nconst user_addUser = async ({\n  name,\n  phone,\n  password\n}) => {\n  const sql = `insert into user(name,phone,password) values(\'${name}\',\'${phone}\',md5(\'${password}\'));`;\n  return await mysql_exec(sql);\n}; //\u67e5\u8be2\u7528\u6237\n\n\nconst user_queryUser = async (andConditionData = {}, orConditionData = {}, sql) => {\n  const andKeys = Object.keys(andConditionData);\n  const orKeys = Object.keys(orConditionData);\n\n  if (sql) {\n    return await mysql_exec(sql);\n  }\n\n  sql = `select * from user where `;\n  andKeys.forEach(key => {\n    sql += key == "password" ? ` ${key}=md5(\'${andConditionData[key]}\') and` : ` ${key}=\'${andConditionData[key]}\' and`;\n  });\n  orKeys.forEach(key => {\n    sql += key == "password" ? ` ${key}=md5(\'${orConditionData[key]}\') or` : ` ${key}=\'${orConditionData[key]}\' or`;\n  });\n  sql = andKeys.length >= 1 && orKeys.length == 0 ? sql.substring(0, sql.length - 3) : orKeys.length >= 1 ? sql.substring(0, sql.length - 2) : sql;\n  return await mysql_exec(sql);\n}; //\u5220\u9664\u7528\u6237\n\n\nconst deleteUser = async id => {\n  const sql = `DELETE  FROM user  WHERE id=${id};`;\n  return await exec(sql);\n}; // \u5bfc\u51fa\n\n\n\n;// CONCATENATED MODULE: ./app/db/index.js\n\n\n\n;// CONCATENATED MODULE: external "redis"\nconst external_redis_namespaceObject = require("redis");;\nvar external_redis_default = /*#__PURE__*/__webpack_require__.n(external_redis_namespaceObject);\n;// CONCATENATED MODULE: ./app/redis/redis.js\n\n\n\n\nclass RedisClass {\n  constructor(port, url, options = {}) {\n    this.port = port;\n    this.url = url;\n    this.options = options;\n  } //\u8fde\u63a5\n\n\n  createRedisClient() {\n    this.redisClient = external_redis_default().createClient(this.port, this.url, this.options);\n  } // \u8fde\u63a5\n\n\n  connect(callback = () => {}) {\n    return common_promise((resolve, reject) => {\n      this.redisClient.on(\'connect\', () => {\n        callback();\n        resolve();\n      });\n    });\n  }\n\n  ready(callback = () => {}) {\n    return common_promise((resolve, reject) => {\n      this.redisClient.on(\'ready\', (err, res) => {\n        if (err) {\n          callback(error);\n          reject(error);\n        } else {\n          resolve(res);\n        }\n      });\n    });\n  }\n\n  error(callback = () => {}) {\n    return common_promise((resolve, reject) => {\n      this.redisClient.on(\'error\', error => {\n        callback(error);\n        reject(error);\n      });\n    });\n  }\n\n  end(callback = () => {}) {\n    this.redisClient.on(\'end\', (err, res) => {\n      if (err) {\n        callback(error);\n        reject(error);\n      } else {\n        resolve(res);\n      }\n    });\n  }\n\n  set(key, value, callback = () => {}, options = () => {}) {\n    return common_promise((resolve, reject) => {\n      this.redisClient.set(key, value, (error, res) => {\n        if (error) {\n          callback(error);\n          reject(error);\n        } else {\n          let keys = Object.keys(options);\n          keys.forEach(_key => {\n            this.redisClient[_key](key, options[key]);\n          });\n          callback(res);\n          resolve(res);\n        }\n      });\n    });\n  }\n\n  get(key, callback = () => {}) {\n    return common_promise((resolve, reject) => {\n      this.redisClient.get(key, (error, res) => {\n        if (error) {\n          callback(error);\n          reject(error);\n        } else {\n          resolve(res);\n        }\n      });\n    });\n  }\n\n  del(key, callback = () => {}) {\n    return common_promise((resolve, reject) => {\n      this.redisClient.del(key, (error, res) => {\n        if (error) {\n          callback(error);\n          reject(error);\n        } else {\n          resolve(res);\n        }\n      });\n    });\n  }\n\n  init() {\n    this.createRedisClient();\n    return this;\n  }\n\n}\n\nconst redis_Redis = new RedisClass(config.REDIS_CONF.port, config.REDIS_CONF.host, config.REDIS_CONF.options);\nredis_Redis.init();\nconst redis_redisClient = redis_Redis.redisClient;\n/* harmony default export */ const redis = ((/* unused pure expression or super */ null && (RedisClass)));\n;// CONCATENATED MODULE: external "jwt-redis"\nconst external_jwt_redis_namespaceObject = require("jwt-redis");;\n;// CONCATENATED MODULE: external "jsonwebtoken"\nconst external_jsonwebtoken_namespaceObject = require("jsonwebtoken");;\nvar external_jsonwebtoken_default = /*#__PURE__*/__webpack_require__.n(external_jsonwebtoken_namespaceObject);\n;// CONCATENATED MODULE: ./app/redis/jwt.js\n\n\n\n // const jwtr = new JWTR(redisClient);\n// const { sign, verify, destroy } = jwtr;\n\nconst {\n  sign,\n  verify,\n  decode\n} = (external_jsonwebtoken_default()); // var secret = "secret";\n// var jti = "test";\n// var payload = { jti };\n// \u7528\u7528\u6237id\u9a8c\u8bc1token\n\nconst jwt_userIdCheckToken = userId => {\n  return common_promise((resolve, reject) => {\n    redis_redisClient.keys(`userid_${userId}_*`, (error, value) => {\n      if (error) {\n        reject(error);\n      } else {\n        resolve(value);\n      }\n    });\n  });\n}; //\u9a8c\u8bc1token\n\n\nconst jwt_checkToken = token => {\n  return promise((resolve, reject) => {\n    redisClient.keys(`userid_*_${token}`, (error, value) => {\n      if (error) {\n        reject(error);\n      } else {\n        resolve(value);\n      }\n    });\n  });\n};\n\nconst jwt_createToken = async (userInfo = {}, payload = {}) => {\n  const {\n    id = ""\n  } = userInfo; //  \u4ea7\u751ftoken\n\n  payload = common_merge({\n    ctime: Date.now() //\u521b\u5efa\u65f6\u95f4\n\n  }, payload); //\u521b\u5efatoken\n\n  const token = await sign(payload, `${id}`, {\n    expiresIn: 0\n  }); //\u83b7\u53d6\u7528\u6237token key\n\n  const userIdTokens = await jwt_userIdCheckToken(id);\n\n  if (userIdTokens && userIdTokens.length >= 1) {\n    // \u5220\u9664\u591a\u4f59\u7684key\u5b9e\u73b0\u5355\u70b9\u767b\u5f55\n    userIdTokens.forEach(async key => {\n      await redis_Redis.del(key);\n    });\n  } // \u91cd\u65b0\u8bbe\u7f6e redis \n\n\n  await redis_Redis.set(`userid_${id}_${token}`, JSON.stringify(userInfo));\n  return token;\n}; //\u9500\u6bc1token\n\n\nconst destroyToken = async tokenOrId => {\n  const userIdTokens = (await jwt_userIdCheckToken(tokenOrId)) || [];\n  const tokens = (await jwt_checkToken(tokenOrId)) || [];\n  merge(userIdTokens, tokens).forEach(async key => {\n    await Redis.del(key);\n  });\n  return "\u6210\u529f\u5220\u9664token";\n};\n\n\n;// CONCATENATED MODULE: ./app/redis/user.js\n\n\n // \u83b7\u53d6\u7528\u6237\u4fe1\u606f\n\nconst getUserIfo = async tokenOrId => {\n  const userIdTokens = (await userIdCheckToken(tokenOrId)) || [];\n  const tokens = (await checkToken(tokenOrId)) || [];\n  const data = await Redis.get(merge(userIdTokens, tokens)[0]);\n  return data;\n};\n\n\n;// CONCATENATED MODULE: ./app/redis/index.js\n\n\n\n\n;// CONCATENATED MODULE: external "graphql/type"\nconst type_namespaceObject = require("graphql/type");;\n;// CONCATENATED MODULE: external "graphql"\nconst external_graphql_namespaceObject = require("graphql");;\n;// CONCATENATED MODULE: external "http-errors"\nconst external_http_errors_namespaceObject = require("http-errors");;\n;// CONCATENATED MODULE: ./app/constant/httpCode.js\nconst graphqlError = {\n  code: 400,\n  msg: "\u8bf7\u6c42\u53c2\u6570\u6709\u8bef\uff0cgraphql\u8bed\u6cd5\u9519\u8bef"\n};\nconst httpCode_unsupported = {\n  //\u5bf9\u4e8e\u5f53\u524d\u8bf7\u6c42\u7684\u65b9\u6cd5\u548c\u6240\u8bf7\u6c42\u7684\u8d44\u6e90\uff0c\u8bf7\u6c42\u4e2d\u63d0\u4ea4\u7684\u5b9e\u4f53\u5e76\u4e0d\u662f\u670d\u52a1\u5668\u4e2d\u6240\u652f\u6301\u7684\u683c\u5f0f\uff0c\u56e0\u6b64\u8bf7\u6c42\u88ab\u62d2\u7edd\u3002\n  code: 415,\n  msg: "\u670d\u52a1\u5668\u5df2\u7ecf\u7406\u89e3\u8bf7\u6c42\uff0c\u4f46\u662f\u62d2\u7edd\u6267\u884c\u5b83"\n};\nconst httpCode_unauthorized = {\n  // \u5f53\u524d\u8bf7\u6c42\u9700\u8981\u7528\u6237\u9a8c\u8bc1. \u5982\u679c\u9a8c\u8bc1\u4e0d\u901a\u8fc7\u5219\u8fd4\u56de401\n  code: 401,\n  msg: "\u5f53\u524d\u8bf7\u6c42\u9700\u8981\u7528\u6237\u9a8c\u8bc1."\n};\n\n;// CONCATENATED MODULE: ./app/constant/index.js\n// \u6574\u4f53\u8f93\u51fa\n\n;// CONCATENATED MODULE: external "koa-router"\nconst external_koa_router_namespaceObject = require("koa-router");;\nvar external_koa_router_default = /*#__PURE__*/__webpack_require__.n(external_koa_router_namespaceObject);\n;// CONCATENATED MODULE: external "graphql-tools"\nconst external_graphql_tools_namespaceObject = require("graphql-tools");;\n;// CONCATENATED MODULE: ./app/service/user.js\n\n\n\n\n\n\nclass Service {\n  static list(page) {\n    console.log(\'page=\', page);\n    const dataList = {\n      list: [{\n        time: \'2019-7-10\',\n        id: 1,\n        title: \'this is news 1\',\n        url: \'/news/1\'\n      }, {\n        time: \'2019-8-10\',\n        id: 2,\n        title: \'this is news 2\',\n        url: \'/news/2\'\n      }]\n    };\n    return dataList.list[page] || {};\n  } //\u6ce8\u518c\u7528\u6237\n\n\n  static async add(ctx, next, parameter) {\n    const {\n      username: name,\n      phone,\n      password\n    } = parameter;\n    /*\n    1 \u67e5\u8be2\u7528\u6237\u540d\u662f\u5426\u88ab\u6ce8\u518c\u8fc7\uff0c\n    2 \u67e5\u8be2\u624b\u673a\u53f7\u7801\u662f\u5426\u88ab\u6ce8\u518c\u8fc7\n    3 \u5982\u679c\u90fd\u6ca1\u6709\u88ab\u6ce8\u518c\u90a3\u4e48\u5c31\u53ef\u4ee5\u6ce8\u518c\n    */\n\n    let userInfo = await this.queryUser({\n      name\n    });\n    userInfo = userInfo.length >= 1 ? userInfo[0] : null;\n\n    if (userInfo && userInfo.id) {\n      return {\n        status: 1\n      };\n    }\n\n    userInfo = await this.queryUser({\n      phone\n    });\n    userInfo = userInfo.length >= 1 ? userInfo[0] : null;\n\n    if (userInfo && userInfo.id) {\n      return {\n        status: 2\n      };\n    }\n\n    const data = await user_addUser({\n      name,\n      phone,\n      password\n    });\n\n    if (data) {\n      return {\n        status: 3\n      };\n    }\n  } // \u7f16\u8f91\u7528\u6237\n\n\n  static async edit(ctx, next, parameter) {} // \u6570\u636e\u5e93\u4e2d\u67e5\u8be2\u7528\u6237\n\n\n  static async queryUser(...ags) {\n    const userData = await user_queryUser(...ags);\n    return userData;\n  } // \u767b\u5f55\n\n\n  static async login(ctx, next, parameter = {}) {\n    const {\n      username: name,\n      phone,\n      password\n    } = parameter;\n    const {\n      request,\n      response,\n      cookies\n    } = ctx;\n    /*\n    1.\u5148\u67e5\u8be2\u7528\u6237\u540d\u662f\u5426\u6b63\u786e\uff0c\n    2.\u67e5\u8be2\u7528\u6237\u548c\u5bc6\u7801\u662f\u5426\u6b63\u786e\n    3.\u521b\u5efatoken,\u5b58\u50a8\u5230redis\u4e2d\n    4.\u628a\u7528\u6237\u4fe1\u606f\u6302\u8f7dresponse\u4e2d\n    */\n\n    let userInfo = await this.queryUser({\n      name\n    });\n    userInfo = userInfo.length >= 1 ? userInfo[0] : null;\n\n    if (!userInfo) {\n      return {\n        status: 1\n      };\n    }\n\n    userInfo = await this.queryUser({\n      password\n    });\n    userInfo = userInfo.length >= 1 ? userInfo[0] : null;\n\n    if (!userInfo) {\n      return {\n        status: 2\n      };\n    }\n\n    userInfo = await user_queryUser({\n      name,\n      password\n    });\n    userInfo = userInfo.length >= 1 ? userInfo[0] : null;\n    /*\n    \u521b\u5efa createToken  \n    */\n\n    const token = await jwt_createToken(userInfo);\n    delete userInfo.password;\n    ctx.response.userInfo = userInfo;\n    console.log(\'setExpirationTime=\', (0,config.setExpirationTime)()); // console.log(\'token=\', token);\n    // console.log(\'request=\', request);\n    // console.log(\'session=\', session);\n\n    console.log(\'cookies===\', cookies); // cookie.expires = false;\n    // cookie.maxAge = 5 * 60 * 1000;\n\n    cookies.set(\'token\', token, {\n      httpOnly: false,\n      overwrite: false // expires: setExpirationTime(),\n\n    });\n\n    if (userInfo) {\n      //\u767b\u5f55\u6210\u529f\n      return {\n        status: 3,\n        token,\n        userInfo\n      };\n    }\n  }\n\n}\n\n/* harmony default export */ const user = (Service);\n;// CONCATENATED MODULE: ./app/controller/user.js\n\n\n\n\nclass Controller {\n  static async add(ctx, next) {\n    // ctx.set("Content-Type", "application/json")\n    const parameter = ctx.request.body; // \u83b7\u53d6\u8bf7\u6c42\u53c2\u6570\n    //\u6dfb\u52a0service\n\n    const data = await user.add(ctx, next, parameter);\n\n    const getMessage = data => {\n      const {\n        status\n      } = data;\n      const message = {\n        1: () => common_merge(httpCode_unsupported, {\n          msg: "\u8be5\u7528\u6237\u540d\u5df2\u7ecf\u88ab\u6ce8\u518c\u8fc7,\u8bf7\u91cd\u65b0\u8f93\u5165\u7528\u6237\u540d"\n        }),\n        2: () => common_merge(httpCode_unsupported, {\n          msg: "\u8be5\u624b\u673a\u53f7\u7801\u5df2\u7ecf\u88ab\u6ce8\u518c\u8fc7,\u8bf7\u91cd\u65b0\u8f93\u5165\u624b\u673a\u53f7\u7801"\n        }),\n        3: () => ({\n          code: 200,\n          msg: "\u6ce8\u518c\u6210\u529f"\n        })\n      };\n      return message[status]();\n    };\n\n    ctx.response.body = getMessage(data);\n  }\n\n  static edit(ctx, next) {\n    ctx.set("Content-Type", "application/json");\n    var page = ctx.params.page; // \u83b7\u53d6\u8bf7\u6c42\u53c2\u6570\n    //\u6dfb\u52a0service\n    // const data = userService.list(page);\n    // ctx.response.body = "d";\n  }\n\n  static async login(ctx, next) {\n    // ctx.set("Content-Type", "application/json")\n    var parameter = ctx.request.body; // \u83b7\u53d6\u8bf7\u6c42\u53c2\u6570\n    //\u6dfb\u52a0service\n\n    const data = await user.login(ctx, next, parameter);\n\n    const getMessage = data => {\n      const {\n        status,\n        token,\n        userInfo\n      } = data;\n      const message = {\n        1: () => common_merge(httpCode_unauthorized, {\n          msg: "\u7528\u6237\u540d\u9519\u8bef\uff0c\u8bf7\u91cd\u65b0\u8f93\u5165\u7528\u6237\u540d"\n        }),\n        2: () => common_merge(httpCode_unauthorized, {\n          msg: "\u5bc6\u7801\u9519\u8bef\u8bf7\u91cd\u65b0\u8f93\u5165\u5bc6\u7801"\n        }),\n        3: () => ({\n          code: 200,\n          msg: "\u767b\u5f55\u6210\u529f",\n          data: {\n            token,\n            userInfo\n          }\n        })\n      };\n      return message[status]();\n    };\n\n    ctx.response.body = getMessage(data);\n  }\n\n}\n\n/* harmony default export */ const controller_user = (Controller);\n;// CONCATENATED MODULE: ./app/routes/user.js\n\n // koa \u8def\u7531\u4e2d\u95f4\u4ef6\n\nclass Route {\n  constructor(app, router) {\n    this.app = app;\n    this.router = router;\n    this.init();\n  }\n\n  createRouter() {\n    this.secondaryRoute = new (external_koa_router_default())({\n      prefix: "/user" // \u7ed9\u8def\u7531\u7edf\u4e00\u52a0\u4e2a\u524d\u7f00\uff1a\n\n    });\n    return this.secondaryRoute;\n  }\n\n  middleware() {// \u5904\u7406404\n    // this.app.use(\'/user\',function* (next) {\n    //     try {\n    //         yield* next;\n    //     } catch (e) {\n    //         this.status = 500;\n    //         this.body = \'500\';\n    //     }\n    //     if (parseInt(this.status) === 404) {\n    //         this.body = \'404\';\n    //     }\n    // });\n  } // \u6dfb\u52a0\u8def\u7531\n\n\n  addRouters() {\n    // \u6dfb\u52a0\u8def\u7531\n    this.registered();\n    this.login();\n    this.router.use(this.secondaryRoute.routes()); //\u6302\u8f7d\u4e8c\u7ea7\u8def\u7531\n  }\n\n  init() {\n    // \u521b\u5efa\u8def\u7531\n    this.createRouter(); // \u6dfb\u52a0\u4e2d\u95f4\u4ef6\n\n    this.middleware(); // \u6dfb\u52a0\u8def\u7531\n\n    this.addRouters();\n  }\n\n  registered() {\n    // \u6dfb\u52a0 \u63a5\u53e3\n    this.secondaryRoute.post("/register", controller_user.add);\n  }\n\n  login() {\n    // \u6dfb\u52a0 \u63a5\u53e3\n    this.secondaryRoute.post("/login", controller_user.login);\n  }\n\n}\n\n/* harmony default export */ const routes_user = (Route);\n;// CONCATENATED MODULE: external "koa-bodyparser"\nconst external_koa_bodyparser_namespaceObject = require("koa-bodyparser");;\nvar external_koa_bodyparser_default = /*#__PURE__*/__webpack_require__.n(external_koa_bodyparser_namespaceObject);\n;// CONCATENATED MODULE: external "koa2-cors"\nconst external_koa2_cors_namespaceObject = require("koa2-cors");;\nvar external_koa2_cors_default = /*#__PURE__*/__webpack_require__.n(external_koa2_cors_namespaceObject);\n;// CONCATENATED MODULE: external "koa-cookie"\nconst external_koa_cookie_namespaceObject = require("koa-cookie");;\n;// CONCATENATED MODULE: ./app/middleware/common.js\n\n\n\n\nconst common = (app, router) => {\n  // \u5904\u7406404\n  // app.use(function* (next) {\n  //     try {\n  //         yield* next;\n  //     } catch (e) {\n  //         this.status = 500;\n  //         this.body = \'500\';\n  //     }\n  //     if (parseInt(this.status) === 404) {\n  //         this.body = \'404\';\n  //     }\n  // });\n  //\u5904\u7406500\n  // router.get(\'/\', function* (next) {\n  //     throw new Error(\'500\');\n  // });\n  // \u6dfb\u52a0\u83b7\u53d6\u53c2\u6570\u4e2d\u95f4\u4ef6\n  app.use(external_koa_bodyparser_default()()); // \u6dfb\u52a0 cookie\n  // app.use(cookie());\n  // // \u6dfb\u52a0\u8de8\u57df\n  // app.use(async (ctx, next)=> {\n  //   console.log(ctx.request.headers)\n  // // // if( req.headers.origin.toLowerCase() == "http://www.zhangpeiyue.com"\n  // // //     || req.headers.origin.toLowerCase() =="http://127.0.0.1" ) {\n  // // //     //\u8bbe\u7f6e\u5141\u8bb8\u8de8\u57df\u7684\u57df\u540d\uff0c*\u4ee3\u8868\u5141\u8bb8\u4efb\u610f\u57df\u540d\u8de8\u57df\n  // // //     res.header("Access-Control-Allow-Origin", req.headers.origin);\n  // // // }\n  //     // ctx.set(\'Access-Control-Allow-Origin\', \'*\');\n  //      //\u8bbe\u7f6e\u5141\u8bb8\u8de8\u57df\u7684\u57df\u540d\uff0c*\u4ee3\u8868\u5141\u8bb8\u4efb\u610f\u57df\u540d\u8de8\u57df\n  //      ctx.set("Access-Control-Allow-Origin","*");\n  // //\u5141\u8bb8\u7684header\u7c7b\u578b\n  // ctx.set("Access-Control-Allow-Headers","content-type");\n  // //\u8de8\u57df\u5141\u8bb8\u7684\u8bf7\u6c42\u65b9\u5f0f \n  // ctx.set("Access-Control-Allow-Methods","DELETE,PUT,POST,GET,OPTIONS");\n  // //     ctx.set(\'Access-Control-Allow-Headers\', \'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild\');\n  // //     ctx.set(\'Access-Control-Allow-Methods\', \'PUT, POST, GET, DELETE, OPTIONS\');\n  //      await next();\n  // //     if (ctx.method == \'OPTIONS\') {\n  // //       ctx.body = 200; \n  // //     } else {\n  // //       await next();\n  // //     }\n  //   });\n  // \u8de8\u57df\n\n  app.use(external_koa2_cors_default()());\n};\n\n/* harmony default export */ const middleware_common = (common);\n;// CONCATENATED MODULE: ./app/middleware/index.js\n\n\n;// CONCATENATED MODULE: ./app/module/user/graphql/schema/resolvers/Mutation/index.js\nconst userAdd = () => {};\n;// CONCATENATED MODULE: ./app/module/user/graphql/schema/resolvers/Query/index.js\nconst userQuery = () => {};\n;// CONCATENATED MODULE: ./app/module/user/graphql/schema/resolvers/Subscription/index.js\nconst userTest = () => {};\n;// CONCATENATED MODULE: ./app/module/user/graphql/schema/resolvers/index.js\n\n\n //\u4f1a\u5458\u6a21\u5757\n\n\n;// CONCATENATED MODULE: ./app/module/user/graphql/schema/typeDefs/typeDefs.js\nconst hello = `\ntype Query {\n  hello: String\n}\n`;\n\n;// CONCATENATED MODULE: ./app/module/user/graphql/schema/typeDefs/index.js\n\n\n;// CONCATENATED MODULE: ./app/module/user/graphql/schema/index.js\n\n //\u4f1a\u5458\u6a21\u5757\n\n/* harmony default export */ const schema = ({\n  resolvers: resolvers_namespaceObject,\n  typeDefs: schema_typeDefs_namespaceObject\n});\n;// CONCATENATED MODULE: ./app/module/user/config/db.js\nconst env = "production"; // \u73af\u5883\u53c2\u6570\n\nlet db_MYSQL_CONF = null;\n\nif (env === \'development\') {\n  db_MYSQL_CONF = {\n    host: \'127.0.0.1\',\n    user: \'root\',\n    password: \'123456\',\n    port: \'3306\',\n    database: \'admin\',\n    // charset:\'utf8mb4\',   //\u5b57\u7b26\u96c6\u4e00\u5b9a\u8981\u5199\uff0c\u5426\u5219\u8868\u60c5\u5305\u5b58\u50a8\u4e0d\u4e86\n    multipleStatements: true // \u662f\u5426\u8bb8\u4e00\u4e2aquery\u4e2d\u6709\u591a\u4e2aMySQL\u8bed\u53e5 \uff08\u9ed8\u8ba4\uff1afalse\uff09\n\n  };\n}\n\nif (env === \'production\') {\n  db_MYSQL_CONF = {\n    host: \'127.0.0.1\',\n    user: \'root\',\n    password: \'123456\',\n    port: \'3306\',\n    database: \'admin\',\n    charset: \'utf8mb4\',\n    //\u5b57\u7b26\u96c6\u4e00\u5b9a\u8981\u5199\uff0c\u5426\u5219\u8868\u60c5\u5305\u5b58\u50a8\u4e0d\u4e86\n    multipleStatements: true // \u662f\u5426\u8bb8\u4e00\u4e2aquery\u4e2d\u6709\u591a\u4e2aMySQL\u8bed\u53e5 \uff08\u9ed8\u8ba4\uff1afalse\uff09\n\n  };\n}\n\n\n// EXTERNAL MODULE: ./app/module/user/config/redis.js\nvar config_redis = __webpack_require__(396);\n;// CONCATENATED MODULE: ./app/module/user/config/index.js\n\n\n\n // export const MYSQL_CONF={\n//     name:123\n// }\n;// CONCATENATED MODULE: ./app/module/user/db/mysql.js\n\n // \u521b\u5efa\u94fe\u63a5\u5bf9\u8c61\n\nconst mysql_connection = external_mysql_default().createConnection(db_MYSQL_CONF); // \u7edf\u4e00\u6267\u884c sql \u7684\u51fd\u6570\n\nconst db_mysql_exec = async sql => {\n  return await new Promise((resolve, reject) => {\n    console.log(\'sql=\', sql);\n    mysql_connection.query(sql, (err, result) => {\n      if (err) {\n        reject(err);\n        return;\n      }\n\n      resolve(result);\n    });\n  });\n};\n\n\n;// CONCATENATED MODULE: ./app/module/user/db/user.js\n // \u6dfb\u52a0\u7528\u6237\n\nconst db_user_addUser = async ({\n  name,\n  phone,\n  password\n}) => {\n  const sql = `insert into user(name,phone,password) values(\'${name}\',\'${phone}\',md5(\'${password}\'));`;\n  return await exec(sql);\n}; //\u67e5\u8be2\u7528\u6237\n\n\nconst db_user_queryUser = async (andConditionData = {}, orConditionData = {}, sql) => {\n  const andKeys = Object.keys(andConditionData);\n  const orKeys = Object.keys(orConditionData);\n\n  if (sql) {\n    return await exec(sql);\n  }\n\n  sql = `select * from user where `;\n  andKeys.forEach(key => {\n    sql += key == "password" ? ` ${key}=md5(\'${andConditionData[key]}\') and` : ` ${key}=\'${andConditionData[key]}\' and`;\n  });\n  orKeys.forEach(key => {\n    sql += key == "password" ? ` ${key}=md5(\'${orConditionData[key]}\') or` : ` ${key}=\'${orConditionData[key]}\' or`;\n  });\n  sql = andKeys.length >= 1 && orKeys.length == 0 ? sql.substring(0, sql.length - 3) : orKeys.length >= 1 ? sql.substring(0, sql.length - 2) : sql;\n  return await exec(sql);\n}; //\u5220\u9664\u7528\u6237\n\n\nconst user_deleteUser = async id => {\n  const sql = `DELETE  FROM user  WHERE id=${id};`;\n  return await exec(sql);\n}; // \u5bfc\u51fa\n\n\n\n;// CONCATENATED MODULE: ./app/module/user/constant/httpCode.js\nconst httpCode_graphqlError = {\n  code: 400,\n  msg: "\u8bf7\u6c42\u53c2\u6570\u6709\u8bef\uff0cgraphql\u8bed\u6cd5\u9519\u8bef"\n};\nconst constant_httpCode_unsupported = {\n  //\u5bf9\u4e8e\u5f53\u524d\u8bf7\u6c42\u7684\u65b9\u6cd5\u548c\u6240\u8bf7\u6c42\u7684\u8d44\u6e90\uff0c\u8bf7\u6c42\u4e2d\u63d0\u4ea4\u7684\u5b9e\u4f53\u5e76\u4e0d\u662f\u670d\u52a1\u5668\u4e2d\u6240\u652f\u6301\u7684\u683c\u5f0f\uff0c\u56e0\u6b64\u8bf7\u6c42\u88ab\u62d2\u7edd\u3002\n  code: 415,\n  msg: "\u670d\u52a1\u5668\u5df2\u7ecf\u7406\u89e3\u8bf7\u6c42\uff0c\u4f46\u662f\u62d2\u7edd\u6267\u884c\u5b83"\n};\nconst constant_httpCode_unauthorized = {\n  // \u5f53\u524d\u8bf7\u6c42\u9700\u8981\u7528\u6237\u9a8c\u8bc1. \u5982\u679c\u9a8c\u8bc1\u4e0d\u901a\u8fc7\u5219\u8fd4\u56de401\n  code: 401,\n  msg: "\u5f53\u524d\u8bf7\u6c42\u9700\u8981\u7528\u6237\u9a8c\u8bc1."\n};\n\n;// CONCATENATED MODULE: ./app/module/user/constant/index.js\n// \u6574\u4f53\u8f93\u51fa\n\n;// CONCATENATED MODULE: ./app/module/user/utils/common.js\nconst utils_common_promise = (fn = () => {}) => {\n  return new Promise((resolve, reject) => {\n    fn(resolve, reject);\n  });\n};\n\nconst utils_common_merge = Object.assign || function (target) {\n  for (var i = 1; i < arguments.length; i++) {\n    var source = arguments[i];\n\n    for (var key in source) {\n      if (Object.prototype.hasOwnProperty.call(source, key)) {\n        target[key] = source[key];\n      }\n    }\n  }\n\n  return target;\n};\n\n\n;// CONCATENATED MODULE: ./app/module/user/utils/index.js\n // export * from "./jwt";\n\n\n;// CONCATENATED MODULE: ./app/module/user/redis/redis.js\n\n\n\n\nclass redis_RedisClass {\n  constructor(port, url, options = {}) {\n    this.port = port;\n    this.url = url;\n    this.options = options;\n  } //\u8fde\u63a5\n\n\n  createRedisClient() {\n    this.redisClient = external_redis_default().createClient(this.port, this.url, this.options);\n  } // \u8fde\u63a5\n\n\n  connect(callback = () => {}) {\n    return utils_common_promise((resolve, reject) => {\n      this.redisClient.on(\'connect\', () => {\n        callback();\n        resolve();\n      });\n    });\n  }\n\n  ready(callback = () => {}) {\n    return utils_common_promise((resolve, reject) => {\n      this.redisClient.on(\'ready\', (err, res) => {\n        if (err) {\n          callback(error);\n          reject(error);\n        } else {\n          resolve(res);\n        }\n      });\n    });\n  }\n\n  error(callback = () => {}) {\n    return utils_common_promise((resolve, reject) => {\n      this.redisClient.on(\'error\', error => {\n        callback(error);\n        reject(error);\n      });\n    });\n  }\n\n  end(callback = () => {}) {\n    this.redisClient.on(\'end\', (err, res) => {\n      if (err) {\n        callback(error);\n        reject(error);\n      } else {\n        resolve(res);\n      }\n    });\n  }\n\n  set(key, value, callback = () => {}, options = () => {}) {\n    return utils_common_promise((resolve, reject) => {\n      this.redisClient.set(key, value, (error, res) => {\n        if (error) {\n          callback(error);\n          reject(error);\n        } else {\n          let keys = Object.keys(options);\n          keys.forEach(_key => {\n            this.redisClient[_key](key, options[key]);\n          });\n          callback(res);\n          resolve(res);\n        }\n      });\n    });\n  }\n\n  get(key, callback = () => {}) {\n    return utils_common_promise((resolve, reject) => {\n      this.redisClient.get(key, (error, res) => {\n        if (error) {\n          callback(error);\n          reject(error);\n        } else {\n          resolve(res);\n        }\n      });\n    });\n  }\n\n  del(key, callback = () => {}) {\n    return utils_common_promise((resolve, reject) => {\n      this.redisClient.del(key, (error, res) => {\n        if (error) {\n          callback(error);\n          reject(error);\n        } else {\n          resolve(res);\n        }\n      });\n    });\n  }\n\n  init() {\n    this.createRedisClient();\n    return this;\n  }\n\n}\n\nconst redis_redis_Redis = new redis_RedisClass(config_redis.REDIS_CONF.port, config_redis.REDIS_CONF.host, config_redis.REDIS_CONF.options);\nredis_redis_Redis.init();\nconst redis_redis_redisClient = redis_redis_Redis.redisClient;\n/* harmony default export */ const redis_redis = ((/* unused pure expression or super */ null && (redis_RedisClass)));\n;// CONCATENATED MODULE: ./app/module/user/redis/jwt.js\n\n\n\n // const jwtr = new JWTR(redisClient);\n// const { sign, verify, destroy } = jwtr;\n\nconst {\n  sign: jwt_sign,\n  verify: jwt_verify,\n  decode: jwt_decode\n} = (external_jsonwebtoken_default()); // var secret = "secret";\n// var jti = "test";\n// var payload = { jti };\n// \u7528\u7528\u6237id\u9a8c\u8bc1token\n\nconst redis_jwt_userIdCheckToken = userId => {\n  return promise((resolve, reject) => {\n    redisClient.keys(`userid_${userId}_*`, (error, value) => {\n      if (error) {\n        reject(error);\n      } else {\n        resolve(value);\n      }\n    });\n  });\n}; //\u9a8c\u8bc1token\n\n\nconst redis_jwt_checkToken = token => {\n  return promise((resolve, reject) => {\n    redisClient.keys(`userid_*_${token}`, (error, value) => {\n      if (error) {\n        reject(error);\n      } else {\n        resolve(value);\n      }\n    });\n  });\n};\n\nconst redis_jwt_createToken = async (userInfo = {}, payload = {}) => {\n  const {\n    id = ""\n  } = userInfo; //  \u4ea7\u751ftoken\n\n  payload = merge({\n    ctime: Date.now() //\u521b\u5efa\u65f6\u95f4\n\n  }, payload); //\u521b\u5efatoken\n\n  const token = await jwt_sign(payload, `${id}`, {\n    expiresIn: 0\n  }); //\u83b7\u53d6\u7528\u6237token key\n\n  const userIdTokens = await redis_jwt_userIdCheckToken(id);\n\n  if (userIdTokens && userIdTokens.length >= 1) {\n    // \u5220\u9664\u591a\u4f59\u7684key\u5b9e\u73b0\u5355\u70b9\u767b\u5f55\n    userIdTokens.forEach(async key => {\n      await Redis.del(key);\n    });\n  } // \u91cd\u65b0\u8bbe\u7f6e redis \n\n\n  await Redis.set(`userid_${id}_${token}`, JSON.stringify(userInfo));\n  return token;\n}; //\u9500\u6bc1token\n\n\nconst jwt_destroyToken = async tokenOrId => {\n  const userIdTokens = (await redis_jwt_userIdCheckToken(tokenOrId)) || [];\n  const tokens = (await redis_jwt_checkToken(tokenOrId)) || [];\n  merge(userIdTokens, tokens).forEach(async key => {\n    await Redis.del(key);\n  });\n  return "\u6210\u529f\u5220\u9664token";\n};\n\n\n;// CONCATENATED MODULE: ./app/module/user/redis/user.js\n\n\n // \u83b7\u53d6\u7528\u6237\u4fe1\u606f\n\nconst user_getUserIfo = async tokenOrId => {\n  const userIdTokens = (await userIdCheckToken(tokenOrId)) || [];\n  const tokens = (await checkToken(tokenOrId)) || [];\n  const data = await Redis.get(merge(userIdTokens, tokens)[0]);\n  return data;\n};\n\n\n;// CONCATENATED MODULE: ./app/module/user/redis/index.js\n\n\n\n\n;// CONCATENATED MODULE: ./app/module/user/service/index.js\n\n\n\n\n\n\nclass service_Service {\n  static list(page) {\n    console.log(\'page=\', page);\n    const dataList = {\n      list: [{\n        time: \'2019-7-10\',\n        id: 1,\n        title: \'this is news 1\',\n        url: \'/news/1\'\n      }, {\n        time: \'2019-8-10\',\n        id: 2,\n        title: \'this is news 2\',\n        url: \'/news/2\'\n      }]\n    };\n    return dataList.list[page] || {};\n  } //\u6ce8\u518c\u7528\u6237\n\n\n  static async add(ctx, next, parameter) {\n    const {\n      username: name,\n      phone,\n      password\n    } = parameter;\n    /*\n    1 \u67e5\u8be2\u7528\u6237\u540d\u662f\u5426\u88ab\u6ce8\u518c\u8fc7\uff0c\n    2 \u67e5\u8be2\u624b\u673a\u53f7\u7801\u662f\u5426\u88ab\u6ce8\u518c\u8fc7\n    3 \u5982\u679c\u90fd\u6ca1\u6709\u88ab\u6ce8\u518c\u90a3\u4e48\u5c31\u53ef\u4ee5\u6ce8\u518c\n    */\n\n    let userInfo = await this.queryUser({\n      name\n    });\n    userInfo = userInfo.length >= 1 ? userInfo[0] : null;\n\n    if (userInfo && userInfo.id) {\n      return {\n        status: 1\n      };\n    }\n\n    userInfo = await this.queryUser({\n      phone\n    });\n    userInfo = userInfo.length >= 1 ? userInfo[0] : null;\n\n    if (userInfo && userInfo.id) {\n      return {\n        status: 2\n      };\n    }\n\n    const data = await addUser({\n      name,\n      phone,\n      password\n    });\n\n    if (data) {\n      return {\n        status: 3\n      };\n    }\n  } // \u7f16\u8f91\u7528\u6237\n\n\n  static async edit(ctx, next, parameter) {} // \u6570\u636e\u5e93\u4e2d\u67e5\u8be2\u7528\u6237\n\n\n  static async queryUser(...ags) {\n    const userData = await queryUser(...ags);\n    return userData;\n  } // \u767b\u5f55\n\n\n  static async login(ctx, next, parameter = {}) {\n    const {\n      username: name,\n      phone,\n      password\n    } = parameter;\n    const {\n      request,\n      response,\n      cookies\n    } = ctx;\n    /*\n    1.\u5148\u67e5\u8be2\u7528\u6237\u540d\u662f\u5426\u6b63\u786e\uff0c\n    2.\u67e5\u8be2\u7528\u6237\u548c\u5bc6\u7801\u662f\u5426\u6b63\u786e\n    3.\u521b\u5efatoken,\u5b58\u50a8\u5230redis\u4e2d\n    4.\u628a\u7528\u6237\u4fe1\u606f\u6302\u8f7dresponse\u4e2d\n    */\n\n    let userInfo = await this.queryUser({\n      name\n    });\n    userInfo = userInfo.length >= 1 ? userInfo[0] : null;\n\n    if (!userInfo) {\n      return {\n        status: 1\n      };\n    }\n\n    userInfo = await this.queryUser({\n      password\n    });\n    userInfo = userInfo.length >= 1 ? userInfo[0] : null;\n\n    if (!userInfo) {\n      return {\n        status: 2\n      };\n    }\n\n    userInfo = await queryUser({\n      name,\n      password\n    });\n    userInfo = userInfo.length >= 1 ? userInfo[0] : null;\n    /*\n    \u521b\u5efa createToken  \n    */\n\n    const token = await createToken(userInfo);\n    delete userInfo.password;\n    ctx.response.userInfo = userInfo;\n    console.log(\'setExpirationTime=\', setExpirationTime()); // console.log(\'token=\', token);\n    // console.log(\'request=\', request);\n    // console.log(\'session=\', session);\n\n    console.log(\'cookies===\', cookies); // cookie.expires = false;\n    // cookie.maxAge = 5 * 60 * 1000;\n\n    cookies.set(\'token\', token, {\n      httpOnly: false,\n      overwrite: false // expires: setExpirationTime(),\n\n    });\n\n    if (userInfo) {\n      //\u767b\u5f55\u6210\u529f\n      return {\n        status: 3,\n        token,\n        userInfo\n      };\n    }\n  }\n\n}\n\n/* harmony default export */ const service = ({}); // Service;\n;// CONCATENATED MODULE: ./app/module/user/controller/index.js\n\n\n\n\nclass controller_Controller {\n  static async add(ctx, next) {\n    // ctx.set("Content-Type", "application/json")\n    const parameter = ctx.request.body; // \u83b7\u53d6\u8bf7\u6c42\u53c2\u6570\n    //\u6dfb\u52a0service\n\n    const data = await userService.add(ctx, next, parameter);\n\n    const getMessage = data => {\n      const {\n        status\n      } = data;\n      const message = {\n        1: () => merge(unsupported, {\n          msg: "\u8be5\u7528\u6237\u540d\u5df2\u7ecf\u88ab\u6ce8\u518c\u8fc7,\u8bf7\u91cd\u65b0\u8f93\u5165\u7528\u6237\u540d"\n        }),\n        2: () => merge(unsupported, {\n          msg: "\u8be5\u624b\u673a\u53f7\u7801\u5df2\u7ecf\u88ab\u6ce8\u518c\u8fc7,\u8bf7\u91cd\u65b0\u8f93\u5165\u624b\u673a\u53f7\u7801"\n        }),\n        3: () => ({\n          code: 200,\n          msg: "\u6ce8\u518c\u6210\u529f"\n        })\n      };\n      return message[status]();\n    };\n\n    ctx.response.body = getMessage(data);\n  }\n\n  static edit(ctx, next) {\n    ctx.set("Content-Type", "application/json");\n    var page = ctx.params.page; // \u83b7\u53d6\u8bf7\u6c42\u53c2\u6570\n    //\u6dfb\u52a0service\n    // const data = userService.list(page);\n    // ctx.response.body = "d";\n  }\n\n  static async login(ctx, next) {\n    // ctx.set("Content-Type", "application/json")\n    var parameter = ctx.request.body; // \u83b7\u53d6\u8bf7\u6c42\u53c2\u6570\n    //\u6dfb\u52a0service\n\n    const data = await userService.login(ctx, next, parameter);\n\n    const getMessage = data => {\n      const {\n        status,\n        token,\n        userInfo\n      } = data;\n      const message = {\n        1: () => merge(unauthorized, {\n          msg: "\u7528\u6237\u540d\u9519\u8bef\uff0c\u8bf7\u91cd\u65b0\u8f93\u5165\u7528\u6237\u540d"\n        }),\n        2: () => merge(unauthorized, {\n          msg: "\u5bc6\u7801\u9519\u8bef\u8bf7\u91cd\u65b0\u8f93\u5165\u5bc6\u7801"\n        }),\n        3: () => ({\n          code: 200,\n          msg: "\u767b\u5f55\u6210\u529f",\n          data: {\n            token,\n            userInfo\n          }\n        })\n      };\n      return message[status]();\n    };\n\n    ctx.response.body = getMessage(data);\n  }\n\n}\n\n/* harmony default export */ const controller = ((/* unused pure expression or super */ null && (controller_Controller)));\n;// CONCATENATED MODULE: ./app/module/user/router/index.js\n\n // koa \u8def\u7531\u4e2d\u95f4\u4ef6\n\nclass router {\n  constructor(app, rootRouter) {\n    this.app = app;\n    this.router = rootRouter;\n    this.init();\n  }\n\n  createRouter() {\n    this.secondaryRoute = new (external_koa_router_default())({\n      prefix: "/user" // \u7ed9\u8def\u7531\u7edf\u4e00\u52a0\u4e2a\u524d\u7f00\uff1a\n\n    });\n    return this.secondaryRoute;\n  }\n\n  middleware() {// \u5904\u7406404\n    // this.app.use(\'/user\',function* (next) {\n    //     try {\n    //         yield* next;\n    //     } catch (e) {\n    //         this.status = 500;\n    //         this.body = \'500\';\n    //     }\n    //     if (parseInt(this.status) === 404) {\n    //         this.body = \'404\';\n    //     }\n    // });\n  } // \u6dfb\u52a0\u8def\u7531\n\n\n  addRouters() {\n    // \u6dfb\u52a0\u8def\u7531\n    this.registered();\n    this.login();\n    this.router.use(this.secondaryRoute.routes()); //\u6302\u8f7d\u4e8c\u7ea7\u8def\u7531\n  }\n\n  init() {\n    // \u521b\u5efa\u8def\u7531\n    this.createRouter(); // \u6dfb\u52a0\u4e2d\u95f4\u4ef6\n\n    this.middleware(); // \u6dfb\u52a0\u8def\u7531\n\n    this.addRouters();\n  }\n\n  registered() {// \u6dfb\u52a0 \u63a5\u53e3\n    // this.secondaryRoute.post("/register", controller.add);\n  }\n\n  login() {// \u6dfb\u52a0 \u63a5\u53e3\n    // this.secondaryRoute.post("/login", controller.login);\n  }\n\n}\n\n/* harmony default export */ const user_router = (router);\n;// CONCATENATED MODULE: ./app/module/user/index.js\n\n\n/* harmony default export */ const module_user = ({\n  schema: schema,\n  router: user_router\n});\n;// CONCATENATED MODULE: ./app/module/index.js\n// \u4e0d\u652f\u6301 import { default as user } from "./user"; \u5bfc\u51fa\n\n\n;// CONCATENATED MODULE: ./app/routes/index.js\n\n // import schema from \'../graphql/schema\';\n\n\n\n\n\n // import Home from "./home";\n\n\n // import { user } from "../graphql/schema"; \n// import  userResolvers,  * as userSchema  from \'../graphql/schema/user/index.js\';\n\n\nconsole.log(\'module========\', module_user); // console.log(\'userResolvers===\',userResolvers)\n// console.log(\'userSchema===\',userSchema)\n//  Construct a schema, using GraphQL schema language\n\nconst typeDefs = `\n  type Query {\n    hello: String\n  }\n`; // Provide resolver functions for your schema fields\n\nconst resolvers = {\n  Query: {\n    hello: () => "Hello world!"\n  }\n};\n\nclass routes_Route {\n  constructor(app) {\n    this.app = app; // this.router = router;\n\n    this.init();\n  }\n\n  createRouter() {\n    this.router = new (external_koa_router_default())({\n      prefix: "/api" // \u7ed9\u8def\u7531\u7edf\u4e00\u52a0\u4e2a\u524d\u7f00\uff1a\n\n    });\n  } // \u6dfb\u52a0\u4e2d\u95f4\u4ef6\n\n\n  middleware() {\n    // this.app.use(\n    //   webpackDevMiddleware(compiler, {\n    //     publicPath: config.output.publicPath,\n    //   })\n    // );\n    // \u6dfb\u52a0 404 500 \u4e2d\u95f4\u4ef6\n    middleware_common(this.app, this.router);\n  }\n\n  checkToken() {\n    this.router.use(async (ctx, next) => {\n      // console.log(\'ctx.request==\',ctx.request.header)\n      const {\n        request: {\n          header\n        },\n        cookies\n      } = ctx;\n      let token = cookies.get("token") || header.token;\n      console.log("token=", token); //   ctx.cookies.set(\'cid\',\'comedy\',{\n      //     domain:\'localhost\',     //\u5199cookie\u6240\u5728\u7684\u57df\u540d\n      //     path:\'/index\',          //\u5199cookie\u6240\u5728\u7684\u8def\u5f84\n      //     maxAge:60*1000,         //\u5199cookie\u6709\u6548\u65f6\u957f\n      //     expires:7,\n      //     httpOnly:false,\n      //     overwrite:false\n      // })\n      // ctx.body = \'cookie is ok\'\n\n      console.log("\u4e2d\u95f4\u952e1\u5f00\u59cb");\n      await next();\n      console.log("\u4e2d\u95f4\u952e1\u7ed3\u675f");\n    });\n  } // \u6dfb\u52a0\u8def\u7531\n\n\n  addRouters() {\n    new routes_user(this.app, this.router); // new Home(this.app,router);\n\n    console.log("checkToken====");\n    this.checkToken(); // \u67e5\u8be2\n\n    this.router.get("/data", async (ctx, next) => {\n      const {\n        query: {\n          query = "",\n          variables = {}\n        },\n        response,\n        request\n      } = ctx;\n      const {\n        body: {// mutation = \'\', variables = {}\n        }\n      } = request; // const { query = \'\', variables = {} } = ctx.query;\n      // const { response } = ctx;\n      // console.log(\'schema==\',schema)\n\n      console.log("query==", query);\n      console.log("variables==", variables);\n      console.log("token=====", ctx.cookies.get("token")); // ctx.response.body = {\n      //   name:\'123\'\n      // }\n\n      const baseSchema = `\n                    schema {\n                        query: Query\n                        mutation: Mutation\n                    }\n              `;\n      const schema = (0,external_graphql_tools_namespaceObject.makeExecutableSchema)({\n        typeDefs: [// baseSchema,\n        typeDefs //   baseSchema,\n        //   userType,\n        //   songType,\n        //   playlistType\n        ],\n        resolvers: resolvers //  merge(\n        //   {},\n        //   userResolvers,\n        //   songResolvers,\n        //   playlistResolvers\n        // )\n\n      });\n      await (0,external_graphql_namespaceObject.graphql)(schema, query, {\n        ctx,\n        next\n      }, variables).then(data => {\n        const {\n          errors\n        } = data;\n        console.log("data=", data);\n        console.log("stringify data=", JSON.stringify(data));\n\n        if (errors) {\n          response.body = common_merge(graphqlError, {\n            errors\n          });\n        } else {\n          console.log("get==", data); // ctx.response.body = {\n          //   name:\'123\'\n          // }\n\n          response.body = data; // JSON.stringify(data);\n        }\n      }).catch(error => {\n        console.log("error==", error);\n      });\n    }); // //\u53d8\u5f02\n    // this.router.post(\'/data\', async (ctx, next) => {\n    //     const {\n    //         // query: { query = \'\', variables = {} },\n    //         response,\n    //         request,\n    //     } = ctx;\n    //     const {\n    //         body: { mutation = \'\', variables = {} },\n    //     } = request;\n    //     await graphql(schema, mutation, { ctx, next }, variables)\n    //         .then((data) => {\n    //             const { errors } = data;\n    //             if (errors) {\n    //                 response.body = merge(graphqlError, {\n    //                     errors,\n    //                 });\n    //             } else {\n    //                 console.log(\'post==\', data);\n    //                 response.body = data;\n    //             }\n    //         })\n    //         .catch((error) => {\n    //             console.log(\'error==\', error);\n    //         });\n    // });\n    //  const server = new ApolloServer({ typeDefs, resolvers });\n    //  this.router.get(\'/data\',server.getMiddleware())\n    // \u6302\u8f7d\u8def\u7531\u4e2d\u95f4\u4ef6\n\n    this.app.use(this.router.routes()).use(this.router.allowedMethods()); // this.app.use(this.router.routes()).use(this.router.allowedMethods());\n  }\n\n  init() {\n    // \u6dfb\u52a0\u4e2d\u95f4\u4ef6\n    this.middleware(); //\u521b\u5efa\u8def\u7531\n\n    this.createRouter(); // \u6dfb\u52a0\u8def\u7531\n\n    this.addRouters();\n  }\n\n}\n\n/* harmony default export */ const routes = (routes_Route);\n;// CONCATENATED MODULE: external "kill-port"\nconst external_kill_port_namespaceObject = require("kill-port");;\n;// CONCATENATED MODULE: ./app/index.js\n\n\n\n\n\n\n\n\nconsole.log(3111123231111123123233112323223123);\n\nclass App {\n  constructor() {\n    this.app = new (external_koa_default())();\n    this.init();\n  }\n\n  async init() {\n    // redis\u94fe\u63a5\n    await this.connectRedis(); // \u6570\u636e\u5e93\u8fde\u63a5\n\n    await this.connectSql(); //\u52a0\u8f7d\u8def\u7531\n\n    this.addRoute(); // \u8bbe\u7f6e\u76d1\u542c\u7aef\u53e3\n\n    this.listen();\n  }\n\n  async connectRedis() {\n    await common_promise((reslove, reject) => {\n      redis_Redis.connect(() => {\n        console.log("Redis \u94fe\u63a5\u6210\u529f");\n        reslove();\n      });\n      redis_Redis.error(() => {\n        console.log("Redis \u94fe\u63a5\u9519\u8bef");\n        reject();\n      });\n    });\n  }\n\n  async connectSql() {\n    await common_promise((reslove, reject) => {\n      connection.connect(err => {\n        if (err) {\n          console.log("\u6570\u636e\u5e93\u8fde\u5931\u8d25");\n          reject();\n          throw err;\n        }\n\n        new CheckTable();\n        console.log("mysql\u6570\u636e\u5e93\u8fde\u63a5\u6210\u529f");\n        reslove();\n      });\n    });\n  }\n\n  addRoute() {\n    // \u5bfc\u5165\u8def\u7531\n    new routes(this.app);\n  }\n\n  listen() {\n    // try {\n    //   kill(port, "tcp");\n    // } catch (e) {}\n    this.server = this.app.listen(config.port, () => {\n      console.log(`\u670d\u52a1\u5668\u542f\u52a8\u6210\u529f:http://localhost:${config.port}/`);\n    });\n    this.server.setTimeout(5 * 60 * 1000);\n  }\n\n}\n\n/* harmony default export */ const app = (new App());\n\n//# sourceURL=webpack://server/./app/index.js_+_57_modules?')},396:module=>{eval("const env = \"production\"; // \u73af\u5883\u53c2\u6570\n\nlet REDIS_CONF = null;\n\nif (env === 'development') {\n  REDIS_CONF = {\n    host: '127.0.0.1',\n    //\u5730\u5740\n    port: '6378',\n    // \u7aef\u53e3\n    options: {\n      auth_pass: 123456 // \u5bc6\u7801\n\n    }\n  };\n}\n\nif (env === 'production') {\n  REDIS_CONF = {\n    host: '127.0.0.1',\n    port: '6378',\n    options: {\n      auth_pass: 123456\n    }\n  };\n}\n\nmodule.exports = {\n  REDIS_CONF\n};\n\n//# sourceURL=webpack://server/./app/module/user/config/redis.js?")},374:(module,__unused_webpack_exports,__webpack_require__)=>{eval('/*\n\tMIT License http://www.opensource.org/licenses/mit-license.php\n\tAuthor Tobias Koppers @sokra\n*/\nmodule.exports = function (updatedModules, renewedModules) {\n\tvar unacceptedModules = updatedModules.filter(function (moduleId) {\n\t\treturn renewedModules && renewedModules.indexOf(moduleId) < 0;\n\t});\n\tvar log = __webpack_require__(919);\n\n\tif (unacceptedModules.length > 0) {\n\t\tlog(\n\t\t\t"warning",\n\t\t\t"[HMR] The following modules couldn\'t be hot updated: (They would need a full reload!)"\n\t\t);\n\t\tunacceptedModules.forEach(function (moduleId) {\n\t\t\tlog("warning", "[HMR]  - " + moduleId);\n\t\t});\n\t}\n\n\tif (!renewedModules || renewedModules.length === 0) {\n\t\tlog("info", "[HMR] Nothing hot updated.");\n\t} else {\n\t\tlog("info", "[HMR] Updated modules:");\n\t\trenewedModules.forEach(function (moduleId) {\n\t\t\tif (typeof moduleId === "string" && moduleId.indexOf("!") !== -1) {\n\t\t\t\tvar parts = moduleId.split("!");\n\t\t\t\tlog.groupCollapsed("info", "[HMR]  - " + parts.pop());\n\t\t\t\tlog("info", "[HMR]  - " + moduleId);\n\t\t\t\tlog.groupEnd("info");\n\t\t\t} else {\n\t\t\t\tlog("info", "[HMR]  - " + moduleId);\n\t\t\t}\n\t\t});\n\t\tvar numberIds = renewedModules.every(function (moduleId) {\n\t\t\treturn typeof moduleId === "number";\n\t\t});\n\t\tif (numberIds)\n\t\t\tlog(\n\t\t\t\t"info",\n\t\t\t\t\'[HMR] Consider using the optimization.moduleIds: "named" for module names.\'\n\t\t\t);\n\t}\n};\n\n\n//# sourceURL=webpack://server/./node_modules/webpack/hot/log-apply-result.js?')},919:module=>{eval('var logLevel = "info";\n\nfunction dummy() {}\n\nfunction shouldLog(level) {\n\tvar shouldLog =\n\t\t(logLevel === "info" && level === "info") ||\n\t\t(["info", "warning"].indexOf(logLevel) >= 0 && level === "warning") ||\n\t\t(["info", "warning", "error"].indexOf(logLevel) >= 0 && level === "error");\n\treturn shouldLog;\n}\n\nfunction logGroup(logFn) {\n\treturn function (level, msg) {\n\t\tif (shouldLog(level)) {\n\t\t\tlogFn(msg);\n\t\t}\n\t};\n}\n\nmodule.exports = function (level, msg) {\n\tif (shouldLog(level)) {\n\t\tif (level === "info") {\n\t\t\tconsole.log(msg);\n\t\t} else if (level === "warning") {\n\t\t\tconsole.warn(msg);\n\t\t} else if (level === "error") {\n\t\t\tconsole.error(msg);\n\t\t}\n\t}\n};\n\n/* eslint-disable node/no-unsupported-features/node-builtins */\nvar group = console.group || dummy;\nvar groupCollapsed = console.groupCollapsed || dummy;\nvar groupEnd = console.groupEnd || dummy;\n/* eslint-enable node/no-unsupported-features/node-builtins */\n\nmodule.exports.group = logGroup(group);\n\nmodule.exports.groupCollapsed = logGroup(groupCollapsed);\n\nmodule.exports.groupEnd = logGroup(groupEnd);\n\nmodule.exports.setLogLevel = function (level) {\n\tlogLevel = level;\n};\n\nmodule.exports.formatError = function (err) {\n\tvar message = err.message;\n\tvar stack = err.stack;\n\tif (!stack) {\n\t\treturn message;\n\t} else if (stack.indexOf(message) < 0) {\n\t\treturn message + "\\n" + stack;\n\t} else {\n\t\treturn stack;\n\t}\n};\n\n\n//# sourceURL=webpack://server/./node_modules/webpack/hot/log.js?')},615:(module,__unused_webpack_exports,__webpack_require__)=>{eval('var __resourceQuery = "?1000";\n/*\n\tMIT License http://www.opensource.org/licenses/mit-license.php\n\tAuthor Tobias Koppers @sokra\n*/\n/*globals __resourceQuery */\nif (true) {\n\tvar hotPollInterval = +__resourceQuery.substr(1) || 0;\n\tvar log = __webpack_require__(919);\n\n\tvar checkForUpdate = function checkForUpdate(fromUpdate) {\n\t\tif (module.hot.status() === "idle") {\n\t\t\tmodule.hot\n\t\t\t\t.check(true)\n\t\t\t\t.then(function (updatedModules) {\n\t\t\t\t\tif (!updatedModules) {\n\t\t\t\t\t\tif (fromUpdate) log("info", "[HMR] Update applied.");\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}\n\t\t\t\t\t__webpack_require__(374)(updatedModules, updatedModules);\n\t\t\t\t\tcheckForUpdate(true);\n\t\t\t\t})\n\t\t\t\t.catch(function (err) {\n\t\t\t\t\tvar status = module.hot.status();\n\t\t\t\t\tif (["abort", "fail"].indexOf(status) >= 0) {\n\t\t\t\t\t\tlog("warning", "[HMR] Cannot apply update.");\n\t\t\t\t\t\tlog("warning", "[HMR] " + log.formatError(err));\n\t\t\t\t\t\tlog("warning", "[HMR] You need to restart the application!");\n\t\t\t\t\t} else {\n\t\t\t\t\t\tlog("warning", "[HMR] Update failed: " + log.formatError(err));\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t}\n\t};\n\tsetInterval(checkForUpdate, hotPollInterval);\n} else {}\n\n\n//# sourceURL=webpack://server/./node_modules/webpack/hot/poll.js?')}};var __webpack_require__=require("./runtime~index.js");return __webpack_require__.C(exports),__webpack_require__.X([],615),__webpack_require__.X([],502)})()}));
+require("@babel/polyfill");
+require("source-map-support").install();
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define("server", [], factory);
+	else if(typeof exports === 'object')
+		exports["server"] = factory();
+	else
+		root["server"] = factory();
+})(this, function() {
+return (() => {
+var exports = {};
+exports.id = "index";
+exports.ids = ["index"];
+exports.modules = {
+
+/***/ "./app/bizMod/abnormity/bizMod/script/controller/index.js":
+/*!****************************************************************!*\
+  !*** ./app/bizMod/abnormity/bizMod/script/controller/index.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../service */ "./app/bizMod/abnormity/bizMod/script/service/index.js");
+
+
+class Controller {
+  static async query(ctx, next) {
+    console.log('Controller_query==');
+    const {
+      query = {},
+      response,
+      request
+    } = ctx;
+    const {
+      body = {// mutation = '', variables = {}
+      }
+    } = request;
+    const parameter = query; // 获取请求参数
+
+    console.log('service.query==', _service__WEBPACK_IMPORTED_MODULE_0__.default.query); //添加service
+
+    const data = await _service__WEBPACK_IMPORTED_MODULE_0__.default.query(ctx, next, parameter);
+    ctx.response.body = data;
+  }
+
+  static async add(ctx, next) {
+    // ctx.set("Content-Type", "application/json")
+    const parameter = ctx.request.body; // 获取请求参数
+    // //添加service
+    // const data = await userService.add(ctx, next, parameter);
+    // const getMessage = (data) => {
+    //   const { status } = data;
+    //   const message = {
+    //     1: () =>
+    //       merge(unsupported, {
+    //         msg: "该用户名已经被注册过,请重新输入用户名",
+    //       }),
+    //     2: () =>
+    //       merge(unsupported, {
+    //         msg: "该手机号码已经被注册过,请重新输入手机号码",
+    //       }),
+    //     3: () => ({
+    //       code: 200,
+    //       msg: "注册成功",
+    //     }),
+    //   };
+    // return message[status]();
+    // };
+
+    ctx.response.body = parameter;
+  }
+
+  static edit(ctx, next) {
+    ctx.set("Content-Type", "application/json");
+    var page = ctx.params.page; // 获取请求参数
+    //添加service
+    // const data = userService.list(page);
+    // ctx.response.body = "d";
+  }
+
+  static async login(ctx, next) {
+    // ctx.set("Content-Type", "application/json")
+    var parameter = ctx.request.body; // 获取请求参数
+    //添加service
+
+    const data = await userService.login(ctx, next, parameter);
+
+    const getMessage = data => {
+      const {
+        status,
+        token,
+        userInfo
+      } = data;
+      const message = {
+        1: () => merge(unauthorized, {
+          msg: "用户名错误，请重新输入用户名"
+        }),
+        2: () => merge(unauthorized, {
+          msg: "密码错误请重新输入密码"
+        }),
+        3: () => ({
+          code: 200,
+          msg: "登录成功",
+          data: {
+            token,
+            userInfo
+          }
+        })
+      };
+      return message[status]();
+    };
+
+    ctx.response.body = getMessage(data);
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Controller);
+
+/***/ }),
+
+/***/ "./app/bizMod/abnormity/bizMod/script/index.js":
+/*!*****************************************************!*\
+  !*** ./app/bizMod/abnormity/bizMod/script/index.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "router": () => /* reexport safe */ _router__WEBPACK_IMPORTED_MODULE_0__.default
+/* harmony export */ });
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ "./app/bizMod/abnormity/bizMod/script/router/index.js");
+
+
+/***/ }),
+
+/***/ "./app/bizMod/abnormity/bizMod/script/router/index.js":
+/*!************************************************************!*\
+  !*** ./app/bizMod/abnormity/bizMod/script/router/index.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../controller */ "./app/bizMod/abnormity/bizMod/script/controller/index.js");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! koa-router */ "koa-router");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_1__);
+
+ // koa 路由中间件
+
+class router {
+  constructor(app, parentRouter) {
+    this.app = app;
+    this.router = parentRouter;
+    this.init();
+  }
+
+  createRouter() {
+    this.threeLevelRoute = new (koa_router__WEBPACK_IMPORTED_MODULE_1___default())({
+      prefix: "/script" // 给路由统一加个前缀：
+
+    });
+    return this.threeLevelRoute;
+  }
+
+  middleware() {// 处理404
+    // this.app.use('/user',function* (next) {
+    //     try {
+    //         yield* next;
+    //     } catch (e) {
+    //         this.status = 500;
+    //         this.body = '500';
+    //     }
+    //     if (parseInt(this.status) === 404) {
+    //         this.body = '404';
+    //     }
+    // });
+  } // 添加路由
+
+
+  addRouters() {
+    // 注册路由
+    this.query();
+    this.add();
+    this.edit();
+    this.router.use(this.threeLevelRoute.routes()); //挂载二级路由
+  }
+
+  init() {
+    // 创建路由
+    this.createRouter(); // 添加中间件
+
+    this.middleware(); // 添加路由
+
+    this.addRouters();
+  }
+
+  query() {
+    console.log('query============='); // 添加 接口
+
+    this.threeLevelRoute.get("/query", _controller__WEBPACK_IMPORTED_MODULE_0__.default.query);
+  }
+
+  add() {
+    // 添加 接口
+    this.threeLevelRoute.post("/add", _controller__WEBPACK_IMPORTED_MODULE_0__.default.add);
+  }
+
+  edit() {
+    // 添加 接口
+    this.threeLevelRoute.post("/edit", _controller__WEBPACK_IMPORTED_MODULE_0__.default.edit);
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
+
+/***/ }),
+
+/***/ "./app/bizMod/abnormity/bizMod/script/service/index.js":
+/*!*************************************************************!*\
+  !*** ./app/bizMod/abnormity/bizMod/script/service/index.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+class Service {
+  static async query(ctx, next, parameter) {
+    return {
+      name: "Service",
+      ...parameter
+    };
+  } // static list(page) {
+  //     console.log('page=', page);
+  //     const dataList = {
+  //         list: [
+  //             {
+  //                 time: '2019-7-10',
+  //                 id: 1,
+  //                 title: 'this is news 1',
+  //                 url: '/news/1',
+  //             },
+  //             {
+  //                 time: '2019-8-10',
+  //                 id: 2,
+  //                 title: 'this is news 2',
+  //                 url: '/news/2',
+  //             },
+  //         ],
+  //     };
+  //     return dataList.list[page] || {};
+  // }
+  // //注册用户
+  // static async add(ctx, next, parameter) {
+  //     const { username: name, phone, password } = parameter;
+  //     /*
+  //  1 查询用户名是否被注册过，
+  //  2 查询手机号码是否被注册过
+  //  3 如果都没有被注册那么就可以注册
+  // */
+  //     let userInfo = await this.queryUser({
+  //         name,
+  //     });
+  //     userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+  //     if (userInfo && userInfo.id) {
+  //         return {
+  //             status: 1,
+  //         };
+  //     }
+  //     userInfo = await this.queryUser({
+  //         phone,
+  //     });
+  //     userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+  //     if (userInfo && userInfo.id) {
+  //         return {
+  //             status: 2,
+  //         };
+  //     }
+  //     const data = await addUser({
+  //         name,
+  //         phone,
+  //         password,
+  //     });
+  //     if (data) {
+  //         return {
+  //             status: 3,
+  //         };
+  //     }
+  // }
+  // // 编辑用户
+  // static async edit(ctx, next, parameter) {}
+  // // 数据库中查询用户
+  // static async queryUser(...ags) {
+  //     const userData = await queryUser(...ags);
+  //     return userData;
+  // }
+  // // 登录
+  // static async login(ctx, next, parameter = {}) {
+  //     const { username: name, phone, password } = parameter;
+  //     const { request, response,cookies } = ctx;
+  //     /*
+  //   1.先查询用户名是否正确，
+  //   2.查询用户和密码是否正确
+  //   3.创建token,存储到redis中
+  //   4.把用户信息挂载response中
+  // */
+  //     let userInfo = await this.queryUser({
+  //         name,
+  //     });
+  //     userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+  //     if (!userInfo) {
+  //         return {
+  //             status: 1,
+  //         };
+  //     }
+  //     userInfo = await this.queryUser({
+  //         password,
+  //     });
+  //     userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+  //     if (!userInfo) {
+  //         return {
+  //             status: 2,
+  //         };
+  //     }
+  //     userInfo = await queryUser({
+  //         name,
+  //         password,
+  //     });
+  //     userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+  //     /*
+  //  创建 createToken
+  // */
+  //     const token = await createToken(userInfo);
+  //     delete userInfo.password;
+  //     ctx.response.userInfo = userInfo;
+  //     console.log('setExpirationTime=', setExpirationTime());
+  //     // console.log('token=', token);
+  //     // console.log('request=', request);
+  //     // console.log('session=', session);
+  //    console.log('cookies===',cookies)
+  //     // cookie.expires = false;
+  //     // cookie.maxAge = 5 * 60 * 1000;
+  //     cookies.set('token', token, {
+  //         httpOnly: false,
+  //         overwrite: false,
+  //         // expires: setExpirationTime(),
+  //     });
+  //     if (userInfo) {
+  //         //登录成功
+  //         return {
+  //             status: 3,
+  //             token,
+  //             userInfo,
+  //         };
+  //     }
+  // }
+
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Service);
+
+/***/ }),
+
+/***/ "./app/bizMod/abnormity/index.js":
+/*!***************************************!*\
+  !*** ./app/bizMod/abnormity/index.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "router": () => /* reexport safe */ _router__WEBPACK_IMPORTED_MODULE_0__.default
+/* harmony export */ });
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ "./app/bizMod/abnormity/router/index.js");
+// export * as script from "./bizMod/script";
+
+
+/***/ }),
+
+/***/ "./app/bizMod/abnormity/router/index.js":
+/*!**********************************************!*\
+  !*** ./app/bizMod/abnormity/router/index.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! koa-router */ "koa-router");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _bizMod_script__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../bizMod/script */ "./app/bizMod/abnormity/bizMod/script/index.js");
+ // koa 路由中间件
+
+ //scriptRouter 路由  
+
+class router {
+  constructor(app, parentRouter) {
+    this.app = app;
+    this.router = parentRouter;
+    this.init();
+  }
+
+  createRouter() {
+    this.twoLevelRoute = new (koa_router__WEBPACK_IMPORTED_MODULE_0___default())({
+      prefix: "/abnormity" // 给路由统一加个前缀：
+
+    });
+    return this.twoLevelRoute;
+  }
+
+  middleware() {// 处理404
+    // this.app.use('/user',function* (next) {
+    //     try {
+    //         yield* next;
+    //     } catch (e) {
+    //         this.status = 500;
+    //         this.body = '500';
+    //     }
+    //     if (parseInt(this.status) === 404) {
+    //         this.body = '404';
+    //     }
+    // });
+  } // 添加路由
+
+
+  addRouters() {
+    // 为script模块添加路由
+    new _bizMod_script__WEBPACK_IMPORTED_MODULE_1__.router(this.app, this.twoLevelRoute); // 添加路由
+
+    this.router.use(this.twoLevelRoute.routes()); //挂载二级路由
+  }
+
+  init() {
+    // 创建路由
+    this.createRouter(); // 添加中间件
+
+    this.middleware(); // 添加路由
+
+    this.addRouters();
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
+
+/***/ }),
+
+/***/ "./app/bizMod/index.js":
+/*!*****************************!*\
+  !*** ./app/bizMod/index.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "router": () => /* binding */ router
+/* harmony export */ });
+/* harmony import */ var _abnormity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./abnormity */ "./app/bizMod/abnormity/index.js");
+ // export default class {
+//   constructor(app, parentRouter) {
+//     this.app = app;
+//     this.router = parentRouter;
+//     this.init();
+//   }
+//   init() {
+//     new abnormity.router(this.app, this.router);
+//   }
+// }
+
+const router = (app, router) => {
+  new _abnormity__WEBPACK_IMPORTED_MODULE_0__.router(app, router);
+};
+
+/***/ }),
+
+/***/ "./app/config/constant.js":
+/*!********************************!*\
+  !*** ./app/config/constant.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "tokenExpires": () => /* binding */ tokenExpires,
+/* harmony export */   "port": () => /* binding */ port
+/* harmony export */ });
+const tokenExpires = 24 * 60 * 60 * 1000;
+const port = 3100;
+
+/***/ }),
+
+/***/ "./app/config/db.js":
+/*!**************************!*\
+  !*** ./app/config/db.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "MYSQL_CONF": () => /* binding */ MYSQL_CONF
+/* harmony export */ });
+const env = "development"; // 环境参数
+
+let MYSQL_CONF = null;
+
+if (env === 'development') {
+  MYSQL_CONF = {
+    host: '127.0.0.1',
+    user: 'root',
+    password: '123456',
+    port: '3306',
+    database: 'admin',
+    // charset:'utf8mb4',   //字符集一定要写，否则表情包存储不了
+    multipleStatements: true // 是否许一个query中有多个MySQL语句 （默认：false）
+
+  };
+}
+
+if (env === 'production') {
+  MYSQL_CONF = {
+    host: '127.0.0.1',
+    user: 'root',
+    password: '123456',
+    port: '3306',
+    database: 'admin',
+    charset: 'utf8mb4',
+    //字符集一定要写，否则表情包存储不了
+    multipleStatements: true // 是否许一个query中有多个MySQL语句 （默认：false）
+
+  };
+}
+
+
+
+/***/ }),
+
+/***/ "./app/config/index.js":
+/*!*****************************!*\
+  !*** ./app/config/index.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "MYSQL_CONF": () => /* reexport safe */ _db_js__WEBPACK_IMPORTED_MODULE_0__.MYSQL_CONF,
+/* harmony export */   "setExpirationTime": () => /* reexport safe */ _token_js__WEBPACK_IMPORTED_MODULE_2__.setExpirationTime,
+/* harmony export */   "port": () => /* reexport safe */ _constant_js__WEBPACK_IMPORTED_MODULE_3__.port,
+/* harmony export */   "tokenExpires": () => /* reexport safe */ _constant_js__WEBPACK_IMPORTED_MODULE_3__.tokenExpires
+/* harmony export */ });
+/* harmony import */ var _db_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./db.js */ "./app/config/db.js");
+/* harmony import */ var _redis_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./redis.js */ "./app/config/redis.js");
+/* harmony import */ var _redis_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_redis_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _redis_js__WEBPACK_IMPORTED_MODULE_1__) if(["default","MYSQL_CONF"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _redis_js__WEBPACK_IMPORTED_MODULE_1__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
+/* harmony import */ var _token_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./token.js */ "./app/config/token.js");
+/* harmony import */ var _constant_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constant.js */ "./app/config/constant.js");
+
+
+
+ // export const MYSQL_CONF={
+//     name:123
+// }
+
+/***/ }),
+
+/***/ "./app/config/redis.js":
+/*!*****************************!*\
+  !*** ./app/config/redis.js ***!
+  \*****************************/
+/***/ ((module) => {
+
+const env = "development"; // 环境参数
+
+let REDIS_CONF = null;
+
+if (env === 'development') {
+  REDIS_CONF = {
+    host: '127.0.0.1',
+    //地址
+    port: '6378',
+    // 端口
+    options: {
+      auth_pass: 123456 // 密码
+
+    }
+  };
+}
+
+if (env === 'production') {
+  REDIS_CONF = {
+    host: '127.0.0.1',
+    port: '6378',
+    options: {
+      auth_pass: 123456
+    }
+  };
+}
+
+module.exports = {
+  REDIS_CONF
+};
+
+/***/ }),
+
+/***/ "./app/config/token.js":
+/*!*****************************!*\
+  !*** ./app/config/token.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "setExpirationTime": () => /* binding */ setExpirationTime
+/* harmony export */ });
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constant */ "./app/config/constant.js");
+
+const setExpirationTime = () => {
+  const millisecond = new Date().getTime();
+  const expiresTime = new Date(millisecond + _constant__WEBPACK_IMPORTED_MODULE_0__.tokenExpires); //一天后过期
+
+  return expiresTime; // da.toUTCString(); //将 1598789234953这种格式的转换成=> "Sat, 29 Aug 2020 12:06:33 GMT"
+};
+
+/***/ }),
+
+/***/ "./app/constant/httpCode.js":
+/*!**********************************!*\
+  !*** ./app/constant/httpCode.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "graphqlError": () => /* binding */ graphqlError,
+/* harmony export */   "unsupported": () => /* binding */ unsupported,
+/* harmony export */   "unauthorized": () => /* binding */ unauthorized
+/* harmony export */ });
+const graphqlError = {
+  code: 400,
+  msg: "请求参数有误，graphql语法错误"
+};
+const unsupported = {
+  //对于当前请求的方法和所请求的资源，请求中提交的实体并不是服务器中所支持的格式，因此请求被拒绝。
+  code: 415,
+  msg: "服务器已经理解请求，但是拒绝执行它"
+};
+const unauthorized = {
+  // 当前请求需要用户验证. 如果验证不通过则返回401
+  code: 401,
+  msg: "当前请求需要用户验证."
+};
+
+
+/***/ }),
+
+/***/ "./app/constant/index.js":
+/*!*******************************!*\
+  !*** ./app/constant/index.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "graphqlError": () => /* reexport safe */ _httpCode__WEBPACK_IMPORTED_MODULE_0__.graphqlError,
+/* harmony export */   "unauthorized": () => /* reexport safe */ _httpCode__WEBPACK_IMPORTED_MODULE_0__.unauthorized,
+/* harmony export */   "unsupported": () => /* reexport safe */ _httpCode__WEBPACK_IMPORTED_MODULE_0__.unsupported
+/* harmony export */ });
+/* harmony import */ var _httpCode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./httpCode */ "./app/constant/httpCode.js");
+// 整体输出
+
+
+/***/ }),
+
+/***/ "./app/controller/user.js":
+/*!********************************!*\
+  !*** ./app/controller/user.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _service_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../service/user */ "./app/service/user.js");
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constant */ "./app/constant/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
+
+
+
+
+class Controller {
+  static async add(ctx, next) {
+    // ctx.set("Content-Type", "application/json")
+    const parameter = ctx.request.body; // 获取请求参数
+    //添加service
+
+    const data = await _service_user__WEBPACK_IMPORTED_MODULE_0__.default.add(ctx, next, parameter);
+
+    const getMessage = data => {
+      const {
+        status
+      } = data;
+      const message = {
+        1: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(_constant__WEBPACK_IMPORTED_MODULE_1__.unsupported, {
+          msg: "该用户名已经被注册过,请重新输入用户名"
+        }),
+        2: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(_constant__WEBPACK_IMPORTED_MODULE_1__.unsupported, {
+          msg: "该手机号码已经被注册过,请重新输入手机号码"
+        }),
+        3: () => ({
+          code: 200,
+          msg: "注册成功"
+        })
+      };
+      return message[status]();
+    };
+
+    ctx.response.body = getMessage(data);
+  }
+
+  static edit(ctx, next) {
+    ctx.set("Content-Type", "application/json");
+    var page = ctx.params.page; // 获取请求参数
+    //添加service
+    // const data = userService.list(page);
+    // ctx.response.body = "d";
+  }
+
+  static async login(ctx, next) {
+    // ctx.set("Content-Type", "application/json")
+    var parameter = ctx.request.body; // 获取请求参数
+    //添加service
+
+    const data = await _service_user__WEBPACK_IMPORTED_MODULE_0__.default.login(ctx, next, parameter);
+
+    const getMessage = data => {
+      const {
+        status,
+        token,
+        userInfo
+      } = data;
+      const message = {
+        1: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(_constant__WEBPACK_IMPORTED_MODULE_1__.unauthorized, {
+          msg: "用户名错误，请重新输入用户名"
+        }),
+        2: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(_constant__WEBPACK_IMPORTED_MODULE_1__.unauthorized, {
+          msg: "密码错误请重新输入密码"
+        }),
+        3: () => ({
+          code: 200,
+          msg: "登录成功",
+          data: {
+            token,
+            userInfo
+          }
+        })
+      };
+      return message[status]();
+    };
+
+    ctx.response.body = getMessage(data);
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Controller);
+
+/***/ }),
+
+/***/ "./app/db/checkTable.js":
+/*!******************************!*\
+  !*** ./app/db/checkTable.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CheckTable": () => /* binding */ CheckTable
+/* harmony export */ });
+/* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mysql */ "./app/db/mysql.js");
+
+
+const {
+  MYSQL_CONF
+} = __webpack_require__(/*! ../config/db */ "./app/config/db.js");
+
+class CheckTable {
+  constructor() {
+    this.tables = [{
+      name: "user",
+      sql: `CREATE TABLE user(
+                    id INT(11) PRIMARY KEY  auto_increment primary key,
+                    name VARCHAR(25),
+                    phone VARCHAR(200),
+                    password VARCHAR(255)
+                ) AUTO_INCREMENT=1;
+           `
+    }, {
+      name: 'collect',
+      sql: `
+         CREATE TABLE collect(
+              id INT(11) PRIMARY KEY,
+              name VARCHAR(25)  NOT NULL,
+              phone INT(11)  NOT NULL,
+              user_id INT(11)  NOT NULL,
+              FOREIGN KEY(user_id) REFERENCES user(id)
+         );
+         `
+    }, {
+      name: 'code',
+      sql: `
+          CREATE TABLE code(
+            id INT(11) PRIMARY KEY,
+            name VARCHAR(25),
+            collect_id INT(11),
+            FOREIGN KEY(collect_id) REFERENCES collect(id),
+            user_id INT(11),
+            FOREIGN KEY(user_id) REFERENCES user(id)
+            );
+          `
+    }, {
+      name: 'role',
+      sql: `
+        CREATE TABLE role(
+          id INT(11) PRIMARY KEY,
+          name VARCHAR(25),
+          root TINYINT(2)
+          );
+        `
+    }];
+    this.init();
+  }
+
+  init() {
+    this.tables.forEach(table => {
+      this.queryTable(table);
+    });
+  }
+
+  createTable() {}
+
+  async checkTable(data, table) {
+    if (data.length == 0) {
+      await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(table.sql).then(data => {
+        console.log("创建表成功");
+      }).catch(error => {
+        console.log("创建表失败=", error);
+      });
+    }
+  }
+
+  async queryTable(table) {
+    const sql = `
+           SELECT
+           TABLE_NAME FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_SCHEMA='${MYSQL_CONF.database}' 
+           AND TABLE_NAME= '${table.name}'`;
+    await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(sql).then(async data => {
+      await this.checkTable(data, table);
+    }).catch(() => {});
+  }
+
+}
+
+
+
+/***/ }),
+
+/***/ "./app/db/index.js":
+/*!*************************!*\
+  !*** ./app/db/index.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CheckTable": () => /* reexport safe */ _checkTable__WEBPACK_IMPORTED_MODULE_0__.CheckTable,
+/* harmony export */   "connection": () => /* reexport safe */ _mysql__WEBPACK_IMPORTED_MODULE_1__.connection,
+/* harmony export */   "exec": () => /* reexport safe */ _mysql__WEBPACK_IMPORTED_MODULE_1__.exec,
+/* harmony export */   "addUser": () => /* reexport safe */ _user__WEBPACK_IMPORTED_MODULE_2__.addUser,
+/* harmony export */   "deleteUser": () => /* reexport safe */ _user__WEBPACK_IMPORTED_MODULE_2__.deleteUser,
+/* harmony export */   "queryUser": () => /* reexport safe */ _user__WEBPACK_IMPORTED_MODULE_2__.queryUser
+/* harmony export */ });
+/* harmony import */ var _checkTable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./checkTable */ "./app/db/checkTable.js");
+/* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mysql */ "./app/db/mysql.js");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user */ "./app/db/user.js");
+
+
+
+
+/***/ }),
+
+/***/ "./app/db/mysql.js":
+/*!*************************!*\
+  !*** ./app/db/mysql.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "connection": () => /* binding */ connection,
+/* harmony export */   "exec": () => /* binding */ exec
+/* harmony export */ });
+/* harmony import */ var mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mysql */ "mysql");
+/* harmony import */ var mysql__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mysql__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _config_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config/index */ "./app/config/index.js");
+
+ // 创建链接对象
+
+const connection = mysql__WEBPACK_IMPORTED_MODULE_0___default().createConnection(_config_index__WEBPACK_IMPORTED_MODULE_1__.MYSQL_CONF); // 统一执行 sql 的函数
+
+const exec = async sql => {
+  return await new Promise((resolve, reject) => {
+    console.log('sql=', sql);
+    connection.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      resolve(result);
+    });
+  });
+};
+
+
+
+/***/ }),
+
+/***/ "./app/db/user.js":
+/*!************************!*\
+  !*** ./app/db/user.js ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "addUser": () => /* binding */ addUser,
+/* harmony export */   "deleteUser": () => /* binding */ deleteUser,
+/* harmony export */   "queryUser": () => /* binding */ queryUser
+/* harmony export */ });
+/* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mysql */ "./app/db/mysql.js");
+ // 添加用户
+
+const addUser = async ({
+  name,
+  phone,
+  password
+}) => {
+  const sql = `insert into user(name,phone,password) values('${name}','${phone}',md5('${password}'));`;
+  return await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(sql);
+}; //查询用户
+
+
+const queryUser = async (andConditionData = {}, orConditionData = {}, sql) => {
+  const andKeys = Object.keys(andConditionData);
+  const orKeys = Object.keys(orConditionData);
+
+  if (sql) {
+    return await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(sql);
+  }
+
+  sql = `select * from user where `;
+  andKeys.forEach(key => {
+    sql += key == "password" ? ` ${key}=md5('${andConditionData[key]}') and` : ` ${key}='${andConditionData[key]}' and`;
+  });
+  orKeys.forEach(key => {
+    sql += key == "password" ? ` ${key}=md5('${orConditionData[key]}') or` : ` ${key}='${orConditionData[key]}' or`;
+  });
+  sql = andKeys.length >= 1 && orKeys.length == 0 ? sql.substring(0, sql.length - 3) : orKeys.length >= 1 ? sql.substring(0, sql.length - 2) : sql;
+  return await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(sql);
+}; //删除用户
+
+
+const deleteUser = async id => {
+  const sql = `DELETE  FROM user  WHERE id=${id};`;
+  return await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(sql);
+}; // 导出
+
+
+
+
+/***/ }),
+
+/***/ "./app/index.js":
+/*!**********************!*\
+  !*** ./app/index.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/polyfill */ "@babel/polyfill");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var koa__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! koa */ "koa");
+/* harmony import */ var koa__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(koa__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./app/utils/index.js");
+/* harmony import */ var _db_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./db/index.js */ "./app/db/index.js");
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./redis */ "./app/redis/index.js");
+/* harmony import */ var _routes_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./routes/index */ "./app/routes/index.js");
+/* harmony import */ var kill_port__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! kill-port */ "kill-port");
+/* harmony import */ var kill_port__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(kill_port__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./config */ "./app/config/index.js");
+
+
+
+
+
+
+
+
+
+class App {
+  constructor() {
+    this.app = new (koa__WEBPACK_IMPORTED_MODULE_1___default())();
+    this.init();
+  }
+
+  async init() {
+    // redis链接
+    await this.connectRedis(); // 数据库连接
+
+    await this.connectSql(); //加载路由
+
+    this.addRoute(); // 设置监听端口
+
+    this.listen();
+  }
+
+  async connectRedis() {
+    await (0,_utils__WEBPACK_IMPORTED_MODULE_2__.promise)((reslove, reject) => {
+      _redis__WEBPACK_IMPORTED_MODULE_4__.Redis.connect(() => {
+        console.log("Redis 链接成功");
+        reslove();
+      });
+      _redis__WEBPACK_IMPORTED_MODULE_4__.Redis.error(() => {
+        console.log("Redis 链接错误");
+        reject();
+      });
+    });
+  }
+
+  async connectSql() {
+    await (0,_utils__WEBPACK_IMPORTED_MODULE_2__.promise)((reslove, reject) => {
+      _db_index_js__WEBPACK_IMPORTED_MODULE_3__.connection.connect(err => {
+        if (err) {
+          console.log("数据库连失败");
+          reject();
+          throw err;
+        }
+
+        new _db_index_js__WEBPACK_IMPORTED_MODULE_3__.CheckTable();
+        console.log("mysql数据库连接成功");
+        reslove();
+      });
+    });
+  }
+
+  addRoute() {
+    // 导入路由
+    new _routes_index__WEBPACK_IMPORTED_MODULE_5__.default(this.app);
+  }
+
+  listen() {
+    // try {
+    //   kill(port, "tcp");
+    // } catch (e) {}
+    this.server = this.app.listen(_config__WEBPACK_IMPORTED_MODULE_7__.port, () => {
+      console.log(`服务器启动成功:http://localhost:${_config__WEBPACK_IMPORTED_MODULE_7__.port}/`);
+    });
+    this.server.setTimeout(5 * 60 * 1000);
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new App());
+
+/***/ }),
+
+/***/ "./app/middleware/common.js":
+/*!**********************************!*\
+  !*** ./app/middleware/common.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var koa_bodyparser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! koa-bodyparser */ "koa-bodyparser");
+/* harmony import */ var koa_bodyparser__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa_bodyparser__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var koa2_cors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! koa2-cors */ "koa2-cors");
+/* harmony import */ var koa2_cors__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(koa2_cors__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var koa_cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! koa-cookie */ "koa-cookie");
+/* harmony import */ var koa_cookie__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(koa_cookie__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+const common = (app, router) => {
+  // 处理404
+  // app.use(function* (next) {
+  //     try {
+  //         yield* next;
+  //     } catch (e) {
+  //         this.status = 500;
+  //         this.body = '500';
+  //     }
+  //     if (parseInt(this.status) === 404) {
+  //         this.body = '404';
+  //     }
+  // });
+  //处理500
+  // router.get('/', function* (next) {
+  //     throw new Error('500');
+  // });
+  // 添加获取参数中间件
+  app.use(koa_bodyparser__WEBPACK_IMPORTED_MODULE_0___default()()); // 添加 cookie
+  // app.use(cookie());
+  // // 添加跨域
+  // app.use(async (ctx, next)=> {
+  //   console.log(ctx.request.headers)
+  // // // if( req.headers.origin.toLowerCase() == "http://www.zhangpeiyue.com"
+  // // //     || req.headers.origin.toLowerCase() =="http://127.0.0.1" ) {
+  // // //     //设置允许跨域的域名，*代表允许任意域名跨域
+  // // //     res.header("Access-Control-Allow-Origin", req.headers.origin);
+  // // // }
+  //     // ctx.set('Access-Control-Allow-Origin', '*');
+  //      //设置允许跨域的域名，*代表允许任意域名跨域
+  //      ctx.set("Access-Control-Allow-Origin","*");
+  // //允许的header类型
+  // ctx.set("Access-Control-Allow-Headers","content-type");
+  // //跨域允许的请求方式 
+  // ctx.set("Access-Control-Allow-Methods","DELETE,PUT,POST,GET,OPTIONS");
+  // //     ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+  // //     ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+  //      await next();
+  // //     if (ctx.method == 'OPTIONS') {
+  // //       ctx.body = 200; 
+  // //     } else {
+  // //       await next();
+  // //     }
+  //   });
+  // 跨域
+
+  app.use(koa2_cors__WEBPACK_IMPORTED_MODULE_1___default()());
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (common);
+
+/***/ }),
+
+/***/ "./app/middleware/index.js":
+/*!*********************************!*\
+  !*** ./app/middleware/index.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "common": () => /* reexport safe */ _common__WEBPACK_IMPORTED_MODULE_0__.default
+/* harmony export */ });
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common */ "./app/middleware/common.js");
+
+
+
+/***/ }),
+
+/***/ "./app/redis/index.js":
+/*!****************************!*\
+  !*** ./app/redis/index.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Redis": () => /* reexport safe */ _redis__WEBPACK_IMPORTED_MODULE_0__.Redis,
+/* harmony export */   "redisClient": () => /* reexport safe */ _redis__WEBPACK_IMPORTED_MODULE_0__.redisClient,
+/* harmony export */   "RedisClass": () => /* reexport safe */ _redis__WEBPACK_IMPORTED_MODULE_0__.default,
+/* harmony export */   "checkToken": () => /* reexport safe */ _jwt__WEBPACK_IMPORTED_MODULE_1__.checkToken,
+/* harmony export */   "createToken": () => /* reexport safe */ _jwt__WEBPACK_IMPORTED_MODULE_1__.createToken,
+/* harmony export */   "destroyToken": () => /* reexport safe */ _jwt__WEBPACK_IMPORTED_MODULE_1__.destroyToken,
+/* harmony export */   "userIdCheckToken": () => /* reexport safe */ _jwt__WEBPACK_IMPORTED_MODULE_1__.userIdCheckToken,
+/* harmony export */   "getUserIfo": () => /* reexport safe */ _user__WEBPACK_IMPORTED_MODULE_2__.getUserIfo
+/* harmony export */ });
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./redis */ "./app/redis/redis.js");
+/* harmony import */ var _jwt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./jwt */ "./app/redis/jwt.js");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user */ "./app/redis/user.js");
+
+
+
+
+
+/***/ }),
+
+/***/ "./app/redis/jwt.js":
+/*!**************************!*\
+  !*** ./app/redis/jwt.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createToken": () => /* binding */ createToken,
+/* harmony export */   "checkToken": () => /* binding */ checkToken,
+/* harmony export */   "destroyToken": () => /* binding */ destroyToken,
+/* harmony export */   "userIdCheckToken": () => /* binding */ userIdCheckToken
+/* harmony export */ });
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./redis */ "./app/redis/redis.js");
+/* harmony import */ var jwt_redis__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jwt-redis */ "jwt-redis");
+/* harmony import */ var jwt_redis__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jwt_redis__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jsonwebtoken */ "jsonwebtoken");
+/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jsonwebtoken__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
+
+
+
+ // const jwtr = new JWTR(redisClient);
+// const { sign, verify, destroy } = jwtr;
+
+const {
+  sign,
+  verify,
+  decode
+} = (jsonwebtoken__WEBPACK_IMPORTED_MODULE_2___default()); // var secret = "secret";
+// var jti = "test";
+// var payload = { jti };
+// 用用户id验证token
+
+const userIdCheckToken = userId => {
+  return (0,_utils__WEBPACK_IMPORTED_MODULE_3__.promise)((resolve, reject) => {
+    _redis__WEBPACK_IMPORTED_MODULE_0__.redisClient.keys(`userid_${userId}_*`, (error, value) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(value);
+      }
+    });
+  });
+}; //验证token
+
+
+const checkToken = token => {
+  return (0,_utils__WEBPACK_IMPORTED_MODULE_3__.promise)((resolve, reject) => {
+    _redis__WEBPACK_IMPORTED_MODULE_0__.redisClient.keys(`userid_*_${token}`, (error, value) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(value);
+      }
+    });
+  });
+};
+
+const createToken = async (userInfo = {}, payload = {}) => {
+  const {
+    id = ""
+  } = userInfo; //  产生token
+
+  payload = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.merge)({
+    ctime: Date.now() //创建时间
+
+  }, payload); //创建token
+
+  const token = await sign(payload, `${id}`, {
+    expiresIn: 0
+  }); //获取用户token key
+
+  const userIdTokens = await userIdCheckToken(id);
+
+  if (userIdTokens && userIdTokens.length >= 1) {
+    // 删除多余的key实现单点登录
+    userIdTokens.forEach(async key => {
+      await _redis__WEBPACK_IMPORTED_MODULE_0__.Redis.del(key);
+    });
+  } // 重新设置 redis 
+
+
+  await _redis__WEBPACK_IMPORTED_MODULE_0__.Redis.set(`userid_${id}_${token}`, JSON.stringify(userInfo));
+  return token;
+}; //销毁token
+
+
+const destroyToken = async tokenOrId => {
+  const userIdTokens = (await userIdCheckToken(tokenOrId)) || [];
+  const tokens = (await checkToken(tokenOrId)) || [];
+  (0,_utils__WEBPACK_IMPORTED_MODULE_3__.merge)(userIdTokens, tokens).forEach(async key => {
+    await _redis__WEBPACK_IMPORTED_MODULE_0__.Redis.del(key);
+  });
+  return "成功删除token";
+};
+
+
+
+/***/ }),
+
+/***/ "./app/redis/redis.js":
+/*!****************************!*\
+  !*** ./app/redis/redis.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Redis": () => /* binding */ Redis,
+/* harmony export */   "redisClient": () => /* binding */ redisClient,
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var redis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redis */ "redis");
+/* harmony import */ var redis__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redis__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config */ "./app/config/index.js");
+
+
+
+
+class RedisClass {
+  constructor(port, url, options = {}) {
+    this.port = port;
+    this.url = url;
+    this.options = options;
+  } //连接
+
+
+  createRedisClient() {
+    this.redisClient = redis__WEBPACK_IMPORTED_MODULE_0___default().createClient(this.port, this.url, this.options);
+  } // 连接
+
+
+  connect(callback = () => {}) {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
+      this.redisClient.on('connect', () => {
+        callback();
+        resolve();
+      });
+    });
+  }
+
+  ready(callback = () => {}) {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
+      this.redisClient.on('ready', (err, res) => {
+        if (err) {
+          callback(error);
+          reject(error);
+        } else {
+          resolve(res);
+        }
+      });
+    });
+  }
+
+  error(callback = () => {}) {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
+      this.redisClient.on('error', error => {
+        callback(error);
+        reject(error);
+      });
+    });
+  }
+
+  end(callback = () => {}) {
+    this.redisClient.on('end', (err, res) => {
+      if (err) {
+        callback(error);
+        reject(error);
+      } else {
+        resolve(res);
+      }
+    });
+  }
+
+  set(key, value, callback = () => {}, options = () => {}) {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
+      this.redisClient.set(key, value, (error, res) => {
+        if (error) {
+          callback(error);
+          reject(error);
+        } else {
+          let keys = Object.keys(options);
+          keys.forEach(_key => {
+            this.redisClient[_key](key, options[key]);
+          });
+          callback(res);
+          resolve(res);
+        }
+      });
+    });
+  }
+
+  get(key, callback = () => {}) {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
+      this.redisClient.get(key, (error, res) => {
+        if (error) {
+          callback(error);
+          reject(error);
+        } else {
+          resolve(res);
+        }
+      });
+    });
+  }
+
+  del(key, callback = () => {}) {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
+      this.redisClient.del(key, (error, res) => {
+        if (error) {
+          callback(error);
+          reject(error);
+        } else {
+          resolve(res);
+        }
+      });
+    });
+  }
+
+  init() {
+    this.createRedisClient();
+    return this;
+  }
+
+}
+
+const Redis = new RedisClass(_config__WEBPACK_IMPORTED_MODULE_2__.REDIS_CONF.port, _config__WEBPACK_IMPORTED_MODULE_2__.REDIS_CONF.host, _config__WEBPACK_IMPORTED_MODULE_2__.REDIS_CONF.options);
+Redis.init();
+const redisClient = Redis.redisClient;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RedisClass);
+
+/***/ }),
+
+/***/ "./app/redis/user.js":
+/*!***************************!*\
+  !*** ./app/redis/user.js ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getUserIfo": () => /* binding */ getUserIfo
+/* harmony export */ });
+/* harmony import */ var _jwt__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./jwt */ "./app/redis/jwt.js");
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./redis */ "./app/redis/redis.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
+
+
+ // 获取用户信息
+
+const getUserIfo = async tokenOrId => {
+  const userIdTokens = (await (0,_jwt__WEBPACK_IMPORTED_MODULE_0__.userIdCheckToken)(tokenOrId)) || [];
+  const tokens = (await (0,_jwt__WEBPACK_IMPORTED_MODULE_0__.checkToken)(tokenOrId)) || [];
+  const data = await _redis__WEBPACK_IMPORTED_MODULE_1__.Redis.get((0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(userIdTokens, tokens)[0]);
+  return data;
+};
+
+
+
+/***/ }),
+
+/***/ "./app/routes/index.js":
+/*!*****************************!*\
+  !*** ./app/routes/index.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var graphql_type__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! graphql/type */ "graphql/type");
+/* harmony import */ var graphql_type__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(graphql_type__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! graphql */ "graphql");
+/* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(graphql__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var http_errors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! http-errors */ "http-errors");
+/* harmony import */ var http_errors__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(http_errors__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constant */ "./app/constant/index.js");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! koa-router */ "koa-router");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var graphql_tools__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! graphql-tools */ "graphql-tools");
+/* harmony import */ var graphql_tools__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(graphql_tools__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./user */ "./app/routes/user.js");
+/* harmony import */ var _middleware_index__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../middleware/index */ "./app/middleware/index.js");
+/* harmony import */ var _bizMod_index__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../bizMod/index */ "./app/bizMod/index.js");
+
+ // import schema from '../graphql/schema';
+
+
+
+
+
+ // import Home from "./home";
+
+
+
+
+console.log("bizModRouter======", _bizMod_index__WEBPACK_IMPORTED_MODULE_9__.router); // import { user } from "../graphql/schema";
+// import  userResolvers,  * as userSchema  from '../graphql/schema/user/index.js';
+// import * as modules from "../modules";
+// console.log('module========',modules.user)
+// console.log('userResolvers===',userResolvers)
+// console.log('userSchema===',userSchema)
+//  Construct a schema, using GraphQL schema language
+
+const typeDefs = `
+  type Query {
+    hello: String
+  }
+`; // Provide resolver functions for your schema fields
+
+const resolvers = {
+  Query: {
+    hello: () => "Hello world!"
+  }
+};
+
+class Route {
+  constructor(app) {
+    this.app = app; // this.router = router;
+
+    this.init();
+  }
+
+  createRouter() {
+    this.router = new (koa_router__WEBPACK_IMPORTED_MODULE_5___default())({
+      prefix: "/api" // 给路由统一加个前缀：
+
+    });
+  } // 添加中间件
+
+
+  middleware() {
+    // this.app.use(
+    //   webpackDevMiddleware(compiler, {
+    //     publicPath: config.output.publicPath,
+    //   })
+    // );
+    // 添加 404 500 中间件
+    (0,_middleware_index__WEBPACK_IMPORTED_MODULE_8__.common)(this.app, this.router);
+  }
+
+  checkToken() {
+    this.router.use(async (ctx, next) => {
+      // console.log('ctx.request==',ctx.request.header)
+      const {
+        request: {
+          header
+        },
+        cookies
+      } = ctx;
+      let token = cookies.get("token") || header.token;
+      console.log("token=", token); //   ctx.cookies.set('cid','comedy',{
+      //     domain:'localhost',     //写cookie所在的域名
+      //     path:'/index',          //写cookie所在的路径
+      //     maxAge:60*1000,         //写cookie有效时长
+      //     expires:7,
+      //     httpOnly:false,
+      //     overwrite:false
+      // })
+      // ctx.body = 'cookie is ok'
+
+      console.log("中间键1开始");
+      await next();
+      console.log("中间键1结束");
+    });
+  } // 添加路由
+
+
+  addRouters() {
+    new _user__WEBPACK_IMPORTED_MODULE_7__.default(this.app, this.router);
+    (0,_bizMod_index__WEBPACK_IMPORTED_MODULE_9__.router)(this.app, this.router); // new bizMod.abnormity.script.router(this.app, this.router)
+    // new Home(this.app,router);
+
+    console.log("checkToken====");
+    this.checkToken(); // 查询
+
+    this.router.get("/data", async (ctx, next) => {
+      const {
+        query: {
+          query = "",
+          variables = {}
+        },
+        response,
+        request
+      } = ctx;
+      const {
+        body: {// mutation = '', variables = {}
+        }
+      } = request; // const { query = '', variables = {} } = ctx.query;
+      // const { response } = ctx;
+      // console.log('schema==',schema)
+
+      console.log("query==", query);
+      console.log("variables==", variables);
+      console.log("token=====", ctx.cookies.get("token")); // ctx.response.body = {
+      //   name:'123'
+      // }
+
+      const baseSchema = `
+                    schema {
+                        query: Query
+                        mutation: Mutation
+                    }
+              `;
+      const schema = (0,graphql_tools__WEBPACK_IMPORTED_MODULE_6__.makeExecutableSchema)({
+        typeDefs: [// baseSchema,
+        typeDefs //   baseSchema,
+        //   userType,
+        //   songType,
+        //   playlistType
+        ],
+        resolvers: resolvers //  merge(
+        //   {},
+        //   userResolvers,
+        //   songResolvers,
+        //   playlistResolvers
+        // )
+
+      });
+      await (0,graphql__WEBPACK_IMPORTED_MODULE_1__.graphql)(schema, query, {
+        ctx,
+        next
+      }, variables).then(data => {
+        const {
+          errors
+        } = data;
+        console.log("data=", data);
+        console.log("stringify data=", JSON.stringify(data));
+
+        if (errors) {
+          response.body = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.merge)(_constant__WEBPACK_IMPORTED_MODULE_4__.graphqlError, {
+            errors
+          });
+        } else {
+          console.log("get==", data); // ctx.response.body = {
+          //   name:'123'
+          // }
+
+          response.body = data; // JSON.stringify(data);
+        }
+      }).catch(error => {
+        console.log("error==", error);
+      });
+    }); // //变异
+    // this.router.post('/data', async (ctx, next) => {
+    //     const {
+    //         // query: { query = '', variables = {} },
+    //         response,
+    //         request,
+    //     } = ctx;
+    //     const {
+    //         body: { mutation = '', variables = {} },
+    //     } = request;
+    //     await graphql(schema, mutation, { ctx, next }, variables)
+    //         .then((data) => {
+    //             const { errors } = data;
+    //             if (errors) {
+    //                 response.body = merge(graphqlError, {
+    //                     errors,
+    //                 });
+    //             } else {
+    //                 console.log('post==', data);
+    //                 response.body = data;
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.log('error==', error);
+    //         });
+    // });
+    //  const server = new ApolloServer({ typeDefs, resolvers });
+    //  this.router.get('/data',server.getMiddleware())
+    // 挂载路由中间件
+
+    this.app.use(this.router.routes()).use(this.router.allowedMethods()); // this.app.use(this.router.routes()).use(this.router.allowedMethods());
+  }
+
+  init() {
+    // 添加中间件
+    this.middleware(); //创建路由
+
+    this.createRouter(); // 添加路由
+
+    this.addRouters();
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Route);
+
+/***/ }),
+
+/***/ "./app/routes/user.js":
+/*!****************************!*\
+  !*** ./app/routes/user.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _controller_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../controller/user */ "./app/controller/user.js");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! koa-router */ "koa-router");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_1__);
+
+ // koa 路由中间件
+
+class Route {
+  constructor(app, router) {
+    this.app = app;
+    this.router = router;
+    this.init();
+  }
+
+  createRouter() {
+    this.secondaryRoute = new (koa_router__WEBPACK_IMPORTED_MODULE_1___default())({
+      prefix: "/user" // 给路由统一加个前缀：
+
+    });
+    return this.secondaryRoute;
+  }
+
+  middleware() {// 处理404
+    // this.app.use('/user',function* (next) {
+    //     try {
+    //         yield* next;
+    //     } catch (e) {
+    //         this.status = 500;
+    //         this.body = '500';
+    //     }
+    //     if (parseInt(this.status) === 404) {
+    //         this.body = '404';
+    //     }
+    // });
+  } // 添加路由
+
+
+  addRouters() {
+    // 添加路由
+    this.registered();
+    this.login();
+    this.router.use(this.secondaryRoute.routes()); //挂载二级路由
+  }
+
+  init() {
+    // 创建路由
+    this.createRouter(); // 添加中间件
+
+    this.middleware(); // 添加路由
+
+    this.addRouters();
+  }
+
+  registered() {
+    // 添加 接口
+    this.secondaryRoute.post("/register", _controller_user__WEBPACK_IMPORTED_MODULE_0__.default.add);
+  }
+
+  login() {
+    // 添加 接口
+    this.secondaryRoute.post("/login", _controller_user__WEBPACK_IMPORTED_MODULE_0__.default.login);
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Route);
+
+/***/ }),
+
+/***/ "./app/service/user.js":
+/*!*****************************!*\
+  !*** ./app/service/user.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _db_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../db/user */ "./app/db/user.js");
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constant */ "./app/constant/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../redis */ "./app/redis/index.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../config */ "./app/config/index.js");
+
+
+
+
+
+
+class Service {
+  static list(page) {
+    console.log('page=', page);
+    const dataList = {
+      list: [{
+        time: '2019-7-10',
+        id: 1,
+        title: 'this is news 1',
+        url: '/news/1'
+      }, {
+        time: '2019-8-10',
+        id: 2,
+        title: 'this is news 2',
+        url: '/news/2'
+      }]
+    };
+    return dataList.list[page] || {};
+  } //注册用户
+
+
+  static async add(ctx, next, parameter) {
+    const {
+      username: name,
+      phone,
+      password
+    } = parameter;
+    /*
+    1 查询用户名是否被注册过，
+    2 查询手机号码是否被注册过
+    3 如果都没有被注册那么就可以注册
+    */
+
+    let userInfo = await this.queryUser({
+      name
+    });
+    userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+
+    if (userInfo && userInfo.id) {
+      return {
+        status: 1
+      };
+    }
+
+    userInfo = await this.queryUser({
+      phone
+    });
+    userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+
+    if (userInfo && userInfo.id) {
+      return {
+        status: 2
+      };
+    }
+
+    const data = await (0,_db_user__WEBPACK_IMPORTED_MODULE_0__.addUser)({
+      name,
+      phone,
+      password
+    });
+
+    if (data) {
+      return {
+        status: 3
+      };
+    }
+  } // 编辑用户
+
+
+  static async edit(ctx, next, parameter) {} // 数据库中查询用户
+
+
+  static async queryUser(...ags) {
+    const userData = await (0,_db_user__WEBPACK_IMPORTED_MODULE_0__.queryUser)(...ags);
+    return userData;
+  } // 登录
+
+
+  static async login(ctx, next, parameter = {}) {
+    const {
+      username: name,
+      phone,
+      password
+    } = parameter;
+    const {
+      request,
+      response,
+      cookies
+    } = ctx;
+    /*
+    1.先查询用户名是否正确，
+    2.查询用户和密码是否正确
+    3.创建token,存储到redis中
+    4.把用户信息挂载response中
+    */
+
+    let userInfo = await this.queryUser({
+      name
+    });
+    userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+
+    if (!userInfo) {
+      return {
+        status: 1
+      };
+    }
+
+    userInfo = await this.queryUser({
+      password
+    });
+    userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+
+    if (!userInfo) {
+      return {
+        status: 2
+      };
+    }
+
+    userInfo = await (0,_db_user__WEBPACK_IMPORTED_MODULE_0__.queryUser)({
+      name,
+      password
+    });
+    userInfo = userInfo.length >= 1 ? userInfo[0] : null;
+    /*
+    创建 createToken  
+    */
+
+    const token = await (0,_redis__WEBPACK_IMPORTED_MODULE_3__.createToken)(userInfo);
+    delete userInfo.password;
+    ctx.response.userInfo = userInfo;
+    console.log('setExpirationTime=', (0,_config__WEBPACK_IMPORTED_MODULE_4__.setExpirationTime)()); // console.log('token=', token);
+    // console.log('request=', request);
+    // console.log('session=', session);
+
+    console.log('cookies===', cookies); // cookie.expires = false;
+    // cookie.maxAge = 5 * 60 * 1000;
+
+    cookies.set('token', token, {
+      httpOnly: false,
+      overwrite: false // expires: setExpirationTime(),
+
+    });
+
+    if (userInfo) {
+      //登录成功
+      return {
+        status: 3,
+        token,
+        userInfo
+      };
+    }
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Service);
+
+/***/ }),
+
+/***/ "./app/utils/common.js":
+/*!*****************************!*\
+  !*** ./app/utils/common.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "promise": () => /* binding */ promise,
+/* harmony export */   "merge": () => /* binding */ merge
+/* harmony export */ });
+const promise = (fn = () => {}) => {
+  return new Promise((resolve, reject) => {
+    fn(resolve, reject);
+  });
+};
+
+const merge = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
+
+
+/***/ }),
+
+/***/ "./app/utils/index.js":
+/*!****************************!*\
+  !*** ./app/utils/index.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "merge": () => /* reexport safe */ _common__WEBPACK_IMPORTED_MODULE_0__.merge,
+/* harmony export */   "promise": () => /* reexport safe */ _common__WEBPACK_IMPORTED_MODULE_0__.promise
+/* harmony export */ });
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common */ "./app/utils/common.js");
+ // export * from "./jwt";
+
+
+
+/***/ }),
+
+/***/ "./node_modules/webpack/hot/log-apply-result.js":
+/*!******************************************************!*\
+  !*** ./node_modules/webpack/hot/log-apply-result.js ***!
+  \******************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+module.exports = function (updatedModules, renewedModules) {
+	var unacceptedModules = updatedModules.filter(function (moduleId) {
+		return renewedModules && renewedModules.indexOf(moduleId) < 0;
+	});
+	var log = __webpack_require__(/*! ./log */ "./node_modules/webpack/hot/log.js");
+
+	if (unacceptedModules.length > 0) {
+		log(
+			"warning",
+			"[HMR] The following modules couldn't be hot updated: (They would need a full reload!)"
+		);
+		unacceptedModules.forEach(function (moduleId) {
+			log("warning", "[HMR]  - " + moduleId);
+		});
+	}
+
+	if (!renewedModules || renewedModules.length === 0) {
+		log("info", "[HMR] Nothing hot updated.");
+	} else {
+		log("info", "[HMR] Updated modules:");
+		renewedModules.forEach(function (moduleId) {
+			if (typeof moduleId === "string" && moduleId.indexOf("!") !== -1) {
+				var parts = moduleId.split("!");
+				log.groupCollapsed("info", "[HMR]  - " + parts.pop());
+				log("info", "[HMR]  - " + moduleId);
+				log.groupEnd("info");
+			} else {
+				log("info", "[HMR]  - " + moduleId);
+			}
+		});
+		var numberIds = renewedModules.every(function (moduleId) {
+			return typeof moduleId === "number";
+		});
+		if (numberIds)
+			log(
+				"info",
+				'[HMR] Consider using the optimization.moduleIds: "named" for module names.'
+			);
+	}
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/webpack/hot/log.js":
+/*!*****************************************!*\
+  !*** ./node_modules/webpack/hot/log.js ***!
+  \*****************************************/
+/***/ ((module) => {
+
+var logLevel = "info";
+
+function dummy() {}
+
+function shouldLog(level) {
+	var shouldLog =
+		(logLevel === "info" && level === "info") ||
+		(["info", "warning"].indexOf(logLevel) >= 0 && level === "warning") ||
+		(["info", "warning", "error"].indexOf(logLevel) >= 0 && level === "error");
+	return shouldLog;
+}
+
+function logGroup(logFn) {
+	return function (level, msg) {
+		if (shouldLog(level)) {
+			logFn(msg);
+		}
+	};
+}
+
+module.exports = function (level, msg) {
+	if (shouldLog(level)) {
+		if (level === "info") {
+			console.log(msg);
+		} else if (level === "warning") {
+			console.warn(msg);
+		} else if (level === "error") {
+			console.error(msg);
+		}
+	}
+};
+
+/* eslint-disable node/no-unsupported-features/node-builtins */
+var group = console.group || dummy;
+var groupCollapsed = console.groupCollapsed || dummy;
+var groupEnd = console.groupEnd || dummy;
+/* eslint-enable node/no-unsupported-features/node-builtins */
+
+module.exports.group = logGroup(group);
+
+module.exports.groupCollapsed = logGroup(groupCollapsed);
+
+module.exports.groupEnd = logGroup(groupEnd);
+
+module.exports.setLogLevel = function (level) {
+	logLevel = level;
+};
+
+module.exports.formatError = function (err) {
+	var message = err.message;
+	var stack = err.stack;
+	if (!stack) {
+		return message;
+	} else if (stack.indexOf(message) < 0) {
+		return message + "\n" + stack;
+	} else {
+		return stack;
+	}
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/webpack/hot/poll.js?1000":
+/*!***********************************************!*\
+  !*** ./node_modules/webpack/hot/poll.js?1000 ***!
+  \***********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var __resourceQuery = "?1000";
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+/*globals __resourceQuery */
+if (true) {
+	var hotPollInterval = +__resourceQuery.substr(1) || 0;
+	var log = __webpack_require__(/*! ./log */ "./node_modules/webpack/hot/log.js");
+
+	var checkForUpdate = function checkForUpdate(fromUpdate) {
+		if (module.hot.status() === "idle") {
+			module.hot
+				.check(true)
+				.then(function (updatedModules) {
+					if (!updatedModules) {
+						if (fromUpdate) log("info", "[HMR] Update applied.");
+						return;
+					}
+					__webpack_require__(/*! ./log-apply-result */ "./node_modules/webpack/hot/log-apply-result.js")(updatedModules, updatedModules);
+					checkForUpdate(true);
+				})
+				.catch(function (err) {
+					var status = module.hot.status();
+					if (["abort", "fail"].indexOf(status) >= 0) {
+						log("warning", "[HMR] Cannot apply update.");
+						log("warning", "[HMR] " + log.formatError(err));
+						log("warning", "[HMR] You need to restart the application!");
+					} else {
+						log("warning", "[HMR] Update failed: " + log.formatError(err));
+					}
+				});
+		}
+	};
+	setInterval(checkForUpdate, hotPollInterval);
+} else {}
+
+
+/***/ }),
+
+/***/ "@babel/polyfill":
+/*!**********************************!*\
+  !*** external "@babel/polyfill" ***!
+  \**********************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("@babel/polyfill");;
+
+/***/ }),
+
+/***/ "graphql":
+/*!**************************!*\
+  !*** external "graphql" ***!
+  \**************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("graphql");;
+
+/***/ }),
+
+/***/ "graphql-tools":
+/*!********************************!*\
+  !*** external "graphql-tools" ***!
+  \********************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("graphql-tools");;
+
+/***/ }),
+
+/***/ "graphql/type":
+/*!*******************************!*\
+  !*** external "graphql/type" ***!
+  \*******************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("graphql/type");;
+
+/***/ }),
+
+/***/ "http-errors":
+/*!******************************!*\
+  !*** external "http-errors" ***!
+  \******************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("http-errors");;
+
+/***/ }),
+
+/***/ "jsonwebtoken":
+/*!*******************************!*\
+  !*** external "jsonwebtoken" ***!
+  \*******************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("jsonwebtoken");;
+
+/***/ }),
+
+/***/ "jwt-redis":
+/*!****************************!*\
+  !*** external "jwt-redis" ***!
+  \****************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("jwt-redis");;
+
+/***/ }),
+
+/***/ "kill-port":
+/*!****************************!*\
+  !*** external "kill-port" ***!
+  \****************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("kill-port");;
+
+/***/ }),
+
+/***/ "koa":
+/*!**********************!*\
+  !*** external "koa" ***!
+  \**********************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("koa");;
+
+/***/ }),
+
+/***/ "koa-bodyparser":
+/*!*********************************!*\
+  !*** external "koa-bodyparser" ***!
+  \*********************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("koa-bodyparser");;
+
+/***/ }),
+
+/***/ "koa-cookie":
+/*!*****************************!*\
+  !*** external "koa-cookie" ***!
+  \*****************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("koa-cookie");;
+
+/***/ }),
+
+/***/ "koa-router":
+/*!*****************************!*\
+  !*** external "koa-router" ***!
+  \*****************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("koa-router");;
+
+/***/ }),
+
+/***/ "koa2-cors":
+/*!****************************!*\
+  !*** external "koa2-cors" ***!
+  \****************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("koa2-cors");;
+
+/***/ }),
+
+/***/ "mysql":
+/*!************************!*\
+  !*** external "mysql" ***!
+  \************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("mysql");;
+
+/***/ }),
+
+/***/ "redis":
+/*!************************!*\
+  !*** external "redis" ***!
+  \************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("redis");;
+
+/***/ })
+
+};
+;
+
+// load runtime
+var __webpack_require__ = require("./runtime~index.js");
+__webpack_require__.C(exports);
+__webpack_require__.X([], "./node_modules/webpack/hot/poll.js?1000");
+return __webpack_require__.X([], "./app/index.js");
+})();
+});
+//# sourceMappingURL=index.js.map

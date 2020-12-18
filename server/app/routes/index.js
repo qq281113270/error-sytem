@@ -27,13 +27,15 @@ import { makeExecutableSchema } from "graphql-tools";
 // import Home from "./home";
 import User from "./user";
 import { common } from "../middleware/index";
-// import { user } from "../graphql/schema"; 
+import { router as bizModRouter } from "../bizMod/index";
+
+console.log("bizModRouter======", bizModRouter);
+
+// import { user } from "../graphql/schema";
 // import  userResolvers,  * as userSchema  from '../graphql/schema/user/index.js';
 
-
-import * as module from "../module"; 
-console.log('module========',module.user)
-
+// import * as modules from "../modules";
+// console.log('module========',modules.user)
 
 // console.log('userResolvers===',userResolvers)
 // console.log('userSchema===',userSchema)
@@ -44,7 +46,6 @@ const typeDefs = `
   }
 `;
 
-  
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
@@ -105,6 +106,8 @@ class Route {
   // 添加路由
   addRouters() {
     new User(this.app, this.router);
+    bizModRouter(this.app, this.router)
+    // new bizMod.abnormity.script.router(this.app, this.router)
     // new Home(this.app,router);
 
     console.log("checkToken====");
@@ -228,4 +231,4 @@ class Route {
   }
 }
 
-export default   Route;
+export default Route;

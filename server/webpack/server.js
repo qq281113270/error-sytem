@@ -69,15 +69,45 @@ class App {
 
     const watching = compiler.watch({}, (err, stats) => {
       spinner.stop();
-      if (err) throw err;
-      process.stdout.write(
-        stats.toString({
-          colors: true,
-        }) + "\n\n"
-      );
-      !this.isEnvDevelopment && watching.close(() => {
-        console.log("Watching Ended.");
-      });
+
+      if (err) {
+        console.log("Errors:" + chalk.red(err.stack || err));
+        if (err.details) {
+          console.log("Errors:" + chalk.red(err.details));
+        }
+        return;
+      }
+
+      if (stats.hasErrors()) {
+        console.log(
+          "Errors:" +
+            chalk.red(
+              stats.toString({
+                colors: true,
+              }) + "\n\n"
+            )
+        );
+      } else if (stats.hasWarnings()) {
+        console.log(
+          "Warnings:" +
+            chalk.red(
+              stats.toString({
+                colors: true,
+              }) + "\n\n"
+            )
+        );
+      } else {
+        process.stdout.write(
+          stats.toString({
+            colors: true,
+          }) + "\n\n"
+        );
+      }
+
+      !this.isEnvDevelopment &&
+        watching.close(() => {
+          console.log("Watching Ended.");
+        });
     });
 
     // if (this.isEnvDevelopment) {
