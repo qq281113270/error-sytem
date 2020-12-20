@@ -1152,34 +1152,40 @@ const common = (app, router) => {
   // });
   // 添加获取参数中间件
   app.use(koa_bodyparser__WEBPACK_IMPORTED_MODULE_0___default()()); // 添加 cookie
-  // app.use(cookie());
-  // // 添加跨域
-  // app.use(async (ctx, next)=> {
-  //   console.log(ctx.request.headers)
-  // // // if( req.headers.origin.toLowerCase() == "http://www.zhangpeiyue.com"
-  // // //     || req.headers.origin.toLowerCase() =="http://127.0.0.1" ) {
-  // // //     //设置允许跨域的域名，*代表允许任意域名跨域
-  // // //     res.header("Access-Control-Allow-Origin", req.headers.origin);
-  // // // }
-  //     // ctx.set('Access-Control-Allow-Origin', '*');
-  //      //设置允许跨域的域名，*代表允许任意域名跨域
-  //      ctx.set("Access-Control-Allow-Origin","*");
-  // //允许的header类型
-  // ctx.set("Access-Control-Allow-Headers","content-type");
-  // //跨域允许的请求方式 
-  // ctx.set("Access-Control-Allow-Methods","DELETE,PUT,POST,GET,OPTIONS");
-  // //     ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
-  // //     ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-  //      await next();
-  // //     if (ctx.method == 'OPTIONS') {
-  // //       ctx.body = 200; 
-  // //     } else {
-  // //       await next();
-  // //     }
-  //   });
+
+  app.use(koa_cookie__WEBPACK_IMPORTED_MODULE_2___default()()); // 添加跨域
+  // app.use(async (ctx, next) => {
+  //     console.log(ctx.request.headers);
+  //     // if( req.headers.origin.toLowerCase() == "http://www.zhangpeiyue.com"
+  //     //     || req.headers.origin.toLowerCase() =="http://127.0.0.1" ) {
+  //     //     //设置允许跨域的域名，*代表允许任意域名跨域
+  //     //     res.header("Access-Control-Allow-Origin", req.headers.origin);
+  //     // }
+  //     ctx.set('Cache-Control','no-cache')
+  //     //设置允许跨域的域名，*代表允许任意域名跨域
+  //     ctx.set('Access-Control-Allow-Origin', '*');
+  //     //允许的header类型
+  //     ctx.set('Access-Control-Allow-Headers', 'content-type');
+  //     // 设置 跨域 cookie
+  //  ctx.set('Access-Control-Allow-Credentials', true);
+  //     //跨域允许的请求方式
+  //     ctx.set('Access-Control-Allow-Methods', 'DELETE,PUT,POST,GET,OPTIONS');
+  //     //     ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+  //     //     ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+  //     // await next();
+  //     if (ctx.method == 'OPTIONS') {
+  //         ctx.body = 200;
+  //     } else {
+  //         await next();
+  //     }
+  // });
   // 跨域
 
-  app.use(koa2_cors__WEBPACK_IMPORTED_MODULE_1___default()());
+  app.use(koa2_cors__WEBPACK_IMPORTED_MODULE_1___default()({
+    origin: 'http://localhost:3000',
+    // 前端地址
+    credentials: true
+  }));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (common);
@@ -1589,7 +1595,7 @@ class Route {
         cookies
       } = ctx;
       let token = cookies.get("token") || header.token;
-      console.log("token=", token); //   ctx.cookies.set('cid','comedy',{
+      console.log("token1======", token); //   ctx.cookies.set('cid','comedy',{
       //     domain:'localhost',     //写cookie所在的域名
       //     path:'/index',          //写cookie所在的路径
       //     maxAge:60*1000,         //写cookie有效时长
@@ -1609,7 +1615,6 @@ class Route {
   addRouters() {
     new _user__WEBPACK_IMPORTED_MODULE_7__.default(this.app, this.router);
     (0,_bizMod_index__WEBPACK_IMPORTED_MODULE_9__.router)(this.app, this.router); // new bizMod.abnormity.script.router(this.app, this.router)
-    // new Home(this.app,router);
 
     console.log("checkToken====");
     this.checkToken(); // 查询
@@ -1626,13 +1631,14 @@ class Route {
       const {
         body: {// mutation = '', variables = {}
         }
-      } = request; // const { query = '', variables = {} } = ctx.query;
+      } = request; // console.log('cookies===', cookies.get('token'));
+      // const { query = '', variables = {} } = ctx.query;
       // const { response } = ctx;
       // console.log('schema==',schema)
 
       console.log("query==", query);
-      console.log("variables==", variables);
-      console.log("token=====", ctx.cookies.get("token")); // ctx.response.body = {
+      console.log("variables==", variables); // console.log("token=====", ctx.cookies.get("token"));
+      // ctx.response.body = {
       //   name:'123'
       // }
 
@@ -1963,13 +1969,14 @@ class Service {
     // console.log('request=', request);
     // console.log('session=', session);
 
-    console.log('cookies===', cookies); // cookie.expires = false;
+    console.log('cookies===', cookies.get('token')); // cookie.expires = false;
     // cookie.maxAge = 5 * 60 * 1000;
 
     cookies.set('token', token, {
       httpOnly: false,
-      overwrite: false // expires: setExpirationTime(),
-
+      overwrite: false,
+      expires: (0,_config__WEBPACK_IMPORTED_MODULE_4__.setExpirationTime)(),
+      domain: '/'
     });
 
     if (userInfo) {

@@ -5,6 +5,7 @@ export default class Request {
   static baseUrl = baseUrl;
   static requestQueue = [];
   static defaultHeader = {
+    token:localStorage.getItem('token'),
     // "content-type": "application/x-www-form-urlencoded",
     "Content-Type": "application/json;charset=utf-8",
   };

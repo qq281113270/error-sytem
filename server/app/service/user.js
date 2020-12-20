@@ -4,7 +4,6 @@ import { merge } from '../utils';
 import { createToken, checkToken, destroyToken, getUserIfo } from '../redis';
 import { setExpirationTime } from '../config';
 
-
 class Service {
     static list(page) {
         console.log('page=', page);
@@ -77,8 +76,7 @@ class Service {
     // 登录
     static async login(ctx, next, parameter = {}) {
         const { username: name, phone, password } = parameter;
-        const { request, response,cookies } = ctx;
- 
+        const { request, response, cookies } = ctx;
 
         /*
       1.先查询用户名是否正确，
@@ -122,14 +120,15 @@ class Service {
         // console.log('token=', token);
         // console.log('request=', request);
         // console.log('session=', session);
-       console.log('cookies===',cookies)
+        console.log('cookies===', cookies.get('token'));
 
         // cookie.expires = false;
         // cookie.maxAge = 5 * 60 * 1000;
         cookies.set('token', token, {
             httpOnly: false,
             overwrite: false,
-            // expires: setExpirationTime(),
+            expires: setExpirationTime(),
+            domain: '/',
         });
         if (userInfo) {
             //登录成功

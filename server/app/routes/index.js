@@ -85,7 +85,7 @@ class Route {
       } = ctx;
 
       let token = cookies.get("token") || header.token;
-      console.log("token=", token);
+      console.log("token1======", token);
 
       //   ctx.cookies.set('cid','comedy',{
       //     domain:'localhost',     //写cookie所在的域名
@@ -108,7 +108,7 @@ class Route {
     new User(this.app, this.router);
     bizModRouter(this.app, this.router)
     // new bizMod.abnormity.script.router(this.app, this.router)
-    // new Home(this.app,router);
+
 
     console.log("checkToken====");
 
@@ -127,12 +127,13 @@ class Route {
         },
       } = request;
 
+      // console.log('cookies===', cookies.get('token'));
       // const { query = '', variables = {} } = ctx.query;
       // const { response } = ctx;
       // console.log('schema==',schema)
       console.log("query==", query);
       console.log("variables==", variables);
-      console.log("token=====", ctx.cookies.get("token"));
+      // console.log("token=====", ctx.cookies.get("token"));
       // ctx.response.body = {
       //   name:'123'
       // }

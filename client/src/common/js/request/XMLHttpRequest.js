@@ -22,6 +22,7 @@ class XHR {
   ininData(options) {
     this.defaultConfig = {
       timeout: 300000,
+       withCredentials:true
     };
     this.options = {
       ...this.defaultConfig,
@@ -150,7 +151,9 @@ class XHR {
   // 设置跨域复杂请求cookie
   setWithCredentials() {
     const { withCredentials = false } = this.options;
+    console.log('withCredentials==',withCredentials)
     this.xmlHttp.withCredentials = withCredentials;
+    this.xmlHttp.crossDomain=withCredentials
   }
   // 设置请求过期时间
   setTimeout() {
