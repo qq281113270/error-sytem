@@ -1,8 +1,5 @@
-import resolvers from "./resolvers";
-// import * as schema from "./schema";
-// export * as userType from './schema.graphql'
+import * as resolvers from "./resolvers";
+import * as typeDefs from "./typeDefs";
 
-export * from "./schema";
-export * from "./schema.graphql";
-
-export default resolvers;
+//会员模块
+export default { resolvers, typeDefs };

@@ -505,7 +505,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "tokenExpires": () => /* binding */ tokenExpires,
 /* harmony export */   "port": () => /* binding */ port
 /* harmony export */ });
-const tokenExpires = 24 * 60 * 60 * 1000;
+const tokenExpires = 30 * 60 * 1000; // 设置如果没有请求 30分钟token登录失效
+
 const port = 3100;
 
 /***/ }),
@@ -1014,6 +1015,161 @@ const deleteUser = async id => {
 
 /***/ }),
 
+/***/ "./app/graphql/schema/index.js":
+/*!*************************************!*\
+  !*** ./app/graphql/schema/index.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "user": () => /* reexport safe */ _user__WEBPACK_IMPORTED_MODULE_0__.default
+/* harmony export */ });
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./user */ "./app/graphql/schema/user/index.js");
+//会员模块
+
+
+/***/ }),
+
+/***/ "./app/graphql/schema/user/index.js":
+/*!******************************************!*\
+  !*** ./app/graphql/schema/user/index.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _resolvers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./resolvers */ "./app/graphql/schema/user/resolvers/index.js");
+/* harmony import */ var _typeDefs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeDefs */ "./app/graphql/schema/user/typeDefs/index.js");
+
+ //会员模块
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  resolvers: _resolvers__WEBPACK_IMPORTED_MODULE_0__,
+  typeDefs: _typeDefs__WEBPACK_IMPORTED_MODULE_1__
+});
+
+/***/ }),
+
+/***/ "./app/graphql/schema/user/resolvers/Mutation/index.js":
+/*!*************************************************************!*\
+  !*** ./app/graphql/schema/user/resolvers/Mutation/index.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "userAdd": () => /* binding */ userAdd
+/* harmony export */ });
+const userAdd = () => {};
+
+/***/ }),
+
+/***/ "./app/graphql/schema/user/resolvers/Query/index.js":
+/*!**********************************************************!*\
+  !*** ./app/graphql/schema/user/resolvers/Query/index.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "userQuery": () => /* binding */ userQuery
+/* harmony export */ });
+const userQuery = () => {};
+
+/***/ }),
+
+/***/ "./app/graphql/schema/user/resolvers/Subscription/index.js":
+/*!*****************************************************************!*\
+  !*** ./app/graphql/schema/user/resolvers/Subscription/index.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "userTest": () => /* binding */ userTest
+/* harmony export */ });
+const userTest = () => {};
+
+/***/ }),
+
+/***/ "./app/graphql/schema/user/resolvers/index.js":
+/*!****************************************************!*\
+  !*** ./app/graphql/schema/user/resolvers/index.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Mutation": () => /* reexport module object */ _Mutation__WEBPACK_IMPORTED_MODULE_0__,
+/* harmony export */   "Query": () => /* reexport module object */ _Query__WEBPACK_IMPORTED_MODULE_1__,
+/* harmony export */   "Subscription": () => /* reexport module object */ _Subscription__WEBPACK_IMPORTED_MODULE_2__
+/* harmony export */ });
+/* harmony import */ var _Mutation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Mutation */ "./app/graphql/schema/user/resolvers/Mutation/index.js");
+/* harmony import */ var _Query__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Query */ "./app/graphql/schema/user/resolvers/Query/index.js");
+/* harmony import */ var _Subscription__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Subscription */ "./app/graphql/schema/user/resolvers/Subscription/index.js");
+
+
+ //会员模块
+
+
+
+/***/ }),
+
+/***/ "./app/graphql/schema/user/typeDefs/index.js":
+/*!***************************************************!*\
+  !*** ./app/graphql/schema/user/typeDefs/index.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "graphqlTypes": () => /* reexport safe */ _typeDefs_graphql__WEBPACK_IMPORTED_MODULE_0__.default,
+/* harmony export */   "types": () => /* reexport safe */ _typeDefs_js__WEBPACK_IMPORTED_MODULE_1__.default
+/* harmony export */ });
+/* harmony import */ var _typeDefs_graphql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeDefs.graphql */ "./app/graphql/schema/user/typeDefs/typeDefs.graphql");
+/* harmony import */ var _typeDefs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeDefs.js */ "./app/graphql/schema/user/typeDefs/typeDefs.js");
+
+
+
+/***/ }),
+
+/***/ "./app/graphql/schema/user/typeDefs/typeDefs.js":
+/*!******************************************************!*\
+  !*** ./app/graphql/schema/user/typeDefs/typeDefs.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (`
+
+
+type Query {
+  hello: String
+}
+
+
+
+
+
+
+`);
+
+/***/ }),
+
 /***/ "./app/index.js":
 /*!**********************!*\
   !*** ./app/index.js ***!
@@ -1182,8 +1338,7 @@ const common = (app, router) => {
   // 跨域
 
   app.use(koa2_cors__WEBPACK_IMPORTED_MODULE_1___default()({
-    origin: 'http://localhost:3000',
-    // 前端地址
+    // origin: ['http://localhost:3000','http://127.0.0.1:3000'],    // 前端地址
     credentials: true
   }));
 };
@@ -1256,21 +1411,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jwt_redis__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jwt_redis__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jsonwebtoken */ "jsonwebtoken");
 /* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jsonwebtoken__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/utils */ "./app/utils/index.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/config */ "./app/config/index.js");
 
 
 
- // const jwtr = new JWTR(redisClient);
-// const { sign, verify, destroy } = jwtr;
+
 
 const {
   sign,
   verify,
   decode
-} = (jsonwebtoken__WEBPACK_IMPORTED_MODULE_2___default()); // var secret = "secret";
-// var jti = "test";
-// var payload = { jti };
-// 用用户id验证token
+} = (jsonwebtoken__WEBPACK_IMPORTED_MODULE_2___default()); // 用用户id验证token
 
 const userIdCheckToken = userId => {
   return (0,_utils__WEBPACK_IMPORTED_MODULE_3__.promise)((resolve, reject) => {
@@ -1322,6 +1474,7 @@ const createToken = async (userInfo = {}, payload = {}) => {
 
 
   await _redis__WEBPACK_IMPORTED_MODULE_0__.Redis.set(`userid_${id}_${token}`, JSON.stringify(userInfo));
+  _redis__WEBPACK_IMPORTED_MODULE_0__.redisClient.pexpire(`userid_${id}_${token}`, _config__WEBPACK_IMPORTED_MODULE_4__.tokenExpires);
   return token;
 }; //销毁token
 
@@ -1486,7 +1639,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _jwt__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./jwt */ "./app/redis/jwt.js");
 /* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./redis */ "./app/redis/redis.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/utils */ "./app/utils/index.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/config */ "./app/config/index.js");
+
 
 
  // 获取用户信息
@@ -1495,6 +1650,7 @@ const getUserIfo = async tokenOrId => {
   const userIdTokens = (await (0,_jwt__WEBPACK_IMPORTED_MODULE_0__.userIdCheckToken)(tokenOrId)) || [];
   const tokens = (await (0,_jwt__WEBPACK_IMPORTED_MODULE_0__.checkToken)(tokenOrId)) || [];
   const data = await _redis__WEBPACK_IMPORTED_MODULE_1__.Redis.get((0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(userIdTokens, tokens)[0]);
+  _redis__WEBPACK_IMPORTED_MODULE_1__.redisClient.pexpire((0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(userIdTokens, tokens)[0], _config__WEBPACK_IMPORTED_MODULE_3__.tokenExpires);
   return data;
 };
 
@@ -1519,17 +1675,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(graphql__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var http_errors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! http-errors */ "http-errors");
 /* harmony import */ var http_errors__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(http_errors__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
-/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constant */ "./app/constant/index.js");
-/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! koa-router */ "koa-router");
-/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var graphql_tools__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! graphql-tools */ "graphql-tools");
-/* harmony import */ var graphql_tools__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(graphql_tools__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./user */ "./app/routes/user.js");
-/* harmony import */ var _middleware_index__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../middleware/index */ "./app/middleware/index.js");
-/* harmony import */ var _bizMod_index__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../bizMod/index */ "./app/bizMod/index.js");
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/redis */ "./app/redis/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/utils */ "./app/utils/index.js");
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/constant */ "./app/constant/index.js");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! koa-router */ "koa-router");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var graphql_tools__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! graphql-tools */ "graphql-tools");
+/* harmony import */ var graphql_tools__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(graphql_tools__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./user */ "./app/routes/user.js");
+/* harmony import */ var _middleware_index__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/middleware/index */ "./app/middleware/index.js");
+/* harmony import */ var _bizMod_index__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/bizMod/index */ "./app/bizMod/index.js");
+/* harmony import */ var _graphql_schema__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/graphql/schema */ "./app/graphql/schema/index.js");
 
- // import schema from '../graphql/schema';
+
 
 
 
@@ -1540,7 +1698,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-console.log("bizModRouter======", _bizMod_index__WEBPACK_IMPORTED_MODULE_9__.router); // import { user } from "../graphql/schema";
+
+
+console.log("bizModRouter======", _bizMod_index__WEBPACK_IMPORTED_MODULE_10__.router);
+console.log("schema======", _graphql_schema__WEBPACK_IMPORTED_MODULE_11__);
+console.log("schema.user.typeDefs.type======", _graphql_schema__WEBPACK_IMPORTED_MODULE_11__.user.typeDefs.type);
+console.log("schema.user.typeDefs.type1======", _graphql_schema__WEBPACK_IMPORTED_MODULE_11__.user.typeDefs.type1); // import { user } from "../graphql/schema";
 // import  userResolvers,  * as userSchema  from '../graphql/schema/user/index.js';
 // import * as modules from "../modules";
 // console.log('module========',modules.user)
@@ -1568,7 +1731,7 @@ class Route {
   }
 
   createRouter() {
-    this.router = new (koa_router__WEBPACK_IMPORTED_MODULE_5___default())({
+    this.router = new (koa_router__WEBPACK_IMPORTED_MODULE_6___default())({
       prefix: "/api" // 给路由统一加个前缀：
 
     });
@@ -1576,45 +1739,37 @@ class Route {
 
 
   middleware() {
-    // this.app.use(
-    //   webpackDevMiddleware(compiler, {
-    //     publicPath: config.output.publicPath,
-    //   })
-    // );
     // 添加 404 500 中间件
-    (0,_middleware_index__WEBPACK_IMPORTED_MODULE_8__.common)(this.app, this.router);
+    (0,_middleware_index__WEBPACK_IMPORTED_MODULE_9__.common)(this.app, this.router);
   }
 
   checkToken() {
     this.router.use(async (ctx, next) => {
-      // console.log('ctx.request==',ctx.request.header)
       const {
         request: {
           header
         },
-        cookies
+        cookies,
+        response
       } = ctx;
-      let token = cookies.get("token") || header.token;
-      console.log("token1======", token); //   ctx.cookies.set('cid','comedy',{
-      //     domain:'localhost',     //写cookie所在的域名
-      //     path:'/index',          //写cookie所在的路径
-      //     maxAge:60*1000,         //写cookie有效时长
-      //     expires:7,
-      //     httpOnly:false,
-      //     overwrite:false
-      // })
-      // ctx.body = 'cookie is ok'
-
-      console.log("中间键1开始");
-      await next();
-      console.log("中间键1结束");
+      const token = cookies.get("token") || header.token;
+      await (0,_redis__WEBPACK_IMPORTED_MODULE_3__.getUserIfo)(token).then(async value => {
+        console.log("value=", value);
+        response.userInfo = value;
+        await next();
+      }).catch(error => {
+        response.userInfo = null;
+        ctx.response.body = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.merge)(_constant__WEBPACK_IMPORTED_MODULE_5__.unauthorized, {
+          msg: "登录回话已过期，请重新登录"
+        });
+      }); //  await next();
     });
   } // 添加路由
 
 
   addRouters() {
-    new _user__WEBPACK_IMPORTED_MODULE_7__.default(this.app, this.router);
-    (0,_bizMod_index__WEBPACK_IMPORTED_MODULE_9__.router)(this.app, this.router); // new bizMod.abnormity.script.router(this.app, this.router)
+    new _user__WEBPACK_IMPORTED_MODULE_8__.default(this.app, this.router);
+    (0,_bizMod_index__WEBPACK_IMPORTED_MODULE_10__.router)(this.app, this.router); // new bizMod.abnormity.script.router(this.app, this.router)
 
     console.log("checkToken====");
     this.checkToken(); // 查询
@@ -1648,7 +1803,7 @@ class Route {
                         mutation: Mutation
                     }
               `;
-      const schema = (0,graphql_tools__WEBPACK_IMPORTED_MODULE_6__.makeExecutableSchema)({
+      const schema = (0,graphql_tools__WEBPACK_IMPORTED_MODULE_7__.makeExecutableSchema)({
         typeDefs: [// baseSchema,
         typeDefs //   baseSchema,
         //   userType,
@@ -1674,7 +1829,7 @@ class Route {
         console.log("stringify data=", JSON.stringify(data));
 
         if (errors) {
-          response.body = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.merge)(_constant__WEBPACK_IMPORTED_MODULE_4__.graphqlError, {
+          response.body = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.merge)(_constant__WEBPACK_IMPORTED_MODULE_5__.graphqlError, {
             errors
           });
         } else {
@@ -1828,7 +1983,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _db_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../db/user */ "./app/db/user.js");
 /* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constant */ "./app/constant/index.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
-/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../redis */ "./app/redis/index.js");
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/redis */ "./app/redis/index.js");
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../config */ "./app/config/index.js");
 
 
@@ -1975,8 +2130,8 @@ class Service {
     cookies.set('token', token, {
       httpOnly: false,
       overwrite: false,
-      expires: (0,_config__WEBPACK_IMPORTED_MODULE_4__.setExpirationTime)(),
-      domain: '/'
+      expires: (0,_config__WEBPACK_IMPORTED_MODULE_4__.setExpirationTime)() // domain: 'http://localhost/',
+
     });
 
     if (userInfo) {
@@ -2047,6 +2202,21 @@ __webpack_require__.r(__webpack_exports__);
  // export * from "./jwt";
 
 
+
+/***/ }),
+
+/***/ "./app/graphql/schema/user/typeDefs/typeDefs.graphql":
+/*!***********************************************************!*\
+  !*** ./app/graphql/schema/user/typeDefs/typeDefs.graphql ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("type User {\n  id: ID!\n  username: String!\n  createdAt: String!\n  updatedAt: String!\n}\n\ninput UpdatedUser {\n  username: String!\n}\n\ntype Query {\n  getMe: User!\n}\n\ntype Mutation {\n  updateMe(input: UpdatedUser!): User!\n}\n");
 
 /***/ }),
 

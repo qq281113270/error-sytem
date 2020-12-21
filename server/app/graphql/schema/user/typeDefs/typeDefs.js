@@ -1,5 +1,13 @@
-export const hello = `
+export default `
+
+
 type Query {
   hello: String
 }
+
+
+
+
+
+
 `;

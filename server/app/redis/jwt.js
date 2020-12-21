@@ -1,13 +1,9 @@
 import { Redis, redisClient } from "./redis";
 import JWTR from "jwt-redis";
 import webJwt from "jsonwebtoken";
-import { merge, promise } from "../utils";
-// const jwtr = new JWTR(redisClient);
-// const { sign, verify, destroy } = jwtr;
+import { merge, promise } from "@/utils";
+import { tokenExpires } from '@/config';
 const { sign, verify, decode } = webJwt;
-// var secret = "secret";
-// var jti = "test";
-// var payload = { jti };
 
 // 用用户id验证token
 const userIdCheckToken = (userId) => {
@@ -56,6 +52,7 @@ const createToken = async (userInfo = {}, payload = {}) => {
   }
   // 重新设置 redis 
   await Redis.set(`userid_${id}_${token}`, JSON.stringify(userInfo));
+  redisClient.pexpire(`userid_${id}_${token}`,tokenExpires)
 
   return token;
 };

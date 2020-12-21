@@ -18,18 +18,24 @@ import {
   validationRules,
   // gql,
 } from "graphql";
-// import schema from '../graphql/schema';
 import httpError from "http-errors";
-import { merge } from "../utils";
-import { graphqlError } from "../constant";
+import { createToken, checkToken, destroyToken, getUserIfo } from "@/redis";
+import { merge } from "@/utils";
+import { graphqlError } from "@/constant";
 import Router from "koa-router";
 import { makeExecutableSchema } from "graphql-tools";
 // import Home from "./home";
 import User from "./user";
-import { common } from "../middleware/index";
-import { router as bizModRouter } from "../bizMod/index";
+import { common } from "@/middleware/index";
+import { router as bizModRouter } from "@/bizMod/index";
+import { unsupported, unauthorized } from "@/constant";
+import * as schema   from "@/graphql/schema";
+
 
 console.log("bizModRouter======", bizModRouter);
+console.log("schema======", schema); 
+console.log("schema.user.typeDefs.type======", schema.user.typeDefs.type);
+console.log("schema.user.typeDefs.type1======", schema.user.typeDefs.type1);
 
 // import { user } from "../graphql/schema";
 // import  userResolvers,  * as userSchema  from '../graphql/schema/user/index.js';
@@ -66,49 +72,41 @@ class Route {
   }
   // 添加中间件
   middleware() {
-    // this.app.use(
-    //   webpackDevMiddleware(compiler, {
-    //     publicPath: config.output.publicPath,
-    //   })
-    // );
-
     // 添加 404 500 中间件
     common(this.app, this.router);
   }
 
   checkToken() {
     this.router.use(async (ctx, next) => {
-      // console.log('ctx.request==',ctx.request.header)
       const {
         request: { header },
         cookies,
+        response,
       } = ctx;
 
-      let token = cookies.get("token") || header.token;
-      console.log("token1======", token);
+      const token = cookies.get("token") || header.token;
 
-      //   ctx.cookies.set('cid','comedy',{
-      //     domain:'localhost',     //写cookie所在的域名
-      //     path:'/index',          //写cookie所在的路径
-      //     maxAge:60*1000,         //写cookie有效时长
-      //     expires:7,
-      //     httpOnly:false,
-      //     overwrite:false
-      // })
-      // ctx.body = 'cookie is ok'
+      await getUserIfo(token)
+        .then(async (value) => {
+          console.log("value=", value);
+          response.userInfo = value;
+          await next();
+        })
+        .catch((error) => {
+          response.userInfo = null;
+          ctx.response.body = merge(unauthorized, {
+            msg: "登录回话已过期，请重新登录",
+          });
+        });
 
-      console.log("中间键1开始");
-
-      await next();
-      console.log("中间键1结束");
+      //  await next();
     });
   }
   // 添加路由
   addRouters() {
     new User(this.app, this.router);
-    bizModRouter(this.app, this.router)
+    bizModRouter(this.app, this.router);
     // new bizMod.abnormity.script.router(this.app, this.router)
-
 
     console.log("checkToken====");
 

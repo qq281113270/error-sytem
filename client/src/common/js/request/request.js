@@ -1,6 +1,7 @@
 import XMLHttpRequest from "./XMLHttpRequest";
 import baseUrl from "./baseUrl";
 import { error as errorMessage, warning as warningMessage, success as successMessage  } from "./requestMessage";
+console.log('token==',localStorage.getItem('token'))
 export default class Request {
   static baseUrl = baseUrl;
   static requestQueue = [];

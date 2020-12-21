@@ -1,1 +1,1 @@
-// import {scriptRouter} from "./bizMod/script"; //scriptRouter 路由  
+import {scriptRouter} from "./bizMod/script"; //scriptRouter 路由  

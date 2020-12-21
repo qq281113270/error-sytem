@@ -1,7 +1,7 @@
 import { addUser, deleteUser, queryUser } from '../db/user';
 import { unsupported, unauthorized } from '../constant';
 import { merge } from '../utils';
-import { createToken, checkToken, destroyToken, getUserIfo } from '../redis';
+import { createToken, checkToken, destroyToken, getUserIfo } from '@/redis';
 import { setExpirationTime } from '../config';
 
 class Service {
@@ -128,7 +128,7 @@ class Service {
             httpOnly: false,
             overwrite: false,
             expires: setExpirationTime(),
-            domain: '/',
+            // domain: 'http://localhost/',
         });
         if (userInfo) {
             //登录成功

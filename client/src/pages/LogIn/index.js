@@ -5,7 +5,7 @@ import { Form, Input, Button, message, Checkbox } from 'antd';
 import { routePaths, historyPush, getHistory } from '@/router';
 import { login, createUser } from '@/common/js/request/index';
 import { checkPhone, checkUser, checkPassword } from '@/utils';
-
+import Store, { mapRedux } from "@/redux";
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -16,8 +16,15 @@ const tailLayout = {
 
 const Index = (props) => {
     const onFinish = async (values) => {
-        const { data:{token=''}={}   } = await login(values);
+        const {
+            dispatch: {
+              user: { setUserInfo,   fetchUser, getUserInfo },
+            },
+          } = props;
+        const { data={}   } = await login(values);
+        const {token,userInfo}=data
         localStorage.setItem('token',token);
+        setUserInfo(userInfo)
         message.success('登录成功');
         setTimeout(() => {
             historyPush({
@@ -29,7 +36,7 @@ const Index = (props) => {
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-
+    console.log('props=',props)
     return (
         <div className="center log-in">
             <h3>《错误监控系统》 </h3>
@@ -120,4 +127,4 @@ const Index = (props) => {
     );
 };
 
-export default Index;
+export default  mapRedux(['user'])(Index) ;

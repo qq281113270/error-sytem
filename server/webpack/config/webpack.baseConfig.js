@@ -36,22 +36,23 @@ export default //    smp.wrap(
   // 是否监听文件
   watch: false,
   //dllPlugin 插件需要的包
-  // resolve: {
-  //   // 1.不需要node polyfilss webpack 去掉了node polyfilss 需要自己手动添加
-  //   alias: {
-  //     crypto: false,
-  //     stream: "stream-browserify",
-  //   },
-  //   // 2.手动添加polyfills
-  //   fallback: {
-  //     path: require.resolve("path-browserify"),
-  //     crypto: require.resolve("crypto-browserify"),
-  //     stream: require.resolve("stream-browserify"),
-  //     util: require.resolve("util/"),
-  //     assert: require.resolve("assert/"),
-  //     http: require.resolve("stream-http"),
-  //   },
-  // },
+  resolve: {
+    // 1.不需要node polyfilss webpack 去掉了node polyfilss 需要自己手动添加
+    alias: {
+      crypto: false,
+      stream: "stream-browserify",
+      '@':path.join(__dirname,"../../app",)
+    },
+    // 2.手动添加polyfills
+    fallback: {
+      path: require.resolve("path-browserify"),
+      crypto: require.resolve("crypto-browserify"),
+      stream: require.resolve("stream-browserify"),
+      util: require.resolve("util/"),
+      assert: require.resolve("assert/"),
+      http: require.resolve("stream-http"),
+    },
+  },
   // 出口
   output: {
     path: path.join(__dirname, "../../dist"),

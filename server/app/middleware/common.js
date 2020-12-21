@@ -55,7 +55,7 @@ const common = (app, router) => {
     // });
     // 跨域
     app.use(cors({
-      origin: 'http://localhost:3000',    // 前端地址
+      // origin: ['http://localhost:3000','http://127.0.0.1:3000'],    // 前端地址
       credentials:true
     }));
 };
