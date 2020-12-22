@@ -42,46 +42,42 @@ class App {
     // 开启转圈圈动画
     const spinner = ora("building.....");
     spinner.start();
-    const compiler = webpack(
-      config,
-      (err, stats) => {
-        spinner.stop();
-        if (err) {
-          console.log("Errors:" + chalk.red(err.stack || err));
-          if (err.details) {
-            console.log("Errors:" + chalk.red(err.details));
-          }
-          return;
+    const compiler = webpack(config, (err, stats) => {
+      spinner.stop();
+      if (err) {
+        console.log("Errors:" + chalk.red(err.stack || err));
+        if (err.details) {
+          console.log("Errors:" + chalk.red(err.details));
         }
-        if (stats.hasErrors()) {
-          console.log(
-            "Errors:" +
-              chalk.red(
-                stats.toString({
-                  colors: true,
-                }) + "\n\n"
-              )
-          );
-        } else if (stats.hasWarnings()) {
-          console.log(
-            "Warnings:" +
-              chalk.red(
-                stats.toString({
-                  colors: true,
-                }) + "\n\n"
-              )
-          );
-        } else {
-          process.stdout.write(
-            stats.toString({
-              colors: true,
-            }) + "\n\n"
-          );
-        }
-
-        console.log(chalk.cyan("  Build complete.\n"));
+        return;
       }
-    );
+      if (stats.hasErrors()) {
+        console.log(
+          "Errors:" +
+            chalk.red(
+              stats.toString({
+                colors: true,
+              }) + "\n\n"
+            )
+        );
+      } else if (stats.hasWarnings()) {
+        console.log(
+          "Warnings:" +
+            chalk.red(
+              stats.toString({
+                colors: true,
+              }) + "\n\n"
+            )
+        );
+      } else {
+        process.stdout.write(
+          stats.toString({
+            colors: true,
+          }) + "\n\n"
+        );
+      }
+      // console.log(chalk.rgb(13, 188, 121)("Build complete .\n"));
+    });
 
     // const watching = compiler.watch({}, (err, stats) => {
     //     spinner.stop();

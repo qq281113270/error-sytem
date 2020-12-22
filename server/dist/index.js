@@ -16,22 +16,22 @@ exports.id = "index";
 exports.ids = ["index"];
 exports.modules = {
 
-/***/ "./app/bizMod/abnormity/bizMod/script/controller/index.js":
-/*!****************************************************************!*\
-  !*** ./app/bizMod/abnormity/bizMod/script/controller/index.js ***!
-  \****************************************************************/
+/***/ "./bizMod/abnormity/bizMod/script/controller/index.js":
+/*!************************************************************!*\
+  !*** ./bizMod/abnormity/bizMod/script/controller/index.js ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../service */ "./app/bizMod/abnormity/bizMod/script/service/index.js");
+/* harmony import */ var _service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../service */ "./bizMod/abnormity/bizMod/script/service/index.js");
 
 
 class Controller {
   static async query(ctx, next) {
-    console.log('Controller_query==');
+    console.log('Controller_query12341==');
     const {
       query = {},
       response,
@@ -125,32 +125,32 @@ class Controller {
 
 /***/ }),
 
-/***/ "./app/bizMod/abnormity/bizMod/script/index.js":
-/*!*****************************************************!*\
-  !*** ./app/bizMod/abnormity/bizMod/script/index.js ***!
-  \*****************************************************/
+/***/ "./bizMod/abnormity/bizMod/script/index.js":
+/*!*************************************************!*\
+  !*** ./bizMod/abnormity/bizMod/script/index.js ***!
+  \*************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "N": () => /* reexport safe */ _router__WEBPACK_IMPORTED_MODULE_0__.Z
 /* harmony export */ });
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ "./app/bizMod/abnormity/bizMod/script/router/index.js");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ "./bizMod/abnormity/bizMod/script/router/index.js");
 
 
 /***/ }),
 
-/***/ "./app/bizMod/abnormity/bizMod/script/router/index.js":
-/*!************************************************************!*\
-  !*** ./app/bizMod/abnormity/bizMod/script/router/index.js ***!
-  \************************************************************/
+/***/ "./bizMod/abnormity/bizMod/script/router/index.js":
+/*!********************************************************!*\
+  !*** ./bizMod/abnormity/bizMod/script/router/index.js ***!
+  \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../controller */ "./app/bizMod/abnormity/bizMod/script/controller/index.js");
+/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../controller */ "./bizMod/abnormity/bizMod/script/controller/index.js");
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! koa-router */ "koa-router");
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_1__);
 
@@ -225,10 +225,10 @@ class router {
 
 /***/ }),
 
-/***/ "./app/bizMod/abnormity/bizMod/script/service/index.js":
-/*!*************************************************************!*\
-  !*** ./app/bizMod/abnormity/bizMod/script/service/index.js ***!
-  \*************************************************************/
+/***/ "./bizMod/abnormity/bizMod/script/service/index.js":
+/*!*********************************************************!*\
+  !*** ./bizMod/abnormity/bizMod/script/service/index.js ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -373,26 +373,26 @@ class Service {
 
 /***/ }),
 
-/***/ "./app/bizMod/abnormity/index.js":
-/*!***************************************!*\
-  !*** ./app/bizMod/abnormity/index.js ***!
-  \***************************************/
+/***/ "./bizMod/abnormity/index.js":
+/*!***********************************!*\
+  !*** ./bizMod/abnormity/index.js ***!
+  \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "N": () => /* reexport safe */ _router__WEBPACK_IMPORTED_MODULE_0__.Z
 /* harmony export */ });
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ "./app/bizMod/abnormity/router/index.js");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ "./bizMod/abnormity/router/index.js");
 // export * as script from "./bizMod/script";
 
 
 /***/ }),
 
-/***/ "./app/bizMod/abnormity/router/index.js":
-/*!**********************************************!*\
-  !*** ./app/bizMod/abnormity/router/index.js ***!
-  \**********************************************/
+/***/ "./bizMod/abnormity/router/index.js":
+/*!******************************************!*\
+  !*** ./bizMod/abnormity/router/index.js ***!
+  \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -401,7 +401,7 @@ class Service {
 /* harmony export */ });
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! koa-router */ "koa-router");
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _bizMod_script__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../bizMod/script */ "./app/bizMod/abnormity/bizMod/script/index.js");
+/* harmony import */ var _bizMod_script__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../bizMod/script */ "./bizMod/abnormity/bizMod/script/index.js");
  // koa 路由中间件
 
  //scriptRouter 路由  
@@ -458,17 +458,17 @@ class router {
 
 /***/ }),
 
-/***/ "./app/bizMod/index.js":
-/*!*****************************!*\
-  !*** ./app/bizMod/index.js ***!
-  \*****************************/
+/***/ "./bizMod/index.js":
+/*!*************************!*\
+  !*** ./bizMod/index.js ***!
+  \*************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "N": () => /* binding */ router
 /* harmony export */ });
-/* harmony import */ var _abnormity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./abnormity */ "./app/bizMod/abnormity/index.js");
+/* harmony import */ var _abnormity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./abnormity */ "./bizMod/abnormity/index.js");
  // export default class {
 //   constructor(app, parentRouter) {
 //     this.app = app;
@@ -486,10 +486,10 @@ const router = (app, router) => {
 
 /***/ }),
 
-/***/ "./app/config/constant.js":
-/*!********************************!*\
-  !*** ./app/config/constant.js ***!
-  \********************************/
+/***/ "./config/constant.js":
+/*!****************************!*\
+  !*** ./config/constant.js ***!
+  \****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -503,10 +503,10 @@ const port = 3100;
 
 /***/ }),
 
-/***/ "./app/config/db.js":
-/*!**************************!*\
-  !*** ./app/config/db.js ***!
-  \**************************/
+/***/ "./config/db.js":
+/*!**********************!*\
+  !*** ./config/db.js ***!
+  \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -549,10 +549,10 @@ if (env === 'production') {
 
 /***/ }),
 
-/***/ "./app/config/index.js":
-/*!*****************************!*\
-  !*** ./app/config/index.js ***!
-  \*****************************/
+/***/ "./config/index.js":
+/*!*************************!*\
+  !*** ./config/index.js ***!
+  \*************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -562,15 +562,15 @@ if (env === 'production') {
 /* harmony export */   "port": () => /* reexport safe */ _constant_js__WEBPACK_IMPORTED_MODULE_3__.N,
 /* harmony export */   "tokenExpires": () => /* reexport safe */ _constant_js__WEBPACK_IMPORTED_MODULE_3__.S
 /* harmony export */ });
-/* harmony import */ var _db_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./db.js */ "./app/config/db.js");
-/* harmony import */ var _redis_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./redis.js */ "./app/config/redis.js");
+/* harmony import */ var _db_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./db.js */ "./config/db.js");
+/* harmony import */ var _redis_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./redis.js */ "./config/redis.js");
 /* harmony import */ var _redis_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_redis_js__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony reexport (checked) */ if(__webpack_require__.o(_redis_js__WEBPACK_IMPORTED_MODULE_1__, "REDIS_CONF")) __webpack_require__.d(__webpack_exports__, { "REDIS_CONF": function() { return _redis_js__WEBPACK_IMPORTED_MODULE_1__.REDIS_CONF; } });
 /* harmony reexport (checked) */ if(__webpack_require__.o(_redis_js__WEBPACK_IMPORTED_MODULE_1__, "port")) __webpack_require__.d(__webpack_exports__, { "port": function() { return _redis_js__WEBPACK_IMPORTED_MODULE_1__.port; } });
 /* harmony reexport (checked) */ if(__webpack_require__.o(_redis_js__WEBPACK_IMPORTED_MODULE_1__, "setExpirationTime")) __webpack_require__.d(__webpack_exports__, { "setExpirationTime": function() { return _redis_js__WEBPACK_IMPORTED_MODULE_1__.setExpirationTime; } });
 /* harmony reexport (checked) */ if(__webpack_require__.o(_redis_js__WEBPACK_IMPORTED_MODULE_1__, "tokenExpires")) __webpack_require__.d(__webpack_exports__, { "tokenExpires": function() { return _redis_js__WEBPACK_IMPORTED_MODULE_1__.tokenExpires; } });
-/* harmony import */ var _token_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./token.js */ "./app/config/token.js");
-/* harmony import */ var _constant_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constant.js */ "./app/config/constant.js");
+/* harmony import */ var _token_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./token.js */ "./config/token.js");
+/* harmony import */ var _constant_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constant.js */ "./config/constant.js");
 
 
 
@@ -580,10 +580,10 @@ if (env === 'production') {
 
 /***/ }),
 
-/***/ "./app/config/redis.js":
-/*!*****************************!*\
-  !*** ./app/config/redis.js ***!
-  \*****************************/
+/***/ "./config/redis.js":
+/*!*************************!*\
+  !*** ./config/redis.js ***!
+  \*************************/
 /***/ ((module) => {
 
 const env = "development"; // 环境参数
@@ -619,17 +619,17 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./app/config/token.js":
-/*!*****************************!*\
-  !*** ./app/config/token.js ***!
-  \*****************************/
+/***/ "./config/token.js":
+/*!*************************!*\
+  !*** ./config/token.js ***!
+  \*************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "v": () => /* binding */ setExpirationTime
 /* harmony export */ });
-/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constant */ "./app/config/constant.js");
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constant */ "./config/constant.js");
 
 const setExpirationTime = () => {
   const millisecond = new Date().getTime();
@@ -640,10 +640,10 @@ const setExpirationTime = () => {
 
 /***/ }),
 
-/***/ "./app/constant/httpCode.js":
-/*!**********************************!*\
-  !*** ./app/constant/httpCode.js ***!
-  \**********************************/
+/***/ "./constant/httpCode.js":
+/*!******************************!*\
+  !*** ./constant/httpCode.js ***!
+  \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -670,10 +670,10 @@ const unauthorized = {
 
 /***/ }),
 
-/***/ "./app/constant/index.js":
-/*!*******************************!*\
-  !*** ./app/constant/index.js ***!
-  \*******************************/
+/***/ "./constant/index.js":
+/*!***************************!*\
+  !*** ./constant/index.js ***!
+  \***************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -682,25 +682,25 @@ const unauthorized = {
 /* harmony export */   "Hs": () => /* reexport safe */ _httpCode__WEBPACK_IMPORTED_MODULE_0__.Hs,
 /* harmony export */   "Jc": () => /* reexport safe */ _httpCode__WEBPACK_IMPORTED_MODULE_0__.Jc
 /* harmony export */ });
-/* harmony import */ var _httpCode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./httpCode */ "./app/constant/httpCode.js");
+/* harmony import */ var _httpCode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./httpCode */ "./constant/httpCode.js");
 // 整体输出
 
 
 /***/ }),
 
-/***/ "./app/controller/user.js":
-/*!********************************!*\
-  !*** ./app/controller/user.js ***!
-  \********************************/
+/***/ "./controller/user.js":
+/*!****************************!*\
+  !*** ./controller/user.js ***!
+  \****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _service_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../service/user */ "./app/service/user.js");
-/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constant */ "./app/constant/index.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
+/* harmony import */ var _service_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../service/user */ "./service/user.js");
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constant */ "./constant/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./utils/index.js");
 
 
 
@@ -784,22 +784,22 @@ class Controller {
 
 /***/ }),
 
-/***/ "./app/db/checkTable.js":
-/*!******************************!*\
-  !*** ./app/db/checkTable.js ***!
-  \******************************/
+/***/ "./db/checkTable.js":
+/*!**************************!*\
+  !*** ./db/checkTable.js ***!
+  \**************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "e": () => /* binding */ CheckTable
 /* harmony export */ });
-/* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mysql */ "./app/db/mysql.js");
+/* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mysql */ "./db/mysql.js");
 
 
 const {
   MYSQL_CONF
-} = __webpack_require__(/*! ../config/db */ "./app/config/db.js");
+} = __webpack_require__(/*! ../config/db */ "./config/db.js");
 
 class CheckTable {
   constructor() {
@@ -883,10 +883,10 @@ class CheckTable {
 
 /***/ }),
 
-/***/ "./app/db/index.js":
-/*!*************************!*\
-  !*** ./app/db/index.js ***!
-  \*************************/
+/***/ "./db/index.js":
+/*!*********************!*\
+  !*** ./db/index.js ***!
+  \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -894,19 +894,19 @@ class CheckTable {
 /* harmony export */   "eE": () => /* reexport safe */ _checkTable__WEBPACK_IMPORTED_MODULE_0__.e,
 /* harmony export */   "ZI": () => /* reexport safe */ _mysql__WEBPACK_IMPORTED_MODULE_1__.Z
 /* harmony export */ });
-/* harmony import */ var _checkTable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./checkTable */ "./app/db/checkTable.js");
-/* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mysql */ "./app/db/mysql.js");
-/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user */ "./app/db/user.js");
+/* harmony import */ var _checkTable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./checkTable */ "./db/checkTable.js");
+/* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mysql */ "./db/mysql.js");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user */ "./db/user.js");
 
 
 
 
 /***/ }),
 
-/***/ "./app/db/mysql.js":
-/*!*************************!*\
-  !*** ./app/db/mysql.js ***!
-  \*************************/
+/***/ "./db/mysql.js":
+/*!*********************!*\
+  !*** ./db/mysql.js ***!
+  \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -916,7 +916,7 @@ class CheckTable {
 /* harmony export */ });
 /* harmony import */ var mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mysql */ "mysql");
 /* harmony import */ var mysql__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mysql__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _config_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config/index */ "./app/config/index.js");
+/* harmony import */ var _config_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config/index */ "./config/index.js");
 
  // 创建链接对象
 
@@ -940,10 +940,10 @@ const exec = async sql => {
 
 /***/ }),
 
-/***/ "./app/db/user.js":
-/*!************************!*\
-  !*** ./app/db/user.js ***!
-  \************************/
+/***/ "./db/user.js":
+/*!********************!*\
+  !*** ./db/user.js ***!
+  \********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -952,7 +952,7 @@ const exec = async sql => {
 /* harmony export */   "tM": () => /* binding */ queryUser
 /* harmony export */ });
 /* unused harmony export deleteUser */
-/* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mysql */ "./app/db/mysql.js");
+/* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mysql */ "./db/mysql.js");
  // 添加用户
 
 const addUser = async ({
@@ -995,10 +995,10 @@ const deleteUser = async id => {
 
 /***/ }),
 
-/***/ "./app/graphql/schema/index.js":
-/*!*************************************!*\
-  !*** ./app/graphql/schema/index.js ***!
-  \*************************************/
+/***/ "./graphql/schema/index.js":
+/*!*********************************!*\
+  !*** ./graphql/schema/index.js ***!
+  \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1006,24 +1006,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "user": () => /* reexport safe */ _user__WEBPACK_IMPORTED_MODULE_0__.Z
 /* harmony export */ });
-/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./user */ "./app/graphql/schema/user/index.js");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./user */ "./graphql/schema/user/index.js");
 //会员模块
 
 
 /***/ }),
 
-/***/ "./app/graphql/schema/user/index.js":
-/*!******************************************!*\
-  !*** ./app/graphql/schema/user/index.js ***!
-  \******************************************/
+/***/ "./graphql/schema/user/index.js":
+/*!**************************************!*\
+  !*** ./graphql/schema/user/index.js ***!
+  \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _resolvers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./resolvers */ "./app/graphql/schema/user/resolvers/index.js");
-/* harmony import */ var _typeDefs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeDefs */ "./app/graphql/schema/user/typeDefs/index.js");
+/* harmony import */ var _resolvers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./resolvers */ "./graphql/schema/user/resolvers/index.js");
+/* harmony import */ var _typeDefs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeDefs */ "./graphql/schema/user/typeDefs/index.js");
 
  //会员模块
 
@@ -1034,10 +1034,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./app/graphql/schema/user/resolvers/Mutation/index.js":
-/*!*************************************************************!*\
-  !*** ./app/graphql/schema/user/resolvers/Mutation/index.js ***!
-  \*************************************************************/
+/***/ "./graphql/schema/user/resolvers/Mutation/index.js":
+/*!*********************************************************!*\
+  !*** ./graphql/schema/user/resolvers/Mutation/index.js ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1049,10 +1049,10 @@ const userAdd = () => {};
 
 /***/ }),
 
-/***/ "./app/graphql/schema/user/resolvers/Query/index.js":
-/*!**********************************************************!*\
-  !*** ./app/graphql/schema/user/resolvers/Query/index.js ***!
-  \**********************************************************/
+/***/ "./graphql/schema/user/resolvers/Query/index.js":
+/*!******************************************************!*\
+  !*** ./graphql/schema/user/resolvers/Query/index.js ***!
+  \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1064,10 +1064,10 @@ const userQuery = () => {};
 
 /***/ }),
 
-/***/ "./app/graphql/schema/user/resolvers/Subscription/index.js":
-/*!*****************************************************************!*\
-  !*** ./app/graphql/schema/user/resolvers/Subscription/index.js ***!
-  \*****************************************************************/
+/***/ "./graphql/schema/user/resolvers/Subscription/index.js":
+/*!*************************************************************!*\
+  !*** ./graphql/schema/user/resolvers/Subscription/index.js ***!
+  \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1079,10 +1079,10 @@ const userTest = () => {};
 
 /***/ }),
 
-/***/ "./app/graphql/schema/user/resolvers/index.js":
-/*!****************************************************!*\
-  !*** ./app/graphql/schema/user/resolvers/index.js ***!
-  \****************************************************/
+/***/ "./graphql/schema/user/resolvers/index.js":
+/*!************************************************!*\
+  !*** ./graphql/schema/user/resolvers/index.js ***!
+  \************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1092,9 +1092,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Query": () => /* reexport module object */ _Query__WEBPACK_IMPORTED_MODULE_1__,
 /* harmony export */   "Subscription": () => /* reexport module object */ _Subscription__WEBPACK_IMPORTED_MODULE_2__
 /* harmony export */ });
-/* harmony import */ var _Mutation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Mutation */ "./app/graphql/schema/user/resolvers/Mutation/index.js");
-/* harmony import */ var _Query__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Query */ "./app/graphql/schema/user/resolvers/Query/index.js");
-/* harmony import */ var _Subscription__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Subscription */ "./app/graphql/schema/user/resolvers/Subscription/index.js");
+/* harmony import */ var _Mutation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Mutation */ "./graphql/schema/user/resolvers/Mutation/index.js");
+/* harmony import */ var _Query__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Query */ "./graphql/schema/user/resolvers/Query/index.js");
+/* harmony import */ var _Subscription__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Subscription */ "./graphql/schema/user/resolvers/Subscription/index.js");
 
 
  //会员模块
@@ -1103,10 +1103,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./app/graphql/schema/user/typeDefs/index.js":
-/*!***************************************************!*\
-  !*** ./app/graphql/schema/user/typeDefs/index.js ***!
-  \***************************************************/
+/***/ "./graphql/schema/user/typeDefs/index.js":
+/*!***********************************************!*\
+  !*** ./graphql/schema/user/typeDefs/index.js ***!
+  \***********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1115,17 +1115,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "graphqlTypes": () => /* reexport safe */ _typeDefs_graphql__WEBPACK_IMPORTED_MODULE_0__.Z,
 /* harmony export */   "types": () => /* reexport safe */ _typeDefs_js__WEBPACK_IMPORTED_MODULE_1__.Z
 /* harmony export */ });
-/* harmony import */ var _typeDefs_graphql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeDefs.graphql */ "./app/graphql/schema/user/typeDefs/typeDefs.graphql");
-/* harmony import */ var _typeDefs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeDefs.js */ "./app/graphql/schema/user/typeDefs/typeDefs.js");
+/* harmony import */ var _typeDefs_graphql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeDefs.graphql */ "./graphql/schema/user/typeDefs/typeDefs.graphql");
+/* harmony import */ var _typeDefs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeDefs.js */ "./graphql/schema/user/typeDefs/typeDefs.js");
 
 
 
 /***/ }),
 
-/***/ "./app/graphql/schema/user/typeDefs/typeDefs.js":
-/*!******************************************************!*\
-  !*** ./app/graphql/schema/user/typeDefs/typeDefs.js ***!
-  \******************************************************/
+/***/ "./graphql/schema/user/typeDefs/typeDefs.js":
+/*!**************************************************!*\
+  !*** ./graphql/schema/user/typeDefs/typeDefs.js ***!
+  \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1149,10 +1149,10 @@ type Query {
 
 /***/ }),
 
-/***/ "./app/index.js":
-/*!**********************!*\
-  !*** ./app/index.js ***!
-  \**********************/
+/***/ "./index.js":
+/*!******************!*\
+  !*** ./index.js ***!
+  \******************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1164,15 +1164,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var koa__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! koa */ "koa");
 /* harmony import */ var koa__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(koa__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "vue");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ "./app/utils/index.js");
-/* harmony import */ var _db_index_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./db/index.js */ "./app/db/index.js");
-/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./redis */ "./app/redis/index.js");
-/* harmony import */ var _routes_index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./routes/index */ "./app/routes/index.js");
-/* harmony import */ var kill_port__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! kill-port */ "kill-port");
-/* harmony import */ var kill_port__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(kill_port__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./config */ "./app/config/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./utils/index.js");
+/* harmony import */ var _db_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./db/index.js */ "./db/index.js");
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./redis */ "./redis/index.js");
+/* harmony import */ var _routes_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./routes/index */ "./routes/index.js");
+/* harmony import */ var kill_port__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! kill-port */ "kill-port");
+/* harmony import */ var kill_port__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(kill_port__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./config */ "./config/index.js");
+
+ // import Vue from "vue";
 
 
 
@@ -1180,8 +1180,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const buf = Buffer.from('runoob', 'ascii'); // 输出 72756e6f6f62
 
- // console.log('jquery==',jquery)
+console.log('buf1234516171111111111111111=', buf.toString('hex'));
 
 class App {
   constructor() {
@@ -1201,12 +1202,12 @@ class App {
   }
 
   async connectRedis() {
-    await (0,_utils__WEBPACK_IMPORTED_MODULE_3__/* .promise */ .M)((reslove, reject) => {
-      _redis__WEBPACK_IMPORTED_MODULE_5__/* .Redis.connect */ .so.connect(() => {
+    await (0,_utils__WEBPACK_IMPORTED_MODULE_2__/* .promise */ .M)((reslove, reject) => {
+      _redis__WEBPACK_IMPORTED_MODULE_4__/* .Redis.connect */ .so.connect(() => {
         console.log("Redis 链接成功");
         reslove();
       });
-      _redis__WEBPACK_IMPORTED_MODULE_5__/* .Redis.error */ .so.error(() => {
+      _redis__WEBPACK_IMPORTED_MODULE_4__/* .Redis.error */ .so.error(() => {
         console.log("Redis 链接错误");
         reject();
       });
@@ -1214,15 +1215,15 @@ class App {
   }
 
   async connectSql() {
-    await (0,_utils__WEBPACK_IMPORTED_MODULE_3__/* .promise */ .M)((reslove, reject) => {
-      _db_index_js__WEBPACK_IMPORTED_MODULE_4__/* .connection.connect */ .ZI.connect(err => {
+    await (0,_utils__WEBPACK_IMPORTED_MODULE_2__/* .promise */ .M)((reslove, reject) => {
+      _db_index_js__WEBPACK_IMPORTED_MODULE_3__/* .connection.connect */ .ZI.connect(err => {
         if (err) {
           console.log("数据库连失败");
           reject();
           throw err;
         }
 
-        new _db_index_js__WEBPACK_IMPORTED_MODULE_4__/* .CheckTable */ .eE();
+        new _db_index_js__WEBPACK_IMPORTED_MODULE_3__/* .CheckTable */ .eE();
         console.log("mysql数据库连接成功");
         reslove();
       });
@@ -1231,15 +1232,15 @@ class App {
 
   addRoute() {
     // 导入路由
-    new _routes_index__WEBPACK_IMPORTED_MODULE_6__/* .default */ .Z(this.app);
+    new _routes_index__WEBPACK_IMPORTED_MODULE_5__/* .default */ .Z(this.app);
   }
 
   listen() {
     // try {
     //   kill(port, "tcp");
     // } catch (e) {}
-    this.server = this.app.listen(_config__WEBPACK_IMPORTED_MODULE_8__.port, () => {
-      console.log(`服务器启动成功:http://localhost:${_config__WEBPACK_IMPORTED_MODULE_8__.port}/`);
+    this.server = this.app.listen(_config__WEBPACK_IMPORTED_MODULE_7__.port, () => {
+      console.log(`服务器启动成功:http://localhost:${_config__WEBPACK_IMPORTED_MODULE_7__.port}/`);
     });
     this.server.setTimeout(5 * 60 * 1000);
   }
@@ -1250,10 +1251,10 @@ class App {
 
 /***/ }),
 
-/***/ "./app/middleware/common.js":
-/*!**********************************!*\
-  !*** ./app/middleware/common.js ***!
-  \**********************************/
+/***/ "./middleware/common.js":
+/*!******************************!*\
+  !*** ./middleware/common.js ***!
+  \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1328,26 +1329,26 @@ const common = (app, router) => {
 
 /***/ }),
 
-/***/ "./app/middleware/index.js":
-/*!*********************************!*\
-  !*** ./app/middleware/index.js ***!
-  \*********************************/
+/***/ "./middleware/index.js":
+/*!*****************************!*\
+  !*** ./middleware/index.js ***!
+  \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "y": () => /* reexport safe */ _common__WEBPACK_IMPORTED_MODULE_0__.Z
 /* harmony export */ });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common */ "./app/middleware/common.js");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common */ "./middleware/common.js");
 
 
 
 /***/ }),
 
-/***/ "./app/redis/index.js":
-/*!****************************!*\
-  !*** ./app/redis/index.js ***!
-  \****************************/
+/***/ "./redis/index.js":
+/*!************************!*\
+  !*** ./redis/index.js ***!
+  \************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1356,9 +1357,9 @@ const common = (app, router) => {
 /* harmony export */   "V3": () => /* reexport safe */ _jwt__WEBPACK_IMPORTED_MODULE_1__.V3,
 /* harmony export */   "uc": () => /* reexport safe */ _user__WEBPACK_IMPORTED_MODULE_2__.u
 /* harmony export */ });
-/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./redis */ "./app/redis/redis.js");
-/* harmony import */ var _jwt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./jwt */ "./app/redis/jwt.js");
-/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user */ "./app/redis/user.js");
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./redis */ "./redis/redis.js");
+/* harmony import */ var _jwt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./jwt */ "./redis/jwt.js");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user */ "./redis/user.js");
 
 
 
@@ -1366,10 +1367,10 @@ const common = (app, router) => {
 
 /***/ }),
 
-/***/ "./app/redis/jwt.js":
-/*!**************************!*\
-  !*** ./app/redis/jwt.js ***!
-  \**************************/
+/***/ "./redis/jwt.js":
+/*!**********************!*\
+  !*** ./redis/jwt.js ***!
+  \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1379,13 +1380,13 @@ const common = (app, router) => {
 /* harmony export */   "fb": () => /* binding */ userIdCheckToken
 /* harmony export */ });
 /* unused harmony export destroyToken */
-/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./redis */ "./app/redis/redis.js");
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./redis */ "./redis/redis.js");
 /* harmony import */ var jwt_redis__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jwt-redis */ "jwt-redis");
 /* harmony import */ var jwt_redis__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jwt_redis__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jsonwebtoken */ "jsonwebtoken");
 /* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jsonwebtoken__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/utils */ "./app/utils/index.js");
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/config */ "./app/config/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/utils */ "./utils/index.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/config */ "./config/index.js");
 
 
 
@@ -1465,10 +1466,10 @@ const destroyToken = async tokenOrId => {
 
 /***/ }),
 
-/***/ "./app/redis/redis.js":
-/*!****************************!*\
-  !*** ./app/redis/redis.js ***!
-  \****************************/
+/***/ "./redis/redis.js":
+/*!************************!*\
+  !*** ./redis/redis.js ***!
+  \************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1478,8 +1479,8 @@ const destroyToken = async tokenOrId => {
 /* harmony export */ });
 /* harmony import */ var redis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redis */ "redis");
 /* harmony import */ var redis__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redis__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config */ "./app/config/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./utils/index.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config */ "./config/index.js");
 
 
 
@@ -1597,20 +1598,20 @@ const redisClient = Redis.redisClient;
 
 /***/ }),
 
-/***/ "./app/redis/user.js":
-/*!***************************!*\
-  !*** ./app/redis/user.js ***!
-  \***************************/
+/***/ "./redis/user.js":
+/*!***********************!*\
+  !*** ./redis/user.js ***!
+  \***********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "u": () => /* binding */ getUserIfo
 /* harmony export */ });
-/* harmony import */ var _jwt__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./jwt */ "./app/redis/jwt.js");
-/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./redis */ "./app/redis/redis.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/utils */ "./app/utils/index.js");
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/config */ "./app/config/index.js");
+/* harmony import */ var _jwt__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./jwt */ "./redis/jwt.js");
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./redis */ "./redis/redis.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/utils */ "./utils/index.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/config */ "./config/index.js");
 
 
 
@@ -1628,10 +1629,10 @@ const getUserIfo = async tokenOrId => {
 
 /***/ }),
 
-/***/ "./app/routes/index.js":
-/*!*****************************!*\
-  !*** ./app/routes/index.js ***!
-  \*****************************/
+/***/ "./routes/index.js":
+/*!*************************!*\
+  !*** ./routes/index.js ***!
+  \*************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1644,17 +1645,17 @@ const getUserIfo = async tokenOrId => {
 /* harmony import */ var graphql__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(graphql__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var http_errors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! http-errors */ "http-errors");
 /* harmony import */ var http_errors__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(http_errors__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/redis */ "./app/redis/index.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/utils */ "./app/utils/index.js");
-/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/constant */ "./app/constant/index.js");
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/redis */ "./redis/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/utils */ "./utils/index.js");
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/constant */ "./constant/index.js");
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! koa-router */ "koa-router");
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var graphql_tools__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! graphql-tools */ "graphql-tools");
 /* harmony import */ var graphql_tools__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(graphql_tools__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./user */ "./app/routes/user.js");
-/* harmony import */ var _middleware_index__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/middleware/index */ "./app/middleware/index.js");
-/* harmony import */ var _bizMod_index__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/bizMod/index */ "./app/bizMod/index.js");
-/* harmony import */ var _graphql_schema__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/graphql/schema */ "./app/graphql/schema/index.js");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./user */ "./routes/user.js");
+/* harmony import */ var _middleware_index__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/middleware/index */ "./middleware/index.js");
+/* harmony import */ var _bizMod_index__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/bizMod/index */ "./bizMod/index.js");
+/* harmony import */ var _graphql_schema__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/graphql/schema */ "./graphql/schema/index.js");
 
 
 
@@ -1859,17 +1860,17 @@ class Route {
 
 /***/ }),
 
-/***/ "./app/routes/user.js":
-/*!****************************!*\
-  !*** ./app/routes/user.js ***!
-  \****************************/
+/***/ "./routes/user.js":
+/*!************************!*\
+  !*** ./routes/user.js ***!
+  \************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _controller_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../controller/user */ "./app/controller/user.js");
+/* harmony import */ var _controller_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../controller/user */ "./controller/user.js");
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! koa-router */ "koa-router");
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_1__);
 
@@ -1937,21 +1938,21 @@ class Route {
 
 /***/ }),
 
-/***/ "./app/service/user.js":
-/*!*****************************!*\
-  !*** ./app/service/user.js ***!
-  \*****************************/
+/***/ "./service/user.js":
+/*!*************************!*\
+  !*** ./service/user.js ***!
+  \*************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _db_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../db/user */ "./app/db/user.js");
-/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constant */ "./app/constant/index.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./app/utils/index.js");
-/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/redis */ "./app/redis/index.js");
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../config */ "./app/config/index.js");
+/* harmony import */ var _db_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../db/user */ "./db/user.js");
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constant */ "./constant/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./utils/index.js");
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/redis */ "./redis/index.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../config */ "./config/index.js");
 
 
 
@@ -2117,10 +2118,10 @@ class Service {
 
 /***/ }),
 
-/***/ "./app/utils/common.js":
-/*!*****************************!*\
-  !*** ./app/utils/common.js ***!
-  \*****************************/
+/***/ "./utils/common.js":
+/*!*************************!*\
+  !*** ./utils/common.js ***!
+  \*************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2152,10 +2153,10 @@ const merge = Object.assign || function (target) {
 
 /***/ }),
 
-/***/ "./app/utils/index.js":
-/*!****************************!*\
-  !*** ./app/utils/index.js ***!
-  \****************************/
+/***/ "./utils/index.js":
+/*!************************!*\
+  !*** ./utils/index.js ***!
+  \************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2163,17 +2164,17 @@ const merge = Object.assign || function (target) {
 /* harmony export */   "T": () => /* reexport safe */ _common__WEBPACK_IMPORTED_MODULE_0__.T,
 /* harmony export */   "M": () => /* reexport safe */ _common__WEBPACK_IMPORTED_MODULE_0__.M
 /* harmony export */ });
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common */ "./app/utils/common.js");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common */ "./utils/common.js");
  // export * from "./jwt";
 
 
 
 /***/ }),
 
-/***/ "./app/graphql/schema/user/typeDefs/typeDefs.graphql":
-/*!***********************************************************!*\
-  !*** ./app/graphql/schema/user/typeDefs/typeDefs.graphql ***!
-  \***********************************************************/
+/***/ "./graphql/schema/user/typeDefs/typeDefs.graphql":
+/*!*******************************************************!*\
+  !*** ./graphql/schema/user/typeDefs/typeDefs.graphql ***!
+  \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2184,10 +2185,10 @@ const merge = Object.assign || function (target) {
 
 /***/ }),
 
-/***/ "./node_modules/webpack/hot/log-apply-result.js":
-/*!******************************************************!*\
-  !*** ./node_modules/webpack/hot/log-apply-result.js ***!
-  \******************************************************/
+/***/ "../node_modules/webpack/hot/log-apply-result.js":
+/*!*******************************************************!*\
+  !*** ../node_modules/webpack/hot/log-apply-result.js ***!
+  \*******************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 /*
@@ -2198,7 +2199,7 @@ module.exports = function (updatedModules, renewedModules) {
 	var unacceptedModules = updatedModules.filter(function (moduleId) {
 		return renewedModules && renewedModules.indexOf(moduleId) < 0;
 	});
-	var log = __webpack_require__(/*! ./log */ "./node_modules/webpack/hot/log.js");
+	var log = __webpack_require__(/*! ./log */ "../node_modules/webpack/hot/log.js");
 
 	if (unacceptedModules.length > 0) {
 		log(
@@ -2238,10 +2239,10 @@ module.exports = function (updatedModules, renewedModules) {
 
 /***/ }),
 
-/***/ "./node_modules/webpack/hot/log.js":
-/*!*****************************************!*\
-  !*** ./node_modules/webpack/hot/log.js ***!
-  \*****************************************/
+/***/ "../node_modules/webpack/hot/log.js":
+/*!******************************************!*\
+  !*** ../node_modules/webpack/hot/log.js ***!
+  \******************************************/
 /***/ ((module) => {
 
 var logLevel = "info";
@@ -2307,10 +2308,10 @@ module.exports.formatError = function (err) {
 
 /***/ }),
 
-/***/ "./node_modules/webpack/hot/poll.js?1000":
-/*!***********************************************!*\
-  !*** ./node_modules/webpack/hot/poll.js?1000 ***!
-  \***********************************************/
+/***/ "../node_modules/webpack/hot/poll.js?1000":
+/*!************************************************!*\
+  !*** ../node_modules/webpack/hot/poll.js?1000 ***!
+  \************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var __resourceQuery = "?1000";
@@ -2321,7 +2322,7 @@ var __resourceQuery = "?1000";
 /*globals __resourceQuery */
 if (true) {
 	var hotPollInterval = +__resourceQuery.substr(1) || 0;
-	var log = __webpack_require__(/*! ./log */ "./node_modules/webpack/hot/log.js");
+	var log = __webpack_require__(/*! ./log */ "../node_modules/webpack/hot/log.js");
 
 	var checkForUpdate = function checkForUpdate(fromUpdate) {
 		if (module.hot.status() === "idle") {
@@ -2332,7 +2333,7 @@ if (true) {
 						if (fromUpdate) log("info", "[HMR] Update applied.");
 						return;
 					}
-					__webpack_require__(/*! ./log-apply-result */ "./node_modules/webpack/hot/log-apply-result.js")(updatedModules, updatedModules);
+					__webpack_require__(/*! ./log-apply-result */ "../node_modules/webpack/hot/log-apply-result.js")(updatedModules, updatedModules);
 					checkForUpdate(true);
 				})
 				.catch(function (err) {
@@ -2516,17 +2517,6 @@ module.exports = require("mysql");;
 "use strict";
 module.exports = require("redis");;
 
-/***/ }),
-
-/***/ "vue":
-/*!**********************!*\
-  !*** external "vue" ***!
-  \**********************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("vue");;
-
 /***/ })
 
 };
@@ -2535,8 +2525,8 @@ module.exports = require("vue");;
 // load runtime
 var __webpack_require__ = require("./runtime~index.js");
 __webpack_require__.C(exports);
-__webpack_require__.X([], "./node_modules/webpack/hot/poll.js?1000");
-return __webpack_require__.X([], "./app/index.js");
+__webpack_require__.X([], "../node_modules/webpack/hot/poll.js?1000");
+return __webpack_require__.X([], "./index.js");
 })();
 });
 //# sourceMappingURL=index.js.map

@@ -1,12 +1,12 @@
 import service from "../service";
 
 class Controller {
-  static async query(ctx, next) {
-    console.log('Controller_query==')
+  static async query(ctx, next) { 
+    console.log('Controller_query12341==')
     const { query = {}, response, request } = ctx;
     const {
       body = {
-        // mutation = '', variables = {}
+         // mutation = '', variables = {}
       },
     } = request;
     const parameter = query; // 获取请求参数

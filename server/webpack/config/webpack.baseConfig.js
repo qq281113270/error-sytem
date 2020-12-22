@@ -1,10 +1,13 @@
 import "@babel/polyfill";
 import webpack from "webpack";
+import fs from "fs";
 import path from "path";
 import nodeExternals from "webpack-node-externals";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import WebpackBar from "webpackbar";
 import HappyPack from "happypack";
+import FriendlyErrorsPlugin from "friendly-errors-webpack-plugin";
+import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 import os from "os";
 import HtmlWebpackPlugin from "html-webpack-plugin";
@@ -17,14 +20,17 @@ const bannerPluginKeys = Object.keys(bannerPlugin);
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length - 1 });
 
 export default {
+  // 基目录，绝对路径，用于解析配置中的入口点和加载器。
+  context: path.resolve(__dirname, "../../app"),
   // 入口
   entry: {
     // $vendor: ['vue'], // 公共包抽取
     index: [
       //添加编译缓存
       "webpack/hot/poll?1000",
+      //  path.resolve(__dirname, "../../app/index.js")
       //入口主文件
-      "./app/index.js",
+      "index.js", // 如果没有配置 context 则需要这样引入  path.resolve(__dirname, "../../app/index.js")
     ],
   },
 
@@ -41,8 +47,13 @@ export default {
       path.resolve(__dirname, "../../node_modules"),
       path.resolve(__dirname, "../../app"),
     ],
+    // 可以省略引用后缀
+    extensions: [".tsx", ".ts", ".js", ".graphql", ".json"],
     // 1.不需要node polyfilss webpack 去掉了node polyfilss 需要自己手动添加
     alias: {
+      buffer: "buffer",
+      crypto: "crypto-browserify",
+      vm: "vm-browserify",
       crypto: false,
       stream: "stream-browserify",
       "@": path.join(__dirname, "../../app"),
@@ -74,6 +85,44 @@ export default {
     devtoolModuleFilenameTemplate:
       "webpack://[namespace]/[resource-path]?[loaders]",
   },
+  //选项决定文件系统快照的创建和失效方式。
+  snapshot: {
+    managedPaths: [path.resolve(__dirname, "../../node_modules")],
+    immutablePaths: [],
+    buildDependencies: {
+      hash: true,
+      timestamp: true,
+    },
+    module: {
+      timestamp: true,
+    },
+    resolve: {
+      timestamp: true,
+    },
+    resolveBuildDependencies: {
+      hash: true,
+      timestamp: true,
+    },
+  },
+  bail: true,
+  //启用编译缓存日志输出
+  infrastructureLogging: {
+    level: "log",
+  },
+  cache: {
+    type: "filesystem", //  'memory' | 'filesystem'
+    store: "pack",
+    cacheDirectory: path.resolve(
+      __dirname,
+      "../../node_modules/.cache/webpack"
+    ), // 默认将缓存存储在 node_modules/.cache/webpack
+    // 缓存依赖，当缓存依赖修改时，缓存失效
+    buildDependencies: {
+      // 将你的配置添加依赖，更改配置时，使得缓存失效
+      config: [__filename],
+    },
+  },
+
   // 打包优化配置
   optimization: {
     //告知 webpack 去决定每个模块使用的导出内容。这取决于 optimization.providedExports 选项。
@@ -134,7 +183,7 @@ export default {
         //     //公共模块
         //     chunks: 'initial',
         //     name: 'common',
-        //     minSize: 100, //大小超过100个字节
+        //     minSize: 1000, //大小超过1000个字节
         //     minChunks: 3, //最少引入了3次
         // },
         defaultVendors: {
@@ -156,10 +205,28 @@ export default {
   node: {
     __filename: true,
     __dirname: true,
+    global: false,
   },
+
   //引入缓存
   externals: [
-    nodeExternals({ allowlist: ["webpack/hot/poll?1000",'jquery',] }),
+    nodeExternals({
+      allowlist: ["webpack/hot/poll?1000"],
+    }),
+    //将node_modules目录下的所有模块加入到externals中    告知 webpack  ，并忽略 externals 中的模块
+    (() => {
+      const nodeModules = {};
+      fs.readdirSync(path.resolve(__dirname, "../../node_modules"))
+        .filter((catalogue) => {
+          return [".bin"].indexOf(catalogue) === -1;
+        })
+        .forEach((mod) => {
+          if (mod.indexOf(".") === 0) return;
+          nodeModules[mod] = "commonjs " + mod;
+        });
+      // console.log("nodeModules============", nodeModules);
+      return nodeModules;
+    })(),
   ],
   module: {
     rules: [
@@ -270,25 +337,25 @@ export default {
     // new WebpackBuildDllPlugin({
     //   // dllConfigPath: required, your Dll Config Path, support absolute path.
     //   dllConfigPath: path.resolve(__dirname, "./webpack.dll.config.js"),
-    //   // forceBuild: default is {false}, when dependencies change, will rebuild DllReference files
-    //   // if {true} it will build DllReference in once upon starting Webpack.
     //   forceBuild: false,
-    //   //  manifest:   path.join(__dirname, './dist', '[name].manifest.json')
     // }),
 
-    // // 告诉webpack使用了哪些第三方库代码
+    //    告诉webpack使用了哪些第三方库代码
     // new webpack.DllReferencePlugin({
-    //   // react 映射到json文件上去
-    //   manifest: path.join(
-    //     __dirname,
-    //     "../../dist/dllFile",
-    //     "react.manifest.json"
-    //   ),
+    //   // vue 映射到json文件上去
+    //   manifest: path.join(__dirname, "../../dist/dllFile", "vue.manifest.json"),
     // }),
     // dll end dll配置
     // //体积包分析插件
     // new BundleAnalyzerPlugin(),
 
+    //友好的错误WebPACK插件 错误提示插件
+    //友好的错误认识webpackerrors WebPACK插件类  这是很容易添加类型的错误，所以如果你想看moreerrors得到处理
+    new FriendlyErrorsPlugin(),
+    //这个Webpack插件将强制所有必需模块的整个路径与磁盘上实际路径的确切情况相匹配。
+    // 使用此插件有助于缓解OSX上的开发人员不遵循严格的路径区分大小写的情况，
+    // 这些情况将导致与其他开发人员或运行其他操作系统（需要正确使用大小写正确的路径）的构建箱发生冲突。
+    new CaseSensitivePathsPlugin(),
     // 开启多进程
     new HappyPack({
       id: "node",
@@ -320,7 +387,7 @@ export default {
     new CleanWebpackPlugin({
       cleanStaleWebpackAssets: false,
       //配置清理文件 如果不清理则加 ！
-      // cleanOnceBeforeBuildPatterns: ["!dllFile*"],
+      cleanOnceBeforeBuildPatterns: ["*", "!dllFile*"],
       // cleanOnceBeforeBuildPatterns: [
       //   "index.html",
       //   "**/index*.js",
@@ -328,8 +395,10 @@ export default {
       // !./image/*
       // ],
     }),
-    //缓存包
+    //缓存包 热启动
     new webpack.HotModuleReplacementPlugin(),
+    /* 当 HMR 替换时在浏览器控制台输出对用户更友好的模块名字信息 */
+    // new webpack.NamedModulesPlugin(),
     //使用 NoEmitOnErrorsPlugin 来跳过输出阶段。这样可以确保输出资源不会包含错误
     new webpack.NoEmitOnErrorsPlugin(),
     //DefinePlugin 允许创建一个在编译时可以配置的全局常量。这可能会对开发模式和发布模式的构建允许不同的行为非常有用

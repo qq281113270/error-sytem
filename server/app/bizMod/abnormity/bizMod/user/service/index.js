@@ -4,7 +4,6 @@ import { merge } from '../utils';
 import { createToken, checkToken, destroyToken, getUserIfo } from '../redis';
 import { setExpirationTime } from '../config';
 
-
 class Service {
     static list(page) {
         console.log('page=', page);

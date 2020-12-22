@@ -28,10 +28,9 @@ export default {
           },
           compress: {
             // sourceMap: true, // Must be set to true if using source-maps in production
-
             drop_debugger: true, // 去掉所有的debugger
             drop_console: true, // 去掉所有的console
-            //  pure_funcs: ["console.log"], //移除console
+            pure_funcs: ["console.log"], //移除console
             ecma: 5,
             warnings: false,
             // Disabled because of an issue with Uglify breaking seemingly valid code:
