@@ -72,6 +72,7 @@
     "terser-webpack-plugin": "^5.0.3",
     "thread-loader": "^3.0.1",
     "timers-browserify": "^2.0.12",
+    "uglify-js": "^3.12.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "utf-8-validate": "^5.0.3",
     "util": "^0.12.3",
@@ -86,6 +87,7 @@
     "webpack-hot-middleware": "^2.25.0",
     "webpack-merge": "^5.7.0",
     "webpack-node-externals": "^2.5.2",
+    "webpack-parallel-uglify-plugin": "^2.0.0",
     "webpackbar": "^5.0.0-3"
   },
   "devDependencies": {},
@@ -110,8 +112,8 @@
     "dev:source": "nodemon  --exec cross-env  NODE_ENV=development  babel-node ./app index.js",
     "testflie": "node  ./test.js",
     "注释7": "编译dll文件",
-    "dll": "webpack --config ./webpack/config/webpack.dll.config.js",
-    "stats": "webpack --config ./webpack/config/index.js  --profile --json > stats.json"
+    "dll": "webpack   --progress --config ./webpack/config/webpack.dll.config.js",
+    "stats": "webpack --progress --config ./webpack/config/index.js  --profile --json > stats.json"
   },
   "author": "",
   "license": "ISC"

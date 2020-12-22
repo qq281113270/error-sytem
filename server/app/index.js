@@ -6,8 +6,8 @@ import { Redis } from "./redis";
 import Route from "./routes/index";
 import kill from "kill-port";
 import { port } from "./config";
- 
- 
+ /* 你好*/
+ console.log(12345621213123123456713441212344312342123412345634576456754687654378)
 class App {
   constructor() {
           this.app = new koa();
@@ -51,11 +51,11 @@ class App {
   }
   addRoute() {
     // 导入路由
-    new Route(this.app);
+       new Route(this.app);
   }
   listen() {
-    // try {
-    //   kill(port, "tcp");
+     // try {
+      //   kill(port, "tcp");
     // } catch (e) {}
 
     this.server = this.app.listen(port, () => {

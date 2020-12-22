@@ -7,21 +7,18 @@ import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import WebpackBar from "webpackbar";
 import HappyPack from "happypack";
 import TerserPlugin from "terser-webpack-plugin";
+import os from "os";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
-import SpeedMeasurePlugin from "speed-measure-webpack-plugin";
 import WebpackBuildDllPlugin from "webpack-build-dll-plugin";
 import DllReferencePlugin from "webpack/lib/DllReferencePlugin";
 import HardSourceWebpackPlugin from "hard-source-webpack-plugin";
 import bannerPlugin from "./bannerPlugin";
 
 const bannerPluginKeys = Object.keys(bannerPlugin);
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length - 1 });
 
-//添加smp.wrap会有bug 编译缓存出问题
-// const smp = new SpeedMeasurePlugin();
-
-export default //    smp.wrap(
-{
+export default {
   // 入口
   entry: {
     // $vendor: ['vue'], // 公共包抽取
@@ -41,7 +38,7 @@ export default //    smp.wrap(
     alias: {
       crypto: false,
       stream: "stream-browserify",
-      '@':path.join(__dirname,"../../app",)
+      "@": path.join(__dirname, "../../app"),
     },
     // 2.手动添加polyfills
     fallback: {
@@ -78,95 +75,51 @@ export default //    smp.wrap(
     runtimeChunk: {
       name: (entrypoint) => `runtime~${entrypoint.name}`,
     },
-    // 开启下面这个会有bug
-    // splitChunks: {
-    //   chunks: "async",
-    //   minSize: 20000,
-    //   minRemainingSize: 0,
-    //   maxSize: 0,
-    //   minChunks: 1,
-    //   maxAsyncRequests: 30,
-    //   maxInitialRequests: 30,
-    //   automaticNameDelimiter: "~",
-    //   enforceSizeThreshold: 50000,
-    //   cacheGroups: {
-    //     // vendor: {
-    //     //     //第三方依赖
-    //     //     priority: 1, //设置优先级，首先抽离第三方模块
-    //     //     name: 'vendor',
-    //     //     test: /node_modules/,
-    //     //     chunks: 'initial',
-    //     //     minSize: 0,
-    //     //     minChunks: 1, //最少引入了1次
-    //     // },
-    //     // //缓存组
-    //     // common: {
-    //     //     //公共模块
-    //     //     chunks: 'initial',
-    //     //     name: 'common',
-    //     //     minSize: 100, //大小超过100个字节
-    //     //     minChunks: 3, //最少引入了3次
-    //     // },
-    //     defaultVendors: {
-    //       test: /[\\/]node_modules[\\/]/,
-    //       priority: -10,
-    //       reuseExistingChunk: true,
-    //     },
-    //     default: {
-    //       minChunks: 2,
-    //       priority: -20,
-    //       reuseExistingChunk: true,
-    //     },
-    //   },
-    // },
-    // Chunk end
-    minimizer: [
-      // This is only used in production mode
-      new TerserPlugin({
-        extractComments: true,
-        terserOptions: {
-          parse: {
-            // We want terser to parse ecma 8 code. However, we don't want it
-            // to apply any minification steps that turns valid ecma 5 code
-            // into invalid ecma 5 code. This is why the 'compress' and 'output'
-            // sections only apply transformations that are ecma 5 safe
-            // https://github.com/facebook/create-react-app/pull/4234
-            ecma: 8,
-          },
-          compress: {
-            ecma: 5,
-            warnings: false,
-            // Disabled because of an issue with Uglify breaking seemingly valid code:
-            // https://github.com/facebook/create-react-app/issues/2376
-            // Pending further investigation:
-            // https://github.com/mishoo/UglifyJS2/issues/2011
-            comparisons: false,
-            // Disabled because of an issue with Terser breaking valid code:
-            // https://github.com/facebook/create-react-app/issues/5250
-            // Pending further investigation:
-            // https://github.com/terser-js/terser/issues/120
-            inline: 2,
-          },
-          mangle: {
-            safari10: true,
-          },
-          // Added for profiling in devtools
-          // keep_classnames: isEnvProductionProfile,
-          // keep_fnames: isEnvProductionProfile,
-          output: {
-            ecma: 5,
-            comments: false,
-            // Turned on because emoji and regex is not minified properly using default
-            // https://github.com/facebook/create-react-app/issues/2488
-            ascii_only: true,
-          },
+    //
+    splitChunks: {
+      name: false,
+      chunks: "all",
+      // minSize: 20000,
+      minRemainingSize: 0,
+      // maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
+      automaticNameDelimiter: "~",
+      enforceSizeThreshold: 50000,
+      cacheGroups: {
+        // vendor: {
+        //     //第三方依赖
+        //     priority: 1, //设置优先级，首先抽离第三方模块
+        //     name: 'vendor',
+        //     test: /node_modules/,
+        //     chunks: 'initial',
+        //     minSize: 0,
+        //     minChunks: 1, //最少引入了1次
+        // },
+        // //缓存组
+        // common: {
+        //     //公共模块
+        //     chunks: 'initial',
+        //     name: 'common',
+        //     minSize: 100, //大小超过100个字节
+        //     minChunks: 3, //最少引入了3次
+        // },
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          reuseExistingChunk: true,
         },
-        parallel: 4,
-      }),
-    ],
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    },
+    // Chunk end
   },
   target: "node",
-  // devtool: webpackEnv ? "source-map" : "eval", // 生产环境和开发环境判断
   node: {
     __filename: true,
     __dirname: true,
@@ -209,6 +162,8 @@ export default //    smp.wrap(
           //   }
           // },
         ],
+        // 排除文件,因为这些包已经编译过，无需再次编译
+        exclude: /(node_modules|bower_components)/,
         // use: {
         //   loader:"node-loader",
         //   options: {
@@ -218,7 +173,7 @@ export default //    smp.wrap(
       },
       {
         test: /\.m?js$/,
-        // 排除文件
+        // 排除文件,因为这些包已经编译过，无需再次编译
         exclude: /(node_modules|bower_components)/,
         use: ["happypack/loader?id=babel", "thread-loader", "cache-loader"],
         // use: {
@@ -232,7 +187,8 @@ export default //    smp.wrap(
 
       {
         test: /\.(graphql|gql)$/,
-        exclude: /node_modules/,
+        // 排除文件,因为这些包已经编译过，无需再次编译
+        exclude: /(node_modules|bower_components)/,
         use: ["happypack/loader?id=graphql", "thread-loader", "cache-loader"],
         // use: {
         //   loader: "raw-loader",
@@ -297,15 +253,28 @@ export default //    smp.wrap(
     new HappyPack({
       id: "node",
       use: ["node-loader"],
+      // 输出执行日志
+      verbose: true,
+      // 使用共享线程池
+      threadPool: happyThreadPool,
     }),
     new HappyPack({
       id: "babel",
       use: ["babel-loader"],
+      // 输出执行日志
+      verbose: true,
+      // 使用共享线程池
+      threadPool: happyThreadPool,
     }),
     new HappyPack({
       id: "graphql",
       use: ["raw-loader"],
+      // 输出执行日志
+      verbose: true,
+      // 使用共享线程池
+      threadPool: happyThreadPool,
     }),
+    // 编译进度条
     new WebpackBar(),
     new CleanWebpackPlugin({
       cleanStaleWebpackAssets: false,
@@ -353,4 +322,3 @@ export default //    smp.wrap(
     }),
   ],
 };
-//   );

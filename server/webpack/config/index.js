@@ -1,4 +1,5 @@
 import { merge } from "webpack-merge";
+import SpeedMeasurePlugin from "speed-measure-webpack-plugin";
 import baseConfig from "./webpack.baseConfig";
 import devConfig from "./webpack.devConfig";
 import prdConfig from "./webpack.prdConfig";
@@ -12,4 +13,8 @@ const isEnvDevelopment = webpackEnv === "development";
 //   是否是生产环境
 const isEnvProduction = webpackEnv === "production";
 
+//添加smp.wrap会有bug 编译缓存出问题
+const smp = new SpeedMeasurePlugin();
+
 export default merge(baseConfig, isEnvDevelopment ? devConfig : prdConfig);
+//    smp.wrap(merge(baseConfig, isEnvDevelopment ? devConfig : prdConfig))
