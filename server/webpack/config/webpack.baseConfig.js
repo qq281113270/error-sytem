@@ -13,7 +13,6 @@ import WebpackBuildDllPlugin from "webpack-build-dll-plugin";
 import DllReferencePlugin from "webpack/lib/DllReferencePlugin";
 import HardSourceWebpackPlugin from "hard-source-webpack-plugin";
 import bannerPlugin from "./bannerPlugin";
-
 const bannerPluginKeys = Object.keys(bannerPlugin);
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length - 1 });
 
@@ -33,6 +32,15 @@ export default {
   watch: false,
   //dllPlugin 插件需要的包
   resolve: {
+    // 模块查找优先顺序配置
+    // 1.配置模块的查找规则,
+    // 2.导入 require('sql')，会先在node_modules下查找，然后再到app下查找
+    // 相对路径是相对于webpack.config.js文件所在的路劲
+    // 详细教程: https://blog.csdn.net/u012987546/article/details/97389078
+    modules: [
+      path.resolve(__dirname, "../../node_modules"),
+      path.resolve(__dirname, "../../app"),
+    ],
     // 1.不需要node polyfilss webpack 去掉了node polyfilss 需要自己手动添加
     alias: {
       crypto: false,
@@ -68,7 +76,32 @@ export default {
   },
   // 打包优化配置
   optimization: {
-    emitOnErrors: true,
+    //告知 webpack 去决定每个模块使用的导出内容。这取决于 optimization.providedExports 选项。
+    //由 optimization.usedExports 收集的信息会被其它优化手段或者代码生成使用，比如未使用的导出内容不会被生成， 当所有的使用都适配，导出名称会被处理做单个标记字符
+    usedExports: 'global',
+    //告知 webpack 去辨识 package.json 中的 副作用 标记或规则，以跳过那些当导出不被使用且被标记不包含副作用的模块。
+    sideEffects: true,
+    //使用 optimization.emitOnErrors 在编译时每当有错误时，就会 emit asset。这样可以确保出错的 asset 被 emit 出来。关键错误会被 emit 到生成的代码中，并会在运行时报错
+    emitOnErrors: true,    
+    //如果模块已经包含在所有父级模块中，告知 webpack 从 chunk 中检测出这些模块，或移除这些模块
+    removeAvailableModules: true,
+    //如果 chunk 为空，告知 webpack 检测或移除这些 chunk
+    removeEmptyChunks: true,
+    //告知 webpack 合并含有相同模块的 chunk
+    mergeDuplicateChunks: true,
+    //告知 webpack 确定和标记出作为其他 chunk 子集的那些 chunk，其方式是在已经加载过较大的 chunk 之后，就不再去加载这些 chunk 子集。
+    flagIncludedChunks: true,
+    /*
+    允许控制导出处理(export mangling)。
+     默认 optimization.mangleExports: 'deterministic' 会在 production 模式下 启用而其它情况会被禁用
+    */
+    mangleExports: true,
+    //告知 webpack 去确定那些由模块提供的导出内容，为 export * from ... 生成更多高效的代码。
+    providedExports: true,
+    //告知 webpack 是否对未使用的导出内容，实施内部图形分析(graph analysis)。
+    innerGraph: true,
+    //在处理资产之后添加额外的散列编译通道，以获得正确的资产内容散列。如果realContentHash被设置为false，则使用内部数据来计算散列，当资产相同时，它可以更改。
+    realContentHash: true,
     // Chunk start splitChunks [name].chunk  公共包抽取  vendor
     // 开启这个编译包更小
     runtimeChunk: {
@@ -130,9 +163,13 @@ export default {
   module: {
     rules: [
       {
+        include: path.resolve(__dirname, "../../app"),
+        sideEffects: true,
+      },
+      {
         test: /\.node$/,
         use: [
-          "happypack/loader?id=node",
+          "happypack/loader?id=node&cacheDirectory=true",
           "thread-loader",
           "cache-loader",
           // {
@@ -173,7 +210,11 @@ export default {
         test: /\.m?js$/,
         // 排除文件,因为这些包已经编译过，无需再次编译
         exclude: /(node_modules|bower_components)/,
-        use: ["happypack/loader?id=babel", "thread-loader", "cache-loader"],
+        use: [
+          "happypack/loader?id=babel&cacheDirectory=true",
+          "thread-loader",
+          "cache-loader",
+        ],
         // use: {
         //  loader: "babel-loader",
         //   options: {
@@ -187,7 +228,11 @@ export default {
         test: /\.(graphql|gql)$/,
         // 排除文件,因为这些包已经编译过，无需再次编译
         exclude: /(node_modules|bower_components)/,
-        use: ["happypack/loader?id=graphql", "thread-loader", "cache-loader"],
+        use: [
+          "happypack/loader?id=graphql&cacheDirectory=true",
+          "thread-loader",
+          "cache-loader",
+        ],
         // use: {
         //   loader: "raw-loader",
         // },
@@ -202,25 +247,25 @@ export default {
   plugins: [
     // 加载该插件报错 找不到原因
     // new HardSourceWebpackPlugin({
-    //   // // cacheDirectory是在高速缓存写入。默认情况下，将缓存存储在node_modules下的目录中，因此如
-    //   // // 果清除了node_modules，则缓存也是如此
-    //   // cacheDirectory: "node_modules/.cache/hard-source/[confighash]",
-    //   // // Either an absolute path or relative to webpack's options.context.
-    //   // // Sets webpack's recordsPath if not already set.
-    //   // recordsPath: "node_modules/.cache/hard-source/[confighash]/records.json",
-    //   // // configHash在启动webpack实例时转换webpack配置，并用于cacheDirectory为不同的webpack配
-    //   // // 置构建不同的缓存
-    //   // configHash: function (webpackConfig) {
-    //   //   // node-object-hash on npm can be used to build this.
-    //   //   return require("node-object-hash")({ sort: false }).hash(webpackConfig);
-    //   // },
-    //   // // 当加载器，插件，其他构建时脚本或其他动态依赖项发生更改时，hard-source需要替换缓存以确保输
-    //   // // 出正确。environmentHash被用来确定这一点。如果散列与先前的构建不同，则将使用新的缓存
-    //   // environmentHash: {
-    //   //   root: process.cwd(),
-    //   //   directories: [],
-    //   //   files: ["package-lock.json", "yarn.lock"],
-    //   // },
+    // // cacheDirectory是在高速缓存写入。默认情况下，将缓存存储在node_modules下的目录中，因此如
+    // // 果清除了node_modules，则缓存也是如此
+    // cacheDirectory: "node_modules/.cache/hard-source/[confighash]",
+    // // Either an absolute path or relative to webpack's options.context.
+    // // Sets webpack's recordsPath if not already set.
+    // recordsPath: "node_modules/.cache/hard-source/[confighash]/records.json",
+    // // configHash在启动webpack实例时转换webpack配置，并用于cacheDirectory为不同的webpack配
+    // // 置构建不同的缓存
+    // configHash: function (webpackConfig) {
+    //   // node-object-hash on npm can be used to build this.
+    //   return require("node-object-hash")({ sort: false }).hash(webpackConfig);
+    // },
+    // // 当加载器，插件，其他构建时脚本或其他动态依赖项发生更改时，hard-source需要替换缓存以确保输
+    // // 出正确。environmentHash被用来确定这一点。如果散列与先前的构建不同，则将使用新的缓存
+    // environmentHash: {
+    //   root: process.cwd(),
+    //   directories: [],
+    //   files: ["package-lock.json", "yarn.lock"],
+    // },
     // }),
 
     // dll start dll配置 在服务端 DllPlugin 用不了没办法加载js, 只有客户端才能用
@@ -259,6 +304,7 @@ export default {
     new HappyPack({
       id: "babel",
       use: ["babel-loader"],
+      // use: ["babel-loader", "unicode-loader"],
       // 输出执行日志
       verbose: true,
       // 使用共享线程池

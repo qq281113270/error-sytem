@@ -5,6 +5,9 @@ export default {
   optimization: {
     // 压缩
     minimize: true,
+    //在设置为 true 时，告知 webpack 通过将导入修改为更短的字符串，来减少 WASM 大小。这会破坏模块和导出名称。
+    mangleWasmImports: true,
+    nodeEnv: "production",
     minimizer: [
       new TerserPlugin({
         // sourceMap: "eval",
@@ -21,6 +24,11 @@ export default {
             ecma: 8,
           },
           compress: {
+            // sourceMap: true, // Must be set to true if using source-maps in production
+
+            drop_debugger: true, // 去掉所有的debugger
+            drop_console: true, // 去掉所有的console
+            //  pure_funcs: ["console.log"], //移除console
             ecma: 5,
             warnings: false,
             // Disabled because of an issue with Uglify breaking seemingly valid code:
@@ -49,7 +57,8 @@ export default {
           },
         },
         parallel: os.cpus().length - 1,
-        // minify: (file, sourceMap) => {
+        // 打开这个插件可以让 webpack 不编译把中文编译 unicode 编码
+        // minify(file, sourceMap) {
         //   // https://github.com/mishoo/UglifyJS2#minify-options
         //   const uglifyJsOptions = {
         //     /* your `uglify-js` package options */
@@ -61,7 +70,7 @@ export default {
         //     };
         //   }
 
-        //   return require('uglify-js').minify(file, uglifyJsOptions);
+        //   return require("terser").minify(file, uglifyJsOptions);
         // },
       }),
     ],

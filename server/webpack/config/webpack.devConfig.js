@@ -8,6 +8,7 @@ export default {
     // 压缩
     minimize: false,
     minimizer: [],
+    nodeEnv: "development",
   },
   devtool: "source-map", // 生产环境和开发环境判断
   mode: "development",

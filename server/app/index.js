@@ -1,13 +1,12 @@
 import "@babel/polyfill";
 import koa from "koa";
+import Vue from "vue";
 import { promise } from "./utils";
 import { CheckTable, connection, exec, addUser } from "./db/index.js";
 import { Redis } from "./redis";
 import Route from "./routes/index";
 import kill from "kill-port";
 import { port } from "./config";
-/* 你好*/
-console.log(1232);
 class App {
   constructor() {
     this.app = new koa();
