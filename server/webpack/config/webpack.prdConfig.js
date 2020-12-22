@@ -7,7 +7,9 @@ export default {
     minimize: true,
     //在设置为 true 时，告知 webpack 通过将导入修改为更短的字符串，来减少 WASM 大小。这会破坏模块和导出名称。
     mangleWasmImports: true,
+    //  任何字符串：用于设置 process.env.NODE_ENV 的值。
     nodeEnv: "production",
+    moduleIds: 'size',
     minimizer: [
       new TerserPlugin({
         // sourceMap: "eval",
