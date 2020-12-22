@@ -1,9 +1,10 @@
 node_modules/*
 server/node_modules/*
-server/dist/index.*
+server/dist/*.js
 server/dist/index.js
 server/dist/index.js.map
 server/dist/*
+server/dist
 client/node_modules/*
 # common
 .DS_Store

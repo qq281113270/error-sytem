@@ -90,7 +90,6 @@
     "webpack-hot-middleware": "^2.25.0",
     "webpack-merge": "^5.7.0",
     "webpack-node-externals": "^2.5.2",
-    "webpack-parallel-uglify-plugin": "^2.0.0",
     "webpackbar": "^5.0.0-3"
   },
   "devDependencies": {},
