@@ -78,11 +78,11 @@ export default {
   optimization: {
     //告知 webpack 去决定每个模块使用的导出内容。这取决于 optimization.providedExports 选项。
     //由 optimization.usedExports 收集的信息会被其它优化手段或者代码生成使用，比如未使用的导出内容不会被生成， 当所有的使用都适配，导出名称会被处理做单个标记字符
-    usedExports: 'global',
+    usedExports: "global",
     //告知 webpack 去辨识 package.json 中的 副作用 标记或规则，以跳过那些当导出不被使用且被标记不包含副作用的模块。
     sideEffects: true,
     //使用 optimization.emitOnErrors 在编译时每当有错误时，就会 emit asset。这样可以确保出错的 asset 被 emit 出来。关键错误会被 emit 到生成的代码中，并会在运行时报错
-    emitOnErrors: true,    
+    emitOnErrors: true,
     //如果模块已经包含在所有父级模块中，告知 webpack 从 chunk 中检测出这些模块，或移除这些模块
     removeAvailableModules: true,
     //如果 chunk 为空，告知 webpack 检测或移除这些 chunk
@@ -151,15 +151,16 @@ export default {
     },
     // Chunk end
   },
+  //配置node环境
   target: "node",
   node: {
     __filename: true,
     __dirname: true,
-    // fs: 'empty',
-    // net:'empty',
-    // tls:'empty',
   },
-  externals: [nodeExternals({ allowlist: ["webpack/hot/poll?1000"] })],
+  //引入缓存
+  externals: [
+    nodeExternals({ allowlist: ["webpack/hot/poll?1000",'jquery',] }),
+  ],
   module: {
     rules: [
       {
@@ -239,11 +240,7 @@ export default {
       },
     ],
   },
-  // 在服务端 externals 用不了没办法加载js
-  // externals: {
-  //   //jquery通过script引入之后，全局中即有了 jQuery 变量
-  //   jquery: "jquery",
-  // },
+
   plugins: [
     // 加载该插件报错 找不到原因
     // new HardSourceWebpackPlugin({

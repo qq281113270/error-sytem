@@ -31,11 +31,11 @@ import { router as bizModRouter } from "@/bizMod/index";
 import { unsupported, unauthorized } from "@/constant";
 import * as schema   from "@/graphql/schema";
 
-
+  
 console.log("bizModRouter======", bizModRouter);
 console.log("schema======", schema); 
-console.log("schema.user.typeDefs.type======", schema.user.typeDefs.type);
-console.log("schema.user.typeDefs.type1======", schema.user.typeDefs.type1);
+console.log("schema.user.typeDefs======", schema.user.typeDefs);
+console.log("schema.user.typeDefs======", schema.user.typeDefs);
 
 // import { user } from "../graphql/schema";
 // import  userResolvers,  * as userSchema  from '../graphql/schema/user/index.js';

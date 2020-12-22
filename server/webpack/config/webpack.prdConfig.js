@@ -1,5 +1,6 @@
 import TerserPlugin from "terser-webpack-plugin";
 import os from "os";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 export default {
   watch: false,
   optimization: {
@@ -9,7 +10,7 @@ export default {
     mangleWasmImports: true,
     //  任何字符串：用于设置 process.env.NODE_ENV 的值。
     nodeEnv: "production",
-    moduleIds: 'size',
+    moduleIds: "size",
     minimizer: [
       new TerserPlugin({
         // sourceMap: "eval",
@@ -80,6 +81,7 @@ export default {
   devtool: "eval", // 生产环境和开发环境判断
   mode: "production",
   plugins: [
-    // This is only used in production mode
+    //体积包分析插件
+    // new BundleAnalyzerPlugin(),
   ],
 };

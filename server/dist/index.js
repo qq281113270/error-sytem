@@ -1181,7 +1181,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
+ // console.log('jquery==',jquery)
 
 class App {
   constructor() {
@@ -1671,8 +1671,8 @@ const getUserIfo = async tokenOrId => {
 
 console.log("bizModRouter======", _bizMod_index__WEBPACK_IMPORTED_MODULE_10__/* .router */ .N);
 console.log("schema======", _graphql_schema__WEBPACK_IMPORTED_MODULE_11__);
-console.log("schema.user.typeDefs.type======", _graphql_schema__WEBPACK_IMPORTED_MODULE_11__.user.typeDefs.type);
-console.log("schema.user.typeDefs.type1======", _graphql_schema__WEBPACK_IMPORTED_MODULE_11__.user.typeDefs.type1); // import { user } from "../graphql/schema";
+console.log("schema.user.typeDefs======", _graphql_schema__WEBPACK_IMPORTED_MODULE_11__.user.typeDefs);
+console.log("schema.user.typeDefs======", _graphql_schema__WEBPACK_IMPORTED_MODULE_11__.user.typeDefs); // import { user } from "../graphql/schema";
 // import  userResolvers,  * as userSchema  from '../graphql/schema/user/index.js';
 // import * as modules from "../modules";
 // console.log('module========',modules.user)
