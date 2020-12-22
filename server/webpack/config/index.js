@@ -17,4 +17,4 @@ const isEnvProduction = webpackEnv === "production";
 const smp = new SpeedMeasurePlugin();
 
 export default merge(baseConfig, isEnvDevelopment ? devConfig : prdConfig);
-//    smp.wrap(merge(baseConfig, isEnvDevelopment ? devConfig : prdConfig))
+//   smp.wrap(merge(baseConfig, isEnvDevelopment ? devConfig : prdConfig))

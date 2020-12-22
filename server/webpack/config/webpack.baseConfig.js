@@ -1,6 +1,5 @@
 import "@babel/polyfill";
 import webpack from "webpack";
-import { merge } from "webpack-merge";
 import path from "path";
 import nodeExternals from "webpack-node-externals";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
@@ -127,7 +126,6 @@ export default {
     // net:'empty',
     // tls:'empty',
   },
-  // mode: "development",
   externals: [nodeExternals({ allowlist: ["webpack/hot/poll?1000"] })],
   module: {
     rules: [
