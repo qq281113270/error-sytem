@@ -12,7 +12,7 @@ import { port } from "./config";
 const buf = Buffer.from('runoob', 'ascii');
 
 // 输出 72756e6f6f62
-console.log('buf1234516171111111111111111=', buf.toString('hex'));
+console.log('buf123451116111111117111211111111111111111111111111=', buf.toString('hex'));
 
  
  

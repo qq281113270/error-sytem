@@ -10,6 +10,7 @@ export default {
     mangleWasmImports: true,
     //  任何字符串：用于设置 process.env.NODE_ENV 的值。
     nodeEnv: "production",
+    // 最快的chunk id 加载
     moduleIds: "size",
     minimizer: [
       new TerserPlugin({

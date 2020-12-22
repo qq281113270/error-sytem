@@ -384,6 +384,7 @@ export default {
     }),
     // 编译进度条
     new WebpackBar(),
+    //清理编译目录
     new CleanWebpackPlugin({
       cleanStaleWebpackAssets: false,
       //配置清理文件 如果不清理则加 ！
