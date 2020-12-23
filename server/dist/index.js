@@ -1182,7 +1182,11 @@ __webpack_require__.r(__webpack_exports__);
 
 const buf = Buffer.from('runoob', 'ascii'); // 输出 72756e6f6f62
 
+<<<<<<< HEAD
 console.log('buf11123245121211231233678=', buf.toString('hex'));
+=======
+console.log('buf1234511161111111111217111211111111111111111111111111=', buf.toString('hex'));
+>>>>>>> c9d387fb049b4e7e3bbb5d02e25eb1a2a0ccf19b
 
 class App {
   constructor() {
@@ -2181,7 +2185,11 @@ const merge = Object.assign || function (target) {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+<<<<<<< HEAD
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("type User {\n  id: ID!\n  username: String!\n  createdAt: String!\n  updatedAt: String!\n}\n\ninput UpdatedUser {\n  username: String!\n}\n\ntype Query {\n  getMe: User!\n}\n\ntype Mutation {\n  updateMe(input: UpdatedUser!): User!\n}\n");
+=======
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("type User {\r\n  id: ID!\r\n  username: String!\r\n  createdAt: String!\r\n  updatedAt: String!\r\n}\r\n\r\ninput UpdatedUser {\r\n  username: String!\r\n}\r\n\r\ntype Query {\r\n  getMe: User!\r\n}\r\n\r\ntype Mutation {\r\n  updateMe(input: UpdatedUser!): User!\r\n}\r\n");
+>>>>>>> c9d387fb049b4e7e3bbb5d02e25eb1a2a0ccf19b
 
 /***/ }),
 
