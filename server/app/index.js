@@ -1,24 +1,19 @@
 import "@babel/polyfill";
 import koa from "koa";
-// import Vue from "vue";
 import { promise } from "./utils";
 import { CheckTable, connection, exec, addUser } from "./db/index.js";
 import { Redis } from "./redis";
 import Route from "./routes/index";
 import kill from "kill-port";
-import { port } from "./config";
+import { port } from "./config"; 
+import myVue from "myVue";
 
-
-const buf = Buffer.from('runoob', 'ascii');
-
-// 输出 72756e6f6f62
-console.log('buf11123245121211231233678=', buf.toString('hex'));
 
  
- 
+ console.log('myVue==',myVue)
  
 class App {  
-  constructor() {  
+  constructor() {   
     this.app = new koa();
      this.init();
   }

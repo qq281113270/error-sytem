@@ -63,7 +63,7 @@ class App {
       } else if (stats.hasWarnings()) {
         console.log(
           "Warnings:" +
-            chalk.red(
+            chalk.yellow(
               stats.toString({
                 colors: true,
               }) + "\n\n"
@@ -78,7 +78,16 @@ class App {
       }
       // console.log(chalk.rgb(13, 188, 121)("Build complete .\n"));
     });
+    //  console.log('compiler.hooks=',compiler.hooks)
+    //  console.log('compiler.hooks=',compiler.hooks)
+   
+    
 
+     
+    // compiler.hooks.SyncHook.tap('compile',()=>{
+    //    console.log('watchRun======')
+    // })
+   
     // const watching = compiler.watch({}, (err, stats) => {
     //     spinner.stop();
 

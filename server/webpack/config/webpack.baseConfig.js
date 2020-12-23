@@ -9,6 +9,7 @@ import HappyPack from "happypack";
 import FriendlyErrorsPlugin from "friendly-errors-webpack-plugin";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import DirectoryNamedWebpackPlugin from "directory-named-webpack-plugin";
+import NpmInstallPlugin from "npm-install-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 import os from "os";
 import HtmlWebpackPlugin from "html-webpack-plugin";
@@ -17,6 +18,8 @@ import WebpackBuildDllPlugin from "webpack-build-dll-plugin";
 import DllReferencePlugin from "webpack/lib/DllReferencePlugin";
 import HardSourceWebpackPlugin from "hard-source-webpack-plugin";
 import bannerPlugin from "./bannerPlugin";
+import MyExampleWebpackPlugin from "./definePlugin/MyExampleWebpackPlugin";
+
 const bannerPluginKeys = Object.keys(bannerPlugin);
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length - 1 });
 
@@ -25,7 +28,7 @@ export default {
   context: path.resolve(__dirname, "../../app"),
   // 入口
   entry: {
-    // $vendor: ['vue'], // 公共包抽取
+    // myVue: [path.resolve(__dirname, "../../app/myVue.js")], // 公共包抽取
     index: [
       //添加编译缓存
       "webpack/hot/poll?1000",
@@ -156,6 +159,7 @@ export default {
   },
   //在第一个错误出现时抛出失败结果，而不是容忍它
   bail: true,
+
   //启用编译缓存日志输出
   infrastructureLogging: {
     level: "log",
@@ -405,7 +409,7 @@ export default {
           // },
         ],
         // 排除文件,因为这些包已经编译过，无需再次编译
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules|bower_components|myVue\.js)/,
         // use: {
         //   loader:"node-loader",
         //   options: {
@@ -416,7 +420,7 @@ export default {
       {
         test: /\.m?js$/,
         // 排除文件,因为这些包已经编译过，无需再次编译
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules|bower_components|myVue\.js)/,
         use: [
           "happypack/loader?id=babel&cacheDirectory=true",
           "thread-loader",
@@ -434,7 +438,7 @@ export default {
       {
         test: /\.(graphql|gql)$/,
         // 排除文件,因为这些包已经编译过，无需再次编译
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules|bower_components|myVue\.js)/,
         use: [
           "happypack/loader?id=graphql&cacheDirectory=true",
           "thread-loader",
@@ -488,6 +492,20 @@ export default {
     // //体积包分析插件
     // new BundleAnalyzerPlugin(),
 
+    //AggressiveSplittingPlugin 可以将 bundle 拆分成更小的 chunk，
+    //直到各个 chunk 的大小达到 option 设置的 maxSize。它通过目录结构将模块组织在一起。
+    // new webpack.optimize.AggressiveSplittingPlugin({
+    //   // minSize: 30720/2, // 字节，分割点。默认：30720
+    //   // maxSize: 51200/2, // 字节，每个文件最大字节。默认：51200
+    //   // chunkOverhead: 0, // 默认：0
+    //   // entryChunkMultiplicator: 1, // 默认：1
+    // }),
+
+    // 在开发时自动安装缺少的依赖
+    // new NpmInstallPlugin(),
+
+    //  new HtmlWebpackPlugin(),
+
     //友好的错误WebPACK插件 错误提示插件
     //友好的错误认识webpackerrors WebPACK插件类  这是很容易添加类型的错误，所以如果你想看moreerrors得到处理
     new FriendlyErrorsPlugin(),
@@ -538,7 +556,7 @@ export default {
     //缓存包 热启动
     new webpack.HotModuleReplacementPlugin(),
     /* 当 HMR 替换时在浏览器控制台输出对用户更友好的模块名字信息 */
-    // new webpack.NamedModulesPlugin(),
+    //  new webpack.NamedModulesPlugin(),
     //使用 NoEmitOnErrorsPlugin 来跳过输出阶段。这样可以确保输出资源不会包含错误
     new webpack.NoEmitOnErrorsPlugin(),
     //DefinePlugin 允许创建一个在编译时可以配置的全局常量。这可能会对开发模式和发布模式的构建允许不同的行为非常有用
@@ -561,14 +579,31 @@ export default {
     }),
 
     // 这样利用原理可以动态加入公共库
-    ...bannerPlugin.map((item) => {
-      return new webpack.BannerPlugin({
-        banner: item.variable
-          ? `const ${item.variable} = require("${item.packageName}");`
-          : `require("${item.packageName}");`,
-        raw: true,
-        entryOnly: false,
-      });
+    // ...bannerPlugin.map((item) => {
+    //   return new  MyExampleWebpackPlugin({
+    //     banner: item.variable
+    //        ? `const ${item.variable} = require("${item.packageName}");`
+    //       : `require("${item.packageName}");`,
+    //     raw: true,
+    //     entryOnly: false,
+    //     outputPath: path.join(__dirname, "../../dist"),
+    //   });
+    // }),
+    // // 自定义插件
+    new MyExampleWebpackPlugin({
+      // 出口
+      outputPath: path.join(__dirname, "../../app"),
     }),
+
+    // 这样利用原理可以动态加入公共库
+    // ...bannerPlugin.map((item) => {
+    //   return new webpack.BannerPlugin({
+    //     banner: item.variable
+    //       ? `const ${item.variable} = require("${item.packageName}");`
+    //       : `require("${item.packageName}");`,
+    //     raw: true,
+    //     entryOnly: false,
+    //   });
+    // }),
   ],
 };

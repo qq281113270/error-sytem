@@ -106,6 +106,7 @@ class Route {
   addRouters() {
     new User(this.app, this.router);
     bizModRouter(this.app, this.router);
+    
     // new bizMod.abnormity.script.router(this.app, this.router)
 
     console.log("checkToken====");

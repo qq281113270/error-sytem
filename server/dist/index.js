@@ -1,4 +1,3 @@
-require("@babel/polyfill");
 require("source-map-support").install();
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -16,6 +15,24 @@ exports.id = "index";
 exports.ids = ["index"];
 exports.modules = {
 
+/***/ "./myVue.js":
+/*!******************!*\
+  !*** ./myVue.js ***!
+  \******************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => /* binding */ Vue
+/* harmony export */ });
+
+         class Vue {
+                extends() {}
+         }
+    
+
+/***/ }),
+
 /***/ "./bizMod/abnormity/bizMod/script/controller/index.js":
 /*!************************************************************!*\
   !*** ./bizMod/abnormity/bizMod/script/controller/index.js ***!
@@ -24,7 +41,7 @@ exports.modules = {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var _service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../service */ "./bizMod/abnormity/bizMod/script/service/index.js");
 
@@ -43,9 +60,9 @@ class Controller {
     } = request;
     const parameter = query; // 获取请求参数
 
-    console.log('service.query==', _service__WEBPACK_IMPORTED_MODULE_0__/* .default.query */ .Z.query); //添加service
+    console.log('service.query==', _service__WEBPACK_IMPORTED_MODULE_0__.default.query); //添加service
 
-    const data = await _service__WEBPACK_IMPORTED_MODULE_0__/* .default.query */ .Z.query(ctx, next, parameter);
+    const data = await _service__WEBPACK_IMPORTED_MODULE_0__.default.query(ctx, next, parameter);
     ctx.response.body = data;
   }
 
@@ -125,6 +142,131 @@ class Controller {
 
 /***/ }),
 
+/***/ "./bizMod/abnormity/bizMod/script/graphql/schema/index.js":
+/*!****************************************************************!*\
+  !*** ./bizMod/abnormity/bizMod/script/graphql/schema/index.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony import */ var _resolvers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./resolvers */ "./bizMod/abnormity/bizMod/script/graphql/schema/resolvers/index.js");
+/* harmony import */ var _typeDefs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeDefs */ "./bizMod/abnormity/bizMod/script/graphql/schema/typeDefs/index.js");
+
+ //脚本模块
+
+/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = ({
+  resolvers: _resolvers__WEBPACK_IMPORTED_MODULE_0__,
+  typeDefs: _typeDefs__WEBPACK_IMPORTED_MODULE_1__
+});
+
+/***/ }),
+
+/***/ "./bizMod/abnormity/bizMod/script/graphql/schema/resolvers/Mutation/index.js":
+/*!***********************************************************************************!*\
+  !*** ./bizMod/abnormity/bizMod/script/graphql/schema/resolvers/Mutation/index.js ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "userAdd": () => /* binding */ userAdd
+/* harmony export */ });
+const userAdd = () => {};
+
+/***/ }),
+
+/***/ "./bizMod/abnormity/bizMod/script/graphql/schema/resolvers/Query/index.js":
+/*!********************************************************************************!*\
+  !*** ./bizMod/abnormity/bizMod/script/graphql/schema/resolvers/Query/index.js ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "userQuery": () => /* binding */ userQuery
+/* harmony export */ });
+const userQuery = () => {};
+
+/***/ }),
+
+/***/ "./bizMod/abnormity/bizMod/script/graphql/schema/resolvers/Subscription/index.js":
+/*!***************************************************************************************!*\
+  !*** ./bizMod/abnormity/bizMod/script/graphql/schema/resolvers/Subscription/index.js ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "userTest": () => /* binding */ userTest
+/* harmony export */ });
+const userTest = () => {};
+
+/***/ }),
+
+/***/ "./bizMod/abnormity/bizMod/script/graphql/schema/resolvers/index.js":
+/*!**************************************************************************!*\
+  !*** ./bizMod/abnormity/bizMod/script/graphql/schema/resolvers/index.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Mutation": () => /* reexport module object */ _Mutation__WEBPACK_IMPORTED_MODULE_0__,
+/* harmony export */   "Query": () => /* reexport module object */ _Query__WEBPACK_IMPORTED_MODULE_1__,
+/* harmony export */   "Subscription": () => /* reexport module object */ _Subscription__WEBPACK_IMPORTED_MODULE_2__
+/* harmony export */ });
+/* harmony import */ var _Mutation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Mutation */ "./bizMod/abnormity/bizMod/script/graphql/schema/resolvers/Mutation/index.js");
+/* harmony import */ var _Query__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Query */ "./bizMod/abnormity/bizMod/script/graphql/schema/resolvers/Query/index.js");
+/* harmony import */ var _Subscription__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Subscription */ "./bizMod/abnormity/bizMod/script/graphql/schema/resolvers/Subscription/index.js");
+
+
+ //会员模块
+
+
+
+/***/ }),
+
+/***/ "./bizMod/abnormity/bizMod/script/graphql/schema/typeDefs/index.js":
+/*!*************************************************************************!*\
+  !*** ./bizMod/abnormity/bizMod/script/graphql/schema/typeDefs/index.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "hello": () => /* reexport safe */ _typeDefs_js__WEBPACK_IMPORTED_MODULE_1__.hello
+/* harmony export */ });
+/* harmony import */ var _typeDefs_graphql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeDefs.graphql */ "./bizMod/abnormity/bizMod/script/graphql/schema/typeDefs/typeDefs.graphql");
+/* harmony import */ var _typeDefs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeDefs.js */ "./bizMod/abnormity/bizMod/script/graphql/schema/typeDefs/typeDefs.js");
+
+
+
+/***/ }),
+
+/***/ "./bizMod/abnormity/bizMod/script/graphql/schema/typeDefs/typeDefs.js":
+/*!****************************************************************************!*\
+  !*** ./bizMod/abnormity/bizMod/script/graphql/schema/typeDefs/typeDefs.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "hello": () => /* binding */ hello
+/* harmony export */ });
+const hello = `
+type Query {
+  hello: String
+}
+`;
+
+
+/***/ }),
+
 /***/ "./bizMod/abnormity/bizMod/script/index.js":
 /*!*************************************************!*\
   !*** ./bizMod/abnormity/bizMod/script/index.js ***!
@@ -133,9 +275,11 @@ class Controller {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "N": () => /* reexport safe */ _router__WEBPACK_IMPORTED_MODULE_0__.Z
+/* harmony export */   "router": () => /* reexport safe */ _router__WEBPACK_IMPORTED_MODULE_0__.default
 /* harmony export */ });
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ "./bizMod/abnormity/bizMod/script/router/index.js");
+/* harmony import */ var _graphql_schema__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./graphql/schema */ "./bizMod/abnormity/bizMod/script/graphql/schema/index.js");
+
 
 
 /***/ }),
@@ -148,7 +292,7 @@ class Controller {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../controller */ "./bizMod/abnormity/bizMod/script/controller/index.js");
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! koa-router */ "koa-router");
@@ -206,17 +350,17 @@ class router {
   query() {
     console.log('query============='); // 添加 接口
 
-    this.threeLevelRoute.get("/query", _controller__WEBPACK_IMPORTED_MODULE_0__/* .default.query */ .Z.query);
+    this.threeLevelRoute.get("/query", _controller__WEBPACK_IMPORTED_MODULE_0__.default.query);
   }
 
   add() {
     // 添加 接口
-    this.threeLevelRoute.post("/add", _controller__WEBPACK_IMPORTED_MODULE_0__/* .default.add */ .Z.add);
+    this.threeLevelRoute.post("/add", _controller__WEBPACK_IMPORTED_MODULE_0__.default.add);
   }
 
   edit() {
     // 添加 接口
-    this.threeLevelRoute.post("/edit", _controller__WEBPACK_IMPORTED_MODULE_0__/* .default.edit */ .Z.edit);
+    this.threeLevelRoute.post("/edit", _controller__WEBPACK_IMPORTED_MODULE_0__.default.edit);
   }
 
 }
@@ -233,7 +377,7 @@ class router {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 class Service {
   static async query(ctx, next, parameter) {
@@ -381,7 +525,7 @@ class Service {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "N": () => /* reexport safe */ _router__WEBPACK_IMPORTED_MODULE_0__.Z
+/* harmony export */   "router": () => /* reexport safe */ _router__WEBPACK_IMPORTED_MODULE_0__.default
 /* harmony export */ });
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ "./bizMod/abnormity/router/index.js");
 // export * as script from "./bizMod/script";
@@ -397,7 +541,7 @@ class Service {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! koa-router */ "koa-router");
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_0__);
@@ -438,7 +582,7 @@ class router {
 
   addRouters() {
     // 为script模块添加路由
-    new _bizMod_script__WEBPACK_IMPORTED_MODULE_1__/* .router */ .N(this.app, this.twoLevelRoute); // 添加路由
+    new _bizMod_script__WEBPACK_IMPORTED_MODULE_1__.router(this.app, this.twoLevelRoute); // 添加路由
 
     this.router.use(this.twoLevelRoute.routes()); //挂载二级路由
   }
@@ -466,7 +610,7 @@ class router {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "N": () => /* binding */ router
+/* harmony export */   "router": () => /* binding */ router
 /* harmony export */ });
 /* harmony import */ var _abnormity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./abnormity */ "./bizMod/abnormity/index.js");
  // export default class {
@@ -478,10 +622,10 @@ class router {
 //   init() {
 //     new abnormity.router(this.app, this.router);
 //   }
-// }
+// } 
 
 const router = (app, router) => {
-  new _abnormity__WEBPACK_IMPORTED_MODULE_0__/* .router */ .N(app, router);
+  new _abnormity__WEBPACK_IMPORTED_MODULE_0__.router(app, router);
 };
 
 /***/ }),
@@ -494,8 +638,8 @@ const router = (app, router) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "S": () => /* binding */ tokenExpires,
-/* harmony export */   "N": () => /* binding */ port
+/* harmony export */   "tokenExpires": () => /* binding */ tokenExpires,
+/* harmony export */   "port": () => /* binding */ port
 /* harmony export */ });
 const tokenExpires = 30 * 60 * 1000; // 设置如果没有请求 30分钟token登录失效
 
@@ -557,10 +701,10 @@ if (env === 'production') {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "A": () => /* reexport safe */ _db_js__WEBPACK_IMPORTED_MODULE_0__.MYSQL_CONF,
-/* harmony export */   "setExpirationTime": () => /* reexport safe */ _token_js__WEBPACK_IMPORTED_MODULE_2__.v,
-/* harmony export */   "port": () => /* reexport safe */ _constant_js__WEBPACK_IMPORTED_MODULE_3__.N,
-/* harmony export */   "tokenExpires": () => /* reexport safe */ _constant_js__WEBPACK_IMPORTED_MODULE_3__.S
+/* harmony export */   "MYSQL_CONF": () => /* reexport safe */ _db_js__WEBPACK_IMPORTED_MODULE_0__.MYSQL_CONF,
+/* harmony export */   "setExpirationTime": () => /* reexport safe */ _token_js__WEBPACK_IMPORTED_MODULE_2__.setExpirationTime,
+/* harmony export */   "port": () => /* reexport safe */ _constant_js__WEBPACK_IMPORTED_MODULE_3__.port,
+/* harmony export */   "tokenExpires": () => /* reexport safe */ _constant_js__WEBPACK_IMPORTED_MODULE_3__.tokenExpires
 /* harmony export */ });
 /* harmony import */ var _db_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./db.js */ "./config/db.js");
 /* harmony import */ var _redis_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./redis.js */ "./config/redis.js");
@@ -627,13 +771,13 @@ module.exports = {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "v": () => /* binding */ setExpirationTime
+/* harmony export */   "setExpirationTime": () => /* binding */ setExpirationTime
 /* harmony export */ });
 /* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constant */ "./config/constant.js");
 
 const setExpirationTime = () => {
   const millisecond = new Date().getTime();
-  const expiresTime = new Date(millisecond + _constant__WEBPACK_IMPORTED_MODULE_0__/* .tokenExpires */ .S); //一天后过期
+  const expiresTime = new Date(millisecond + _constant__WEBPACK_IMPORTED_MODULE_0__.tokenExpires); //一天后过期
 
   return expiresTime; // da.toUTCString(); //将 1598789234953这种格式的转换成=> "Sat, 29 Aug 2020 12:06:33 GMT"
 };
@@ -648,9 +792,9 @@ const setExpirationTime = () => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "NB": () => /* binding */ graphqlError,
-/* harmony export */   "Jc": () => /* binding */ unsupported,
-/* harmony export */   "Hs": () => /* binding */ unauthorized
+/* harmony export */   "graphqlError": () => /* binding */ graphqlError,
+/* harmony export */   "unsupported": () => /* binding */ unsupported,
+/* harmony export */   "unauthorized": () => /* binding */ unauthorized
 /* harmony export */ });
 const graphqlError = {
   code: 400,
@@ -678,9 +822,9 @@ const unauthorized = {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "NB": () => /* reexport safe */ _httpCode__WEBPACK_IMPORTED_MODULE_0__.NB,
-/* harmony export */   "Hs": () => /* reexport safe */ _httpCode__WEBPACK_IMPORTED_MODULE_0__.Hs,
-/* harmony export */   "Jc": () => /* reexport safe */ _httpCode__WEBPACK_IMPORTED_MODULE_0__.Jc
+/* harmony export */   "graphqlError": () => /* reexport safe */ _httpCode__WEBPACK_IMPORTED_MODULE_0__.graphqlError,
+/* harmony export */   "unauthorized": () => /* reexport safe */ _httpCode__WEBPACK_IMPORTED_MODULE_0__.unauthorized,
+/* harmony export */   "unsupported": () => /* reexport safe */ _httpCode__WEBPACK_IMPORTED_MODULE_0__.unsupported
 /* harmony export */ });
 /* harmony import */ var _httpCode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./httpCode */ "./constant/httpCode.js");
 // 整体输出
@@ -696,7 +840,7 @@ const unauthorized = {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var _service_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../service/user */ "./service/user.js");
 /* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constant */ "./constant/index.js");
@@ -711,17 +855,17 @@ class Controller {
     const parameter = ctx.request.body; // 获取请求参数
     //添加service
 
-    const data = await _service_user__WEBPACK_IMPORTED_MODULE_0__/* .default.add */ .Z.add(ctx, next, parameter);
+    const data = await _service_user__WEBPACK_IMPORTED_MODULE_0__.default.add(ctx, next, parameter);
 
     const getMessage = data => {
       const {
         status
       } = data;
       const message = {
-        1: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__/* .merge */ .T)(_constant__WEBPACK_IMPORTED_MODULE_1__/* .unsupported */ .Jc, {
+        1: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(_constant__WEBPACK_IMPORTED_MODULE_1__.unsupported, {
           msg: "该用户名已经被注册过,请重新输入用户名"
         }),
-        2: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__/* .merge */ .T)(_constant__WEBPACK_IMPORTED_MODULE_1__/* .unsupported */ .Jc, {
+        2: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(_constant__WEBPACK_IMPORTED_MODULE_1__.unsupported, {
           msg: "该手机号码已经被注册过,请重新输入手机号码"
         }),
         3: () => ({
@@ -748,7 +892,7 @@ class Controller {
     var parameter = ctx.request.body; // 获取请求参数
     //添加service
 
-    const data = await _service_user__WEBPACK_IMPORTED_MODULE_0__/* .default.login */ .Z.login(ctx, next, parameter);
+    const data = await _service_user__WEBPACK_IMPORTED_MODULE_0__.default.login(ctx, next, parameter);
 
     const getMessage = data => {
       const {
@@ -757,10 +901,10 @@ class Controller {
         userInfo
       } = data;
       const message = {
-        1: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__/* .merge */ .T)(_constant__WEBPACK_IMPORTED_MODULE_1__/* .unauthorized */ .Hs, {
+        1: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(_constant__WEBPACK_IMPORTED_MODULE_1__.unauthorized, {
           msg: "用户名错误，请重新输入用户名"
         }),
-        2: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__/* .merge */ .T)(_constant__WEBPACK_IMPORTED_MODULE_1__/* .unauthorized */ .Hs, {
+        2: () => (0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(_constant__WEBPACK_IMPORTED_MODULE_1__.unauthorized, {
           msg: "密码错误请重新输入密码"
         }),
         3: () => ({
@@ -792,7 +936,7 @@ class Controller {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "e": () => /* binding */ CheckTable
+/* harmony export */   "CheckTable": () => /* binding */ CheckTable
 /* harmony export */ });
 /* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mysql */ "./db/mysql.js");
 
@@ -858,7 +1002,7 @@ class CheckTable {
 
   async checkTable(data, table) {
     if (data.length == 0) {
-      await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__/* .exec */ .G)(table.sql).then(data => {
+      await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(table.sql).then(data => {
         console.log("创建表成功");
       }).catch(error => {
         console.log("创建表失败=", error);
@@ -872,7 +1016,7 @@ class CheckTable {
            TABLE_NAME FROM INFORMATION_SCHEMA.TABLES
            WHERE TABLE_SCHEMA='${MYSQL_CONF.database}' 
            AND TABLE_NAME= '${table.name}'`;
-    await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__/* .exec */ .G)(sql).then(async data => {
+    await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(sql).then(async data => {
       await this.checkTable(data, table);
     }).catch(() => {});
   }
@@ -891,8 +1035,8 @@ class CheckTable {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "eE": () => /* reexport safe */ _checkTable__WEBPACK_IMPORTED_MODULE_0__.e,
-/* harmony export */   "ZI": () => /* reexport safe */ _mysql__WEBPACK_IMPORTED_MODULE_1__.Z
+/* harmony export */   "CheckTable": () => /* reexport safe */ _checkTable__WEBPACK_IMPORTED_MODULE_0__.CheckTable,
+/* harmony export */   "connection": () => /* reexport safe */ _mysql__WEBPACK_IMPORTED_MODULE_1__.connection
 /* harmony export */ });
 /* harmony import */ var _checkTable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./checkTable */ "./db/checkTable.js");
 /* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mysql */ "./db/mysql.js");
@@ -911,8 +1055,8 @@ class CheckTable {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => /* binding */ connection,
-/* harmony export */   "G": () => /* binding */ exec
+/* harmony export */   "connection": () => /* binding */ connection,
+/* harmony export */   "exec": () => /* binding */ exec
 /* harmony export */ });
 /* harmony import */ var mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mysql */ "mysql");
 /* harmony import */ var mysql__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mysql__WEBPACK_IMPORTED_MODULE_0__);
@@ -920,7 +1064,7 @@ class CheckTable {
 
  // 创建链接对象
 
-const connection = mysql__WEBPACK_IMPORTED_MODULE_0___default().createConnection(_config_index__WEBPACK_IMPORTED_MODULE_1__/* .MYSQL_CONF */ .A); // 统一执行 sql 的函数
+const connection = mysql__WEBPACK_IMPORTED_MODULE_0___default().createConnection(_config_index__WEBPACK_IMPORTED_MODULE_1__.MYSQL_CONF); // 统一执行 sql 的函数
 
 const exec = async sql => {
   return await new Promise((resolve, reject) => {
@@ -948,8 +1092,8 @@ const exec = async sql => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "cn": () => /* binding */ addUser,
-/* harmony export */   "tM": () => /* binding */ queryUser
+/* harmony export */   "addUser": () => /* binding */ addUser,
+/* harmony export */   "queryUser": () => /* binding */ queryUser
 /* harmony export */ });
 /* unused harmony export deleteUser */
 /* harmony import */ var _mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mysql */ "./db/mysql.js");
@@ -961,7 +1105,7 @@ const addUser = async ({
   password
 }) => {
   const sql = `insert into user(name,phone,password) values('${name}','${phone}',md5('${password}'));`;
-  return await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__/* .exec */ .G)(sql);
+  return await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(sql);
 }; //查询用户
 
 
@@ -970,7 +1114,7 @@ const queryUser = async (andConditionData = {}, orConditionData = {}, sql) => {
   const orKeys = Object.keys(orConditionData);
 
   if (sql) {
-    return await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__/* .exec */ .G)(sql);
+    return await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(sql);
   }
 
   sql = `select * from user where `;
@@ -981,7 +1125,7 @@ const queryUser = async (andConditionData = {}, orConditionData = {}, sql) => {
     sql += key == "password" ? ` ${key}=md5('${orConditionData[key]}') or` : ` ${key}='${orConditionData[key]}' or`;
   });
   sql = andKeys.length >= 1 && orKeys.length == 0 ? sql.substring(0, sql.length - 3) : orKeys.length >= 1 ? sql.substring(0, sql.length - 2) : sql;
-  return await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__/* .exec */ .G)(sql);
+  return await (0,_mysql__WEBPACK_IMPORTED_MODULE_0__.exec)(sql);
 }; //删除用户
 
 
@@ -1004,7 +1148,7 @@ const deleteUser = async id => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "user": () => /* reexport safe */ _user__WEBPACK_IMPORTED_MODULE_0__.Z
+/* harmony export */   "user": () => /* reexport safe */ _user__WEBPACK_IMPORTED_MODULE_0__.default
 /* harmony export */ });
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./user */ "./graphql/schema/user/index.js");
 //会员模块
@@ -1020,7 +1164,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var _resolvers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./resolvers */ "./graphql/schema/user/resolvers/index.js");
 /* harmony import */ var _typeDefs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeDefs */ "./graphql/schema/user/typeDefs/index.js");
@@ -1112,8 +1256,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "graphqlTypes": () => /* reexport safe */ _typeDefs_graphql__WEBPACK_IMPORTED_MODULE_0__.Z,
-/* harmony export */   "types": () => /* reexport safe */ _typeDefs_js__WEBPACK_IMPORTED_MODULE_1__.Z
+/* harmony export */   "graphqlTypes": () => /* reexport safe */ _typeDefs_graphql__WEBPACK_IMPORTED_MODULE_0__.default,
+/* harmony export */   "types": () => /* reexport safe */ _typeDefs_js__WEBPACK_IMPORTED_MODULE_1__.default
 /* harmony export */ });
 /* harmony import */ var _typeDefs_graphql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeDefs.graphql */ "./graphql/schema/user/typeDefs/typeDefs.graphql");
 /* harmony import */ var _typeDefs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeDefs.js */ "./graphql/schema/user/typeDefs/typeDefs.js");
@@ -1130,7 +1274,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (`
 
@@ -1171,22 +1315,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var kill_port__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! kill-port */ "kill-port");
 /* harmony import */ var kill_port__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(kill_port__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./config */ "./config/index.js");
-
- // import Vue from "vue";
-
+/* harmony import */ var myVue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! myVue */ "./myVue.js");
 
 
 
 
 
 
-const buf = Buffer.from('runoob', 'ascii'); // 输出 72756e6f6f62
 
-<<<<<<< HEAD
-console.log('buf11123245121211231233678=', buf.toString('hex'));
-=======
-console.log('buf1234511161111111111217111211111111111111111111111111=', buf.toString('hex'));
->>>>>>> c9d387fb049b4e7e3bbb5d02e25eb1a2a0ccf19b
+
+
+console.log('myVue==', myVue__WEBPACK_IMPORTED_MODULE_8__.default);
 
 class App {
   constructor() {
@@ -1206,12 +1345,12 @@ class App {
   }
 
   async connectRedis() {
-    await (0,_utils__WEBPACK_IMPORTED_MODULE_2__/* .promise */ .M)((reslove, reject) => {
-      _redis__WEBPACK_IMPORTED_MODULE_4__/* .Redis.connect */ .so.connect(() => {
+    await (0,_utils__WEBPACK_IMPORTED_MODULE_2__.promise)((reslove, reject) => {
+      _redis__WEBPACK_IMPORTED_MODULE_4__.Redis.connect(() => {
         console.log("Redis 链接成功");
         reslove();
       });
-      _redis__WEBPACK_IMPORTED_MODULE_4__/* .Redis.error */ .so.error(() => {
+      _redis__WEBPACK_IMPORTED_MODULE_4__.Redis.error(() => {
         console.log("Redis 链接错误");
         reject();
       });
@@ -1219,15 +1358,15 @@ class App {
   }
 
   async connectSql() {
-    await (0,_utils__WEBPACK_IMPORTED_MODULE_2__/* .promise */ .M)((reslove, reject) => {
-      _db_index_js__WEBPACK_IMPORTED_MODULE_3__/* .connection.connect */ .ZI.connect(err => {
+    await (0,_utils__WEBPACK_IMPORTED_MODULE_2__.promise)((reslove, reject) => {
+      _db_index_js__WEBPACK_IMPORTED_MODULE_3__.connection.connect(err => {
         if (err) {
           console.log("数据库连失败");
           reject();
           throw err;
         }
 
-        new _db_index_js__WEBPACK_IMPORTED_MODULE_3__/* .CheckTable */ .eE();
+        new _db_index_js__WEBPACK_IMPORTED_MODULE_3__.CheckTable();
         console.log("mysql数据库连接成功");
         reslove();
       });
@@ -1236,7 +1375,7 @@ class App {
 
   addRoute() {
     // 导入路由
-    new _routes_index__WEBPACK_IMPORTED_MODULE_5__/* .default */ .Z(this.app);
+    new _routes_index__WEBPACK_IMPORTED_MODULE_5__.default(this.app);
   }
 
   listen() {
@@ -1263,7 +1402,7 @@ class App {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var koa_bodyparser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! koa-bodyparser */ "koa-bodyparser");
 /* harmony import */ var koa_bodyparser__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa_bodyparser__WEBPACK_IMPORTED_MODULE_0__);
@@ -1341,7 +1480,7 @@ const common = (app, router) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "y": () => /* reexport safe */ _common__WEBPACK_IMPORTED_MODULE_0__.Z
+/* harmony export */   "common": () => /* reexport safe */ _common__WEBPACK_IMPORTED_MODULE_0__.default
 /* harmony export */ });
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common */ "./middleware/common.js");
 
@@ -1357,9 +1496,9 @@ const common = (app, router) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "so": () => /* reexport safe */ _redis__WEBPACK_IMPORTED_MODULE_0__.so,
-/* harmony export */   "V3": () => /* reexport safe */ _jwt__WEBPACK_IMPORTED_MODULE_1__.V3,
-/* harmony export */   "uc": () => /* reexport safe */ _user__WEBPACK_IMPORTED_MODULE_2__.u
+/* harmony export */   "Redis": () => /* reexport safe */ _redis__WEBPACK_IMPORTED_MODULE_0__.Redis,
+/* harmony export */   "createToken": () => /* reexport safe */ _jwt__WEBPACK_IMPORTED_MODULE_1__.createToken,
+/* harmony export */   "getUserIfo": () => /* reexport safe */ _user__WEBPACK_IMPORTED_MODULE_2__.getUserIfo
 /* harmony export */ });
 /* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./redis */ "./redis/redis.js");
 /* harmony import */ var _jwt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./jwt */ "./redis/jwt.js");
@@ -1379,9 +1518,9 @@ const common = (app, router) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "V3": () => /* binding */ createToken,
-/* harmony export */   "a_": () => /* binding */ checkToken,
-/* harmony export */   "fb": () => /* binding */ userIdCheckToken
+/* harmony export */   "createToken": () => /* binding */ createToken,
+/* harmony export */   "checkToken": () => /* binding */ checkToken,
+/* harmony export */   "userIdCheckToken": () => /* binding */ userIdCheckToken
 /* harmony export */ });
 /* unused harmony export destroyToken */
 /* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./redis */ "./redis/redis.js");
@@ -1403,8 +1542,8 @@ const {
 } = (jsonwebtoken__WEBPACK_IMPORTED_MODULE_2___default()); // 用用户id验证token
 
 const userIdCheckToken = userId => {
-  return (0,_utils__WEBPACK_IMPORTED_MODULE_3__/* .promise */ .M)((resolve, reject) => {
-    _redis__WEBPACK_IMPORTED_MODULE_0__/* .redisClient.keys */ .Cy.keys(`userid_${userId}_*`, (error, value) => {
+  return (0,_utils__WEBPACK_IMPORTED_MODULE_3__.promise)((resolve, reject) => {
+    _redis__WEBPACK_IMPORTED_MODULE_0__.redisClient.keys(`userid_${userId}_*`, (error, value) => {
       if (error) {
         reject(error);
       } else {
@@ -1416,8 +1555,8 @@ const userIdCheckToken = userId => {
 
 
 const checkToken = token => {
-  return (0,_utils__WEBPACK_IMPORTED_MODULE_3__/* .promise */ .M)((resolve, reject) => {
-    _redis__WEBPACK_IMPORTED_MODULE_0__/* .redisClient.keys */ .Cy.keys(`userid_*_${token}`, (error, value) => {
+  return (0,_utils__WEBPACK_IMPORTED_MODULE_3__.promise)((resolve, reject) => {
+    _redis__WEBPACK_IMPORTED_MODULE_0__.redisClient.keys(`userid_*_${token}`, (error, value) => {
       if (error) {
         reject(error);
       } else {
@@ -1432,7 +1571,7 @@ const createToken = async (userInfo = {}, payload = {}) => {
     id = ""
   } = userInfo; //  产生token
 
-  payload = (0,_utils__WEBPACK_IMPORTED_MODULE_3__/* .merge */ .T)({
+  payload = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.merge)({
     ctime: Date.now() //创建时间
 
   }, payload); //创建token
@@ -1446,13 +1585,13 @@ const createToken = async (userInfo = {}, payload = {}) => {
   if (userIdTokens && userIdTokens.length >= 1) {
     // 删除多余的key实现单点登录
     userIdTokens.forEach(async key => {
-      await _redis__WEBPACK_IMPORTED_MODULE_0__/* .Redis.del */ .so.del(key);
+      await _redis__WEBPACK_IMPORTED_MODULE_0__.Redis.del(key);
     });
   } // 重新设置 redis 
 
 
-  await _redis__WEBPACK_IMPORTED_MODULE_0__/* .Redis.set */ .so.set(`userid_${id}_${token}`, JSON.stringify(userInfo));
-  _redis__WEBPACK_IMPORTED_MODULE_0__/* .redisClient.pexpire */ .Cy.pexpire(`userid_${id}_${token}`, _config__WEBPACK_IMPORTED_MODULE_4__.tokenExpires);
+  await _redis__WEBPACK_IMPORTED_MODULE_0__.Redis.set(`userid_${id}_${token}`, JSON.stringify(userInfo));
+  _redis__WEBPACK_IMPORTED_MODULE_0__.redisClient.pexpire(`userid_${id}_${token}`, _config__WEBPACK_IMPORTED_MODULE_4__.tokenExpires);
   return token;
 }; //销毁token
 
@@ -1478,8 +1617,8 @@ const destroyToken = async tokenOrId => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "so": () => /* binding */ Redis,
-/* harmony export */   "Cy": () => /* binding */ redisClient
+/* harmony export */   "Redis": () => /* binding */ Redis,
+/* harmony export */   "redisClient": () => /* binding */ redisClient
 /* harmony export */ });
 /* harmony import */ var redis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redis */ "redis");
 /* harmony import */ var redis__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redis__WEBPACK_IMPORTED_MODULE_0__);
@@ -1503,7 +1642,7 @@ class RedisClass {
 
 
   connect(callback = () => {}) {
-    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__/* .promise */ .M)((resolve, reject) => {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
       this.redisClient.on('connect', () => {
         callback();
         resolve();
@@ -1512,7 +1651,7 @@ class RedisClass {
   }
 
   ready(callback = () => {}) {
-    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__/* .promise */ .M)((resolve, reject) => {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
       this.redisClient.on('ready', (err, res) => {
         if (err) {
           callback(error);
@@ -1525,7 +1664,7 @@ class RedisClass {
   }
 
   error(callback = () => {}) {
-    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__/* .promise */ .M)((resolve, reject) => {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
       this.redisClient.on('error', error => {
         callback(error);
         reject(error);
@@ -1545,7 +1684,7 @@ class RedisClass {
   }
 
   set(key, value, callback = () => {}, options = () => {}) {
-    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__/* .promise */ .M)((resolve, reject) => {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
       this.redisClient.set(key, value, (error, res) => {
         if (error) {
           callback(error);
@@ -1563,7 +1702,7 @@ class RedisClass {
   }
 
   get(key, callback = () => {}) {
-    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__/* .promise */ .M)((resolve, reject) => {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
       this.redisClient.get(key, (error, res) => {
         if (error) {
           callback(error);
@@ -1576,7 +1715,7 @@ class RedisClass {
   }
 
   del(key, callback = () => {}) {
-    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__/* .promise */ .M)((resolve, reject) => {
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.promise)((resolve, reject) => {
       this.redisClient.del(key, (error, res) => {
         if (error) {
           callback(error);
@@ -1610,7 +1749,7 @@ const redisClient = Redis.redisClient;
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "u": () => /* binding */ getUserIfo
+/* harmony export */   "getUserIfo": () => /* binding */ getUserIfo
 /* harmony export */ });
 /* harmony import */ var _jwt__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./jwt */ "./redis/jwt.js");
 /* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./redis */ "./redis/redis.js");
@@ -1622,10 +1761,10 @@ const redisClient = Redis.redisClient;
  // 获取用户信息
 
 const getUserIfo = async tokenOrId => {
-  const userIdTokens = (await (0,_jwt__WEBPACK_IMPORTED_MODULE_0__/* .userIdCheckToken */ .fb)(tokenOrId)) || [];
-  const tokens = (await (0,_jwt__WEBPACK_IMPORTED_MODULE_0__/* .checkToken */ .a_)(tokenOrId)) || [];
-  const data = await _redis__WEBPACK_IMPORTED_MODULE_1__/* .Redis.get */ .so.get((0,_utils__WEBPACK_IMPORTED_MODULE_2__/* .merge */ .T)(userIdTokens, tokens)[0]);
-  _redis__WEBPACK_IMPORTED_MODULE_1__/* .redisClient.pexpire */ .Cy.pexpire((0,_utils__WEBPACK_IMPORTED_MODULE_2__/* .merge */ .T)(userIdTokens, tokens)[0], _config__WEBPACK_IMPORTED_MODULE_3__.tokenExpires);
+  const userIdTokens = (await (0,_jwt__WEBPACK_IMPORTED_MODULE_0__.userIdCheckToken)(tokenOrId)) || [];
+  const tokens = (await (0,_jwt__WEBPACK_IMPORTED_MODULE_0__.checkToken)(tokenOrId)) || [];
+  const data = await _redis__WEBPACK_IMPORTED_MODULE_1__.Redis.get((0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(userIdTokens, tokens)[0]);
+  _redis__WEBPACK_IMPORTED_MODULE_1__.redisClient.pexpire((0,_utils__WEBPACK_IMPORTED_MODULE_2__.merge)(userIdTokens, tokens)[0], _config__WEBPACK_IMPORTED_MODULE_3__.tokenExpires);
   return data;
 };
 
@@ -1641,7 +1780,7 @@ const getUserIfo = async tokenOrId => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var graphql_type__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! graphql/type */ "graphql/type");
 /* harmony import */ var graphql_type__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(graphql_type__WEBPACK_IMPORTED_MODULE_0__);
@@ -1674,7 +1813,7 @@ const getUserIfo = async tokenOrId => {
 
 
 
-console.log("bizModRouter======", _bizMod_index__WEBPACK_IMPORTED_MODULE_10__/* .router */ .N);
+console.log("bizModRouter======", _bizMod_index__WEBPACK_IMPORTED_MODULE_10__.router);
 console.log("schema======", _graphql_schema__WEBPACK_IMPORTED_MODULE_11__);
 console.log("schema.user.typeDefs======", _graphql_schema__WEBPACK_IMPORTED_MODULE_11__.user.typeDefs);
 console.log("schema.user.typeDefs======", _graphql_schema__WEBPACK_IMPORTED_MODULE_11__.user.typeDefs); // import { user } from "../graphql/schema";
@@ -1714,7 +1853,7 @@ class Route {
 
   middleware() {
     // 添加 404 500 中间件
-    (0,_middleware_index__WEBPACK_IMPORTED_MODULE_9__/* .common */ .y)(this.app, this.router);
+    (0,_middleware_index__WEBPACK_IMPORTED_MODULE_9__.common)(this.app, this.router);
   }
 
   checkToken() {
@@ -1727,13 +1866,13 @@ class Route {
         response
       } = ctx;
       const token = cookies.get("token") || header.token;
-      await (0,_redis__WEBPACK_IMPORTED_MODULE_3__/* .getUserIfo */ .uc)(token).then(async value => {
+      await (0,_redis__WEBPACK_IMPORTED_MODULE_3__.getUserIfo)(token).then(async value => {
         console.log("value=", value);
         response.userInfo = value;
         await next();
       }).catch(error => {
         response.userInfo = null;
-        ctx.response.body = (0,_utils__WEBPACK_IMPORTED_MODULE_4__/* .merge */ .T)(_constant__WEBPACK_IMPORTED_MODULE_5__/* .unauthorized */ .Hs, {
+        ctx.response.body = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.merge)(_constant__WEBPACK_IMPORTED_MODULE_5__.unauthorized, {
           msg: "登录回话已过期，请重新登录"
         });
       }); //  await next();
@@ -1742,8 +1881,8 @@ class Route {
 
 
   addRouters() {
-    new _user__WEBPACK_IMPORTED_MODULE_8__/* .default */ .Z(this.app, this.router);
-    (0,_bizMod_index__WEBPACK_IMPORTED_MODULE_10__/* .router */ .N)(this.app, this.router); // new bizMod.abnormity.script.router(this.app, this.router)
+    new _user__WEBPACK_IMPORTED_MODULE_8__.default(this.app, this.router);
+    (0,_bizMod_index__WEBPACK_IMPORTED_MODULE_10__.router)(this.app, this.router); // new bizMod.abnormity.script.router(this.app, this.router)
 
     console.log("checkToken====");
     this.checkToken(); // 查询
@@ -1803,7 +1942,7 @@ class Route {
         console.log("stringify data=", JSON.stringify(data));
 
         if (errors) {
-          response.body = (0,_utils__WEBPACK_IMPORTED_MODULE_4__/* .merge */ .T)(_constant__WEBPACK_IMPORTED_MODULE_5__/* .graphqlError */ .NB, {
+          response.body = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.merge)(_constant__WEBPACK_IMPORTED_MODULE_5__.graphqlError, {
             errors
           });
         } else {
@@ -1872,7 +2011,7 @@ class Route {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var _controller_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../controller/user */ "./controller/user.js");
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! koa-router */ "koa-router");
@@ -1928,12 +2067,12 @@ class Route {
 
   registered() {
     // 添加 接口
-    this.secondaryRoute.post("/register", _controller_user__WEBPACK_IMPORTED_MODULE_0__/* .default.add */ .Z.add);
+    this.secondaryRoute.post("/register", _controller_user__WEBPACK_IMPORTED_MODULE_0__.default.add);
   }
 
   login() {
     // 添加 接口
-    this.secondaryRoute.post("/login", _controller_user__WEBPACK_IMPORTED_MODULE_0__/* .default.login */ .Z.login);
+    this.secondaryRoute.post("/login", _controller_user__WEBPACK_IMPORTED_MODULE_0__.default.login);
   }
 
 }
@@ -1950,7 +2089,7 @@ class Route {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var _db_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../db/user */ "./db/user.js");
 /* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constant */ "./constant/index.js");
@@ -2017,7 +2156,7 @@ class Service {
       };
     }
 
-    const data = await (0,_db_user__WEBPACK_IMPORTED_MODULE_0__/* .addUser */ .cn)({
+    const data = await (0,_db_user__WEBPACK_IMPORTED_MODULE_0__.addUser)({
       name,
       phone,
       password
@@ -2035,7 +2174,7 @@ class Service {
 
 
   static async queryUser(...ags) {
-    const userData = await (0,_db_user__WEBPACK_IMPORTED_MODULE_0__/* .queryUser */ .tM)(...ags);
+    const userData = await (0,_db_user__WEBPACK_IMPORTED_MODULE_0__.queryUser)(...ags);
     return userData;
   } // 登录
 
@@ -2080,7 +2219,7 @@ class Service {
       };
     }
 
-    userInfo = await (0,_db_user__WEBPACK_IMPORTED_MODULE_0__/* .queryUser */ .tM)({
+    userInfo = await (0,_db_user__WEBPACK_IMPORTED_MODULE_0__.queryUser)({
       name,
       password
     });
@@ -2089,7 +2228,7 @@ class Service {
     创建 createToken  
     */
 
-    const token = await (0,_redis__WEBPACK_IMPORTED_MODULE_3__/* .createToken */ .V3)(userInfo);
+    const token = await (0,_redis__WEBPACK_IMPORTED_MODULE_3__.createToken)(userInfo);
     delete userInfo.password;
     ctx.response.userInfo = userInfo;
     console.log('setExpirationTime=', (0,_config__WEBPACK_IMPORTED_MODULE_4__.setExpirationTime)()); // console.log('token=', token);
@@ -2130,8 +2269,8 @@ class Service {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "M": () => /* binding */ promise,
-/* harmony export */   "T": () => /* binding */ merge
+/* harmony export */   "promise": () => /* binding */ promise,
+/* harmony export */   "merge": () => /* binding */ merge
 /* harmony export */ });
 const promise = (fn = () => {}) => {
   return new Promise((resolve, reject) => {
@@ -2165,13 +2304,24 @@ const merge = Object.assign || function (target) {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "T": () => /* reexport safe */ _common__WEBPACK_IMPORTED_MODULE_0__.T,
-/* harmony export */   "M": () => /* reexport safe */ _common__WEBPACK_IMPORTED_MODULE_0__.M
+/* harmony export */   "merge": () => /* reexport safe */ _common__WEBPACK_IMPORTED_MODULE_0__.merge,
+/* harmony export */   "promise": () => /* reexport safe */ _common__WEBPACK_IMPORTED_MODULE_0__.promise
 /* harmony export */ });
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common */ "./utils/common.js");
  // export * from "./jwt";
 
 
+
+/***/ }),
+
+/***/ "./bizMod/abnormity/bizMod/script/graphql/schema/typeDefs/typeDefs.graphql":
+/*!*********************************************************************************!*\
+  !*** ./bizMod/abnormity/bizMod/script/graphql/schema/typeDefs/typeDefs.graphql ***!
+  \*********************************************************************************/
+/***/ (() => {
+
+"use strict";
+/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = ("type User {\n  id: ID!\n  username: String!\n  createdAt: String!\n  updatedAt: String!\n}\n\ninput UpdatedUser {\n  username: String!\n}\n\ntype Query {\n  getMe: User!\n}\n\ntype Mutation {\n  updateMe(input: UpdatedUser!): User!\n}\n");
 
 /***/ }),
 
@@ -2183,13 +2333,9 @@ const merge = Object.assign || function (target) {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-<<<<<<< HEAD
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("type User {\n  id: ID!\n  username: String!\n  createdAt: String!\n  updatedAt: String!\n}\n\ninput UpdatedUser {\n  username: String!\n}\n\ntype Query {\n  getMe: User!\n}\n\ntype Mutation {\n  updateMe(input: UpdatedUser!): User!\n}\n");
-=======
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("type User {\r\n  id: ID!\r\n  username: String!\r\n  createdAt: String!\r\n  updatedAt: String!\r\n}\r\n\r\ninput UpdatedUser {\r\n  username: String!\r\n}\r\n\r\ntype Query {\r\n  getMe: User!\r\n}\r\n\r\ntype Mutation {\r\n  updateMe(input: UpdatedUser!): User!\r\n}\r\n");
->>>>>>> c9d387fb049b4e7e3bbb5d02e25eb1a2a0ccf19b
 
 /***/ }),
 

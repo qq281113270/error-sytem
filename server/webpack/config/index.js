@@ -10,11 +10,11 @@ import { getArgv } from "../utils";
 const webpackEnv = process.env.NODE_ENV; // 环境参数
 //   是否是测试开发环境
 const isEnvDevelopment = webpackEnv === "development";
-//   是否是生产环境
+//    是否是生产环境
 const isEnvProduction = webpackEnv === "production";
 
 //添加smp.wrap会有bug 编译缓存出问题
 const smp = new SpeedMeasurePlugin();
 
-export default merge(baseConfig, isEnvDevelopment ? devConfig : prdConfig);
-//   smp.wrap(merge(baseConfig, isEnvDevelopment ? devConfig : prdConfig))
+export default   merge(baseConfig, isEnvDevelopment ? devConfig : prdConfig);
+    // smp.wrap(merge(baseConfig, isEnvDevelopment ? devConfig : prdConfig))
