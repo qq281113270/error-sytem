@@ -8,6 +8,7 @@ import WebpackBar from "webpackbar";
 import HappyPack from "happypack";
 import FriendlyErrorsPlugin from "friendly-errors-webpack-plugin";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
+import DirectoryNamedWebpackPlugin from "directory-named-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 import os from "os";
 import HtmlWebpackPlugin from "html-webpack-plugin";
@@ -33,11 +34,63 @@ export default {
       "index.js", // 如果没有配置 context 则需要这样引入  path.resolve(__dirname, "../../app/index.js")
     ],
   },
+  // 出口
+  output: {
+    // 输出目录
+    path: path.join(__dirname, "../../dist"),
+    // filename: '[name].[hash].js',
+    // chunkFilename: '[name].[hash].js',
+    // Chunk 配置
+    filename: "[name].js",
+    chunkFilename: "[name].js",
+    // 访问静态资源目录 比如 css img
+    publicPath: "/",
+    // 导出库(exported library)的名称
+    library: "server",
+    //   导出库(exported library)的类型
+    libraryTarget: "umd",
+    // 在 UMD 库中使用命名的 AMD 模块
+    umdNamedDefine: true,
+    globalObject: "this",
+    // chunk 请求到期之前的毫秒数，默认为 120000
+    chunkLoadTimeout: 120000,
+    // 「devtool 中模块」的文件名模板 调试webpack的配置问题
+    // 你的文件在chrome开发者工具中显示为webpack:///foo.js?a93h, 。如果我们希望文件名显示得更清晰呢，比如说 webpack:///path/to/foo.js
+    devtoolModuleFilenameTemplate: (info) => {
+      // "webpack://[namespace]/[resource-path]?[loaders]"
+      return `webpack:///${info.resourcePath}?${info.loaders}`;
+    },
+    // 如果多个模块产生相同的名称，使用
+    devtoolFallbackModuleFilenameTemplate: (info) => {
+      return `webpack:///${info.resourcePath}?${info.loaders}`;
+    },
+    // 如果一个模块是在 require 时抛出异常，告诉 webpack 从模块实例缓存(require.cache)中删除这个模块。
+    // 并且重启webpack的时候也会删除cache缓存
+    strictModuleExceptionHandling: true,
+  },
 
   // 是否监听文件
-  watch: false,
-  //dllPlugin 插件需要的包
+  // watch: false,
+
   resolve: {
+    //决定请求是否应该被缓存的函数。函数传入一个带有 path 和 request 属性的对象。默认：
+    cachePredicate: () => {
+      return true;
+    },
+    plugins: [
+      //如果在引用目录中没有index.js文件的时候。
+      // 当require("component/foo")路径“component/foo”解析到目录时，
+      // Webpack将尝试查找component/foo/foo.js作为条目.
+      new DirectoryNamedWebpackPlugin({
+        honorIndex: true, // defaults to false
+        // 排除
+        exclude: /node_modules/,
+        //入口文件
+        include: [path.resolve(__dirname, "../../app")],
+      }),
+    ],
+    //启用，会主动缓存模块，但并不安全。传递 true 将缓存一切
+    unsafeCache: true,
     // 模块查找优先顺序配置
     // 1.配置模块的查找规则,
     // 2.导入 require('sql')，会先在node_modules下查找，然后再到app下查找
@@ -48,8 +101,9 @@ export default {
       path.resolve(__dirname, "../../app"),
     ],
     // 可以省略引用后缀
-    extensions: [".tsx", ".ts", ".js", ".graphql", ".json"],
+    extensions: [".tsx", ".ts", ".js", ".graphql", ".json", ".node"],
     // 1.不需要node polyfilss webpack 去掉了node polyfilss 需要自己手动添加
+    //dllPlugin 插件需要的包
     alias: {
       buffer: "buffer",
       crypto: "crypto-browserify",
@@ -68,23 +122,19 @@ export default {
       http: require.resolve("stream-http"),
     },
   },
-  // 出口
-  output: {
-    path: path.join(__dirname, "../../dist"),
-    // filename: 'index.js',
-    // chunkFilename: '[id].js',
-    // Chunk 配置
-    filename: "[name].js",
-    chunkFilename: "[name].chunk.js",
-    publicPath: "/",
-    library: "server",
-    libraryTarget: "umd",
-    umdNamedDefine: true,
-    globalObject: "this",
-    chunkLoadTimeout: 30000,
-    devtoolModuleFilenameTemplate:
-      "webpack://[namespace]/[resource-path]?[loaders]",
+  // 打包文件大小监听
+  performance: {
+    maxEntrypointSize: 1024 * 512, // 设置最大输入512kb的文件，如果大于他则发出警告
+    maxAssetSize: 1024 * 100, // 设置最大输出100kb的文件，如果大于他则发出警告
+    hints: "warning",
+    // 过滤文件
+    assetFilter: function (assetFilename) {
+      // console.log('assetFilename==========', assetFilename,assetFilename.endsWith('.js'))
+      // 只要监听js文件，过滤其他文件判断
+      return assetFilename.endsWith(".js");
+    },
   },
+
   //选项决定文件系统快照的创建和失效方式。
   snapshot: {
     managedPaths: [path.resolve(__dirname, "../../node_modules")],
@@ -104,11 +154,13 @@ export default {
       timestamp: true,
     },
   },
+  //在第一个错误出现时抛出失败结果，而不是容忍它
   bail: true,
   //启用编译缓存日志输出
   infrastructureLogging: {
     level: "log",
   },
+  // 使用缓存
   cache: {
     type: "filesystem", //  'memory' | 'filesystem'
     store: "pack",
@@ -140,11 +192,6 @@ export default {
     mergeDuplicateChunks: true,
     //告知 webpack 确定和标记出作为其他 chunk 子集的那些 chunk，其方式是在已经加载过较大的 chunk 之后，就不再去加载这些 chunk 子集。
     flagIncludedChunks: true,
-    /*
-    允许控制导出处理(export mangling)。
-     默认 optimization.mangleExports: 'deterministic' 会在 production 模式下 启用而其它情况会被禁用
-    */
-    mangleExports: true,
     //告知 webpack 去确定那些由模块提供的导出内容，为 export * from ... 生成更多高效的代码。
     providedExports: true,
     //告知 webpack 是否对未使用的导出内容，实施内部图形分析(graph analysis)。
@@ -207,9 +254,101 @@ export default {
     __dirname: true,
     global: false,
   },
+  // 捕获时机信息
+  profile: true,
+  // 限制并行处理模块的数量
+  parallelism: 1, // number
+  //统计信息(stats)
+  stats: {
+    // 未定义选项时，stats 选项的备用值(fallback value)（优先级高于 webpack 本地默认值）
+    all: undefined,
+    // 添加资源信息
+    assets: true,
+    // 对资源按指定的字段进行排序
+    // 你可以使用 `!field` 来反转排序。
+    assetsSort: "field",
+    // 添加构建日期和构建时间信息
+    builtAt: true,
+    // 添加缓存（但未构建）模块的信息
+    cached: true,
+    // 显示缓存的资源（将其设置为 `false` 则仅显示输出的文件）
+    cachedAssets: true,
+    // 添加 children 信息
+    children: true,
+    // 添加 chunk 信息（设置为 `false` 能允许较少的冗长输出）
+    chunks: true,
+    // 将构建模块信息添加到 chunk 信息
+    chunkModules: true,
+    // 添加 chunk 和 chunk merge 来源的信息
+    chunkOrigins: true,
+    // 按指定的字段，对 chunk 进行排序
+    // 你可以使用 `!field` 来反转排序。默认是按照 `id` 排序。
+    chunksSort: "field",
+    // 用于缩短 request 的上下文目录
+    // context: "../src/",
+    // `webpack --colors` 等同于
+    colors: true,
+    // 显示每个模块到入口起点的距离(distance)
+    depth: true,
+    // 通过对应的 bundle 显示入口起点
+    entrypoints: true,
+    // 添加 --env information
+    env: true,
+    // 添加错误信息
+    errors: true,
+    // 添加错误的详细信息（就像解析日志一样）
+    errorDetails: true,
+    // 将资源显示在 stats 中的情况排除
+    // 这可以通过 String, RegExp, 获取 assetName 的函数来实现
+    // 并返回一个布尔值或如下所述的数组。
+    // excludeAssets: "filter" | /filter/ | (assetName) => ... return true|false |
+    //   ["filter"] | [/filter/] | [(assetName) => ... return true|false],
+    // 将模块显示在 stats 中的情况排除
+    // 这可以通过 String, RegExp, 获取 moduleSource 的函数来实现
+    // 并返回一个布尔值或如下所述的数组。
+    // excludeModules: "filter" | /filter/ | (moduleSource) => ... return true|false |
+    //   ["filter"] | [/filter/] | [(moduleSource) => ... return true|false],
+    // // 和 excludeModules 相同
+    // exclude: "filter" | /filter/ | (moduleSource) => ... return true|false |
+    //   ["filter"] | [/filter/] | [(moduleSource) => ... return true|false],
+    // 添加 compilation 的哈希值
+    hash: true,
+    // 设置要显示的模块的最大数量
+    // maxModules: 15,
+    // 添加构建模块信息
+    modules: true,
+    // 按指定的字段，对模块进行排序
+    // 你可以使用 `!field` 来反转排序。默认是按照 `id` 排序。
+    modulesSort: "field",
+    // 显示警告/错误的依赖和来源（从 webpack 2.5.0 开始）
+    moduleTrace: true,
+    // 当文件大小超过 `performance.maxAssetSize` 时显示性能提示
+    performance: true,
+    // 显示模块的导出
+    providedExports: true,
+    // 添加 public path 的信息
+    publicPath: true,
+    // 添加模块被引入的原因
+    reasons: true,
+    // 添加模块的源码
+    source: true,
+    // 添加时间信息
+    timings: true,
+    // 显示哪个模块导出被用到
+    usedExports: true,
+    // 添加 webpack 版本信息
+    version: true,
+    // 添加警告
+    warnings: true,
+    // 过滤警告显示（从 webpack 2.4.0 开始），
+    // 可以是 String, Regexp, 一个获取 warning 的函数
+    // 并返回一个布尔值或上述组合的数组。第一个匹配到的为胜(First match wins.)。
+    // warningsFilter: "filter" | /filter/ | ["filter", /filter/] | (warning) => ... return true|false
+  },
 
-  //引入缓存
+  //防止将某些 import 的包(package)打包到 bundle 中,而是在运行时(runtime)再去从外部获取这些扩展依赖
   externals: [
+    //引入缓存
     nodeExternals({
       allowlist: ["webpack/hot/poll?1000"],
     }),

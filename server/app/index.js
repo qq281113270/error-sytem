@@ -12,13 +12,13 @@ import { port } from "./config";
 const buf = Buffer.from('runoob', 'ascii');
 
 // 输出 72756e6f6f62
-console.log('buf123451116111111117111211111111111111111111111111=', buf.toString('hex'));
+console.log('buf11123245121211231233678=', buf.toString('hex'));
 
  
  
  
-class App { 
-  constructor() {
+class App {  
+  constructor() {  
     this.app = new koa();
      this.init();
   }

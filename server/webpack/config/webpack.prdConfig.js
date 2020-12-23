@@ -12,6 +12,11 @@ export default {
     nodeEnv: "production",
     // 最快的chunk id 加载
     moduleIds: "size",
+    /*
+    允许控制导出处理(export mangling)。
+     默认 optimization.mangleExports: 'deterministic' 会在 production 模式下 启用而其它情况会被禁用
+    */
+    mangleExports: true,
     minimizer: [
       new TerserPlugin({
         // sourceMap: "eval",
