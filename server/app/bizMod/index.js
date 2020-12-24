@@ -25,7 +25,8 @@ import {
 
 export const schema = (() => {
   let typeDefs = {
-    schema:''
+    schema: "",
+    schemas: [],
   };
   let resolvers = {
     Mutation: {},
@@ -33,26 +34,27 @@ export const schema = (() => {
     Subscription: {},
   };
 
-  const schemas={
+  const schemas = {
     ...abnormitySchema,
     ...performanceSchema,
-  }
-  console.log('schemas=============',schemas)
+  };
+  console.log("schemas=============", schemas);
 
-   const schemaKeys = Object.keys(schemas);
+  const schemaKeys = Object.keys(schemas);
   // const performanceSchemaKeys = Object.keys(performanceSchema);
 
   for (let key of schemaKeys) {
     //  console.log("abnormitySchema[key]===", abnormitySchema[key].typeDefs.schema);
-     typeDefs.schema+=schemas[key].typeDefs.schema+'\n'
+    typeDefs.schema += schemas[key].typeDefs.schema + "\n";
+    typeDefs.schemas.push(schemas[key].typeDefs.schema);
 
-     /*
+    /*
       resolvers.Mutation,
       resolvers.Query,
       resolvers.Subscription
-     */  
+     */
   }
-  console.log('typeDefs.schema2=======',typeDefs.schema)
+  console.log("typeDefs.schema2=======", typeDefs.schema);
 
   return abnormitySchema;
 })();

@@ -1102,7 +1102,8 @@ class router {
 
 const schema = (() => {
   let typeDefs = {
-    schema: ''
+    schema: "",
+    schemas: []
   };
   let resolvers = {
     Mutation: {},
@@ -1112,20 +1113,21 @@ const schema = (() => {
   const schemas = { ..._abnormity__WEBPACK_IMPORTED_MODULE_0__.schema,
     ..._performance__WEBPACK_IMPORTED_MODULE_1__.schema
   };
-  console.log('schemas=============', schemas);
+  console.log("schemas=============", schemas);
   const schemaKeys = Object.keys(schemas); // const performanceSchemaKeys = Object.keys(performanceSchema);
 
   for (let key of schemaKeys) {
     //  console.log("abnormitySchema[key]===", abnormitySchema[key].typeDefs.schema);
-    typeDefs.schema += schemas[key].typeDefs.schema + '\n';
+    typeDefs.schema += schemas[key].typeDefs.schema + "\n";
+    typeDefs.schemas.push(schemas[key].typeDefs.schema);
     /*
-     resolvers.Mutation,
-     resolvers.Query,
-     resolvers.Subscription
-    */
+      resolvers.Mutation,
+      resolvers.Query,
+      resolvers.Subscription
+     */
   }
 
-  console.log('typeDefs.schema2=======', typeDefs.schema);
+  console.log("typeDefs.schema2=======", typeDefs.schema);
   return _abnormity__WEBPACK_IMPORTED_MODULE_0__.schema;
 })();
 const router = (app, router) => {
