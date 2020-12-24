@@ -1,12 +1,14 @@
-const promise =(fn=()=>{})=>{
-   
-  return new Promise((resolve,reject)=>{
-      fn(resolve,reject)
-  })
+import { CheckDataType } from "./CheckDataType";
+import chalk from "chalk";
 
-}
+const promise = (fn = () => {}) => {
+  return new Promise((resolve, reject) => {
+    fn(resolve, reject);
+  });
+};
 
-const merge = Object.assign ||
+const merge =
+  Object.assign ||
   function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
@@ -18,8 +20,35 @@ const merge = Object.assign ||
     }
     return target;
   };
-
-export {
-    promise ,
-    merge
+const checkSchema = (name) => {
+  let cache = [];
+  return function checkSchemas(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      let source = new Object({ ...arguments[i] });
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          if (
+            Object.prototype.toString.call(source[key]) == "[object Module]" ||
+            CheckDataType.isObject(source[key])
+          ) {
+            target[key] = {
+              ...(target[key] || {}),
+              ...checkSchemas(target[key], source[key]),
+            };
+          } else {
+            if (cache.includes(key)) {
+              throw new Error(
+                chalk.red(`graphql schema 发生 ${key}命名冲突,请重新命名${key}`)
+              );
+            }
+            !["Mutation", "Query", "Subscription"].includes(key) &&
+              cache.push(key);
+            target[key] = source[key];
+          }
+        }
+      }
+    }
+    return target;
+  };
 };
+export { promise, merge, checkSchema };

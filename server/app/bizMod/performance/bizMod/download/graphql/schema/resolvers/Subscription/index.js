@@ -1,1 +1,1 @@
-export const userTest = ()=> {};
+export const downloadTest = ()=> {};

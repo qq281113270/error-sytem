@@ -158,9 +158,9 @@ class Controller {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "userAdd": () => /* binding */ userAdd
+/* harmony export */   "scriptAdd": () => /* binding */ scriptAdd
 /* harmony export */ });
-const userAdd = () => {};
+const scriptAdd = () => {};
 
 /***/ }),
 
@@ -173,9 +173,9 @@ const userAdd = () => {};
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "userQuery": () => /* binding */ userQuery
+/* harmony export */   "scriptQuery": () => /* binding */ scriptQuery
 /* harmony export */ });
-const userQuery = () => {};
+const scriptQuery = () => {};
 
 /***/ }),
 
@@ -188,9 +188,9 @@ const userQuery = () => {};
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "userTest": () => /* binding */ userTest
+/* harmony export */   "scriptTest": () => /* binding */ scriptTest
 /* harmony export */ });
-const userTest = () => {};
+const scriptTest = () => {};
 
 /***/ }),
 
@@ -316,8 +316,7 @@ class router {
   }
 
   query() {
-    console.log('query============='); // 添加 接口
-
+    // 添加 接口
     this.threeLevelRoute.get("/query", _controller__WEBPACK_IMPORTED_MODULE_0__.default.query);
   }
 
@@ -607,8 +606,7 @@ class Controller {
 /* harmony import */ var _resolvers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./resolvers */ "./bizMod/abnormity/bizMod/user/graphql/schema/resolvers/index.js");
 /* harmony import */ var _typeDefs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeDefs */ "./bizMod/abnormity/bizMod/user/graphql/schema/typeDefs/index.js");
 
-
-console.log('typeDefs0============', _typeDefs__WEBPACK_IMPORTED_MODULE_1__.schema); //脚本模块
+ //脚本模块
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   resolvers: _resolvers__WEBPACK_IMPORTED_MODULE_0__,
@@ -785,8 +783,7 @@ class router {
   }
 
   query() {
-    console.log('query============='); // 添加 接口
-
+    // 添加 接口
     this.threeLevelRoute.get("/query", _controller__WEBPACK_IMPORTED_MODULE_0__.default.query);
   }
 
@@ -972,10 +969,6 @@ __webpack_require__.r(__webpack_exports__);
 
  //userSchema
 
- //userSchema
-
-console.log("userSchema2===========", _bizMod_user__WEBPACK_IMPORTED_MODULE_1__.schema.typeDefs.schema);
-
 /***/ }),
 
 /***/ "./bizMod/abnormity/index.js":
@@ -1016,7 +1009,7 @@ console.log("userSchema2===========", _bizMod_user__WEBPACK_IMPORTED_MODULE_1__.
 
  //scriptRouter 路由  
 
- //scriptRouter 路由  
+ //userRouter 路由  
 
 class router {
   constructor(app, parentRouter) {
@@ -1084,22 +1077,11 @@ class router {
 /* harmony export */ });
 /* harmony import */ var _abnormity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./abnormity */ "./bizMod/abnormity/index.js");
 /* harmony import */ var _performance__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./performance */ "./bizMod/performance/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/utils */ "./utils/index.js");
 
- // export default class {
-//   constructor(app, parentRouter) {
-//     this.app = app;
-//     this.router = parentRouter;
-//     this.init();
-//   }
-//   init() {
-//     new abnormity.router(this.app, this.router);
-//   }
-// }
-// console.log('abnormitySchema=========',abnormitySchema)
-// console.log('abnormityRouter=========',abnormityRouter)
-// console.log('performanceSchema=========',performanceSchema)
-// console.log('performanceRouter=========',performanceRouter)
 
+
+const checkSchemas = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.checkSchema)();
 const schema = (() => {
   let typeDefs = {
     schema: "",
@@ -1109,28 +1091,26 @@ const schema = (() => {
     Mutation: {},
     Query: {},
     Subscription: {}
-  };
+  }; // 动态添加模块
+
   const schemas = { ..._abnormity__WEBPACK_IMPORTED_MODULE_0__.schema,
     ..._performance__WEBPACK_IMPORTED_MODULE_1__.schema
   };
-  console.log("schemas=============", schemas);
-  const schemaKeys = Object.keys(schemas); // const performanceSchemaKeys = Object.keys(performanceSchema);
+  const schemaKeys = Object.keys(schemas);
 
   for (let key of schemaKeys) {
-    //  console.log("abnormitySchema[key]===", abnormitySchema[key].typeDefs.schema);
     typeDefs.schema += schemas[key].typeDefs.schema + "\n";
     typeDefs.schemas.push(schemas[key].typeDefs.schema);
-    /*
-      resolvers.Mutation,
-      resolvers.Query,
-      resolvers.Subscription
-     */
+    checkSchemas(resolvers, schemas[key].resolvers);
   }
 
-  console.log("typeDefs.schema2=======", typeDefs.schema);
-  return _abnormity__WEBPACK_IMPORTED_MODULE_0__.schema;
+  return {
+    typeDefs,
+    resolvers
+  };
 })();
 const router = (app, router) => {
+  // 动态添加模块
   new _abnormity__WEBPACK_IMPORTED_MODULE_0__.router(app, router);
   new _performance__WEBPACK_IMPORTED_MODULE_1__.router(app, router);
 };
@@ -1277,9 +1257,9 @@ class Controller {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "userAdd": () => /* binding */ userAdd
+/* harmony export */   "downloadAdd": () => /* binding */ downloadAdd
 /* harmony export */ });
-const userAdd = () => {};
+const downloadAdd = () => {};
 
 /***/ }),
 
@@ -1292,9 +1272,9 @@ const userAdd = () => {};
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "userQuery": () => /* binding */ userQuery
+/* harmony export */   "downloadQuery": () => /* binding */ downloadQuery
 /* harmony export */ });
-const userQuery = () => {};
+const downloadQuery = () => {};
 
 /***/ }),
 
@@ -1307,9 +1287,9 @@ const userQuery = () => {};
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "userTest": () => /* binding */ userTest
+/* harmony export */   "downloadTest": () => /* binding */ downloadTest
 /* harmony export */ });
-const userTest = () => {};
+const downloadTest = () => {};
 
 /***/ }),
 
@@ -1435,8 +1415,7 @@ class router {
   }
 
   query() {
-    console.log('query============='); // 添加 接口
-
+    // 添加 接口
     this.threeLevelRoute.get("/query", _controller__WEBPACK_IMPORTED_MODULE_0__.default.query);
   }
 
@@ -1744,9 +1723,9 @@ class Controller {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "userAdd": () => /* binding */ userAdd
+/* harmony export */   "networkAdd": () => /* binding */ networkAdd
 /* harmony export */ });
-const userAdd = () => {};
+const networkAdd = () => {};
 
 /***/ }),
 
@@ -1759,9 +1738,9 @@ const userAdd = () => {};
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "userQuery": () => /* binding */ userQuery
+/* harmony export */   "networkQuery": () => /* binding */ networkQuery
 /* harmony export */ });
-const userQuery = () => {};
+const networkQuery = () => {};
 
 /***/ }),
 
@@ -1774,9 +1753,9 @@ const userQuery = () => {};
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "userTest": () => /* binding */ userTest
+/* harmony export */   "networkTest": () => /* binding */ networkTest
 /* harmony export */ });
-const userTest = () => {};
+const networkTest = () => {};
 
 /***/ }),
 
@@ -1902,8 +1881,7 @@ class router {
   }
 
   query() {
-    console.log('query============='); // 添加 接口
-
+    // 添加 接口
     this.threeLevelRoute.get("/query", _controller__WEBPACK_IMPORTED_MODULE_0__.default.query);
   }
 
@@ -2087,7 +2065,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bizMod_network__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../bizMod/network */ "./bizMod/performance/bizMod/network/index.js");
  //scriptSchema   
 
- //userSchema
+ //networkSchema
 
 /***/ }),
 
@@ -2127,9 +2105,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bizMod_download__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../bizMod/download */ "./bizMod/performance/bizMod/download/index.js");
  // koa 路由中间件
 
- //scriptRouter 路由  
+ //networkRouter 路由  
 
- //scriptRouter 路由  
+ //downloadRouter 路由  
 
 class router {
   constructor(app, parentRouter) {
@@ -2700,18 +2678,51 @@ const deleteUser = async id => {
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "schema": () => /* binding */ schema
 /* harmony export */ });
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./user */ "./graphql/schema/user/index.js");
 /* harmony import */ var _bizMod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../bizMod */ "./bizMod/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/utils */ "./utils/index.js");
 //会员模块
 
- // console.log("userSchema==", userSchema);
 
-console.log("bizModSchema==", _bizMod__WEBPACK_IMPORTED_MODULE_1__.schema);
-const schema = () => {};
+
+const checkSchemas = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.checkSchema)();
+const schema = (() => {
+  let typeDefs = {
+    schema: "",
+    schemas: []
+  };
+  let resolvers = {
+    Mutation: {},
+    Query: {},
+    Subscription: {}
+  };
+  const schemas = {
+    //添加最外层模块
+    user: _user__WEBPACK_IMPORTED_MODULE_0__.default,
+    bizMod: _bizMod__WEBPACK_IMPORTED_MODULE_1__.schema
+  };
+  const schemaKeys = Object.keys(schemas);
+
+  for (let key of schemaKeys) {
+    typeDefs.schema += schemas[key].typeDefs.schema + "\n";
+
+    if (key != "bizMod") {
+      typeDefs.schemas.push(schemas[key].typeDefs.schema);
+    } // typeDefs.schemas.push(schemas[key].typeDefs.schema);
+
+
+    checkSchemas(resolvers, schemas[key].resolvers);
+  }
+
+  typeDefs.schemas = [...typeDefs.schemas, ..._bizMod__WEBPACK_IMPORTED_MODULE_1__.schema.typeDefs.schemas];
+  return {
+    typeDefs,
+    resolvers
+  };
+})();
 
 /***/ }),
 
@@ -2719,16 +2730,18 @@ const schema = () => {};
 /*!**************************************!*\
   !*** ./graphql/schema/user/index.js ***!
   \**************************************/
-/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _resolvers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./resolvers */ "./graphql/schema/user/resolvers/index.js");
 /* harmony import */ var _typeDefs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeDefs */ "./graphql/schema/user/typeDefs/index.js");
 
+ //会员模块
 
-console.log('typeDefs1=========================', _typeDefs__WEBPACK_IMPORTED_MODULE_1__); //会员模块
-
-/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = ({
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   resolvers: _resolvers__WEBPACK_IMPORTED_MODULE_0__,
   typeDefs: _typeDefs__WEBPACK_IMPORTED_MODULE_1__
 });
@@ -2744,9 +2757,9 @@ console.log('typeDefs1=========================', _typeDefs__WEBPACK_IMPORTED_MO
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "userAdd": () => /* binding */ userAdd
+/* harmony export */   "userEditor": () => /* binding */ userEditor
 /* harmony export */ });
-const userAdd = () => {};
+const userEditor = () => {};
 
 /***/ }),
 
@@ -2759,9 +2772,9 @@ const userAdd = () => {};
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "userQuery": () => /* binding */ userQuery
+/* harmony export */   "userGet": () => /* binding */ userGet
 /* harmony export */ });
-const userQuery = () => {};
+const userGet = () => {};
 
 /***/ }),
 
@@ -2774,9 +2787,9 @@ const userQuery = () => {};
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "userTest": () => /* binding */ userTest
+/* harmony export */   "userSubscription": () => /* binding */ userSubscription
 /* harmony export */ });
-const userTest = () => {};
+const userSubscription = () => {};
 
 /***/ }),
 
@@ -2813,7 +2826,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "typeDefs": () => /* reexport safe */ _typeDefs_graphql__WEBPACK_IMPORTED_MODULE_0__.default
+/* harmony export */   "schema": () => /* reexport safe */ _typeDefs_graphql__WEBPACK_IMPORTED_MODULE_0__.default
 /* harmony export */ });
 /* harmony import */ var _typeDefs_graphql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeDefs.graphql */ "./graphql/schema/user/typeDefs/typeDefs.graphql");
 
@@ -3355,16 +3368,7 @@ const getUserIfo = async tokenOrId => {
 
 
 console.log("bizModRouter======", _bizMod_index__WEBPACK_IMPORTED_MODULE_10__.router);
-console.log("schema======", _graphql_schema__WEBPACK_IMPORTED_MODULE_11__); // console.log("schema.user.typeDefs======", schema.user.typeDefs);
-// console.log("schema.user.typeDefs======", schema.user.typeDefs);
-// import { user } from "../graphql/schema";
-// import  userResolvers,  * as userSchema  from '../graphql/schema/user/index.js';
-// import * as modules from "../modules";
-// console.log('module========',modules.user)
-// console.log('userResolvers===',userResolvers)
-// console.log('userSchema===',userSchema)
-//  Construct a schema, using GraphQL schema language
-
+console.log("schema======", _graphql_schema__WEBPACK_IMPORTED_MODULE_11__.schema);
 const typeDefs = `
   type Query {
     hello: String
@@ -3802,6 +3806,88 @@ class Service {
 
 /***/ }),
 
+/***/ "./utils/CheckDataType.js":
+/*!********************************!*\
+  !*** ./utils/CheckDataType.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CheckDataType": () => /* binding */ CheckDataType
+/* harmony export */ });
+// js校验数据类型
+class CheckDataType {
+  static init(type) {
+    // 校验的数据类型
+    this.dataType = {
+      string: 'string',
+      number: 'number',
+      boolean: 'boolean',
+      null: 'null',
+      undefined: 'undefined',
+      symbol: 'symbol',
+      object: 'object',
+      array: 'array',
+      regexp: 'regexp',
+      function: 'function',
+      promise: 'promise'
+    };
+    return type in this.dataType && this.dataType.hasOwnProperty(type) && this.dataType[type] || false;
+  }
+
+  static isString(data) {
+    return this.init('string') && this.init('string') === this.checkType(data) ? true : false;
+  }
+
+  static isNumber(data) {
+    return this.init('number') && this.init('number') === this.checkType(data) ? true : false;
+  }
+
+  static isBoolean(data) {
+    return this.init('boolean') && this.init('boolean') === this.checkType(data) ? true : false;
+  }
+
+  static isNull(data) {
+    return this.init('null') && this.init('null') === this.checkType(data) ? true : false;
+  }
+
+  static isUndefined(data) {
+    return this.init('undefined') && this.init('undefined') === this.checkType(data) ? true : false;
+  }
+
+  static isSymbol(data) {
+    return this.init('symbol') && this.init('symbol') === this.checkType(data) ? true : false;
+  }
+
+  static isObject(data) {
+    return this.init('object') && this.init('object') === this.checkType(data) ? true : false;
+  }
+
+  static isArray(data) {
+    return this.init('array') && this.init('array') === this.checkType(data) ? true : false;
+  }
+
+  static isRegexp(data) {
+    return this.init('regexp') && this.init('regexp') === this.checkType(data) ? true : false;
+  }
+
+  static isFunction(data) {
+    return this.init('function') && this.init('function') === this.checkType(data) ? true : false;
+  }
+
+  static isPromise(data) {
+    return this.init('promise') && this.init('promise') === this.checkType(data) ? true : false;
+  }
+
+  static checkType(data) {
+    return Object.prototype.toString.call(data).toLowerCase().slice(8, -1);
+  }
+
+}
+
+/***/ }),
+
 /***/ "./utils/common.js":
 /*!*************************!*\
   !*** ./utils/common.js ***!
@@ -3811,8 +3897,15 @@ class Service {
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "promise": () => /* binding */ promise,
-/* harmony export */   "merge": () => /* binding */ merge
+/* harmony export */   "merge": () => /* binding */ merge,
+/* harmony export */   "checkSchema": () => /* binding */ checkSchema
 /* harmony export */ });
+/* harmony import */ var _CheckDataType__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CheckDataType */ "./utils/CheckDataType.js");
+/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! chalk */ "chalk");
+/* harmony import */ var chalk__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(chalk__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
 const promise = (fn = () => {}) => {
   return new Promise((resolve, reject) => {
     fn(resolve, reject);
@@ -3833,6 +3926,35 @@ const merge = Object.assign || function (target) {
   return target;
 };
 
+const checkSchema = name => {
+  let cache = [];
+  return function checkSchemas(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      let source = new Object({ ...arguments[i]
+      });
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          if (Object.prototype.toString.call(source[key]) == "[object Module]" || _CheckDataType__WEBPACK_IMPORTED_MODULE_0__.CheckDataType.isObject(source[key])) {
+            target[key] = { ...(target[key] || {}),
+              ...checkSchemas(target[key], source[key])
+            };
+          } else {
+            if (cache.includes(key)) {
+              throw new Error(chalk__WEBPACK_IMPORTED_MODULE_1___default().red(`graphql schema 发生 ${key}命名冲突,请重新命名${key}`));
+            }
+
+            !["Mutation", "Query", "Subscription"].includes(key) && cache.push(key);
+            target[key] = source[key];
+          }
+        }
+      }
+    }
+
+    return target;
+  };
+};
+
 
 
 /***/ }),
@@ -3845,13 +3967,13 @@ const merge = Object.assign || function (target) {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "checkSchema": () => /* reexport safe */ _common__WEBPACK_IMPORTED_MODULE_0__.checkSchema,
 /* harmony export */   "merge": () => /* reexport safe */ _common__WEBPACK_IMPORTED_MODULE_0__.merge,
 /* harmony export */   "promise": () => /* reexport safe */ _common__WEBPACK_IMPORTED_MODULE_0__.promise
 /* harmony export */ });
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common */ "./utils/common.js");
  // export * from "./jwt";
-
-
+// export { merge, promise };
 
 /***/ }),
 
@@ -4102,6 +4224,17 @@ if (true) {
 
 "use strict";
 module.exports = require("@babel/polyfill");;
+
+/***/ }),
+
+/***/ "chalk":
+/*!************************!*\
+  !*** external "chalk" ***!
+  \************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("chalk");;
 
 /***/ }),
 

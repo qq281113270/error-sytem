@@ -1,28 +1,15 @@
 import {
+  // 动态导入模块
   router as abnormityRouter,
   schema as abnormitySchema,
 } from "./abnormity";
 import {
+  // 动态导入模块
   router as performanceRouter,
   schema as performanceSchema,
 } from "./performance";
-
-// export default class {
-//   constructor(app, parentRouter) {
-//     this.app = app;
-//     this.router = parentRouter;
-//     this.init();
-//   }
-//   init() {
-//     new abnormity.router(this.app, this.router);
-//   }
-// }
-// console.log('abnormitySchema=========',abnormitySchema)
-// console.log('abnormityRouter=========',abnormityRouter)
-
-// console.log('performanceSchema=========',performanceSchema)
-// console.log('performanceRouter=========',performanceRouter)
-
+import { checkSchema } from "@/utils";
+const checkSchemas = checkSchema();
 export const schema = (() => {
   let typeDefs = {
     schema: "",
@@ -34,31 +21,27 @@ export const schema = (() => {
     Subscription: {},
   };
 
+  // 动态添加模块
   const schemas = {
     ...abnormitySchema,
     ...performanceSchema,
   };
-  console.log("schemas=============", schemas);
 
   const schemaKeys = Object.keys(schemas);
-  // const performanceSchemaKeys = Object.keys(performanceSchema);
 
   for (let key of schemaKeys) {
-    //  console.log("abnormitySchema[key]===", abnormitySchema[key].typeDefs.schema);
     typeDefs.schema += schemas[key].typeDefs.schema + "\n";
     typeDefs.schemas.push(schemas[key].typeDefs.schema);
-
-    /*
-      resolvers.Mutation,
-      resolvers.Query,
-      resolvers.Subscription
-     */
+    checkSchemas(resolvers, schemas[key].resolvers);
   }
-  console.log("typeDefs.schema2=======", typeDefs.schema);
 
-  return abnormitySchema;
+  return {
+    typeDefs,
+    resolvers,
+  };
 })();
 export const router = (app, router) => {
+  // 动态添加模块
   new abnormityRouter(app, router);
   new performanceRouter(app, router);
 };

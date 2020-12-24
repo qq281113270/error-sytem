@@ -1,1 +1,1 @@
-export const userQuery = ()=> {};
+export const networkQuery = ()=> {};

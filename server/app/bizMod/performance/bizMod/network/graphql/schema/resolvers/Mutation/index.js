@@ -1,1 +1,1 @@
-export const userAdd = ()=> {};
+export const networkAdd = ()=> {};

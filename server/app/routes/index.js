@@ -29,23 +29,11 @@ import User from "./user";
 import { common } from "@/middleware/index";
 import { router as bizModRouter } from "@/bizMod/index";
 import { unsupported, unauthorized } from "@/constant";
-import * as schema   from "@/graphql/schema";
+import { schema } from "@/graphql/schema";
 
-  
 console.log("bizModRouter======", bizModRouter);
-console.log("schema======", schema); 
-// console.log("schema.user.typeDefs======", schema.user.typeDefs);
-// console.log("schema.user.typeDefs======", schema.user.typeDefs);
+console.log("schema======", schema);
 
-// import { user } from "../graphql/schema";
-// import  userResolvers,  * as userSchema  from '../graphql/schema/user/index.js';
-
-// import * as modules from "../modules";
-// console.log('module========',modules.user)
-
-// console.log('userResolvers===',userResolvers)
-// console.log('userSchema===',userSchema)
-//  Construct a schema, using GraphQL schema language
 const typeDefs = `
   type Query {
     hello: String

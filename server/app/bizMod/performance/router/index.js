@@ -1,6 +1,6 @@
 import koaRoute from "koa-router"; // koa 路由中间件
-import {router as networkRouter} from "../bizMod/network"; //scriptRouter 路由  
-import {router as downloadRouter} from "../bizMod/download"; //scriptRouter 路由  
+import {router as networkRouter} from "../bizMod/network"; //networkRouter 路由  
+import {router as downloadRouter} from "../bizMod/download"; //downloadRouter 路由  
 
 class router {
   constructor(app, parentRouter) {

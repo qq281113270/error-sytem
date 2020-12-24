@@ -44,7 +44,7 @@ class router {
     this.addRouters();
   }
   query() {
-    console.log('query=============')
+   
     // 添加 接口
     this.threeLevelRoute.get("/query", controller.query);
   }
