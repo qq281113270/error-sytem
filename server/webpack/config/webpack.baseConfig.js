@@ -19,6 +19,8 @@ import DllReferencePlugin from "webpack/lib/DllReferencePlugin";
 import HardSourceWebpackPlugin from "hard-source-webpack-plugin";
 import bannerPlugin from "./bannerPlugin";
 import MyExampleWebpackPlugin from "./definePlugin/MyExampleWebpackPlugin";
+import RrawLoaderfrom from "raw-loader";
+import MyExampleWebpackLoader from "./defineLoader/MyExampleWebpackLoader";
 
 const bannerPluginKeys = Object.keys(bannerPlugin);
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length - 1 });
@@ -409,7 +411,7 @@ export default {
           // },
         ],
         // 排除文件,因为这些包已经编译过，无需再次编译
-        exclude: /(node_modules|bower_components|myVue\.js)/,
+        exclude: /(node_modules|bower_components)/,
         // use: {
         //   loader:"node-loader",
         //   options: {
@@ -420,7 +422,7 @@ export default {
       {
         test: /\.m?js$/,
         // 排除文件,因为这些包已经编译过，无需再次编译
-        exclude: /(node_modules|bower_components|myVue\.js)/,
+        exclude: /(node_modules|bower_components)/,
         use: [
           "happypack/loader?id=babel&cacheDirectory=true",
           "thread-loader",
@@ -438,8 +440,18 @@ export default {
       {
         test: /\.(graphql|gql)$/,
         // 排除文件,因为这些包已经编译过，无需再次编译
-        exclude: /(node_modules|bower_components|myVue\.js)/,
+        exclude: /(node_modules|bower_components)/,
         use: [
+          {
+            loader: path.resolve(
+              __dirname,
+              "./defineLoader/MyExampleWebpackLoader.js"
+            ),
+            options: {
+              name: "graphql",
+            },
+          },
+
           "happypack/loader?id=graphql&cacheDirectory=true",
           "thread-loader",
           "cache-loader",

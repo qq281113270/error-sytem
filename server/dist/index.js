@@ -15,24 +15,6 @@ exports.id = "index";
 exports.ids = ["index"];
 exports.modules = {
 
-/***/ "./myVue.js":
-/*!******************!*\
-  !*** ./myVue.js ***!
-  \******************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Vue
-/* harmony export */ });
-
-         class Vue {
-                extends() {}
-         }
-    
-
-/***/ }),
-
 /***/ "./bizMod/abnormity/bizMod/script/controller/index.js":
 /*!************************************************************!*\
   !*** ./bizMod/abnormity/bizMod/script/controller/index.js ***!
@@ -1488,6 +1470,23 @@ const common = (app, router) => {
 
 /***/ }),
 
+/***/ "./myVue.js":
+/*!******************!*\
+  !*** ./myVue.js ***!
+  \******************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => /* binding */ Vue
+/* harmony export */ });
+class Vue {
+  extends() {}
+
+}
+
+/***/ }),
+
 /***/ "./redis/index.js":
 /*!************************!*\
   !*** ./redis/index.js ***!
@@ -2314,31 +2313,6 @@ const merge = Object.assign || function (target) {
 
 /***/ }),
 
-/***/ "./bizMod/abnormity/bizMod/script/graphql/schema/typeDefs/typeDefs.graphql":
-/*!*********************************************************************************!*\
-  !*** ./bizMod/abnormity/bizMod/script/graphql/schema/typeDefs/typeDefs.graphql ***!
-  \*********************************************************************************/
-/***/ (() => {
-
-"use strict";
-/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = ("type User {\n  id: ID!\n  username: String!\n  createdAt: String!\n  updatedAt: String!\n}\n\ninput UpdatedUser {\n  username: String!\n}\n\ntype Query {\n  getMe: User!\n}\n\ntype Mutation {\n  updateMe(input: UpdatedUser!): User!\n}\n");
-
-/***/ }),
-
-/***/ "./graphql/schema/user/typeDefs/typeDefs.graphql":
-/*!*******************************************************!*\
-  !*** ./graphql/schema/user/typeDefs/typeDefs.graphql ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("type User {\n  id: ID!\n  username: String!\n  createdAt: String!\n  updatedAt: String!\n}\n\ninput UpdatedUser {\n  username: String!\n}\n\ntype Query {\n  getMe: User!\n}\n\ntype Mutation {\n  updateMe(input: UpdatedUser!): User!\n}\n");
-
-/***/ }),
-
 /***/ "../node_modules/webpack/hot/log-apply-result.js":
 /*!*******************************************************!*\
   !*** ../node_modules/webpack/hot/log-apply-result.js ***!
@@ -2505,6 +2479,31 @@ if (true) {
 	setInterval(checkForUpdate, hotPollInterval);
 } else {}
 
+
+/***/ }),
+
+/***/ "./bizMod/abnormity/bizMod/script/graphql/schema/typeDefs/typeDefs.graphql":
+/*!*********************************************************************************!*\
+  !*** ./bizMod/abnormity/bizMod/script/graphql/schema/typeDefs/typeDefs.graphql ***!
+  \*********************************************************************************/
+/***/ (() => {
+
+"use strict";
+/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = ("type User {\n  id: ID!\n  username: String!\n  createdAt: String!\n  updatedAt: String!\n}\n\ninput UpdatedUser {\n  username: String!\n}\n\ntype Query {\n  getMe: User!\n}\n\ntype Mutation {\n  updateMe(input: UpdatedUser!): User!\n}\n");
+
+/***/ }),
+
+/***/ "./graphql/schema/user/typeDefs/typeDefs.graphql":
+/*!*******************************************************!*\
+  !*** ./graphql/schema/user/typeDefs/typeDefs.graphql ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("type User {\n  id: ID!\n  username: String!\n  createdAt: String!\n  updatedAt: String!\n}\n\ninput UpdatedUser {\n  username: String!\n}\n\ntype Query {\n  getMe: User!\n}\n\ntype Mutation {\n  updateMe(input: UpdatedUser!): User!\n}\n");
 
 /***/ }),
 
