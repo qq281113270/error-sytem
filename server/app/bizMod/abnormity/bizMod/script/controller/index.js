@@ -1,7 +1,8 @@
 import service from "../service";
-
-class Controller {
+ 
+class Controller {  
   static async query(ctx, next) { 
+    
     console.log('Controller_query12341==')
     const { query = {}, response, request } = ctx;
     const {

@@ -10,7 +10,7 @@ import myVue from "myVue";
 
 
 class App {  
-  constructor() {   
+  constructor() {    
     this.app = new koa();
      this.init();
   }

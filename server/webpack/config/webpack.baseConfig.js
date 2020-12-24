@@ -25,7 +25,7 @@ const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length - 1 });
 
 export default {
   // 基目录，绝对路径，用于解析配置中的入口点和加载器。
-  context: path.resolve(__dirname, "../../app"),
+  // context: path.resolve(__dirname, "../../app"),
   // 入口
   entry: {
     // myVue: [path.resolve(__dirname, "../../app/myVue.js")], // 公共包抽取
@@ -34,7 +34,7 @@ export default {
       "webpack/hot/poll?1000",
       //  path.resolve(__dirname, "../../app/index.js")
       //入口主文件
-      "index.js", // 如果没有配置 context 则需要这样引入  path.resolve(__dirname, "../../app/index.js")
+      path.resolve(__dirname, "../../app/index.js"), // 如果没有配置 context 则需要这样引入  path.resolve(__dirname, "../../app/index.js")
     ],
   },
   // 出口
