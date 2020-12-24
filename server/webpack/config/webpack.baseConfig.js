@@ -19,8 +19,6 @@ import DllReferencePlugin from "webpack/lib/DllReferencePlugin";
 import HardSourceWebpackPlugin from "hard-source-webpack-plugin";
 import bannerPlugin from "./bannerPlugin";
 import MyExampleWebpackPlugin from "./definePlugin/MyExampleWebpackPlugin";
-import RrawLoaderfrom from "raw-loader";
-import MyExampleWebpackLoader from "./defineLoader/MyExampleWebpackLoader";
 
 const bannerPluginKeys = Object.keys(bannerPlugin);
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length - 1 });
@@ -442,16 +440,16 @@ export default {
         // 排除文件,因为这些包已经编译过，无需再次编译
         exclude: /(node_modules|bower_components)/,
         use: [
-          {
-            loader: path.resolve(
-              __dirname,
-              "./defineLoader/MyExampleWebpackLoader.js"
-            ),
-            options: {
-              name: "graphql",
-            },
-          },
-
+          // {
+          //   loader: path.resolve(
+          //     __dirname,
+          //     "./defineLoader/MyExampleWebpackLoader.js"
+          //   ),
+          //   options: {
+          //     name: "graphql",
+          //   },
+          // },
+          // "happypack/loader?id=MyExampleWebpackLoader&cacheDirectory=true", // 配置loader
           "happypack/loader?id=graphql&cacheDirectory=true",
           "thread-loader",
           "cache-loader",
@@ -536,6 +534,7 @@ export default {
     }),
     new HappyPack({
       id: "babel",
+      //添加loader
       use: ["babel-loader"],
       // use: ["babel-loader", "unicode-loader"],
       // 输出执行日志
@@ -545,12 +544,48 @@ export default {
     }),
     new HappyPack({
       id: "graphql",
-      use: ["raw-loader"],
+      use: [
+        //添加loader
+        {
+          loader: path.resolve(
+            __dirname,
+            "./defineLoader/MyExampleWebpackLoader.js"
+          ),
+          options: {
+            name: "graphql",
+          },
+        },
+        {
+          loader: "raw-loader",
+          options: {},
+        },
+      ],
       // 输出执行日志
       verbose: true,
       // 使用共享线程池
       threadPool: happyThreadPool,
     }),
+
+    // new HappyPack({
+    //   id: "MyExampleWebpackLoader",
+    //   use: [  //添加loader
+    //     {
+    //       loader: path.resolve(
+    //         __dirname,
+    //         "./defineLoader/MyExampleWebpackLoader.js"
+    //       ),
+    //       options: {
+    //         name: "graphql",
+    //       },
+    //     },
+    //     // "raw-loader",
+    //   ],
+    //   // 输出执行日志
+    //   verbose: true,
+    //   // 使用共享线程池
+    //   threadPool: happyThreadPool,
+    // }),
+
     // 编译进度条
     new WebpackBar(),
     //清理编译目录
