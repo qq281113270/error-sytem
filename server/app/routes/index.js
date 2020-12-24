@@ -34,8 +34,8 @@ import * as schema   from "@/graphql/schema";
   
 console.log("bizModRouter======", bizModRouter);
 console.log("schema======", schema); 
-console.log("schema.user.typeDefs======", schema.user.typeDefs);
-console.log("schema.user.typeDefs======", schema.user.typeDefs);
+// console.log("schema.user.typeDefs======", schema.user.typeDefs);
+// console.log("schema.user.typeDefs======", schema.user.typeDefs);
 
 // import { user } from "../graphql/schema";
 // import  userResolvers,  * as userSchema  from '../graphql/schema/user/index.js';
@@ -106,7 +106,7 @@ class Route {
   addRouters() {
     new User(this.app, this.router);
     bizModRouter(this.app, this.router);
-    
+
     // new bizMod.abnormity.script.router(this.app, this.router)
 
     console.log("checkToken====");

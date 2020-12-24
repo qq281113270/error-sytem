@@ -1,2 +1,1 @@
-export * from "./typeDefs.graphql";
-export * from "./typeDefs.js";
+export {default as schema} from "./typeDefs.graphql";

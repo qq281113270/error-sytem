@@ -2,7 +2,7 @@ type User {
   id: ID!
   username: String!
   createdAt: String!
-  updatedAt: String!
+  updatedAt: String! 
   
 }
 

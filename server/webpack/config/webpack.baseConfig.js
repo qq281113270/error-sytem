@@ -128,7 +128,7 @@ export default {
   // 打包文件大小监听
   performance: {
     maxEntrypointSize: 1024 * 512, // 设置最大输入512kb的文件，如果大于他则发出警告
-    maxAssetSize: 1024 * 100, // 设置最大输出100kb的文件，如果大于他则发出警告
+    maxAssetSize: 1024 * 256, // 设置最大输出256kb的文件，如果大于他则发出警告
     hints: "warning",
     // 过滤文件
     assetFilter: function (assetFilename) {
@@ -290,7 +290,7 @@ export default {
     chunksSort: "field",
     // 用于缩短 request 的上下文目录
     // context: "../src/",
-    // `webpack --colors` 等同于
+    // `webpack --colors` 等同于 显示日志不同的颜色
     colors: true,
     // 显示每个模块到入口起点的距离(distance)
     depth: true,
@@ -625,32 +625,21 @@ export default {
       entryOnly: false,
     }),
 
-    // 这样利用原理可以动态加入公共库
-    // ...bannerPlugin.map((item) => {
-    //   return new  MyExampleWebpackPlugin({
-    //     banner: item.variable
-    //        ? `const ${item.variable} = require("${item.packageName}");`
-    //       : `require("${item.packageName}");`,
-    //     raw: true,
-    //     entryOnly: false,
-    //     outputPath: path.join(__dirname, "../../dist"),
-    //   });
-    // }),
-    // // 自定义插件
+    // 自定义插件
     new MyExampleWebpackPlugin({
       // 出口
       outputPath: path.join(__dirname, "../../app"),
     }),
 
     // 这样利用原理可以动态加入公共库
-    // ...bannerPlugin.map((item) => {
-    //   return new webpack.BannerPlugin({
-    //     banner: item.variable
-    //       ? `const ${item.variable} = require("${item.packageName}");`
-    //       : `require("${item.packageName}");`,
-    //     raw: true,
-    //     entryOnly: false,
-    //   });
-    // }),
+    ...bannerPlugin.map((item) => {
+      return new webpack.BannerPlugin({
+        banner: item.variable
+          ? `const ${item.variable} = require("${item.packageName}");`
+          : `require("${item.packageName}");`,
+        raw: true,
+        entryOnly: false,
+      });
+    }),
   ],
 };

@@ -1,8 +1,5 @@
-import { schema as scriptSchema} from "../../bizMod/script"; //scriptRouter 路由  
+export { schema as scriptSchema } from "../../bizMod/script"; //scriptSchema
+export { schema as userSchema } from "../../bizMod/user"; //userSchema
+import { schema as userSchema } from "../../bizMod/user"; //userSchema
 
-
-
-
-export default {
-
-}
+console.log("userSchema2===========", userSchema.typeDefs.schema);

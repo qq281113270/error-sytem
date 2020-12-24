@@ -2,16 +2,16 @@ import controller from "../controller";
 import koaRoute from "koa-router"; // koa 路由中间件
 
 class router {
-  constructor(app, rootRouter) {
+  constructor(app, parentRouter) {
     this.app = app;
-    this.router = rootRouter;
+    this.router = parentRouter;
     this.init();
   }
   createRouter() {
-    this.secondaryRoute = new koaRoute({
+    this.threeLevelRoute = new koaRoute({
       prefix: "/user", // 给路由统一加个前缀：
     });
-    return this.secondaryRoute;
+    return this.threeLevelRoute;
   }
   middleware() {
     // 处理404
@@ -29,10 +29,11 @@ class router {
   }
   // 添加路由
   addRouters() {
-    // 添加路由
-    this.registered();
-    this.login();
-    this.router.use(this.secondaryRoute.routes()); //挂载二级路由
+    // 注册路由
+    this.query();
+    this.add();
+    this.edit();
+    this.router.use(this.threeLevelRoute.routes()); //挂载二级路由
   }
   init() {
     // 创建路由
@@ -42,13 +43,18 @@ class router {
     // 添加路由
     this.addRouters();
   }
-  registered() {
+  query() {
+    console.log('query=============')
     // 添加 接口
-    // this.secondaryRoute.post("/register", controller.add);
+    this.threeLevelRoute.get("/query", controller.query);
   }
-  login() {
+  add() {
     // 添加 接口
-    // this.secondaryRoute.post("/login", controller.login);
+    this.threeLevelRoute.post("/add", controller.add);
+  }
+  edit() {
+    // 添加 接口
+     this.threeLevelRoute.post("/edit", controller.edit);
   }
 }
 

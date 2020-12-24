@@ -9,9 +9,6 @@ import { port } from "./config";
 import myVue from "myVue";
 
 
- 
- console.log('myVue==',myVue)
- 
 class App {  
   constructor() {   
     this.app = new koa();

@@ -7,7 +7,6 @@ export default class MyExampleWebpackPlugin {
   write(data) {
     let { outputPath } = this.options;
     outputPath = outputPath + "/myVue.js";
-    console.log("outputPath===", outputPath);
     fs.writeFileSync(outputPath, data);
   }
   // 做兼容
@@ -38,6 +37,10 @@ export default class MyExampleWebpackPlugin {
       //编译中
       console.log("compile======");
     });
+     // 编译完成
+     this.hook(compiler, "watchRun", () => {
+      console.log("watchRun==========");
+    });
     // 编译中期
     this.hook(compiler, "invalid", () => {
       console.log("invalid==========");
@@ -51,10 +54,25 @@ export default class MyExampleWebpackPlugin {
     //     console.log("以同步方式触及 compile 钩子。");
     //   });
 
-    //   compiler.hooks.emit.tapAsync("MyPlugin", (compiler, callback) => {
-    //     console.log("以异步方式触及 run 钩子。");
-    //     callback();
-    //   });
+    //   compiler.hooks.emit.tapAsync("MyPlugin", (compilation, callback) => {
+    //   console.log("以异步方式触及 run 钩子。");
+    //    在生成文件中，创建一个头部字符串：
+    //   var filelist = "In this build:\n\n";
+    //   for (var filename in compilation.assets) {
+    //     filelist += "- " + filename + "\n";
+    //   }
+    //   // 将这个作为一个新的文件资源，插入到 webpack 构建中：
+    //   // 写入一个新文件
+    //   compilation.assets["filelist.md"] = {
+    //     source: function () {
+    //       return filelist;
+    //     },
+    //     size: function () {
+    //       return filelist.length;
+    //     },
+    //   };
+    //   callback();
+    // });
 
     // compiler.hooks.emit.tapPromise("MyPlugin", (compiler) => {
     //   return new Promise((resolve) => setTimeout(resolve, 10000)).then(() => {

@@ -1,0 +1,6 @@
+
+type Query {
+  getNetwork: User!
+}
+
+

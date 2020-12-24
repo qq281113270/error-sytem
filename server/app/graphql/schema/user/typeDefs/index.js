@@ -1,2 +1,2 @@
-export { default as graphqlTypes } from "./typeDefs.graphql";
-export { default as types } from "./typeDefs.js";
+export { default as typeDefs } from "./typeDefs.graphql";
+ 
