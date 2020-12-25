@@ -19,8 +19,8 @@ module.exports = smp.wrap({
   entry: {
     // 项目中用到该两个依赖库文件
     //编译vue dll文件
-    // vue: [path.join(__dirname, "../../node_modules/vue")],
-    myVue: [path.join(__dirname, "myVue.js")],
+    vue: [path.join(__dirname, "../../node_modules/vue")],
+    // myVue: [path.join(__dirname, "myVue.js")],
 
     //编译react dll文件
     // react: [path.join(__dirname, "../../node_modules/react")],

@@ -1,6 +1,6 @@
 
-type Query {
-  getNetwork: User!
+extend type Query {
+  getNetwork 
 }
 
 

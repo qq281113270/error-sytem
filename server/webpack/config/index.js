@@ -7,11 +7,11 @@ import bannerPlugin from "./bannerPlugin";
 import { getArgv } from "../utils";
 
 // const webpackEnv = getArgv("webpackEnv"); // 环境参数
-const webpackEnv = process.env.NODE_ENV; // 环境参数
+const NODE_ENV = process.env.NODE_ENV; // 环境参数
 //   是否是测试开发环境
-const isEnvDevelopment = webpackEnv === "development";
+const isEnvDevelopment = NODE_ENV === "development";
 //    是否是生产环境
-const isEnvProduction = webpackEnv === "production";
+const isEnvProduction = NODE_ENV === "production";
 
 //添加smp.wrap会有bug 编译缓存出问题
 const smp = new SpeedMeasurePlugin();

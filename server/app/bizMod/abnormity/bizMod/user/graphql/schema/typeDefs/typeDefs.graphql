@@ -1,6 +1,6 @@
 
-type Query {
-  getUser: User!
+extend type Query {
+  getUser 
 }
 
 

@@ -7,6 +7,9 @@ export const getArgv = (key) => {
       value = item;
     }
   }
+  if(value===null){
+    return value;
+  }
   value = value.split("=")[1];
   return value;
 };

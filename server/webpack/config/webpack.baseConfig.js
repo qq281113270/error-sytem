@@ -34,7 +34,7 @@ export default {
       "webpack/hot/poll?1000",
       //  path.resolve(__dirname, "../../app/index.js")
       //入口主文件
-      path.resolve(__dirname, "../../app/index.js"), // 如果没有配置 context 则需要这样引入  path.resolve(__dirname, "../../app/index.js")
+       path.resolve(__dirname,"../../app/index.js"), // 如果没有配置 context 则需要这样引入  path.resolve(__dirname, "../../app/index.js")
     ],
   },
   // 出口

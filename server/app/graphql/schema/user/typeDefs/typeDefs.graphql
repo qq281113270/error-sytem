@@ -1,19 +1,5 @@
-type User {
-  id: ID!
-  username: String!
-  createdAt: String!
-  updatedAt: String! 
-  
+extend type Query {
+  getMe 
 }
 
-input UpdatedUser {
-  username: String!
-}
-
-type Query {
-  getMe: User!
-}
-
-type Mutation {
-  updateMe(input: UpdatedUser!): User!
-}
+ 

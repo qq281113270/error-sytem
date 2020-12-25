@@ -30,12 +30,13 @@ class App {
   }
 
   environment() {
-    // let webpackEnv = getArgv("webpackEnv");
-    const webpackEnv = process.env.NODE_ENV; // 环境参数
+    
+    let webpackEnv = getArgv("webpackEnv");
+    const NODE_ENV = process.env.NODE_ENV; // 环境参数
     //    是否是测试开发环境
-    this.isEnvDevelopment = webpackEnv === "development";
+    this.isEnvDevelopment = NODE_ENV === "development";
     //   是否是生产环境
-    this.isEnvProduction = webpackEnv === "production";
+    this.isEnvProduction = NODE_ENV === "production";
   }
 
   getCompiler() {

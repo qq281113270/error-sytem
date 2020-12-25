@@ -1,5 +1,5 @@
 
-type Query {
-  getScript: User!   
+extend type Query {
+  getScript  
 }
 

@@ -1,5 +1,5 @@
 
-type Query {
-  getDownload: User!
+extend type Query {
+  getDownload 
 }
 
