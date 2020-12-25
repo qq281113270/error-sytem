@@ -29,13 +29,13 @@ export default {
   // 入口
   entry: {
     // myVue: [path.resolve(__dirname, "../../app/myVue.js")], // 公共包抽取
-    index: [
-      //添加编译缓存
-      "webpack/hot/poll?1000",
-      //  path.resolve(__dirname, "../../app/index.js")
-      //入口主文件
-       path.resolve(__dirname,"../../app/index.js"), // 如果没有配置 context 则需要这样引入  path.resolve(__dirname, "../../app/index.js")
-    ],
+    // index: [
+    //   //添加编译缓存
+    //   "webpack/hot/poll?1000",
+    //   //  path.resolve(__dirname, "../../app/index.js")
+    //   //入口主文件
+    //    path.resolve(__dirname,"../../app/index.js"), // 如果没有配置 context 则需要这样引入  path.resolve(__dirname, "../../app/index.js")
+    // ],
   },
   // 出口
   output: {
@@ -204,9 +204,9 @@ export default {
     realContentHash: true,
     // Chunk start splitChunks [name].chunk  公共包抽取  vendor
     // 开启这个编译包更小
-    runtimeChunk: {
-      name: (entrypoint) => `runtime~${entrypoint.name}`,
-    },
+    // runtimeChunk: {
+    //   name: (entrypoint) => `runtime~${entrypoint.name}`,
+    // },
     //
     splitChunks: {
       name: false,
@@ -353,9 +353,9 @@ export default {
   //防止将某些 import 的包(package)打包到 bundle 中,而是在运行时(runtime)再去从外部获取这些扩展依赖
   externals: [
     //引入缓存
-    nodeExternals({
-      allowlist: ["webpack/hot/poll?1000"],
-    }),
+    // nodeExternals({
+    //   allowlist: ["webpack/hot/poll?1000"],
+    // }),
     //将node_modules目录下的所有模块加入到externals中    告知 webpack  ，并忽略 externals 中的模块
     (() => {
       const nodeModules = {};

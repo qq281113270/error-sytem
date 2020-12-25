@@ -1,3 +1,4 @@
+export default ` 
     type Query {
       dummy: String
     }
@@ -12,3 +13,4 @@
       mutation: Mutation
       subscription: Subscription
     }
+    `;

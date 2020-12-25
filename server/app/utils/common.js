@@ -1,3 +1,15 @@
+import {
+  Source,
+  validateSchema,
+  parse,
+  validate,
+  execute,
+  formatError,
+  getOperationAST,
+  specifiedRules,
+  buildSchema,
+} from "graphql";
+
 import { CheckDataType } from "./CheckDataType";
 import chalk from "chalk";
 
@@ -51,4 +63,17 @@ const checkSchema = (name) => {
     return target;
   };
 };
-export { promise, merge, checkSchema };
+
+const exeValidateSchema = async (schema) => {
+  let errors = null;
+  try {
+    errors = await validateSchema(buildSchema(schema));
+  } catch (error) {
+    // console.error(error);
+    errors = error;
+  }
+
+  return errors && errors.length === 0 ? 0 : errors;
+};
+
+export { promise, merge, checkSchema, exeValidateSchema };

@@ -7,16 +7,19 @@ import {
   formatError,
   getOperationAST,
   specifiedRules,
-  buildSchema
+  buildSchema,
 } from "graphql";
 //会员模块
 import { default as userSchema } from "./user";
 import { schema as bizModSchema } from "../../bizMod";
-import { default as rootSchema } from "./typeDefs.graphql";
+import { default as rootSchema } from "./typeDefs";
+export { default as rootSchema } from "./typeDefs";
 
 import { checkSchema } from "@/utils";
 
 const checkSchemas = checkSchema();
+
+
 
 export const schema = (() => {
   let typeDefs = {
@@ -52,7 +55,8 @@ export const schema = (() => {
   ];
 
   //
-  const schemaValidationErrors = validateSchema(buildSchema(`
+  const schemaValidationErrors = validateSchema(
+    buildSchema(`
    
   # The dummy queries and mutations are necessary because
   # graphql-js cannot have empty root types and we only extend
@@ -103,12 +107,10 @@ export const schema = (() => {
     newPlaylist(input: NewPlaylist!): Playlist!
     updatePlaylist(input: UpdatedPlaylist!): Playlist!
   }
-  `));
-  console.log('schemaValidationErrors=========',schemaValidationErrors)
+  `)
+  );
+  console.log("schemaValidationErrors=========", schemaValidationErrors);
   if (schemaValidationErrors.length > 0) {
-    // Return 500: Internal Server Error if invalid schema.
-    response.status = 500;
-    return resolve({ errors: schemaValidationErrors });
   }
 
   return {
