@@ -2681,12 +2681,14 @@ const deleteUser = async id => {
 /* harmony export */ });
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./user */ "./app/graphql/schema/user/index.js");
 /* harmony import */ var _bizMod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../bizMod */ "./app/bizMod/index.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/utils */ "./app/utils/index.js");
+/* harmony import */ var _typeDefs_graphql__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./typeDefs.graphql */ "./app/graphql/schema/typeDefs.graphql");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/utils */ "./app/utils/index.js");
 //会员模块
 
 
 
-const checkSchemas = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.checkSchema)();
+
+const checkSchemas = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.checkSchema)();
 const schema = (() => {
   let typeDefs = {
     schema: "",
@@ -2703,19 +2705,19 @@ const schema = (() => {
     bizMod: _bizMod__WEBPACK_IMPORTED_MODULE_1__.schema
   };
   const schemaKeys = Object.keys(schemas);
+  typeDefs.schema = _typeDefs_graphql__WEBPACK_IMPORTED_MODULE_2__.default + "\n" + typeDefs.schema;
 
   for (let key of schemaKeys) {
     typeDefs.schema += schemas[key].typeDefs.schema + "\n";
 
-    if (key != "bizMod") {
+    if (key !== "bizMod") {
       typeDefs.schemas.push(schemas[key].typeDefs.schema);
-    } // typeDefs.schemas.push(schemas[key].typeDefs.schema);
-
+    }
 
     checkSchemas(resolvers, schemas[key].resolvers);
   }
 
-  typeDefs.schemas = [...typeDefs.schemas, ..._bizMod__WEBPACK_IMPORTED_MODULE_1__.schema.typeDefs.schemas];
+  typeDefs.schemas = [_typeDefs_graphql__WEBPACK_IMPORTED_MODULE_2__.default, ...typeDefs.schemas, ..._bizMod__WEBPACK_IMPORTED_MODULE_1__.schema.typeDefs.schemas];
   return {
     typeDefs,
     resolvers
@@ -4028,6 +4030,20 @@ const checkSchema = name => {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("\ntype Query {\n  getNetwork: User!\n}\n\n\n");
+
+/***/ }),
+
+/***/ "./app/graphql/schema/typeDefs.graphql":
+/*!*********************************************!*\
+  !*** ./app/graphql/schema/typeDefs.graphql ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("    type Query {\n      dummy: String\n    }\n    type Mutation {\n      dummy: String\n    }\n    type Subscription {\n      dummy: String\n    }\n    schema {\n      query: Query\n      mutation: Mutation\n      subscription: Subscription\n    }");
 
 /***/ }),
 

@@ -1,9 +1,11 @@
 //会员模块
 import { default as userSchema } from "./user";
 import { schema as bizModSchema } from "../../bizMod";
+import { default as rootSchema } from "./typeDefs.graphql";
 
 import { checkSchema } from "@/utils";
 const checkSchemas = checkSchema();
+
 export const schema = (() => {
   let typeDefs = {
     schema: "",
@@ -22,16 +24,20 @@ export const schema = (() => {
   };
 
   const schemaKeys = Object.keys(schemas);
-
+  typeDefs.schema = rootSchema + "\n" + typeDefs.schema;
   for (let key of schemaKeys) {
     typeDefs.schema += schemas[key].typeDefs.schema + "\n";
-    if (key != "bizMod") {
+    if (key !== "bizMod") {
       typeDefs.schemas.push(schemas[key].typeDefs.schema);
     }
-    // typeDefs.schemas.push(schemas[key].typeDefs.schema);
     checkSchemas(resolvers, schemas[key].resolvers);
   }
-  typeDefs.schemas = [...typeDefs.schemas, ...bizModSchema.typeDefs.schemas];
+
+  typeDefs.schemas = [
+    rootSchema,
+    ...typeDefs.schemas,
+    ...bizModSchema.typeDefs.schemas,
+  ];
 
   return {
     typeDefs,
