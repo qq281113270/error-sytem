@@ -116,7 +116,7 @@ module.exports = smp.wrap({
     filename: "[name].dll.js",
     // filename: "[name]-dll.[hash:8].js", // 分离出来的第三方插件文件名称
     // 将输出的文件放到dist目录下
-    path: path.resolve(__dirname, "../../dist/dllFile"),
+    path: path.resolve("/dist/dllFile"),
     /*
      存放相关的dll文件的全局变量名称，比如对于jquery来说的话就是 _dll_jquery, 在前面加 _dll
      是为了防止全局变量冲突。
