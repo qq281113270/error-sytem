@@ -8,7 +8,7 @@ import testConfig from './webpack.testConfig';
 import testPrdConfig from './webpack.testPrdConfig';
 import bannerPlugin from './bannerPlugin';
 import { getArgv } from '../utils';
-
+ 
 const webpackEnv = getArgv('webpackEnv'); // 环境参数
 const NODE_ENV = process.env.NODE_ENV; // 环境参数
 //   是否是测试开发环境
