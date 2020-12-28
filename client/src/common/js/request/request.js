@@ -1,12 +1,16 @@
 import XMLHttpRequest from "./XMLHttpRequest";
 import baseUrl from "./baseUrl";
-import { error as errorMessage, warning as warningMessage, success as successMessage  } from "./requestMessage";
-console.log('token==',localStorage.getItem('token'))
+import {
+  error as errorMessage,
+  warning as warningMessage,
+  success as successMessage,
+} from "./requestMessage";
+console.log("token==", localStorage.getItem("token"));
 export default class Request {
   static baseUrl = baseUrl;
   static requestQueue = [];
   static defaultHeader = {
-    token:localStorage.getItem('token'),
+    token: localStorage.getItem("token"),
     // "content-type": "application/x-www-form-urlencoded",
     "Content-Type": "application/json;charset=utf-8",
   };
@@ -167,15 +171,15 @@ export default class Request {
               requestId,
             },
             success: (...ags) => {
-              const data = ags.length?ags[0]:null
-              if(data){
-                const {code,msg=''}=data;
-                if(code==200){
+              const data = ags.length ? ags[0] : null;
+              if (data) {
+                const { code, msg = "" } = data;
+                if (code == 200) {
                   success(...ags);
                   resolve(...ags);
-                  return ;
+                  return;
                 }
-                errorMessage(msg)
+                errorMessage(msg);
               }
               error(...ags);
               reject(ags);
@@ -240,7 +244,7 @@ export default class Request {
               requestId,
             },
             success: (...ags) => {
-              console.log('ags=',ags)
+              console.log("ags=", ags);
               success(...ags);
               resolve(...ags);
             },
@@ -259,7 +263,7 @@ export default class Request {
             requestId,
           },
           success: (...ags) => {
-            console.log('ags=',ags)
+            console.log("ags=", ags);
             success(...ags);
           },
           error: (...ags) => {
@@ -271,32 +275,15 @@ export default class Request {
 
 export class Graphql {
   constructor(options) {
-    const { url } = options;
+    this.options = options;
+    const { url } = options
     this.url = url;
   }
-  query(data) {
-    // const options=   {
-    //     query: Graphql.gql`
-    //       query GetRates {
-    //         rates(currency: "USD") {
-    //           currency
-    //         }
-    //       }
-    //     `,
-    //     variables:'123'
-    //   }
-    return Request.get(this.url, data);
+  query(data, options = {}) {
+    return Request.get(this.url, data,this.options);
   }
   mutate(data) {
-    //  const options  = {
-    //     mutation:"1", // 封装好的GraphQL,
-    //     variables: {
-    //       'input': {
-    //         '_personPostId': 1
-    //       }
-    //     }
-    //   }
-    return Request.post(this.url, data);
+    return Request.post(this.url, data,this.options);
   }
   static gql(/* arguments */) {
     var args = Array.prototype.slice.call(arguments);
@@ -327,4 +314,7 @@ export class Graphql {
 export const gql = Graphql.gql;
 export const GraphqlClient = new Graphql({
   url: "/data",
+  headers:{
+    token:'123'
+  }
 });

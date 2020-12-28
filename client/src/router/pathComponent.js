@@ -3,9 +3,15 @@ const LogIn = lazy(() => import('@/pages/LogIn'));
 const Register = lazy(() => import('../pages/Register'));
 const Home = lazy(() => import('../pages/Home'));
 const Index = lazy(() => import('@/pages/Home/pages/Index'));
+const Graphql = lazy(() => import('@/pages/Graphql'));
 const ScriptException = lazy(() => import('@/pages/Home/pages/ScriptException'));
 
 const pathComponent= [
+    {
+        name:'graphql',
+        path:'/graphql',
+        component:Graphql
+    },
     {
         name:'logLn',
         path:'/log-in',

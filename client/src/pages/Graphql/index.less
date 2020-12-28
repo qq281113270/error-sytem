@@ -1,0 +1,59 @@
+.graphql {
+    width: calc(100vw);
+    height: 100vh;
+    box-sizing: border-box;
+    padding: 10px;
+    overflow: hidden;
+
+    .button-box {
+        height: 30px;
+        margin-bottom: 10px;
+
+        button{
+            margin: 5px;
+        }
+
+    }
+
+    .code-mirror-box {
+        width: inherit;
+        height: calc(100vh - 60px);
+
+        >ul {
+            padding: 0;
+            margin: 0;
+            height: inherit;
+            width: inherit;
+
+            >li {
+                padding: 0;
+                margin: 0;
+                height: inherit;
+                list-style-type: none;
+                width: calc(50% - 15px);
+                ;
+                float: left;
+
+                .ReactCodeMirror {
+                    height: inherit;
+                    width: 100%;
+                  
+                    .CodeMirror {
+                        height: inherit;
+                        width: inherit;
+                    }
+                }
+            }
+
+            >li:nth-child(1) {
+                margin-right: 5px;
+            }
+
+            >li:nth-child(2) {
+                margin-left: 5px;
+            }
+        }
+    }
+
+
+}

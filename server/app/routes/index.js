@@ -32,7 +32,7 @@ import { unsupported, unauthorized } from "@/constant";
 import { schema } from "@/graphql/schema";
 
 console.log("bizModRouter======", bizModRouter);
-console.log("schema======", schema);
+console.log("schema======", schema.typeDefs.schema);
 
 const typeDefs = `
   type Query {
@@ -133,14 +133,15 @@ class Route {
 
       const schema = makeExecutableSchema({
         typeDefs: [
+          schema.typeDefs.schema
           // baseSchema,
-          typeDefs,
+          // typeDefs,
           //   baseSchema,
           //   userType,
           //   songType,
           //   playlistType
         ],
-        resolvers: resolvers,
+        resolvers: schema.resolvers,
         //  merge(
         //   {},
         //   userResolvers,

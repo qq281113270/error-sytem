@@ -1,12 +1,12 @@
-const { getOptions } = require('loader-utils');
+const { getOptions } = require("loader-utils");
 
-export default function (source) {
-    // const callback = this.async();
-    // const options = getOptions(this);
-    // const { name } = options;
-    // // 获取参数
-    // console.log('name============', name);
-    // // 获取代码
-    // console.log('source========', source);
-    callback(null, source);
-}
+module.exports = function (source) {
+    const callback = this.async();
+    const options = getOptions(this);
+    const { name } = options;
+  // // 获取参数
+  // console.log('name============', name);
+  // // 获取代码
+  // console.log('source========', source);
+  callback(null, source);
+};

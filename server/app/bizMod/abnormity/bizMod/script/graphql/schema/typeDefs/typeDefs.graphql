@@ -1,4 +1,4 @@
-export default `
+ 
 type User {
   _id: ID!
   createdAt: String!
@@ -17,4 +17,4 @@ extend type Mutation {
   updateUser(name: String, email: String, password: String, newPassword: String): User!
 }
 
-`;
+ 
