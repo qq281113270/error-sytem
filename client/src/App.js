@@ -9,8 +9,9 @@ import moment from "moment";
 import "moment/locale/zh-cn";
 import "antd/dist/antd.css";
 import "./index.css";
-moment.locale("zh-cn");
 
+moment.locale("zh-cn");
+ 
 const App = () => {
   return (
     <Provider store={store}>
