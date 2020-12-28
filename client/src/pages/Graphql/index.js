@@ -65,13 +65,19 @@ const tailLayout = {
 };
 
 const Index = (props) => {
-    const [code, setCode] = useState('');
+    const [schema, setSchema] = useState('');
+    const [variables, setVariables] = useState('');
     const [data, setData] = useState('');
 
-    const updateCode = useCallback((code) => {
-        setCode(code);
+    const updateSchema = useCallback((code) => {
+        setSchema(code);
         console.log('code===', code);
     }, []);
+
+    const updateVariables= useCallback((code) => {
+      setVariables(code);
+      console.log('code===', code);
+  }, []);
 
     const updateData = useCallback((data) => {
         setData(data);
@@ -99,14 +105,15 @@ const Index = (props) => {
             <div className="button-box">
                 <Button
                     onClick={() => {
-                        query('hello(){}').then(() => {});
+                        
+                        query(schema,variables).then(() => {});
                     }}
                 >
                     执行query查询
                 </Button>
                 <Button
                     onClick={() => {
-                        mutation('hello(){}').then(() => {});
+                        mutation(schema,variables).then(() => {});
                     }}
                 >
                     执行mutation突变
@@ -119,8 +126,8 @@ const Index = (props) => {
                             <dt>schema:</dt>
                             <dd>
                                 <CodeMirror
-                                    value={code}
-                                    onChange={updateCode}
+                                    value={schema}
+                                    onChange={updateSchema}
                                     options={options}
                                 />
                             </dd>
@@ -128,10 +135,9 @@ const Index = (props) => {
                         <dl>
                             <dt>variables:</dt>
                             <dd>
-                             
                                 <CodeMirror
-                                    value={code}
-                                    onChange={updateCode}
+                                    value={variables}
+                                    onChange={updateVariables}
                                     options={options}
                                 />
                             </dd>
