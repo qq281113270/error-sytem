@@ -1,12 +1,10 @@
 import { merge } from 'webpack-merge';
 import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
 import { createVariants } from 'parallel-webpack';
-import baseConfig from './webpack.baseConfig';
-import devConfig from './webpack.devConfig';
-import prdConfig from './webpack.prdConfig';
-import testConfig from './webpack.testConfig';
-import testPrdConfig from './webpack.testPrdConfig';
-import bannerPlugin from './bannerPlugin';
+import baseConfig from './webpack.base.config';
+import devConfig from './webpack.dev.config';
+import prdConfig from './webpack.prd.config';
+import testConfig from './webpack.test.config';
 import { getArgv } from '../utils';
  
 const webpackEnv = getArgv('webpackEnv'); // 环境参数

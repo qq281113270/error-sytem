@@ -27,8 +27,8 @@ class App {
   async connectRedis() {
     await promise((reslove, reject) => {
       Redis.connect(() => {
-        console.log("Redis 链接成功");
-        reslove();
+          console.log("Redis 链接成功");
+          reslove();
       });
       Redis.error(() => {
         console.log("Redis 链接错误");

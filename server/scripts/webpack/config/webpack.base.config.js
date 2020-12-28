@@ -97,10 +97,10 @@ export default {
   // watch: false,
 
   resolve: {
-    //决定请求是否应该被缓存的函数。函数传入一个带有 path 和 request 属性的对象。默认：
-    cachePredicate: () => {
-      return true;
-    },
+    // //决定请求是否应该被缓存的函数。函数传入一个带有 path 和 request 属性的对象。默认：
+    // cachePredicate: () => {
+    //   return true;
+    // },
     plugins: [
       //如果在引用目录中没有index.js文件的时候。
       // 当require("component/foo")路径“component/foo”解析到目录时，
@@ -113,8 +113,8 @@ export default {
         include: [path.join(process.cwd(), "/app")],
       }),
     ],
-    //启用，会主动缓存模块，但并不安全。传递 true 将缓存一切
-    unsafeCache: true,
+    // //启用，会主动缓存模块，但并不安全。传递 true 将缓存一切
+    // unsafeCache: true,
     // 模块查找优先顺序配置
     // 1.配置模块的查找规则,
     // 2.导入 require('sql')，会先在node_modules下查找，然后再到app下查找
@@ -180,26 +180,8 @@ export default {
   },
   //在第一个错误出现时抛出失败结果，而不是容忍它
   bail: true,
-
-  //启用编译缓存日志输出
-  infrastructureLogging: {
-    level: "log",
-  },
-  // 使用缓存
-  cache: {
-    type: "filesystem", //  'memory' | 'filesystem'
-    store: "pack",
-    cacheDirectory: path.join(process.cwd(), "/node_modules/.cache/webpack"), // 默认将缓存存储在 node_modules/.cache/webpack
-    // 缓存依赖，当缓存依赖修改时，缓存失效
-    buildDependencies: {
-      // 将你的配置添加依赖，更改配置时，使得缓存失效
-      config: [__filename],
-    },
-  },
-
   // 打包优化配置
   optimization: {
-    moduleIds: "hashed", // webapck5替代 4中的 new webpack.NamedModulesPlugin(),
     //告知 webpack 去决定每个模块使用的导出内容。这取决于 optimization.providedExports 选项。
     //由 optimization.usedExports 收集的信息会被其它优化手段或者代码生成使用，比如未使用的导出内容不会被生成， 当所有的使用都适配，导出名称会被处理做单个标记字符
     usedExports: "global",
@@ -472,7 +454,6 @@ export default {
           //     name: "graphql",
           //   },
           // },
-          // "happypack/loader?id=MyExampleWebpackLoader&cacheDirectory=true", // 配置loader
         ].concat(cacheLoader("graphql")),
         // use: {
         //   loader: "raw-loader",
@@ -639,10 +620,9 @@ export default {
       // !./image/*
       // ],
     }),
-    //缓存包 热启动
-    new webpack.HotModuleReplacementPlugin(),
-    /* 当 HMR 替换时在浏览器控制台输出对用户更友好的模块名字信息 */
-    //  new webpack.NamedModulesPlugin(),
+    // //缓存包 热启动
+    // new webpack.HotModuleReplacementPlugin(),
+
     //使用 NoEmitOnErrorsPlugin 来跳过输出阶段。这样可以确保输出资源不会包含错误
     new webpack.NoEmitOnErrorsPlugin(),
     //DefinePlugin 允许创建一个在编译时可以配置的全局常量。这可能会对开发模式和发布模式的构建允许不同的行为非常有用

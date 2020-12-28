@@ -1,4 +1,5 @@
 import path from "path";
+import webpack from "webpack";
 import nodeExternals from "webpack-node-externals";
 export default {
   entry: {},
@@ -22,12 +23,10 @@ export default {
     //忽略监听文件夹
     ignored: "/node_modules/",
   },
-
   //启用编译缓存日志输出
   infrastructureLogging: {
     level: "log",
   },
-
   // 使用缓存
   cache: {
     type: "filesystem", //  'memory' | 'filesystem'
@@ -47,14 +46,6 @@ export default {
     //启用，会主动缓存模块，但并不安全。传递 true 将缓存一切
     unsafeCache: true,
   },
-  //防止将某些 import 的包(package)打包到 bundle 中,而是在运行时(runtime)再去从外部获取这些扩展依赖
-  externals: [
-    //引入缓存
-    nodeExternals({
-      allowlist: ["webpack/hot/poll?1000"],
-    }),
-  ],
-
   optimization: {
     // 压缩
     minimize: false,
@@ -71,5 +62,7 @@ export default {
     // 使用此插件有助于缓解OSX上的开发人员不遵循严格的路径区分大小写的情况，
     // 这些情况将导致与其他开发人员或运行其他操作系统（需要正确使用大小写正确的路径）的构建箱发生冲突。
     // new CaseSensitivePathsPlugin()
+    //缓存包 热启动
+    new webpack.HotModuleReplacementPlugin(),
   ],
 };
