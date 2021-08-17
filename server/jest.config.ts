@@ -188,7 +188,7 @@ export default {
 
     roots: ['<rootDir>/dist'],
     collectCoverageFrom: ['dist/**/*.{js,jsx,ts,tsx}', '!dist/**/*.d.ts'],
-  
+    verbose:true,
    
 
      

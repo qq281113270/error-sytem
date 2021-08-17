@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-16 10:49:43
+ * @LastEditTime: 2021-08-17 17:56:20
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/server/app/utils/common.js
+ */
 import {
   Source,
   validateSchema,
@@ -76,4 +84,9 @@ const exeValidateSchema = async (schema) => {
   return errors && errors.length === 0 ? 0 : errors;
 };
 
-export { promise, merge, checkSchema, exeValidateSchema };
+const outHttpLog = ({ source, __filename, response }) => {
+  const sourceKeys = Object.keys(source);
+  response.console.info(`[http request : ${source[sourceKeys[0]].name}]`,`[path : /${__filename}]`);
+};
+
+export { promise, merge, checkSchema, exeValidateSchema, outHttpLog };

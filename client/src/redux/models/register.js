@@ -11,6 +11,7 @@ export const register = (rootReducer) => {
 
   let reducersKeys = Object.keys(reducers);
   let effectsObj = effects();
+  console.log("effectsObj=", effectsObj);
   let effectsKeys = Object.keys(effectsObj);
   return {
     name,
@@ -58,16 +59,15 @@ export const register = (rootReducer) => {
           dispatch: {
             ...modelsStoreDispatch,
             [key]: async (dispatch, state, data) => {
-              let newDispatch = (actions) => {
-                let { type } = actions;
-                type = `${name}_${type}`;
-                actions.type = type;
-                dispatch(actions);
-              };
+              // let newDispatch = (actions) => {
+              //   let { type } = actions;
+              //   type = `${name}_${type}`;
+              //   actions.type = type;
+              //   dispatch(actions);
+              // };
               //   let effectsObj = effects(newDispatch);
-              let effectsObj = effects(dispatch);
-
-              return await effectsObj[key](state, { payload: data });
+              // let effectsObj = effects(dispatch);
+              return await effects(dispatch)[key](state, { payload: data });
             },
           },
         });
@@ -78,9 +78,7 @@ export const register = (rootReducer) => {
 
         fns.push(effectsObj[key]);
       }
-
       code += "default:return state;}";
-
       return new Function(
         "state",
         "action",
@@ -119,7 +117,6 @@ export const registers = (reducers) => {
       },
     };
   }
+  console.log("newReducers=", newReducers);
   return newReducers;
 };
-
-

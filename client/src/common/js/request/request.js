@@ -1,19 +1,31 @@
 import XMLHttpRequest from "./XMLHttpRequest";
 import baseUrl from "./baseUrl";
+import { codeMap } from "./redirect";
 import {
   error as errorMessage,
   warning as warningMessage,
   success as successMessage,
 } from "./requestMessage";
-console.log("token==", localStorage.getItem("token"));
+
+// 导出普通请求
 export default class Request {
-  static baseUrl = baseUrl;
+  static platform = "web";  //smallProgram 小程序 , web 网页
+  static baseUrl = "";
+  // 请求队列
   static requestQueue = [];
-  static defaultHeader = {
-    token: localStorage.getItem("token"),
-    // "content-type": "application/x-www-form-urlencoded",
-    "Content-Type": "application/json;charset=utf-8",
-  };
+  // 默认请求头设置
+  static defaultHeader = {};
+  //错误拦截
+  static error(errorInfo) {}
+  //请求拦截器
+  static interceptors = {
+    request: (config) => {
+      return config;
+    },
+    response: (response) => {
+      return response;
+    },
+  }; //
   // 去除 // 地址
   static transformUrl(url) {
     const urlHpptReg = /^(http\:\/\/)|^(https\:\/\/)/gi;
@@ -36,12 +48,7 @@ export default class Request {
   static setLoad(options) {
     const { isLoad = true, url, requestId = "", parameter } = options;
     if (isLoad) {
-      this.requestQueue.push({
-        requestId,
-        url,
-        isLoad,
-        parameter,
-      });
+      this.requestQueue.push(options);
       // 开始加载数据
       // Taro.showLoading({
       //     title: '加载中',
@@ -145,7 +152,6 @@ export default class Request {
     });
     return this.request(data);
   }
-
   static request(data) {
     let {
       url = "",
@@ -154,58 +160,76 @@ export default class Request {
       headers = {},
       requestId = this.guid(),
       success = () => {},
-      error = () => {},
+      // error = () => {},
       isPromise = true,
     } = data;
+
+    let error = data.error || Request.error || (() => {});
     url = this.transformUrl(this.baseUrl + url);
+    let requestInterceptors =
+      data?.interceptors?.request ||
+      Request?.interceptors?.request ||
+      ((config) => config);
+    let responseInterceptors =
+      data?.interceptors?.response ||
+      Request?.interceptors?.response ||
+      ((response) => response);
 
     return isPromise
       ? new Promise((resolve, reject) => {
-          new XMLHttpRequest().xhRequest({
+          new XMLHttpRequest().xhRequest(
+            requestInterceptors({
+              url,
+              method,
+              data: parameter,
+              headers: {
+                ...this.defaultHeader,
+                ...headers,
+                ['request-id']:requestId,
+              },
+              success: async (...ags) => {
+                ags = await responseInterceptors(ags);
+                const data = ags.length ? ags[0] : null;
+                if (data) {
+                  const { code, message = "" } = data;
+                  // if (code == 200) {
+                  success(...ags);
+                  resolve(...ags);
+                  //   return;
+                  // }
+                  // errorMessage(message);
+                }
+                // error(ags);
+                // reject(ags);
+              },
+              error: (...ags) => {
+                // ags = responseInterceptors(ags);
+                error(ags);
+                reject(ags);
+              },
+            })
+          );
+        })
+      : new XMLHttpRequest().xhRequest(
+          requestInterceptors({
             url,
             method,
             data: parameter,
             headers: {
               ...this.defaultHeader,
               ...headers,
-              requestId,
+              ['request-id']:requestId,
             },
-            success: (...ags) => {
-              const data = ags.length ? ags[0] : null;
-              if (data) {
-                const { code, msg = "" } = data;
-                if (code == 200) {
-                  success(...ags);
-                  resolve(...ags);
-                  return;
-                }
-                errorMessage(msg);
-              }
-              error(...ags);
-              reject(ags);
+            success: async (...ags) => {
+              ags = await responseInterceptors(ags);
+              success(...ags);
             },
             error: (...ags) => {
+              // ags = responseInterceptors(ags);
               error(...ags);
-              reject(ags);
             },
-          });
-        })
-      : new XMLHttpRequest().xhRequest({
-          url,
-          method,
-          data: parameter,
-          headers: {
-            ...this.defaultHeader,
-            ...headers,
-            requestId,
-          },
-          success: (...ags) => {
-            success(...ags);
-          },
-          error: (...ags) => {
-            error(...ags);
-          },
-        });
+          })
+        );
   }
   static uploadFile(url, parameter, options) {
     const data = {
@@ -220,10 +244,21 @@ export default class Request {
       requestId = this.guid(),
       isPromise = true,
       success = () => {},
-      error = () => {},
+      // error = () => {},
       method,
       // url,
     } = data;
+    let error = Request.error || data.error || (() => {});
+
+    let requestInterceptors =
+      data?.interceptors?.request ||
+      Request?.interceptors?.request ||
+      ((config) => config);
+    let responseInterceptors =
+      data?.interceptors?.response ||
+      Request?.interceptors?.response ||
+      ((response) => response);
+
     url = this.transformUrl(this.baseUrl + url);
     const keys = Object.keys(parameter);
     const formData = new FormData();
@@ -235,59 +270,111 @@ export default class Request {
     });
     return isPromise
       ? new Promise((resolve, reject) => {
-          new XMLHttpRequest().xhRequest({
+          new XMLHttpRequest().xhRequest(
+            requestInterceptors({
+              url,
+              method,
+              data: formData,
+              headers: {
+                ...headers,
+                ['request-id']:requestId,
+              },
+              success: async (...ags) => {
+                ags = await responseInterceptors(ags);
+                console.log("ags=", ags);
+                success(...ags);
+                resolve(...ags);
+              },
+              error: async (...ags) => {
+                // ags = responseInterceptors(ags);
+                error(...ags);
+                reject(ags);
+              },
+            })
+          );
+        })
+      : new XMLHttpRequest().xhRequest(
+          requestInterceptors({
             url,
             method,
             data: formData,
             headers: {
               ...headers,
-              requestId,
+              ['request-id']:requestId,
             },
             success: (...ags) => {
               console.log("ags=", ags);
               success(...ags);
-              resolve(...ags);
             },
             error: (...ags) => {
               error(...ags);
-              reject(ags);
             },
-          });
-        })
-      : new XMLHttpRequest().xhRequest({
-          url,
-          method,
-          data: formData,
-          headers: {
-            ...headers,
-            requestId,
-          },
-          success: (...ags) => {
-            console.log("ags=", ags);
-            success(...ags);
-          },
-          error: (...ags) => {
-            error(...ags);
-          },
-        });
+          })
+        );
   }
 }
 
+//配置项
+//配置默认前缀
+Request.baseUrl = baseUrl;
+// 设置默认请求头
+Request.defaultHeader = {
+  token: localStorage.getItem("token"),
+  // "content-type": "application/x-www-form-urlencoded",  //文件上传
+  "Content-Type": "application/json;charset=utf-8",
+};
+// 错误拦截提示
+Request.error = (errorInfo) => {
+  const { code, message } = errorInfo[0] || {};
+  if (!code) {
+    // console.error("errorInfo=====", "系统错误");
+    errorMessage("系统错误");
+  } else {
+    // console.error("errorInfo=====", message);
+    errorMessage(message);
+    codeMap[code] && codeMap[code](errorInfo);
+  }
+};
+
+// 拦截器
+Request.interceptors = {
+  // 请求拦截
+  request: (config) => {
+    // return Promise.reject({
+    //   error: Request.error
+    // });
+    return config;
+  },
+  //响应拦截
+  response: (response) => {
+    const { code } = response[0] || {};
+    if (code != 200) {
+      Request.error(response);
+      return Promise.reject(response);
+    }
+    return response;
+  },
+}; //
+
+//导出Graphql请求
 export class Graphql {
   constructor(options) {
     this.options = options;
-    const { url } = options
+    const { url } = options;
     this.url = url;
   }
+  // 查询
   query(data, options = {}) {
-    return Request.get(this.url, data,this.options);
+    const { error = () => {} } = this.options;
+    return Request.get(this.url, data, this.options);
   }
+  // 突变
   mutate(data) {
-    return Request.post(this.url, data,this.options);
+    const { error = () => {} } = this.options;
+    return Request.post(this.url, data, this.options);
   }
   static gql(/* arguments */) {
     var args = Array.prototype.slice.call(arguments);
-
     var literals = args[0];
     var result = typeof literals === "string" ? literals : literals[0];
 
@@ -309,12 +396,74 @@ export class Graphql {
   //   }
   //   return chunks.reduce(  (accumulator, chunk, index)=> { return "" + accumulator + chunk + (index in variables ? variables[index] : ''); }, '');
   // }
+  //Graphql 错误请求
+  static error(errorInfo) {
+    return errorInfo;
+  }
+  static interceptors = {
+    // 请求拦截
+    request: (config) => {
+      return config;
+    },
+    //响应拦截
+    response: (response) => {
+      return response;
+    },
+  };
 }
 
 export const gql = Graphql.gql;
-export const GraphqlClient = new Graphql({
-  url: "/data",
-  headers:{
-    token:'123'
+
+// Graphql 配置项 start
+//Graphql 错误请求
+Graphql.error = (errorInfo) => {
+  const { code, message } = errorInfo[0] || {};
+  if (!code) {
+    // console.error("errorInfo=====", "系统错误");
+    errorMessage("系统错误");
+  } else {
+    // console.error("errorInfo=====", message);
+    errorMessage(message);
+    codeMap[code] && codeMap[code](errorInfo);
   }
+};
+//请求拦截
+Graphql.interceptors.request = (config) => {
+  return config;
+};
+// 响应拦截
+Graphql.interceptors.response = (response) => {
+  const data = response[0] || {};
+  let errors = [];
+  for (let key in data) {
+    const { code, data: newData } = data[key];
+    if (code != 200) {
+      Graphql.error([data[key]]);
+      return Promise.reject(response);
+    }
+  }
+  return response;
+};
+// Graphql 配置项 end
+
+// 实例化Graphql 请求
+export const GraphqlClient = new Graphql({
+  url: "/data", // 请求地址
+  // headers: {
+  //   token: localStorage.getItem("token"),
+  // },
+  interceptors: {
+    // 请求拦截
+    request: (config) => {
+      return Graphql.interceptors.request(config);
+    },
+    //响应拦截
+    response: (response) => {
+      return Graphql.interceptors.response(response);
+    },
+  },
+  // 错误请求
+  error: (errorInfo) => {
+    Graphql.error(errorInfo);
+  },
 });

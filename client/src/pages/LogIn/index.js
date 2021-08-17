@@ -22,6 +22,8 @@ const Index = (props) => {
             },
           } = props;
         const { data={}   } = await login(values);
+        console.log('data=======',data)
+        debugger
         const {token,userInfo}=data
         localStorage.setItem('token',token);
         setUserInfo(userInfo)

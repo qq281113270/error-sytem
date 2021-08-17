@@ -1,36 +1,18 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-24 16:21:28
+ * @LastEditTime: 2021-08-17 11:38:38
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/server/app/redis/jwt.js
+ */
 import { Redis, redisClient } from "./redis";
 import JWTR from "jwt-redis";
 import webJwt from "jsonwebtoken";
 import { merge, promise } from "@/utils";
-import { tokenExpires } from '@/config';
+import { tokenExpires } from "@/config";
 const { sign, verify, decode } = webJwt;
-
-// 用用户id验证token
-const userIdCheckToken = (userId) => {
-  return promise((resolve, reject) => {
-    redisClient.keys(`userid_${userId}_*`, (error, value) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(value);
-      }
-    });
-  });
-};
-
-//验证token
-const checkToken = (token) => {
-  return promise((resolve, reject) => {
-    redisClient.keys(`userid_*_${token}`, (error, value) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(value);
-      }
-    });
-  });
-};
-
+// 创建Token
 const createToken = async (userInfo = {}, payload = {}) => {
   const { id = "" } = userInfo;
   //  产生token
@@ -42,30 +24,62 @@ const createToken = async (userInfo = {}, payload = {}) => {
   );
   //创建token
   const token = await sign(payload, `${id}`, { expiresIn: 0 });
-  //获取用户token key
-  const userIdTokens = await userIdCheckToken(id);
-  if (userIdTokens && userIdTokens.length >= 1) {
-    // 删除多余的key实现单点登录
-    userIdTokens.forEach(async (key) => {
-      await Redis.del(key);
-    });
-  }
-  // 重新设置 redis 
-  await Redis.set(`userid_${id}_${token}`, JSON.stringify(userInfo));
-  redisClient.pexpire(`userid_${id}_${token}`,tokenExpires)
-
+  //删除旧的token
+  await destroyToken(id);
+  // 重新设置 redis
+  await Redis.set(
+    `${id}`,
+    JSON.stringify({
+      token,
+      id,
+      ...userInfo,
+    })
+  );
+  await Redis.set(
+    `${token}`,
+    JSON.stringify({
+      token,
+      id,
+      ...userInfo,
+    })
+  );
+  updateRequestTime(token);
   return token;
 };
 
 //销毁token
-const destroyToken = async(tokenOrId) => {
-  const userIdTokens = await userIdCheckToken(tokenOrId)||[];
-  const tokens = await checkToken(tokenOrId)||[];
-  merge(userIdTokens,tokens).forEach(async (key)=>{
-    await Redis.del(key);
-  }) 
-  return "成功删除token"
+const destroyToken = async (tokenOrId) => {
+  const userInfo = (await getUserInfo(tokenOrId)) || {};
+  const { id, token } = userInfo;
+  id && (await Redis.del(id));
+  token && (await Redis.del(token));
+  return "成功删除token";
+};
+//获取用户信息
+const getUserInfo = (tokenOrId) => {
+  return promise((resolve, reject) => {
+    redisClient.get(tokenOrId, (err, data) => {
+      if (err) {
+        console.log(err);
+        reject();
+        return false;
+      }
+      // console.log("idGetUserInfo:" + data);
+      resolve(data);
+    });
+  });
 };
 
+//验证token
+const checkToken = (tokenOrId) => {
+  return getUserInfo(tokenOrId) ? true : false;
+};
 
-export { createToken, checkToken, destroyToken,userIdCheckToken };
+//更新请求时间
+const updateRequestTime = (tokenOrId) => { 
+  const { id, token } = getUserInfo(tokenOrId) || {};
+  id && redisClient.pexpire(`${id}`, tokenExpires);
+  token && redisClient.pexpire(`${token}`, tokenExpires);
+};
+
+export { createToken, destroyToken, getUserInfo, checkToken };

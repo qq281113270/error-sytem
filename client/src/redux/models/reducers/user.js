@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-24 16:21:28
+ * @LastEditTime: 2021-08-13 17:44:15
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/client/src/redux/models/reducers/user.js
+ */
 import { actions } from "@/redux/store";
 import { getUserInfo } from "@/common/js/request";
 
@@ -30,8 +38,11 @@ export default {
   },
   effects: (dispatch) => {
     return {
-      async getUserInfo() {
-        // const data = await getUserInfo();
+      async getUserInfo(state, { payload: param = {} }) {
+        console.log("state==", state);
+        console.log("param==", param);
+        const data = await getUserInfo(param);
+        return data;
       },
       // // 登陆
       // async login(state, { payload }) {

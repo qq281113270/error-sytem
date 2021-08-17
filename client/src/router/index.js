@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-11-11 11:21:09
+ * @LastEditTime: 2021-08-12 15:42:12
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/client/src/router/index.js
+ */
 import React, {
   Suspense,
   lazy,

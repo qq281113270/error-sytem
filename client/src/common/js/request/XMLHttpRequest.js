@@ -22,7 +22,7 @@ class XHR {
   ininData(options) {
     this.defaultConfig = {
       timeout: 300000,
-       withCredentials:true
+      withCredentials: true,
     };
     this.options = {
       ...this.defaultConfig,
@@ -48,16 +48,37 @@ class XHR {
     });
     return formStr.substr(1);
   }
+  // 发送http请求
   xhRequest(options) {
-    this.ininData(options);
-    this.createXHR();
-    this.setTimeout();
-    this.setWithCredentials();
-    this.setXhrAttr();
-    this.open();
-    this.setRequestHeader();
-    this.change();
-    this.send();
+    if (CheckDataType.isPromise(options)) {
+      options
+        .then((options) => {
+          this.ininData(options);
+          this.createXHR();
+          this.setTimeout();
+          this.setWithCredentials();
+          this.setXhrAttr();
+          this.open();
+          this.setRequestHeader();
+          this.change();
+          this.send();
+        })
+        .catch((options) => {
+          const { error = () => {}, complete = () => {} } = options;
+          console.error("http 请求异常,未发送http请求。");
+          error(options);
+        });
+    } else {
+      this.ininData(options);
+      this.createXHR();
+      this.setTimeout();
+      this.setWithCredentials();
+      this.setXhrAttr();
+      this.open();
+      this.setRequestHeader();
+      this.change();
+      this.send();
+    }
     return this;
   }
   uploadFile() {
@@ -128,6 +149,7 @@ class XHR {
   //发送数据
   open() {
     const { url = "", method = "POST", async = true, data = {} } = this.options;
+    console.log(method == "GET" ? url + "?" + this.queryStringify(data) : url);
     this.xmlHttp.open(
       method,
       method == "GET" ? url + "?" + this.queryStringify(data) : url,
@@ -141,8 +163,7 @@ class XHR {
       ...defaultHeaders,
       ...headers,
     };
-    console.log("headers=", headers);
-
+    // console.log("headers=", headers);
     const keys = Object.keys(headers);
     keys.forEach((key) => {
       this.xmlHttp.setRequestHeader(key, headers[key]);
@@ -151,16 +172,16 @@ class XHR {
   // 设置跨域复杂请求cookie
   setWithCredentials() {
     const { withCredentials = false } = this.options;
-    console.log('withCredentials==',withCredentials)
+    // console.log("withCredentials==", withCredentials);
     this.xmlHttp.withCredentials = withCredentials;
-    this.xmlHttp.crossDomain=withCredentials
+    this.xmlHttp.crossDomain = withCredentials;
   }
   // 设置请求过期时间
   setTimeout() {
     const { timeout = null } = this.options;
     if (timeout) {
       this.xmlHttp.timeout = timeout;
-      console.log('timeout=',timeout)
+      // console.log("timeout=", timeout);
       this.onTimeout();
     }
   }
@@ -170,7 +191,7 @@ class XHR {
     this.xmlHttp.ontimeout = function (event) {
       console.error("http请求超时！");
       complete(event);
-      error();
+      error(event);
     };
   }
   // 监听请求状态
@@ -202,9 +223,11 @@ class XHR {
           this.xmlHttp
         );
       } else {
-          console.error('http 请求异常');
-          complete(this.xmlHttp.status, this.xmlHttp);
-          error(this.xmlHttp.status, this.xmlHttp);
+        console.error("http 请求异常");
+        console.log("this.xmlHttp.status=", this.xmlHttp.status);
+        console.log("this.xmlHttp=", this.xmlHttp);
+        complete(this.xmlHttp.status, this.xmlHttp);
+        error(this.xmlHttp.status, this.xmlHttp);
       }
     } else {
       // complete(this.xmlHttp.status, this.xmlHttp);
@@ -220,9 +243,7 @@ class XHR {
     let { data = {}, method, dataType = "json" } = this.options;
     if (!(data instanceof FormData)) {
       data =
-        dataType == "json"
-          ? JSON.stringify(data)
-          : this.queryStringify(data); //this.queryStringify(data)
+        dataType == "json" ? JSON.stringify(data) : this.queryStringify(data); //this.queryStringify(data)
     }
     // const keys = Object.keys(data);
     // const formData = new FormData();

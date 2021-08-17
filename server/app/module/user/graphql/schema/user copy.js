@@ -216,7 +216,7 @@ const user = {
 //   name
 //   phone
 // }
-// msg
+// message
 
 
 var getUserInfoDataType=new GraphQLObjectType({
@@ -294,7 +294,7 @@ var getUserInfoType = new GraphQLObjectType({
             // //   }, projections);
             // },
         },
-        mgs: {
+        message: {
             type:GraphQLString,
             description: 'The id of the user.',
             // resolve: (user, params, source, fieldASTs) => {
@@ -355,7 +355,7 @@ const getUserInfo = {
  
         return {
             code:'200',
-            mgs:'查询成功',
+            message:'查询成功',
             data  :{
               name:'姚观寿',
               phone:"18529531779"

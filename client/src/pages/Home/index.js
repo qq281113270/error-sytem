@@ -23,7 +23,6 @@ import Header from "@/common/component/Header";
 import reducersStore from "@/redux/models/modelsStore";
 import Store, { mapRedux } from "@/redux";
 import { login, createUser, hello, getUser } from "@/common/js/request/index";
- 
 
 const { Content } = Layout;
 
@@ -46,11 +45,11 @@ class Home extends React.Component {
         user: { setUserInfo, login, fetchUser, getUserInfo },
       },
     } = this.props;
-    console.log('this.props=',this.props)
+    console.log("this.props=", this.props);
 
-    getUserInfo();
-    hello()
-    getUser();
+    getUserInfo(123);
+    // hello()
+    // getUser();
     // createUser({
     //   name: "12323",
     // });

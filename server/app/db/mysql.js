@@ -9,7 +9,7 @@ const connection  = mysql.createConnection(MYSQL_CONF)
 // 统一执行 sql 的函数
 const  exec = async (sql)=> {
     return   await  new Promise((resolve, reject) => {
-        console.log('sql=',sql)
+       
         connection.query(sql, (err, result) => {
             if (err) {
                 reject(err)

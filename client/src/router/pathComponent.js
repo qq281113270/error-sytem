@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-11-11 11:21:09
+ * @LastEditTime: 2021-08-12 14:45:41
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/client/src/router/pathComponent.js
+ */
 import React, {  lazy } from 'react';
 const LogIn = lazy(() => import('@/pages/LogIn'));
 const Register = lazy(() => import('../pages/Register'));
@@ -14,7 +22,7 @@ const pathComponent= [
     },
     {
         name:'logLn',
-        path:'/log-in',
+        path:'/logLn',
         component:LogIn
     },
     {

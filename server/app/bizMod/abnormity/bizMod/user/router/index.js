@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-24 16:21:28
+ * @LastEditTime: 2021-08-16 10:30:24
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/server/app/bizMod/abnormity/bizMod/user/router/index.js
+ */
 import controller from "../controller";
 import koaRoute from "koa-router"; // koa 路由中间件
 
@@ -30,6 +38,7 @@ class router {
   // 添加路由
   addRouters() {
     // 注册路由
+    this.login();
     this.query();
     this.add();
     this.edit();
@@ -56,6 +65,12 @@ class router {
     // 添加 接口
      this.threeLevelRoute.post("/edit", controller.edit);
   }
+  login() {
+    // 添加 接口
+   
+     this.threeLevelRoute.post("/login",controller.login);
+  }
+  
 }
 
 export default router;

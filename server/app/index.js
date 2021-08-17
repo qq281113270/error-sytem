@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-29 09:32:02
+ * @LastEditTime: 2021-08-12 10:58:09
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/server/app/index.js   
+ */
 import '@babel/polyfill';
 import koa from 'koa';
 import { promise } from './utils';
@@ -6,10 +14,11 @@ import { Redis } from './redis';
 import Route from './routes/index';
 import kill from 'kill-port';
 import { port } from './config';
-import myVue from 'myVue';
+// import myVue from 'myVue';
 
 class App {
     constructor() {
+        //创建node实例
         this.app = new koa();
         this.init();
     }

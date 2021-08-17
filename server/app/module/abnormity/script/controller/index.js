@@ -12,15 +12,15 @@ class Controller {
       const message = {
         1: () =>
           merge(unsupported, {
-            msg: "该用户名已经被注册过,请重新输入用户名",
+            message: "该用户名已经被注册过,请重新输入用户名",
           }),
         2: () =>
           merge(unsupported, {
-            msg: "该手机号码已经被注册过,请重新输入手机号码",
+            message: "该手机号码已经被注册过,请重新输入手机号码",
           }),
         3: () => ({
           code: 200,
-          msg: "注册成功",
+          message: "注册成功",
         }),
       };
       return message[status]();
@@ -47,15 +47,15 @@ class Controller {
       const message = {
         1: () =>
           merge(unauthorized, {
-            msg: "用户名错误，请重新输入用户名",
+            message: "用户名错误，请重新输入用户名",
           }),
         2: () =>
           merge(unauthorized, {
-            msg: "密码错误请重新输入密码",
+            message: "密码错误请重新输入密码",
           }),
         3: () => ({
           code: 200,
-          msg: "登录成功",
+          message: "登录成功",
           data: {
             token,
             userInfo,
