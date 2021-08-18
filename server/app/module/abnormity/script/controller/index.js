@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-24 16:21:28
+ * @LastEditTime: 2021-08-18 14:13:06
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/server/app/module/abnormity/script/controller/index.js
+ */
 import userService from "../service";
 import { unsupported, unauthorized } from "../constant";
 import { merge } from "../utils";
@@ -11,11 +19,13 @@ class Controller {
       const { status } = data;
       const message = {
         1: () =>
-          merge(unsupported, {
+          ( {
+            ...unsupported, 
             message: "该用户名已经被注册过,请重新输入用户名",
           }),
         2: () =>
-          merge(unsupported, {
+          ( {
+            ...unsupported, 
             message: "该手机号码已经被注册过,请重新输入手机号码",
           }),
         3: () => ({
@@ -46,11 +56,13 @@ class Controller {
       const { status, token, userInfo } = data;
       const message = {
         1: () =>
-          merge(unauthorized, {
+          ( {
+            ...unauthorized,
             message: "用户名错误，请重新输入用户名",
           }),
         2: () =>
-          merge(unauthorized, {
+          ( {
+            ...unauthorized,
             message: "密码错误请重新输入密码",
           }),
         3: () => ({

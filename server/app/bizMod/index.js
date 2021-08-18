@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-24 16:21:28
- * @LastEditTime: 2021-08-17 17:52:11
+ * @LastEditTime: 2021-08-18 11:52:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/server/app/bizMod/index.js
@@ -34,7 +34,7 @@ export const schema = (() => {
     ...abnormitySchema,
     ...performanceSchema,
   };
-
+ 
   const schemaKeys = Object.keys(schemas);
 
   for (let key of schemaKeys) {

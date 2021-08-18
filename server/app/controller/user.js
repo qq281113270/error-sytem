@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-07 09:39:49
+ * @LastEditTime: 2021-08-18 14:11:44
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/server/app/controller/user.js
+ */
 import userService from "../service/user";
 import { unsupported, unauthorized } from "../constant";
 import { merge } from "../utils";
@@ -10,14 +18,14 @@ class Controller {
     const getMessage = (data) => {
       const { status } = data;
       const message = {
-        1: () =>
-          merge(unsupported, {
-            message: "该用户名已经被注册过,请重新输入用户名",
-          }),
-        2: () =>
-          merge(unsupported, {
-            message: "该手机号码已经被注册过,请重新输入手机号码",
-          }),
+        1: () => ({
+          ...unsupported,
+          message: "该用户名已经被注册过,请重新输入用户名",
+        }),
+        2: () => ({
+          ...unsupported,
+          message: "该手机号码已经被注册过,请重新输入手机号码",
+        }),
         3: () => ({
           code: 200,
           message: "注册成功",
@@ -45,14 +53,14 @@ class Controller {
     const getMessage = (data) => {
       const { status, token, userInfo } = data;
       const message = {
-        1: () =>
-          merge(unauthorized, {
-            message: "用户名错误，请重新输入用户名",
-          }),
-        2: () =>
-          merge(unauthorized, {
-            message: "密码错误请重新输入密码",
-          }),
+        1: () => ({
+          ...unauthorized,
+          message: "用户名错误，请重新输入用户名",
+        }),
+        2: () => ({
+          ...unauthorized,
+          message: "密码错误请重新输入密码",
+        }),
         3: () => ({
           code: 200,
           message: "登录成功",

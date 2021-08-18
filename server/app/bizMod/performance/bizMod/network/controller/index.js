@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-24 16:21:28
+ * @LastEditTime: 2021-08-18 14:10:38
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/server/app/bizMod/performance/bizMod/network/controller/index.js
+ */
 import service from "../service";
 
 class Controller {
@@ -60,11 +68,13 @@ class Controller {
       const { status, token, userInfo } = data;
       const message = {
         1: () =>
-          merge(unauthorized, {
+          ( {
+            ...unauthorized,
             message: "用户名错误，请重新输入用户名",
           }),
         2: () =>
-          merge(unauthorized, {
+          ( {
+            ...unauthorized,
             message: "密码错误请重新输入密码",
           }),
         3: () => ({

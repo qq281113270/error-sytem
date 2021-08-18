@@ -30,6 +30,8 @@ type UserInfo {
   message: String 
 }
 
+#union UnionUserId = String | ID
+
 extend type Query {
   #! 是必填参数
   getUserInfo(id:ID): UserInfo

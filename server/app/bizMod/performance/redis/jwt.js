@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-24 16:21:28
+ * @LastEditTime: 2021-08-18 14:10:51
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/server/app/bizMod/performance/redis/jwt.js
+ */
 import { Redis, redisClient } from "./redis";
 import JWTR from "jwt-redis";
 import webJwt from "jsonwebtoken";
@@ -38,12 +46,12 @@ const checkToken = (token) => {
 const createToken = async (userInfo = {}, payload = {}) => {
   const { id = "" } = userInfo;
   //  产生token
-  payload = merge(
+  payload = 
     {
+      ...payload,
       ctime: Date.now(), //创建时间
-    },
-    payload
-  );
+    }
+
   //创建token
   const token = await sign(payload, `${id}`, { expiresIn: 0 });
   //获取用户token key

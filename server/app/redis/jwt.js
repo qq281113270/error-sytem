@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-24 16:21:28
- * @LastEditTime: 2021-08-17 11:38:38
+ * @LastEditTime: 2021-08-18 14:04:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/server/app/redis/jwt.js
@@ -16,14 +16,12 @@ const { sign, verify, decode } = webJwt;
 const createToken = async (userInfo = {}, payload = {}) => {
   const { id = "" } = userInfo;
   //  产生token
-  payload = merge(
-    {
-      ctime: Date.now(), //创建时间
-    },
-    payload
-  );
+  payload = {
+    ctime: Date.now(), //创建时间
+    ...payload,
+  };
   //创建token
-  const token = await sign(payload, `${id}`, { expiresIn: 0 });
+  const token = await sign(payload, `${id}`, { expiresIn: "0.5h" });
   //删除旧的token
   await destroyToken(id);
   // 重新设置 redis
@@ -76,7 +74,7 @@ const checkToken = (tokenOrId) => {
 };
 
 //更新请求时间
-const updateRequestTime = (tokenOrId) => { 
+const updateRequestTime = (tokenOrId) => {
   const { id, token } = getUserInfo(tokenOrId) || {};
   id && redisClient.pexpire(`${id}`, tokenExpires);
   token && redisClient.pexpire(`${token}`, tokenExpires);

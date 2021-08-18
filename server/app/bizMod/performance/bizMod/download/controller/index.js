@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-24 16:21:28
+ * @LastEditTime: 2021-08-18 14:19:32
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/server/app/bizMod/performance/bizMod/download/controller/index.js
+ */
 import service from "../service";
 
 class Controller {
@@ -25,11 +33,12 @@ class Controller {
     //   const { status } = data;
     //   const message = {
     //     1: () =>
-    //       merge(unsupported, {
+    //        (  {
     //         message: "该用户名已经被注册过,请重新输入用户名",
     //       }),
     //     2: () =>
-    //       merge(unsupported, {
+    //        (  {
+        //           ...unauthorized,
     //         message: "该手机号码已经被注册过,请重新输入手机号码",
     //       }),
     //     3: () => ({
@@ -60,11 +69,13 @@ class Controller {
       const { status, token, userInfo } = data;
       const message = {
         1: () =>
-          merge(unauthorized, {
+          ( {
+            ...unauthorized,
             message: "用户名错误，请重新输入用户名",
           }),
         2: () =>
-          merge(unauthorized, {
+          ( {
+            ...unauthorized,
             message: "密码错误请重新输入密码",
           }),
         3: () => ({

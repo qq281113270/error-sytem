@@ -1,17 +1,24 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-24 16:21:28
+ * @LastEditTime: 2021-08-18 14:07:33
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/server/app/bizMod/abnormity/bizMod/script/controller/index.js
+ */
 import service from "../service";
- 
-class Controller {  
-  static async query(ctx, next) { 
-    
-    console.log('Controller_query12341==')
+
+class Controller {
+  static async query(ctx, next) {
+    console.log("Controller_query12341==");
     const { query = {}, response, request } = ctx;
     const {
       body = {
-         // mutation = '', variables = {}
+        // mutation = '', variables = {}
       },
     } = request;
     const parameter = query; // 获取请求参数
-    console.log('service.query==', service.query)
+    console.log("service.query==", service.query);
     //添加service
     const data = await service.query(ctx, next, parameter);
     ctx.response.body = data;
@@ -26,11 +33,13 @@ class Controller {
     //   const { status } = data;
     //   const message = {
     //     1: () =>
-    //       merge(unsupported, {
+    //       ( {
+      // ...unsupported,
     //         message: "该用户名已经被注册过,请重新输入用户名",
     //       }),
     //     2: () =>
-    //       merge(unsupported, {
+    //       ( {
+      // ...unsupported,
     //         message: "该手机号码已经被注册过,请重新输入手机号码",
     //       }),
     //     3: () => ({
@@ -60,14 +69,14 @@ class Controller {
     const getMessage = (data) => {
       const { status, token, userInfo } = data;
       const message = {
-        1: () =>
-          merge(unauthorized, {
-            message: "用户名错误，请重新输入用户名",
-          }),
-        2: () =>
-          merge(unauthorized, {
-            message: "密码错误请重新输入密码",
-          }),
+        1: () => ({
+          ...unauthorized,
+          message: "用户名错误，请重新输入用户名",
+        }),
+        2: () => ({
+          ...unauthorized,
+          message: "密码错误请重新输入密码",
+        }),
         3: () => ({
           code: 200,
           message: "登录成功",

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:03:45
- * @LastEditTime: 2021-08-17 17:34:14
+ * @LastEditTime: 2021-08-18 11:57:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/client/src/common/js/request/requestApi.js
@@ -92,7 +92,7 @@ export const getUserInfo = (id = "") => {
   return GraphqlClient.query({
     query: `
       query{
-          getUserInfo(id: ${id}) {
+          getUserInfo(id: "${id}") {
             code
             message
             data {

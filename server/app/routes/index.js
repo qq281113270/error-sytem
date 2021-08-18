@@ -29,7 +29,7 @@ import { merge } from "@/utils";
 import { graphqlError } from "@/constant";
 import Router from "koa-router";
 import { makeExecutableSchema } from "graphql-tools";
-import log4js from "log4js";
+// import log4js from "log4js";
 // import Home from "./home";
 import User from "./user";
 import { common } from "@/middleware/index";
@@ -67,17 +67,17 @@ class Route {
       const token = cookies.get("token") || header.token;
       await getUserInfo(token)
         .then(async (value) => {
-          console.log("getUserInfo then=", value);
-
+          // console.log("getUserInfo then=", value);
           response.userInfo = value;
           await next();
         })
         .catch((error) => {
           console.log("getUserInfo catch=", error);
           response.userInfo = null;
-          ctx.response.body = merge(unauthorized, {
+          ctx.response.body = {
+            ...unsupported,
             message: "登录回话已过期，请重新登录",
-          });
+          };
         });
     });
   }
@@ -89,6 +89,8 @@ class Route {
     // new bizMod.abnormity.script.router(this.app, this.router)
 
     this.checkToken();
+    console.log("serverSchema=", schema.typeDefs.schema);
+    console.log("resolvers=", schema.resolvers);
     // 检验服务器 Schema
     CheckGraphql.validateSeverSchema({
       serverSchema: {
@@ -96,9 +98,9 @@ class Route {
         resolvers: schema.resolvers,
       },
     }).catch((error) => {
-      console.error("error=", chalk.red(error));
-      console.error("schema.typeDefs.schema=", schema.typeDefs.schema);
-      console.error("schema.resolvers=", schema.resolvers);
+      // console.error("error=", chalk.red(error));
+      // console.error("schema.typeDefs.schema=", schema.typeDefs.schema);
+      // console.error("schema.resolvers=", schema.resolvers);
     });
     // 查询
     this.router.get("/data", async (ctx, next) => {
@@ -118,8 +120,12 @@ class Route {
       // response.console.warn("这个是warn", __filename);
       // response.console.log("这个是log", __filename);
       // response.console.debug("这个是DEBUG", __filename);
+      response.console.info(
+        `[clientSchema=${clientSchema}]`,
+        `[variables=${variables}]`,
+        `[${__filename}]`
+      );
 
-      
       await CheckGraphql.init({
         context: {
           ctx,
@@ -172,20 +178,25 @@ class Route {
       })
         .then((data) => {
           const { errors } = data;
+          // console.log("data==============", data);
           if (errors) {
-            response.body = merge(graphqlError, {
+            response.body = {
+              ...graphqlError,
               errors,
-            });
+            };
           } else {
-            // console.log("get==", data);
+            response.console.log(
+              `[body=${JSON.stringify(data)}]`,
+              `[${__filename}]`
+            );
             response.body = data;
           }
         })
         .catch((error) => {
-          console.error("clientSchema==", clientSchema);
-          console.error("variables==", variables);
-          console.error("serverSchema==", schema.typeDefs.schema);
-          console.error("resolvers==", schema.resolvers);
+          // console.error("clientSchema==", clientSchema);
+          // console.error("variables==", variables);
+          // console.error("serverSchema==", schema.typeDefs.schema);
+          // console.error("resolvers==", schema.resolvers);
         });
     });
     //变异
@@ -198,6 +209,11 @@ class Route {
       const {
         body: { mutation: clientSchema = "", variables = {} },
       } = request;
+      response.console.info(
+        `[clientSchema=${clientSchema}]`,
+        `[variables=${variables}]`,
+        `[${__filename}]`
+      );
       CheckGraphql.init({
         context: {
           ctx: {
@@ -255,10 +271,10 @@ class Route {
           console.log("data==", data);
         })
         .catch((error) => {
-          console.error("clientSchema==", clientSchema);
-          console.error("variables==", variables);
-          console.error("serverSchema==", schema.typeDefs.schema);
-          console.error("resolvers==", schema.resolvers);
+          // console.error("clientSchema==", clientSchema);
+          // console.error("variables==", variables);
+          // console.error("serverSchema==", schema.typeDefs.schema);
+          // console.error("resolvers==", schema.resolvers);
         });
     });
 

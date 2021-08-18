@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-28 10:56:55
+ * @LastEditTime: 2021-08-18 14:20:22
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/server/scripts/webpack/config/index.js
+ */
 import { merge } from 'webpack-merge';
 import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
 import { createVariants } from 'parallel-webpack';

@@ -25,11 +25,13 @@
 //     //   const { status } = data;
 //     //   const message = {
 //     //     1: () =>
-//     //       merge(unsupported, {
+//     //       ( {
+// ...unsupported,
 //     //         message: "该用户名已经被注册过,请重新输入用户名",
 //     //       }),
 //     //     2: () =>
-//     //       merge(unsupported, {
+//     //       ( {
+// ...unsupported,
 //     //         message: "该手机号码已经被注册过,请重新输入手机号码",
 //     //       }),
 //     //     3: () => ({
@@ -60,11 +62,13 @@
 //       const { status, token, userInfo } = data;
 //       const message = {
 //         1: () =>
-//           merge(unauthorized, {
+//            (   {
+  //           ...unauthorized,
 //             message: "用户名错误，请重新输入用户名",
 //           }),
 //         2: () =>
-//           merge(unauthorized, {
+//            (   {
+    //           ...unauthorized,
 //             message: "密码错误请重新输入密码",
 //           }),
 //         3: () => ({
@@ -94,14 +98,14 @@ class Controller {
     const getMessage = (data) => {
       const { status } = data;
       const message = {
-        1: () =>
-          merge(unsupported, {
-            message: "该用户名已经被注册过,请重新输入用户名",
-          }),
-        2: () =>
-          merge(unsupported, {
-            message: "该手机号码已经被注册过,请重新输入手机号码",
-          }),
+        1: () => ({
+          ...unsupported,
+          message: "该用户名已经被注册过,请重新输入用户名",
+        }),
+        2: () => ({
+          ...unsupported,
+          message: "该手机号码已经被注册过,请重新输入手机号码",
+        }),
         3: () => ({
           code: 200,
           message: "注册成功",
@@ -119,14 +123,14 @@ class Controller {
     const getMessage = (data) => {
       const { status } = data;
       const message = {
-        1: () =>
-          merge(unsupported, {
-            message: "该用户名已经被注册过,请重新输入用户名",
-          }),
-        2: () =>
-          merge(unsupported, {
-            message: "该手机号码已经被注册过,请重新输入手机号码",
-          }),
+        1: () => ({
+          ...unsupported,
+          message: "该用户名已经被注册过,请重新输入用户名",
+        }),
+        2: () => ({
+          ...unsupported,
+          message: "该手机号码已经被注册过,请重新输入手机号码",
+        }),
         3: () => ({
           code: 200,
           message: "注册成功",
@@ -147,7 +151,6 @@ class Controller {
   }
 
   static async login(ctx, next) {
-    console.log(111111111111);
     // ctx.set("Content-Type", "application/json")
     var parameter = ctx.request.body; // 获取请求参数
     //添加service
@@ -155,14 +158,14 @@ class Controller {
     const getMessage = (data) => {
       const { status, token, userInfo } = data;
       const message = {
-        1: () =>
-          merge(unauthorized, {
-            message: "用户名错误，请重新输入用户名",
-          }),
-        2: () =>
-          merge(unauthorized, {
-            message: "密码错误请重新输入密码",
-          }),
+        1: () => ({
+          ...unauthorized,
+          message: "用户名错误，请重新输入用户名",
+        }),
+        2: () => ({
+          ...unauthorized,
+          message: "密码错误请重新输入密码",
+        }),
         3: () => ({
           code: 200,
           message: "登录成功",

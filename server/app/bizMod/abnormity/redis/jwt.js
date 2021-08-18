@@ -38,12 +38,11 @@ const checkToken = (token) => {
 const createToken = async (userInfo = {}, payload = {}) => {
   const { id = "" } = userInfo;
   //  产生token
-  payload = merge(
-    {
-      ctime: Date.now(), //创建时间
-    },
-    payload
-  );
+  payload = {
+    ...payload,
+    ctime: Date.now(), //创建时间
+  };
+
   //创建token
   const token = await sign(payload, `${id}`, { expiresIn: 0 });
   //获取用户token key
@@ -54,21 +53,20 @@ const createToken = async (userInfo = {}, payload = {}) => {
       await Redis.del(key);
     });
   }
-  // 重新设置 redis 
+  // 重新设置 redis
   await Redis.set(`userid_${id}_${token}`, JSON.stringify(userInfo));
 
   return token;
 };
 
 //销毁token
-const destroyToken = async(tokenOrId) => {
-  const userIdTokens = await userIdCheckToken(tokenOrId)||[];
-  const tokens = await checkToken(tokenOrId)||[];
-  merge(userIdTokens,tokens).forEach(async (key)=>{
+const destroyToken = async (tokenOrId) => {
+  const userIdTokens = (await userIdCheckToken(tokenOrId)) || [];
+  const tokens = (await checkToken(tokenOrId)) || [];
+  [...userIdTokens, ...tokens].forEach(async (key) => {
     await Redis.del(key);
-  }) 
-  return "成功删除token"
+  });
+  return "成功删除token";
 };
 
-
-export { createToken, checkToken, destroyToken,userIdCheckToken };
+export { createToken, checkToken, destroyToken, userIdCheckToken };
