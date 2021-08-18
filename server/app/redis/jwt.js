@@ -1,38 +1,45 @@
 /*
  * @Author: your name
  * @Date: 2020-12-24 16:21:28
- * @LastEditTime: 2021-08-18 14:04:59
+ * @LastEditTime: 2021-08-18 17:40:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/server/app/redis/jwt.js
  */
 import { Redis, redisClient } from "./redis";
-import JWTR from "jwt-redis";
-import webJwt from "jsonwebtoken";
+import nJwt from "njwt";
 import { merge, promise } from "@/utils";
 import { tokenExpires } from "@/config";
-const { sign, verify, decode } = webJwt;
+let jwtsCache = {};
+
 // 创建Token
 const createToken = async (userInfo = {}, payload = {}) => {
-  const { id = "" } = userInfo;
+  const { id = "", username, password } = userInfo;
+  // delete userInfo.name;
+  // delete userInfo.password;
   //  产生token
   payload = {
-    ctime: Date.now(), //创建时间
     ...payload,
+    password,
+    username,
+    createTime: new Date().getTime(), //创建时间
+    exp: new Date().getTime() + tokenExpires,
   };
+  const jwt = nJwt.create(payload, `${id}`);
   //创建token
-  const token = await sign(payload, `${id}`, { expiresIn: "0.5h" });
-  //删除旧的token
-  await destroyToken(id);
+  const token = jwt.compact();
+  jwtsCache[token] = jwt;
+  // 删除旧的token
+  await destroyToken(token);
   // 重新设置 redis
-  await Redis.set(
-    `${id}`,
-    JSON.stringify({
-      token,
-      id,
-      ...userInfo,
-    })
-  );
+  // await Redis.set(
+  //   `${id}`,
+  //   JSON.stringify({
+  //     token,
+  //     id,
+  //     ...userInfo,
+  //   })
+  // );
   await Redis.set(
     `${token}`,
     JSON.stringify({
@@ -41,43 +48,49 @@ const createToken = async (userInfo = {}, payload = {}) => {
       ...userInfo,
     })
   );
+  //更新token时间
   updateRequestTime(token);
   return token;
 };
 
 //销毁token
-const destroyToken = async (tokenOrId) => {
-  const userInfo = (await getUserInfo(tokenOrId)) || {};
-  const { id, token } = userInfo;
-  id && (await Redis.del(id));
-  token && (await Redis.del(token));
+const destroyToken = async (token) => {
+  await Redis.del(token);
   return "成功删除token";
 };
 //获取用户信息
-const getUserInfo = (tokenOrId) => {
+const getTokenUserInfo = (token) => {
   return promise((resolve, reject) => {
-    redisClient.get(tokenOrId, (err, data) => {
+    redisClient.get(token, (err, data) => {
       if (err) {
-        console.log(err);
-        reject();
+        reject(null);
         return false;
       }
-      // console.log("idGetUserInfo:" + data);
-      resolve(data);
+      resolve(JSON.parse(data));
     });
   });
 };
 
-//验证token
-const checkToken = (tokenOrId) => {
-  return getUserInfo(tokenOrId) ? true : false;
+// 检验Token
+const verifyToken = async (token) => {
+  const userInfo = (await getTokenUserInfo(token)) || {};
+  const { id: signingKey = "" } = userInfo;
+  return promise((resolve, reject) => {
+    nJwt.verify(token, `${signingKey}`, (err, verifiedJwt) => {
+      if (err) {
+        reject(null);
+      } else {
+        updateRequestTime(token);
+        resolve(userInfo);
+      }
+    });
+  });
 };
 
 //更新请求时间
-const updateRequestTime = (tokenOrId) => {
-  const { id, token } = getUserInfo(tokenOrId) || {};
-  id && redisClient.pexpire(`${id}`, tokenExpires);
-  token && redisClient.pexpire(`${token}`, tokenExpires);
+const updateRequestTime = (token) => {
+  jwtsCache[token].setExpiration(new Date().getTime() + tokenExpires);
+  redisClient.pexpire(`${token}`, tokenExpires);
 };
 
-export { createToken, destroyToken, getUserInfo, checkToken };
+export { createToken, destroyToken, getTokenUserInfo, verifyToken };

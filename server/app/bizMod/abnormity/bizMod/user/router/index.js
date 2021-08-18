@@ -1,14 +1,19 @@
 /*
  * @Author: your name
  * @Date: 2020-12-24 16:21:28
- * @LastEditTime: 2021-08-16 10:30:24
+ * @LastEditTime: 2021-08-18 17:33:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/server/app/bizMod/abnormity/bizMod/user/router/index.js
  */
 import controller from "../controller";
 import koaRoute from "koa-router"; // koa 路由中间件
-
+import {
+  createToken,
+  verifyToken,
+  destroyToken,
+  getTokenUserInfo,
+} from "@/redis";
 class router {
   constructor(app, parentRouter) {
     this.app = app;
@@ -42,6 +47,7 @@ class router {
     this.query();
     this.add();
     this.edit();
+    this.verifyToken();
     this.router.use(this.threeLevelRoute.routes()); //挂载二级路由
   }
   init() {
@@ -53,7 +59,6 @@ class router {
     this.addRouters();
   }
   query() {
-   
     // 添加 接口
     this.threeLevelRoute.get("/query", controller.query);
   }
@@ -63,14 +68,36 @@ class router {
   }
   edit() {
     // 添加 接口
-     this.threeLevelRoute.post("/edit", controller.edit);
+    this.threeLevelRoute.post("/edit", controller.edit);
   }
   login() {
     // 添加 接口
-   
-     this.threeLevelRoute.post("/login",controller.login);
+
+    this.threeLevelRoute.post("/login", controller.login);
   }
-  
+  verifyToken() {
+    //检查token
+    this.threeLevelRoute.post("/verifyToken", async (ctx, next) => {
+      var parameter = ctx.request.body; // 获取请求参数
+      console.log("parameter=", parameter);
+
+      await verifyToken(parameter.token)
+        .then((data) => {
+          ctx.response.body = {
+            code: 200,
+            data,
+            message: "检查成功",
+          };
+        })
+        .catch(() => {
+          ctx.response.body = {
+            code: 200,
+            data: {},
+            message: "token已失效",
+          };
+        });
+    });
+  }
 }
 
 export default router;

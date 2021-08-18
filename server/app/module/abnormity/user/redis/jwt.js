@@ -18,7 +18,7 @@ const { sign, verify, decode } = webJwt;
 // var payload = { jti };
 
 // 用用户id验证token
-const userIdCheckToken = (userId) => {
+const userIdverifyToken = (userId) => {
   return promise((resolve, reject) => {
     redisClient.keys(`userid_${userId}_*`, (error, value) => {
       if (error) {
@@ -31,7 +31,7 @@ const userIdCheckToken = (userId) => {
 };
 
 //验证token
-const checkToken = (token) => {
+const verifyToken = (token) => {
   return promise((resolve, reject) => {
     redisClient.keys(`userid_*_${token}`, (error, value) => {
       if (error) {
@@ -53,7 +53,7 @@ const createToken = async (userInfo = {}, payload = {}) => {
   //创建token
   const token = await sign(payload, `${id}`, { expiresIn: 0 });
   //获取用户token key
-  const userIdTokens = await userIdCheckToken(id);
+  const userIdTokens = await userIdverifyToken(id);
   if (userIdTokens && userIdTokens.length >= 1) {
     // 删除多余的key实现单点登录
     userIdTokens.forEach(async (key) => {
@@ -68,12 +68,12 @@ const createToken = async (userInfo = {}, payload = {}) => {
 
 //销毁token
 const destroyToken = async (tokenOrId) => {
-  const userIdTokens = (await userIdCheckToken(tokenOrId)) || [];
-  const tokens = (await checkToken(tokenOrId)) || [];
+  const userIdTokens = (await userIdverifyToken(tokenOrId)) || [];
+  const tokens = (await verifyToken(tokenOrId)) || [];
   merge(userIdTokens, tokens).forEach(async (key) => {
     await Redis.del(key);
   });
   return "成功删除token";
 };
 
-export { createToken, checkToken, destroyToken, userIdCheckToken };
+export { createToken, verifyToken, destroyToken, userIdverifyToken };

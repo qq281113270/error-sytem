@@ -21,8 +21,8 @@ import {
 import httpError from "http-errors";
 import {
   createToken,
-  checkToken,
-  getUserInfo,
+  verifyToken,
+  getTokenUserInfo,
   destroyToken,
 } from "@/redis/index";
 import { merge } from "@/utils";
@@ -57,7 +57,7 @@ class Route {
     common(this.app, this.router);
   }
 
-  checkToken() {
+  verifyToken() {
     this.router.use(async (ctx, next) => {
       const {
         request: { header },
@@ -65,14 +65,14 @@ class Route {
         response,
       } = ctx;
       const token = cookies.get("token") || header.token;
-      await getUserInfo(token)
+      await getTokenUserInfo(token)
         .then(async (value) => {
-          // console.log("getUserInfo then=", value);
+          // console.log("getTokenUserInfo then=", value);
           response.userInfo = value;
           await next();
         })
         .catch((error) => {
-          console.log("getUserInfo catch=", error);
+          console.log("getTokenUserInfo catch=", error);
           response.userInfo = null;
           ctx.response.body = {
             ...unsupported,
@@ -88,7 +88,7 @@ class Route {
 
     // new bizMod.abnormity.script.router(this.app, this.router)
 
-    this.checkToken();
+    this.verifyToken();
     console.log("serverSchema=", schema.typeDefs.schema);
     console.log("resolvers=", schema.resolvers);
     // 检验服务器 Schema

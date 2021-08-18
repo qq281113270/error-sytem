@@ -6,7 +6,7 @@
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/server/app/redis/user.js
  */
-import {checkToken } from "./jwt";
+import {verifyToken } from "./jwt";
 import { Redis, redisClient } from "./redis";
 import { merge, promise } from '@/utils';
 import { tokenExpires } from '@/config';

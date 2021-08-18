@@ -149,10 +149,10 @@ class Controller {
 
     // ctx.response.body = "d";
   }
-
   static async login(ctx, next) {
     // ctx.set("Content-Type", "application/json")
     var parameter = ctx.request.body; // 获取请求参数
+  
     //添加service
     const data = await userService.login(ctx, next, parameter);
     const getMessage = (data) => {

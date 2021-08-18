@@ -1,7 +1,7 @@
 import { addUser, deleteUser, queryUser } from '../db/user';
 import { unsupported, unauthorized } from '../constant';
 import { merge } from '../utils';
-import { createToken, checkToken, destroyToken, getUserIfo } from '../redis';
+import { createToken, verifyToken, destroyToken, getUserIfo } from '../redis';
 import { setExpirationTime } from '../config';
 
 
@@ -118,7 +118,7 @@ class Service {
         const token = await createToken(userInfo);
         delete userInfo.password;
         ctx.response.userInfo = userInfo;
-        console.log('setExpirationTime=', setExpirationTime());
+        console.log('setExpirationTime2=', setExpirationTime());
         // console.log('token=', token);
         // console.log('request=', request);
         // console.log('session=', session);
