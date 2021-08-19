@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-19 11:49:56
- * @LastEditTime: 2021-08-19 14:53:30
+ * @LastEditTime: 2021-08-19 14:58:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/server/app/redis/jsonwebtoken/index.js
@@ -35,7 +35,10 @@ class Jsonwebtoken {
         callback = options;
         options = {};
       }
-      const { updateExp, ignoreExpiration } = options;
+      const {
+        updateExp, // 更新过期时间  例子 new Date().getTime() + 30 * 60 * 1000 ; // 设置如果没有请求 30分钟token登录失效
+        ignoreExpiration, // 布尔值 忽略 过期时间的
+      } = options;
       let falg = false;
       if (this.tokensCache[token]) {
         const {
@@ -76,6 +79,9 @@ class Jsonwebtoken {
             );
             return false;
           }
+          if (updateExp) {
+            this.tokensCache[token].exp = updateExp;
+          }
         }
         falg = hmac.verify(input, token, secret);
         falg
@@ -86,9 +92,7 @@ class Jsonwebtoken {
               },
               info
             );
-        if (updateExp) {
-          this.tokensCache[token].exp = updateExp;
-        }
+
         return falg;
       } else {
         callback(
@@ -100,7 +104,7 @@ class Jsonwebtoken {
         return falg;
       }
     } catch (error) {
-      console.error("error=========", error,__filename);
+      console.error("error=========", error, __filename);
     }
   }
 }
