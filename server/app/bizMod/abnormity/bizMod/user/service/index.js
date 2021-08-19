@@ -118,12 +118,8 @@ class Service {
     /*
      创建 createToken  
     */
-    const token = await createToken({
-      ...userInfo,
-      username: name,
-      password,
-    });
     delete userInfo.password;
+    const token = await createToken(userInfo);
     ctx.response.userInfo = userInfo;
 
     // cookie.expires = false;

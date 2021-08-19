@@ -31,7 +31,7 @@ import Router from "koa-router";
 import { makeExecutableSchema } from "graphql-tools";
 // import log4js from "log4js";
 // import Home from "./home";
-import User from "./user";
+// import User from "./user";
 import { common } from "@/middleware/index";
 import { router as bizModRouter } from "@/bizMod/index";
 import { unsupported, unauthorized } from "@/constant";
@@ -75,7 +75,7 @@ class Route {
           console.log("getTokenUserInfo catch=", error);
           response.userInfo = null;
           ctx.response.body = {
-            ...unsupported,
+             ...unsupported,
             message: "登录回话已过期，请重新登录",
           };
         });
@@ -87,7 +87,6 @@ class Route {
     bizModRouter(this.app, this.router);
 
     // new bizMod.abnormity.script.router(this.app, this.router)
-
     this.verifyToken();
     console.log("serverSchema=", schema.typeDefs.schema);
     console.log("resolvers=", schema.resolvers);
