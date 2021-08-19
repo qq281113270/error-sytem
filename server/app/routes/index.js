@@ -177,7 +177,7 @@ class Route {
       })
         .then((data) => {
           const { errors } = data;
-          // console.log("data==============", data);
+     
           if (errors) {
             response.body = {
               ...graphqlError,

@@ -37,7 +37,7 @@ class Home extends React.Component {
     return pathComponent.find((item) => item.name == "home")?.children || [];
   };
   componentDidUpdate(preProps, preState, spanshot) {
-    console.log("this.props======", this.props);
+    // console.log("this.props======", this.props);
   }
   async componentDidMount() {
     const {
@@ -45,9 +45,9 @@ class Home extends React.Component {
         user: { setUserInfo, login, fetchUser, getUserInfo },
       },
     } = this.props;
-    console.log("this.props=", this.props);
 
-    getUserInfo(123);
+   await  getUserInfo(123);
+   console.log('this.props====',this.props)
     // hello()
     // getUser();
     // createUser({

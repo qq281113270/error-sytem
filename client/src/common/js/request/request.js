@@ -9,7 +9,7 @@ import {
 
 // 导出普通请求
 export default class Request {
-  static platform = "web";  //smallProgram 小程序 , web 网页
+  static platform = "web"; //smallProgram 小程序 , web 网页
   static baseUrl = "";
   // 请求队列
   static requestQueue = [];
@@ -185,7 +185,7 @@ export default class Request {
               headers: {
                 ...this.defaultHeader,
                 ...headers,
-                ['request-id']:requestId,
+                ["request-id"]: requestId,
               },
               success: async (...ags) => {
                 ags = await responseInterceptors(ags);
@@ -218,7 +218,7 @@ export default class Request {
             headers: {
               ...this.defaultHeader,
               ...headers,
-              ['request-id']:requestId,
+              ["request-id"]: requestId,
             },
             success: async (...ags) => {
               ags = await responseInterceptors(ags);
@@ -277,11 +277,10 @@ export default class Request {
               data: formData,
               headers: {
                 ...headers,
-                ['request-id']:requestId,
+                ["request-id"]: requestId,
               },
               success: async (...ags) => {
                 ags = await responseInterceptors(ags);
-                console.log("ags=", ags);
                 success(...ags);
                 resolve(...ags);
               },
@@ -300,10 +299,9 @@ export default class Request {
             data: formData,
             headers: {
               ...headers,
-              ['request-id']:requestId,
+              ["request-id"]: requestId,
             },
             success: (...ags) => {
-              console.log("ags=", ags);
               success(...ags);
             },
             error: (...ags) => {
@@ -319,7 +317,7 @@ export default class Request {
 Request.baseUrl = baseUrl;
 // 设置默认请求头
 Request.defaultHeader = {
-  token: localStorage.getItem("token"),
+  // token: localStorage.getItem("token"),
   // "content-type": "application/x-www-form-urlencoded",  //文件上传
   "Content-Type": "application/json;charset=utf-8",
 };
@@ -327,10 +325,8 @@ Request.defaultHeader = {
 Request.error = (errorInfo) => {
   const { code, message } = errorInfo[0] || {};
   if (!code) {
-    // console.error("errorInfo=====", "系统错误");
     errorMessage("系统错误");
   } else {
-    // console.error("errorInfo=====", message);
     errorMessage(message);
     codeMap[code] && codeMap[code](errorInfo);
   }
@@ -340,6 +336,13 @@ Request.error = (errorInfo) => {
 Request.interceptors = {
   // 请求拦截
   request: (config) => {
+    config = {
+      ...config,
+      headers: {
+        ...config.headers,
+        token: localStorage.getItem("token"),
+      },
+    };
     // return Promise.reject({
     //   error: Request.error
     // });
@@ -419,10 +422,8 @@ export const gql = Graphql.gql;
 Graphql.error = (errorInfo) => {
   const { code, message } = errorInfo[0] || {};
   if (!code) {
-    // console.error("errorInfo=====", "系统错误");
     errorMessage("系统错误");
   } else {
-    // console.error("errorInfo=====", message);
     errorMessage(message);
     codeMap[code] && codeMap[code](errorInfo);
   }
@@ -434,7 +435,11 @@ Graphql.interceptors.request = (config) => {
 // 响应拦截
 Graphql.interceptors.response = (response) => {
   const data = response[0] || {};
-  let errors = [];
+  const { code, message } = data;
+  if (code && code !== 200) {
+    Graphql.error(response);
+    return Promise.reject(response);
+  }
   for (let key in data) {
     const { code, data: newData } = data[key];
     if (code != 200) {
@@ -453,10 +458,10 @@ export const GraphqlClient = new Graphql({
   //   token: localStorage.getItem("token"),
   // },
   interceptors: {
-    // 请求拦截
-    request: (config) => {
-      return Graphql.interceptors.request(config);
-    },
+    // // 请求拦截
+    // request: (config) => {
+    //   return Graphql.interceptors.request(config);
+    // },
     //响应拦截
     response: (response) => {
       return Graphql.interceptors.response(response);
