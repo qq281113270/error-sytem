@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-19 11:49:56
- * @LastEditTime: 2021-08-19 14:58:05
+ * @LastEditTime: 2021-08-19 15:13:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/server/app/redis/jsonwebtoken/index.js
@@ -102,6 +102,44 @@ class Jsonwebtoken {
           {}
         );
         return falg;
+      }
+    } catch (error) {
+      console.error("error=========", error, __filename);
+    }
+  }
+
+  //更新Body内容
+  static updateBody(token, signingKey, body, callback = () => {}) {
+    try {
+      if (typeof body === "Function") {
+        callback = body;
+        body = {};
+      }
+      let falg = false;
+      if (this.tokensCache[token]) {
+        const {
+          body: payload = {},
+          hmac,
+          iat, //创建token时间
+          exp, //过期时间
+        } = this.tokensCache[token];
+        this.tokensCache[token] = {
+          body: {
+            ...payload,
+            ...body,
+          },
+        };
+        let info = {
+          iat,
+          exp,
+          body: this.tokensCache[token].body,
+        };
+        callback(
+          {
+            message: "成功更新body",
+          },
+          info
+        );
       }
     } catch (error) {
       console.error("error=========", error, __filename);
