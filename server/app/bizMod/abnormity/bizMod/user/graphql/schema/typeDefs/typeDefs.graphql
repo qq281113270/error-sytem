@@ -9,7 +9,7 @@ type UserData {
   """
   用户手机号码
   """
-  phone: Int
+  phone: String
 }
 
 """
