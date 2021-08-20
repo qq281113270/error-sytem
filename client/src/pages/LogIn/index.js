@@ -21,8 +21,11 @@ const Index = (props) => {
         user: { setUserInfo, fetchUser, getUserInfo },
       },
     } = props;
-    const { data = {} } = await login(values);
-    const { token, userInfo } = data;
+    const  data  = await login(values);
+    console.log('data===',data)
+    const { data:{token, userInfo} } = data;
+
+  
     localStorage.setItem("token", token);
     setUserInfo(userInfo);
     message.success("登录成功");

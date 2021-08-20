@@ -1,4 +1,5 @@
 import store from "./modelsStore";
+import reduxStore from "../store";
 
 // 注册 reducer
 export const register = (rootReducer) => {
@@ -11,10 +12,11 @@ export const register = (rootReducer) => {
 
   let reducersKeys = Object.keys(reducers);
   let effectsObj = effects();
-  console.log("effectsObj=", effectsObj);
+
   let effectsKeys = Object.keys(effectsObj);
   return {
     name,
+    //注册actions
     actions: reducersKeys.reduce((acc, key) => {
       return {
         ...acc,
@@ -43,6 +45,8 @@ export const register = (rootReducer) => {
             },
           },
         });
+
+        //redux 中的 reducer
         code += `
                  case '${name}_${key}':    
                  return  ${key}(state,action);
@@ -67,7 +71,18 @@ export const register = (rootReducer) => {
               // };
               //   let effectsObj = effects(newDispatch);
               // let effectsObj = effects(dispatch);
-              return await effects(dispatch)[key](state, { payload: data });
+              return await effects(
+                ({ modelsName = "", type = "", payload = {} }) => {
+                  //更改他可以传modelsName
+                  dispatch({
+                    type: modelsName ? `${modelsName}_${type}` : type,
+                    payload,
+                  });
+                  return modelsName
+                    ? reduxStore.getState()[modelsName]
+                    : reduxStore.getState();
+                }
+              )[key](state, { payload: data });
             },
           },
         });
@@ -117,6 +132,5 @@ export const registers = (reducers) => {
       },
     };
   }
-  console.log("newReducers=", newReducers);
   return newReducers;
 };

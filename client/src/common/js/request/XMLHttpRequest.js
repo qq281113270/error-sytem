@@ -82,11 +82,11 @@ class XHR {
     return this;
   }
   uploadFile() {
-    const { data = {} } = this.options;
+    const { parameter = {} } = this.options;
     let formData = new FormData();
-    const keys = Object.keys(data);
+    const keys = Object.keys(parameter);
     keys.forEach((key) => {
-      formData.append(key, data[key]);
+      formData.append(key, parameter[key]);
     });
 
     this.createXHR();
@@ -148,11 +148,11 @@ class XHR {
   // xhr 打开
   //发送数据
   open() {
-    const { url = "", method = "POST", async = true, data = {} } = this.options;
-    console.log(method == "GET" ? url + "?" + this.queryStringify(data) : url);
+    const { url = "", method = "POST", async = true, parameter = {} } = this.options;
+    console.log(method == "GET" ? url + "?" + this.queryStringify(parameter) : url);
     this.xmlHttp.open(
       method,
-      method == "GET" ? url + "?" + this.queryStringify(data) : url,
+      method == "GET" ? url + "?" + this.queryStringify(parameter) : url,
       async
     );
   }
@@ -214,20 +214,22 @@ class XHR {
           dataType == "json"
             ? JSON.parse(this.xmlHttp.responseText)
             : this.xmlHttp.responseText,
-          this.xmlHttp
+          this.xmlHttp,
+          this.options
         );
         success(
           dataType == "json"
             ? JSON.parse(this.xmlHttp.responseText)
             : this.xmlHttp.responseText,
-          this.xmlHttp
+          this.xmlHttp,
+          this.options
         );
       } else {
         console.error("http 请求异常");
         console.log("this.xmlHttp.status=", this.xmlHttp.status);
         console.log("this.xmlHttp=", this.xmlHttp);
-        complete(this.xmlHttp.status, this.xmlHttp);
-        error(this.xmlHttp.status, this.xmlHttp);
+        complete(this.xmlHttp.status, this.xmlHttp,this.options);
+        error(this.xmlHttp.status, this.xmlHttp,this.options);
       }
     } else {
       // complete(this.xmlHttp.status, this.xmlHttp);
@@ -240,10 +242,10 @@ class XHR {
   }
   // 发送数据
   send() {
-    let { data = {}, method, dataType = "json" } = this.options;
-    if (!(data instanceof FormData)) {
-      data =
-        dataType == "json" ? JSON.stringify(data) : this.queryStringify(data); //this.queryStringify(data)
+    let { parameter = {}, method, dataType = "json" } = this.options;
+    if (!(parameter instanceof FormData)) {
+      parameter =
+        dataType == "json" ? JSON.stringify(parameter) : this.queryStringify(parameter); //this.queryStringify(data)
     }
     // const keys = Object.keys(data);
     // const formData = new FormData();
@@ -252,7 +254,7 @@ class XHR {
     // });
     // this.xmlHttp.responseType = 'json';
     if (method == "POST") {
-      this.xmlHttp.send(data);
+      this.xmlHttp.send(parameter);
     } else {
       this.xmlHttp.send();
     }

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-11-11 11:21:09
- * @LastEditTime: 2021-08-12 14:45:41
+ * @LastEditTime: 2021-08-20 18:11:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/client/src/router/pathComponent.js
@@ -13,6 +13,7 @@ const Home = lazy(() => import('../pages/Home'));
 const Index = lazy(() => import('@/pages/Home/pages/Index'));
 const Graphql = lazy(() => import('@/pages/Graphql'));
 const ScriptException = lazy(() => import('@/pages/Home/pages/ScriptException'));
+const CreateProject = lazy(() => import('@/pages/Home/pages/CreateProject'));
 
 const pathComponent= [
     {
@@ -34,16 +35,21 @@ const pathComponent= [
     {
         name:'home',
         path:'/',
-        component:Home,
+        component:Index,
         children:[
             {
-                name:'home',
-                path:'/index',
+                name:'createProject',
+                path:'/createProject/:id?',
+                component:CreateProject,
+            },
+            {
+                name:'index',
+                path:'/index/:id?',
                 component:Index,
             },
             {
                 name:'scriptException',
-                path:'/script-exception',
+                path:'/scriptException',
                 component:ScriptException,
             }
         ]

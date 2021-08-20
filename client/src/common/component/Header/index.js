@@ -26,6 +26,7 @@ export default memo(
       mobile = "",
       onClick = () => {},
     } = props;
+    console.log(' Header props===',props)
     const getMenu = useCallback(() => {
       return (
         <Menu className="dropdown-box">

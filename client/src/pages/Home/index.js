@@ -9,7 +9,7 @@ import {
 import { connect } from "react-redux";
 import "./index.less";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
-import React, { Suspense, lazy, useState, useCallback } from "react";
+import React, { Suspense, lazy, useState, useCallback, Children } from "react";
 import {
   routePaths,
   historyPush,
@@ -17,8 +17,12 @@ import {
   history,
   pathComponent,
 } from "@/router";
-import { Layout, Menu, Select } from "antd";
-import Sider from "@/common/component/Sider";
+import {
+  Layout,
+  //  Menu,
+  Select,
+} from "antd";
+import Menu from "@/common/component/Menu";
 import Header from "@/common/component/Header";
 import reducersStore from "@/redux/models/modelsStore";
 import Store, { mapRedux } from "@/redux";
@@ -26,6 +30,7 @@ import { login, createUser, hello, getUser } from "@/common/js/request/index";
 
 const { Content } = Layout;
 
+// 权限跳转登录页面可以在这控制
 class Home extends React.Component {
   state = {
     collapsed: false,
@@ -46,8 +51,9 @@ class Home extends React.Component {
       },
     } = this.props;
 
-   await  getUserInfo(123);
-   console.log('this.props====',this.props)
+    let data = await getUserInfo();
+    console.log("this.props====", this.props);
+    console.log("data====", data);
     // hello()
     // getUser();
     // createUser({
@@ -69,15 +75,23 @@ class Home extends React.Component {
 
   render() {
     const { selectedKeys, collapsed } = this.state;
+    const {
+      state: { user: { userInfo: { name, phone, account } = {} } = {} } = {},
+      children,
+    } = this.props;
+    console.log('Home this.props====',this.props)
+    console.log('isValidElement=',React.isValidElement(children))
     return (
       <Layout className="root-layout">
-        <Sider collapsed={collapsed} />
+        {/*左侧菜单*/}
+        <Menu collapsed={collapsed} />
         <Layout className="site-layout">
+          {/*顶部*/}
           <Header
             // avatar="头像地址"
-            nickname="账号名称"
-            areaCode="账号"
-            mobile="手机号码"
+            nickname={name}
+            areaCode={name}
+            mobile={phone}
             collapsed={collapsed}
             onClick={(type) => {
               console.log("type=", type);
@@ -86,46 +100,15 @@ class Home extends React.Component {
               this.toggle();
             }}
           ></Header>
-          <Router
-            // basename=""
-            // forceRefresh={false}
-            history={history}
-            // getUserConfirmation={() => {
-            //   console.log("getUserConfirmation=");
-            // }}
-          >
-            <Suspense fallback={<div>Loading...</div>}>
-              <Content
-                className="site-layout-background"
-                style={{
-                  margin: "24px 16px",
-                  padding: 24,
-                  // minHeight: 280,
-                }}
-              >
-                <Switch>
-                  {this.getChildrenComponent().map((item, index) => {
-                    return (
-                      <Route
-                        key={index}
-                        exact
-                        nam={item.name}
-                        path={item.path}
-                        component={item.component}
-                      />
-                    );
-                  })}
-                  {/* <Route from="/*">404</Route> */}
-                  <Redirect exact from="/*" to="/index" />
-                  {/* <Redirect exact from="/" to="/index" />   */}
-                </Switch>
-              </Content>
-            </Suspense>
-          </Router>
+           
+           {/*中间子页面 */}
+          {Children.map(children, (child, index) => {
+            return <> {child}</>;
+          })} 
         </Layout>
       </Layout>
     );
   }
 }
 
-export default mapRedux()(Home);
+export default mapRedux("user")(Home);

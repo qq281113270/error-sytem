@@ -1,43 +1,44 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:03:45
- * @LastEditTime: 2021-08-19 18:01:16
+ * @LastEditTime: 2021-08-20 11:22:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/client/src/common/js/request/requestApi.js
  */
 import Request, { gql, GraphqlClient } from "./request";
+import filterGraphqlData from "./filterGraphqlData";
 
 var userId = "559645cd1a38532d14349246";
 
 // 注册
-export const register = (data) => {
-  return Request.post("/abnormity/user/register", data);
+export const register = (parameter) => {
+  return Request.post("/abnormity/user/register", parameter);
 };
 
 // 登录
-export const login = (data) => {
-  return Request.post("/abnormity/user/login", data);
+export const login = (parameter) => {
+  return Request.post("/abnormity/user/login", parameter);
 };
 
 // 查询
-export const query = (schema, data) => {
+export const query = (schema, parameter) => {
   return GraphqlClient.query({
     query: gql`
       ${schema}
     `,
-    variables: data,
+    variables: parameter,
   });
 };
-export const mutation = (schema, data) => {
+export const mutation = (schema, parameter) => {
   return GraphqlClient.mutate({
     mutation: `${schema}`,
-    variables: data,
+    variables: parameter,
   });
 };
 
 //变异
-export const createUser = (data) => {
+export const createUser = (parameter) => {
   return GraphqlClient.mutate({
     mutation: `
       mutation($name: String!) {
@@ -49,7 +50,7 @@ export const createUser = (data) => {
         }
       }
       `,
-    variables: data,
+    variables: parameter,
   });
 };
 
@@ -64,7 +65,7 @@ export const getUser = () => {
 };
 
 //   更改
-export const setUserInfo = (data) => {
+export const setUserInfo = (parameter) => {
   return GraphqlClient.mutate({
     mutation: `
       mutation ($user: UserInfoInput!) {
@@ -89,8 +90,9 @@ export const setUserInfo = (data) => {
 
 // 查询
 export const getUserInfo = (id = "") => {
-  return GraphqlClient.query({
-    query: `
+  return GraphqlClient.query(
+    {
+      query: `
       query{
           getUserInfo(id: "${id}") {
             code
@@ -102,7 +104,11 @@ export const getUserInfo = (id = "") => {
           }
       }
     `,
-  });
+    },
+    {
+      filterData: true,
+    }
+  );
 };
 
 // // 查询
