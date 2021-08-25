@@ -1,4 +1,10 @@
-import React, { memo, useCallback, forwardRef, useState } from "react";
+import React, {
+  memo,
+  useCallback,
+  forwardRef,
+  useState,
+  useEffect,
+} from "react";
 import Icon, {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -12,6 +18,8 @@ import Icon, {
   MailOutlined,
   AppstoreOutlined,
   WarningOutlined,
+  SettingOutlined,
+  ProjectOutlined,
 } from "@ant-design/icons";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { routePaths, historyPush, getHistory, pathComponent } from "@/router";
@@ -48,16 +56,17 @@ const Performance = memo(
     );
   })
 );
-const PerformanceIcon = (props) => <Icon component={Performance}  />;
+const PerformanceIcon = (props) => <Icon component={Performance} />;
 export default memo(
   forwardRef((props, ref) => {
-    const { collapsed } = props;
+    const { collapsed, match: { path, params: { id } = {} } = {} } = props;
+    console.log("props=======================", props);
     const [selectedKeys, setSelectedKeys] = useState("-1");
     /*
     menuData=[
       {name:'菜单名称',
       url:'http:xxxxx', // 路由地址
-      iconComponent:"HomeOutlined"
+      iconComponent:<HomeOutlined/>
       children:[ // 子菜单
 
       ]
@@ -67,173 +76,446 @@ export default memo(
     资源下载
     网络请求
     */
-    const initMenuData = [
-      {
-        title: "异常与事件",
-        url: "http:xxxxx", // 路由地址
-        iconComponent: "WarningOutlined",
-        key: "1",
-        children: [
+    // const initMenuData = [
+    //   {
+    //     title: "异常与事件",
+    //     url: "http:xxxxx", // 路由地址
+    //     iconComponent: <WarningOutlined />,
+    //     key: "1",
+    //     children: [
+    //       {
+    //         title: "脚本异常",
+    //         url: "http:xxxxx", // 路由地址
+    //         // iconComponent: <WarningOutlined/>,
+    //         key: "1-1",
+    //         children: [
+    //           // 子菜单
+    //         ],
+    //       },
+    //       {
+    //         title: "资源下载",
+    //         url: "http:xxxxx", // 路由地址
+    //         // iconComponent: <WarningOutlined/>,
+    //         key: "1-2",
+    //         children: [
+    //           // 子菜单
+    //         ],
+    //       },
+    //       {
+    //         title: "网络请求",
+    //         url: "http:xxxxx", // 路由地址
+    //         // iconComponent: <WarningOutlined/>,
+    //         key: "1-3",
+    //         children: [
+    //           // 子菜单
+    //         ],
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     title: "性能与访问",
+    //     url: "http:xxxxx", // 路由地址
+    //     iconComponent: <PerformanceIcon />,
+    //     key: "2",
+    //     children: [
+    //       {
+    //         title: "网络请求",
+    //         url: "http:xxxxx", // 路由地址
+    //         // iconComponent: <HomeOutlined/>,
+    //         key: "2-1",
+    //         children: [
+    //           // 子菜单
+    //         ],
+    //       },
+    //       {
+    //         title: "资源下载",
+    //         url: "http:xxxxx", // 路由地址
+    //         // iconComponent: <HomeOutlined/>,
+    //         key: "2-2",
+    //         children: [
+    //           // 子菜单
+    //         ],
+    //       },
+    //       {
+    //         title: "页面(URL)",
+    //         url: "http:xxxxx", // 路由地址
+    //         // iconComponent: <HomeOutlined/>,
+    //         key: "2-3",
+    //         children: [
+    //           // 子菜单
+    //         ],
+    //       },
+    //       {
+    //         title: "页面(路由)",
+    //         url: "http:xxxxx", // 路由地址
+    //         // iconComponent: <HomeOutlined/>,
+    //         key: "2-4",
+    //         children: [
+    //           // 子菜单
+    //         ],
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     title: "系统设置",
+    //     url: "http:xxxxx", // 路由地址
+    //     iconComponent: <SettingOutlined />,
+    //     key: "2",
+    //     children: [
+    //       {
+    //         title: "角色与权限",
+    //         url: "http:xxxxx", // 路由地址
+    //         // iconComponent: <HomeOutlined/>,
+    //         key: "2-1",
+    //         children: [
+    //           // 子菜单
+    //         ],
+    //       },
+    //       // {
+    //       //   title: "资源下载",
+    //       //   url: "http:xxxxx", // 路由地址
+    //       //   iconComponent: <HomeOutlined/>,
+    //       //   key: "2-2",
+    //       //   children: [
+    //       //     // 子菜单
+    //       //   ],
+    //       // },
+    //       // {
+    //       //   title: "页面(URL)",
+    //       //   url: "http:xxxxx", // 路由地址
+    //       //   iconComponent: <HomeOutlined/>,
+    //       //   key: "2-3",
+    //       //   children: [
+    //       //     // 子菜单
+    //       //   ],
+    //       // },
+    //       // {
+    //       //   title: "页面(路由)",
+    //       //   url: "http:xxxxx", // 路由地址
+    //       //   iconComponent: <HomeOutlined/>,
+    //       //   key: "2-4",
+    //       //   children: [
+    //       //     // 子菜单
+    //       //   ],
+    //       // },
+    //     ],
+    //   },
+    //   // {
+    //   //   title: "菜单名称3",
+    //   //   url: "http:xxxxx", // 路由地址
+    //   //   iconComponent: "HomeOutlined ",
+    //   //   key: "3",
+    //   //   children: [
+    //   //     {
+    //   //       title: "菜单名称3-1",
+    //   //       url: "http:xxxxx", // 路由地址
+    //   //       iconComponent: "HomeOutlined ",
+    //   //       key: "3-1",
+    //   //       children: [
+    //   //         {
+    //   //           title: "菜单名称3-1-1",
+    //   //           url: "http:xxxxx", // 路由地址
+    //   //           iconComponent: "HomeOutlined ",
+    //   //           key: "3-1-1",
+    //   //           children: [
+    //   //             // 子菜单
+    //   //           ],
+    //   //         },
+    //   //       ],
+    //   //     },
+    //   //     {
+    //   //       title: "菜单名称3-2",
+    //   //       url: "http:xxxxx", // 路由地址
+    //   //       iconComponent: "HomeOutlined ",
+    //   //       children: [
+    //   //         {
+    //   //           title: "菜单名称3-1-2",
+    //   //           url: "http:xxxxx", // 路由地址
+    //   //           iconComponent: <HomeOutlined/>,
+    //   //           key: "3-1-2",
+    //   //           children: [
+    //   //             // 子菜单
+    //   //           ],
+    //   //         },
+    //   //       ],
+    //   //     },
+    //   //   ],
+    //   // },
+    // ];
+    const [menuData, setMenuData] = useState([]);
+    const isProjectPage = () => {
+      let reg = /^\/index\/\:id\?$/gi;
+      return reg.test(path) && id;
+    };
+    const getMenuData = () => {
+      let reg = /^\/index\/\:id\?$/gi;
+      console.log("path===", path);
+      // 是主页
+      if (isProjectPage()) {
+        setMenuData([
           {
-            title: "脚本异常",
+            title: "异常与事件",
             url: "http:xxxxx", // 路由地址
-            // iconComponent: "WarningOutlined",
-            key: "1-1",
+            iconComponent: <WarningOutlined />,
+            key: "1",
             children: [
-              // 子菜单
+              {
+                title: "脚本异常",
+                url: "http:xxxxx", // 路由地址
+                // iconComponent: <WarningOutlined/>,
+                key: "1-1",
+                children: [
+                  // 子菜单
+                ],
+              },
+              {
+                title: "资源下载",
+                url: "http:xxxxx", // 路由地址
+                // iconComponent: <WarningOutlined/>,
+                key: "1-2",
+                children: [
+                  // 子菜单
+                ],
+              },
+              {
+                title: "网络请求",
+                url: "http:xxxxx", // 路由地址
+                // iconComponent: <WarningOutlined/>,
+                key: "1-3",
+                children: [
+                  // 子菜单
+                ],
+              },
             ],
           },
           {
-            title: "资源下载",
+            title: "性能与访问",
             url: "http:xxxxx", // 路由地址
-            // iconComponent: "WarningOutlined",
-            key: "1-2",
+            iconComponent: <PerformanceIcon />,
+            key: "2",
             children: [
-              // 子菜单
+              {
+                title: "网络请求",
+                url: "http:xxxxx", // 路由地址
+                // iconComponent: <HomeOutlined/>,
+                key: "2-1",
+                children: [
+                  // 子菜单
+                ],
+              },
+              {
+                title: "资源下载",
+                url: "http:xxxxx", // 路由地址
+                // iconComponent: <HomeOutlined/>,
+                key: "2-2",
+                children: [
+                  // 子菜单
+                ],
+              },
+              {
+                title: "页面(URL)",
+                url: "http:xxxxx", // 路由地址
+                // iconComponent: <HomeOutlined/>,
+                key: "2-3",
+                children: [
+                  // 子菜单
+                ],
+              },
+              {
+                title: "页面(路由)",
+                url: "http:xxxxx", // 路由地址
+                // iconComponent: <HomeOutlined/>,
+                key: "2-4",
+                children: [
+                  // 子菜单
+                ],
+              },
             ],
           },
           {
-            title: "网络请求",
+            title: "系统设置",
             url: "http:xxxxx", // 路由地址
-            // iconComponent: "WarningOutlined",
-            key: "1-3",
+            iconComponent: <SettingOutlined />,
+            key: "2",
             children: [
-              // 子菜单
-            ],
-          },
-        ],
-      },
-      {
-        title: "性能与访问",
-        url: "http:xxxxx", // 路由地址
-        iconComponent: "PerformanceIcon",
-        key: "2",
-        children: [
-          {
-            title: "网络请求",
-            url: "http:xxxxx", // 路由地址
-            iconComponent: "HomeOutlined ",
-            key: "2-1",
-            children: [
-              // 子菜单
-            ],
-          },
-          {
-            title: "资源下载",
-            url: "http:xxxxx", // 路由地址
-            iconComponent: "HomeOutlined",
-            key: "2-2",
-            children: [
-              // 子菜单
-            ],
-          },
-          {
-            title: "页面(URL)",
-            url: "http:xxxxx", // 路由地址
-            iconComponent: "HomeOutlined",
-            key: "2-3",
-            children: [
-              // 子菜单
-            ],
-          },
-          {
-            title: "页面(路由)",
-            url: "http:xxxxx", // 路由地址
-            iconComponent: "HomeOutlined",
-            key: "2-4",
-            children: [
-              // 子菜单
-            ],
-          },
-        ],
-      },
-      {
-        title: "系统设置",
-        url: "http:xxxxx", // 路由地址
-        iconComponent: "PerformanceIcon",
-        key: "2",
-        children: [
-          {
-            title: "角色与权限",
-            url: "http:xxxxx", // 路由地址
-            iconComponent: "HomeOutlined ",
-            key: "2-1",
-            children: [
-              // 子菜单
+              {
+                title: "角色与权限",
+                url: "http:xxxxx", // 路由地址
+                // iconComponent: <HomeOutlined/>,
+                key: "2-1",
+                children: [
+                  // 子菜单
+                ],
+              },
+              // {
+              //   title: "资源下载",
+              //   url: "http:xxxxx", // 路由地址
+              //   iconComponent: <HomeOutlined/>,
+              //   key: "2-2",
+              //   children: [
+              //     // 子菜单
+              //   ],
+              // },
+              // {
+              //   title: "页面(URL)",
+              //   url: "http:xxxxx", // 路由地址
+              //   iconComponent: <HomeOutlined/>,
+              //   key: "2-3",
+              //   children: [
+              //     // 子菜单
+              //   ],
+              // },
+              // {
+              //   title: "页面(路由)",
+              //   url: "http:xxxxx", // 路由地址
+              //   iconComponent: <HomeOutlined/>,
+              //   key: "2-4",
+              //   children: [
+              //     // 子菜单
+              //   ],
+              // },
             ],
           },
           // {
-          //   title: "资源下载",
+          //   title: "菜单名称3",
           //   url: "http:xxxxx", // 路由地址
-          //   iconComponent: "HomeOutlined",
-          //   key: "2-2",
+          //   iconComponent: "HomeOutlined ",
+          //   key: "3",
           //   children: [
-          //     // 子菜单
+          //     {
+          //       title: "菜单名称3-1",
+          //       url: "http:xxxxx", // 路由地址
+          //       iconComponent: "HomeOutlined ",
+          //       key: "3-1",
+          //       children: [
+          //         {
+          //           title: "菜单名称3-1-1",
+          //           url: "http:xxxxx", // 路由地址
+          //           iconComponent: "HomeOutlined ",
+          //           key: "3-1-1",
+          //           children: [
+          //             // 子菜单
+          //           ],
+          //         },
+          //       ],
+          //     },
+          //     {
+          //       title: "菜单名称3-2",
+          //       url: "http:xxxxx", // 路由地址
+          //       iconComponent: "HomeOutlined ",
+          //       children: [
+          //         {
+          //           title: "菜单名称3-1-2",
+          //           url: "http:xxxxx", // 路由地址
+          //           iconComponent: <HomeOutlined/>,
+          //           key: "3-1-2",
+          //           children: [
+          //             // 子菜单
+          //           ],
+          //         },
+          //       ],
+          //     },
           //   ],
           // },
-          // {
-          //   title: "页面(URL)",
-          //   url: "http:xxxxx", // 路由地址
-          //   iconComponent: "HomeOutlined",
-          //   key: "2-3",
-          //   children: [
-          //     // 子菜单
-          //   ],
-          // },
-          // {
-          //   title: "页面(路由)",
-          //   url: "http:xxxxx", // 路由地址
-          //   iconComponent: "HomeOutlined",
-          //   key: "2-4",
-          //   children: [
-          //     // 子菜单
-          //   ],
-          // },
-        ],
-      },
-      // {
-      //   title: "菜单名称3",
-      //   url: "http:xxxxx", // 路由地址
-      //   iconComponent: "HomeOutlined ",
-      //   key: "3",
-      //   children: [
-      //     {
-      //       title: "菜单名称3-1",
-      //       url: "http:xxxxx", // 路由地址
-      //       iconComponent: "HomeOutlined ",
-      //       key: "3-1",
-      //       children: [
-      //         {
-      //           title: "菜单名称3-1-1",
-      //           url: "http:xxxxx", // 路由地址
-      //           iconComponent: "HomeOutlined ",
-      //           key: "3-1-1",
-      //           children: [
-      //             // 子菜单
-      //           ],
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       title: "菜单名称3-2",
-      //       url: "http:xxxxx", // 路由地址
-      //       iconComponent: "HomeOutlined ",
-      //       children: [
-      //         {
-      //           title: "菜单名称3-1-2",
-      //           url: "http:xxxxx", // 路由地址
-      //           iconComponent: "HomeOutlined",
-      //           key: "3-1-2",
-      //           children: [
-      //             // 子菜单
-      //           ],
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
-    ];
-    const [menuData, setMenuData] = useState(initMenuData);
+        ]);
+      } else {
+        setMenuData([
+          {
+            title: "项目列表",
+            url: "/index", // 路由地址
+            iconComponent: <ProjectOutlined />,
+            // key: "1",
+            // children: [
+            //   {
+            //     title: "脚本异常",
+            //     url: "http:xxxxx", // 路由地址
+            //     // iconComponent: <WarningOutlined/>,
+            //     key: "1-1",
+            //     children: [
+            //       // 子菜单
+            //     ],
+            //   },
+            //   {
+            //     title: "资源下载",
+            //     url: "http:xxxxx", // 路由地址
+            //     // iconComponent: <WarningOutlined/>,
+            //     key: "1-2",
+            //     children: [
+            //       // 子菜单
+            //     ],
+            //   },
+            //   {
+            //     title: "网络请求",
+            //     url: "http:xxxxx", // 路由地址
+            //     // iconComponent: <WarningOutlined/>,
+            //     key: "1-3",
+            //     children: [
+            //       // 子菜单
+            //     ],
+            //   },
+            // ],
+          },
+          {
+            title: "设置",
+            url: "http:xxxxx", // 路由地址
+            iconComponent: <SettingOutlined />,
+            key: "2",
+            children: [
+              {
+                title: "个人信息",
+                url: "http:xxxxx", // 路由地址
+                // iconComponent: <HomeOutlined/>,
+                // key: "2-1",
+                children: [
+                  // 子菜单
+                ],
+              },
+              {
+                title: "角色与权限",
+                url: "http:xxxxx", // 路由地址
+                // iconComponent: <HomeOutlined/>,
+                // key: "2-1",
+                children: [
+                  // 子菜单
+                ],
+              },
+              // {
+              //   title: "资源下载",
+              //   url: "http:xxxxx", // 路由地址
+              //   iconComponent: <HomeOutlined/>,
+              //   key: "2-2",
+              //   children: [
+              //     // 子菜单
+              //   ],
+              // },
+              // {
+              //   title: "页面(URL)",
+              //   url: "http:xxxxx", // 路由地址
+              //   iconComponent: <HomeOutlined/>,
+              //   key: "2-3",
+              //   children: [
+              //     // 子菜单
+              //   ],
+              // },
+              // {
+              //   title: "页面(路由)",
+              //   url: "http:xxxxx", // 路由地址
+              //   iconComponent: <HomeOutlined/>,
+              //   key: "2-4",
+              //   children: [
+              //     // 子菜单
+              //   ],
+              // },
+            ],
+          },
+        ]);
+        setSelectedKeys("0");
+      }
+    };
+    useEffect(() => {
+      getMenuData();
+    }, [id, path]);
+
     const mapIconComponent = useCallback((key) => {
       const ionComponent = {
         PieChartOutlined: <PieChartOutlined />,
@@ -247,16 +529,13 @@ export default memo(
     const getMenu = useCallback((menuData = [], index = null) => {
       return menuData.map((item, _index) => {
         const menuKey = index == null ? _index : `${index}_${_index}`;
+        console.log("menuKey=", menuKey);
         return item.children && item.children.length ? (
-          <SubMenu
-            key={menuKey}
-            icon={mapIconComponent(item.iconComponent)}
-            title={item.title}
-          >
+          <SubMenu key={menuKey} icon={item.iconComponent} title={item.title}>
             {getMenu(item.children, menuKey)}
           </SubMenu>
         ) : (
-          <Menu.Item key={menuKey} icon={mapIconComponent(item.iconComponent)}>
+          <Menu.Item key={menuKey} icon={item.iconComponent}>
             {item.title}
           </Menu.Item>
         );
@@ -272,7 +551,13 @@ export default memo(
     const onSearch = useCallback((val) => {});
 
     return (
-      <Sider width="250" className="sider" trigger={null} collapsible collapsed={collapsed}>
+      <Sider
+        width="250"
+        className="sider"
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+      >
         <Menu
           theme="dark"
           mode="inline"
@@ -283,26 +568,30 @@ export default memo(
           }}
           defaultSelectedKeys={[selectedKeys]}
         >
-          <Menu.Item key="-1" icon={<HomeOutlined />}>
-            <Select
-              style={{width:'185px'}}
-              className="menu-select"
-              showSearch
-              placeholder="请选择项目"
-              optionFilterProp="children"
-              onChange={onChange}
-              onFocus={onFocus}
-              onBlur={onBlur}
-              onSearch={onSearch}
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="tom">Tom</Option>
-            </Select>
-          </Menu.Item>
+          {isProjectPage() ? (
+            <Menu.Item key="-1" icon={<HomeOutlined />}>
+              <Select
+                style={{ width: "185px" }}
+                className="menu-select"
+                showSearch
+                placeholder="请选择项目"
+                optionFilterProp="children"
+                onChange={onChange}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                onSearch={onSearch}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+              >
+                <Option value="jack">Jack</Option>
+                <Option value="lucy">Lucy</Option>
+                <Option value="tom">Tom</Option>
+              </Select>
+            </Menu.Item>
+          ) : null}
+
           {getMenu(menuData)}
         </Menu>
       </Sider>

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-11-11 11:21:09
- * @LastEditTime: 2021-08-20 19:17:10
+ * @LastEditTime: 2021-08-23 16:46:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/client/src/router/index.js
@@ -85,7 +85,7 @@ const Routers = (props) => {
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
           {rootComponent.map((item, index) => {
-            const { component: ChildrenComponent, name, path } = item;
+            const { component: ChildrenComponent, name, path ,to} = item;
             return (
               <Route
                 key={name}
@@ -104,13 +104,14 @@ const Routers = (props) => {
             );
           })}
           {childComponent.map((item, index) => {
-            const { component: ChildrenComponent, name, path } = item;
+            const { component: ChildrenComponent, name, path,to } = item;
             return (
               <Route
                 key={name}
                 exact
                 name={name}
                 path={path}
+                to={to}
                 render={(props) => {
                   return (
                     <Home {...props}>

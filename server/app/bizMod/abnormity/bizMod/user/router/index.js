@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-24 16:21:28
- * @LastEditTime: 2021-08-18 17:33:09
+ * @LastEditTime: 2021-08-23 15:59:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/server/app/bizMod/abnormity/bizMod/user/router/index.js
@@ -45,9 +45,10 @@ class router {
     // 注册路由
     this.login();
     this.query();
-    this.add();
+    this.register();
     this.edit();
     this.verifyToken();
+    this.verifyCode();
     this.router.use(this.threeLevelRoute.routes()); //挂载二级路由
   }
   init() {
@@ -62,9 +63,9 @@ class router {
     // 添加 接口
     this.threeLevelRoute.get("/query", controller.query);
   }
-  add() {
+  register() {
     // 添加 接口
-    this.threeLevelRoute.post("/add", controller.add);
+    this.threeLevelRoute.post("/register", controller.register);
   }
   edit() {
     // 添加 接口
@@ -97,6 +98,10 @@ class router {
           };
         });
     });
+  }
+  verifyCode() {
+    // 添加 接口
+    this.threeLevelRoute.get("/getVerifyCode", controller.verifyCode);
   }
 }
 

@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "@/common/css/base.less";
 import "./index.less";
 import { Form, Input, Button, message, Checkbox } from "antd";
 import { routePaths, historyPush, getHistory } from "@/router";
-import { login, createUser } from "@/common/js/request/index";
-import { checkPhone, checkUser, checkPassword } from "@/utils";
+import { login, createUser, getVerifyCode } from "@/common/js/request/index";
+import VerificationCode from "@/common/component/VerificationCode";
+import {
+  checkPhone,
+  checkUser,
+  checkPassword,
+  checkVerificationCode,
+} from "@/utils";
 import Store, { mapRedux } from "@/redux";
 const layout = {
   labelCol: { span: 8 },
@@ -15,17 +21,19 @@ const tailLayout = {
 };
 
 const Index = (props) => {
+  const [verifyCodeData, setVerifyCodeData] = useState({});
   const onFinish = async (values) => {
     const {
       dispatch: {
         user: { setUserInfo, fetchUser, getUserInfo },
       },
     } = props;
-    const  data  = await login(values);
-    console.log('data===',data)
-    const { data:{token, userInfo} } = data;
+    const data = await login(values);
+    console.log("data===", data);
+    const {
+      data: { token, userInfo },
+    } = data;
 
-  
     localStorage.setItem("token", token);
     setUserInfo(userInfo);
     message.success("登录成功");
@@ -39,10 +47,25 @@ const Index = (props) => {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  console.log("props=", props);
+
+  const verifyCode = useCallback(async () => {
+    const data = await getVerifyCode();
+    const {
+      data: { svg },
+    } = data;
+    setVerifyCodeData({
+      svg,
+    });
+  }, []);
+  useEffect(() => {
+    verifyCode();
+  }, []);
+  const { svg = "" } = verifyCodeData;
+
   return (
     <div className="center log-in">
-      <h3>《错误监控系统》 </h3>
+      <h3>《前端错误监控系统》 </h3>
+
       <Form
         {...layout}
         name="basic"
@@ -53,6 +76,7 @@ const Index = (props) => {
         <Form.Item
           label="用户名"
           name="username"
+          validateFirst={true}
           rules={[
             {
               required: true,
@@ -74,6 +98,7 @@ const Index = (props) => {
         <Form.Item
           label="密码"
           name="password"
+          validateFirst={true}
           rules={[
             {
               required: true,
@@ -93,15 +118,8 @@ const Index = (props) => {
         >
           <Input.Password />
         </Form.Item>
-
-        {/* <Form.Item
-                    {...tailLayout}
-                    name="remember"
-                    valuePropName="checked"
-                >
-                    <Checkbox>Remember me</Checkbox>
-                </Form.Item> */}
-
+        {/*验证码*/}
+        <VerificationCode />
         <Form.Item {...tailLayout}>
           <div className="buttons">
             <Button className="submit" type="primary" htmlType="submit">

@@ -10,6 +10,8 @@ import {
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { routePaths, historyPush, getHistory, pathComponent } from "@/router";
 import { Layout, Menu, Select, Dropdown, Avatar } from "antd";
+import Breadcrumb from "@/common/component/Breadcrumb";
+
 import "./index.less";
 
 const { Option } = Select;
@@ -25,8 +27,9 @@ export default memo(
       areaCode = "",
       mobile = "",
       onClick = () => {},
+      breadcrumb,
     } = props;
-    console.log(' Header props===',props)
+    console.log(" Header props===", props);
     const getMenu = useCallback(() => {
       return (
         <Menu className="dropdown-box">
@@ -94,6 +97,7 @@ export default memo(
         </Menu>
       );
     }, [nickname, areaCode, mobile]);
+
     return (
       <Header className="site-layout-background" style={{ padding: 0 }}>
         {React.createElement(
@@ -103,6 +107,8 @@ export default memo(
             onClick: onChangeCollapsed,
           }
         )}
+
+        <Breadcrumb data={breadcrumb} />
         <div className="locale-switcher   dropdown-root-box">
           <Dropdown
             trigger={["click"]}

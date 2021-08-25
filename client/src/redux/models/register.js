@@ -37,10 +37,7 @@ export const register = (rootReducer) => {
             [key]: (dispatch, state, data) => {
               dispatch({
                 type: `${name}_${key}`,
-                payload: {
-                  //   ...state,
-                  ...data,
-                },
+                payload: data,
               });
             },
           },

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:03:45
- * @LastEditTime: 2021-08-20 11:22:38
+ * @LastEditTime: 2021-08-23 11:16:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/client/src/common/js/request/requestApi.js
@@ -10,6 +10,12 @@ import Request, { gql, GraphqlClient } from "./request";
 import filterGraphqlData from "./filterGraphqlData";
 
 var userId = "559645cd1a38532d14349246";
+
+// 获取验证码
+export const getVerifyCode = () => {
+  return Request.get("/abnormity/user/getVerifyCode");
+};
+
 
 // 注册
 export const register = (parameter) => {

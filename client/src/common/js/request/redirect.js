@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-12 14:33:50
- * @LastEditTime: 2021-08-19 18:08:17
+ * @LastEditTime: 2021-08-23 16:07:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/client/src/common/js/request/redirect.js
@@ -15,8 +15,8 @@ export const codeMap = {
     });
   },
   415: (errorInfo) => {
-    historyPush({
-      url: routePaths.logLn,
-    });
+    // historyPush({
+    //   url: routePaths.logLn,
+    // });
   },
 };

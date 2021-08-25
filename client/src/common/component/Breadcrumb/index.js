@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-03 10:26:49
+ * @LastEditTime: 2021-08-25 14:59:21
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/client/src/common/component/Breadcrumb/index.js
+ */
 import React, { memo, useCallback, forwardRef, useState } from "react";
 import {
   MenuUnfoldOutlined,
@@ -18,48 +26,31 @@ const { Item } = Breadcrumb;
 export default memo(
   forwardRef((props, ref) => {
     const {
-      collapsed,
-      onChangeCollapsed = () => {},
-      avatar = "",
-      nickname = "",
-      areaCode = "",
-      mobile = "",
-      onClick = () => {},
+      data = [],
     } = props;
 
-    const data = [
-      {
-        label: "菜单1",
-        url: "xxxxxx",
-        path: "xxxx",
-      },
-      {
-        label: "菜单2",
-        url: "xxxxxx",
-        path: "xxxx",
-        component: "",
-      },
-    ];
-
     return (
-      <Breadcrumb>
+      <Breadcrumb className="breadcrumb">
         {data.map((item) => {
-          const { label, url, path, component } = item;
-          return (
-            <Item >
+          const { label, href, path, component } = item;
+          return href || path ? (
+            <Item
+              className="has-link"
+              href={href || null}
+              onClick={() => {
+                path && historyPush(path);
+              }}
+            >
+              {component ? component : null}
+              {label ? label : null}
+            </Item>
+          ) : (
+            <Item>
               {component ? component : null}
               {label ? label : null}
             </Item>
           );
         })}
-        <Item>Home</Item>
-        <Item>
-          <a href="">Application Center</a>
-        </Item>
-        <Item>
-          <a href="">Application List</a>
-        </Item>
-        <Item>An Application</Item>
       </Breadcrumb>
     );
   })

@@ -2,11 +2,10 @@ import React from "react";
 import { register } from "@/common/js/request/index";
 import "@/common/css/base.less";
 import "./index.less";
-import { Form, Input, Button, Checkbox,message } from "antd";
+import { Form, Input, Button, Checkbox, message } from "antd";
 import { routePaths, historyPush, getHistory } from "@/router";
 import { checkPhone, checkUser, checkPassword } from "@/utils";
-
- 
+import VerificationCode from "@/common/component/VerificationCode";
 
 const layout = {
   labelCol: { span: 8 },
@@ -21,12 +20,12 @@ const Index = () => {
     // console.log('register=', register);
     // console.log('Success:', values);
     const data = await register(values);
-    message.success('注册成功');
+    message.success("注册成功");
     setTimeout(() => {
       historyPush({
         url: routePaths.logLn,
       });
-    },1500);
+    }, 1500);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -35,7 +34,7 @@ const Index = () => {
 
   return (
     <div className="center log-in">
-      <h3>《错误监控系统》 </h3>
+      <h3>《前端错误监控系统》 </h3>
       <Form
         {...layout}
         name="basic"
@@ -139,6 +138,9 @@ const Index = () => {
         >
           <Input.Password />
         </Form.Item>
+
+        {/*验证码*/}
+        <VerificationCode />
         <Form.Item {...tailLayout}>
           <div className="buttons">
             <Button className="submit" type="primary" htmlType="submit">

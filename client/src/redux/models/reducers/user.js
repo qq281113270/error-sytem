@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-24 16:21:28
- * @LastEditTime: 2021-08-20 14:43:25
+ * @LastEditTime: 2021-08-25 15:32:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/client/src/redux/models/reducers/user.js
@@ -13,10 +13,20 @@ import modelsStore from "../modelsStore";
 export default {
   name: "user",
   state: {
-    // currentUser: {},
+    breadcrumb: [],
     userInfo: {},
   },
   reducers: {
+    setBreadcrumb(state, { payload }) {
+      console.log('payload======',payload)
+      return {
+        ...state,
+        breadcrumb: [
+          // ...state.breadcrumb,
+          ...payload,
+        ],
+      };
+    },
     setUserInfo(state, { payload }) {
       return {
         ...state,

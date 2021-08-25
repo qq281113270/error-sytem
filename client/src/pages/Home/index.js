@@ -9,7 +9,15 @@ import {
 import { connect } from "react-redux";
 import "./index.less";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
-import React, { Suspense, lazy, useState, useCallback, Children } from "react";
+import React, {
+  Suspense,
+  lazy,
+  useState,
+  useCallback,
+  Children,
+  useEffect,
+  memo,
+} from "react";
 import {
   routePaths,
   historyPush,
@@ -31,84 +39,57 @@ import { login, createUser, hello, getUser } from "@/common/js/request/index";
 const { Content } = Layout;
 
 // 权限跳转登录页面可以在这控制
-class Home extends React.Component {
-  state = {
-    collapsed: false,
-    selectedKeys: ["1"],
-    n: 1,
-  };
-
-  getChildrenComponent = () => {
-    return pathComponent.find((item) => item.name == "home")?.children || [];
-  };
-  componentDidUpdate(preProps, preState, spanshot) {
-    // console.log("this.props======", this.props);
-  }
-  async componentDidMount() {
+const Index = memo((props) => {
+  const {
+    state: {
+      user: { userInfo: { name, phone, account } = {}, breadcrumb = [] } = {},
+    } = {},
+    children,
+  } = props;
+  const [collapsed, setCollapsed] = useState(false);
+  useEffect(() => {
     const {
       dispatch: {
         user: { setUserInfo, login, fetchUser, getUserInfo },
       },
-    } = this.props;
+    } = props;
+    getUserInfo();
+    return () => {};
+  }, []);
+  const toggle = useCallback(() => {
+    setCollapsed(!collapsed);
+  }, [collapsed]);
+  console.log('home props=========',props)
+  console.log('breadcrumb=========',breadcrumb)
+  return (
+    <Layout className="root-layout">
+      {/*左侧菜单*/}
+      <Menu collapsed={collapsed} {...props} />
+      <Layout className="site-layout">
+        {/*顶部*/}
+        <Header
+          // avatar="头像地址"
+          nickname={name}
+          areaCode={name}
+          mobile={phone}
+          collapsed={collapsed}
+          onClick={(type) => {
+            console.log("type=", type);
+          }}
+          onChangeCollapsed={() => {
+            toggle();
+          }}
+          breadcrumb={breadcrumb}
+        ></Header>
 
-    let data = await getUserInfo();
-    console.log("this.props====", this.props);
-    console.log("data====", data);
-    // hello()
-    // getUser();
-    // createUser({
-    //   name: "12323",
-    // });
-    // const data = await login({
-    //   name: "login123",
-    //   age: "29",
-    // });
-    // console.log("data=======", data);
-  }
-
-  toggle = () => {
-    const { collapsed } = this.state;
-    this.setState({
-      collapsed: !collapsed,
-    });
-  };
-
-  render() {
-    const { selectedKeys, collapsed } = this.state;
-    const {
-      state: { user: { userInfo: { name, phone, account } = {} } = {} } = {},
-      children,
-    } = this.props;
-    console.log('Home this.props====',this.props)
-    console.log('isValidElement=',React.isValidElement(children))
-    return (
-      <Layout className="root-layout">
-        {/*左侧菜单*/}
-        <Menu collapsed={collapsed} />
-        <Layout className="site-layout">
-          {/*顶部*/}
-          <Header
-            // avatar="头像地址"
-            nickname={name}
-            areaCode={name}
-            mobile={phone}
-            collapsed={collapsed}
-            onClick={(type) => {
-              console.log("type=", type);
-            }}
-            onChangeCollapsed={() => {
-              this.toggle();
-            }}
-          ></Header>
-           
-           {/*中间子页面 */}
+        <div className="children-page">
           {Children.map(children, (child, index) => {
             return <> {child}</>;
-          })} 
-        </Layout>
+          })}
+        </div>
       </Layout>
-    );
-  }
-}
+    </Layout>
+  );
+});
 
-export default mapRedux("user")(Home);
+export default mapRedux(["user"])(Index);

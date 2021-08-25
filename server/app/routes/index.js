@@ -65,7 +65,7 @@ class Route {
         response,
       } = ctx;
       const token = cookies.get("token") || header.token;
-      await getTokenUserInfo(token)
+      await verifyToken(token)
         .then(async (value) => {
           // console.log("getTokenUserInfo then=", value);
           response.userInfo = value;
@@ -75,7 +75,7 @@ class Route {
           console.log("getTokenUserInfo catch=", error);
           response.userInfo = null;
           ctx.response.body = {
-             ...unsupported,
+             ...unauthorized,
             message: "登录回话已过期，请重新登录",
           };
         });

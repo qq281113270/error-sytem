@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-24 16:21:28
- * @LastEditTime: 2021-08-19 14:51:33
+ * @LastEditTime: 2021-08-25 11:06:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/server/app/redis/jwt.js
@@ -35,6 +35,7 @@ const createToken = async (userInfo = {}, payload = {}) => {
   //     ...userInfo,
   //   })
   // );
+  //自己封装的类
   await Redis.set(
     `${token}`,
     JSON.stringify({
@@ -106,4 +107,10 @@ const updateRequestTime = (token) => {
   redisClient.pexpire(`${token}`, tokenExpires);
 };
 
-export { createToken, destroyToken, getTokenUserInfo, verifyToken };
+export {
+  createToken,
+  destroyToken,
+  getTokenUserInfo,
+  verifyToken,
+  updateRequestTime,
+};
