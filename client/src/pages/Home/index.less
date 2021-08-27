@@ -1,10 +1,10 @@
 body {
-  // overflow: hidden;
+  overflow-x: auto !important;
+  min-width: 1300px;
 }
 
 .root-layout {
   height: 100vh;
-  background: red;
   padding: 0;
   margin: 0;
   // overflow: hidden;
@@ -32,20 +32,28 @@ body {
   }
 
   .site-layout {
-    // overflow-x: auto !important;
+    overflow: auto;
+    width:100%; 
+    background: rgb(240, 242, 245);
+    // box-shadow: 0 2px 6px rgb(0 0 0%);
+    // min-width: 1100px;
+    .ant-layout-header{
+        // min-width: 1015px;
+    }
     .site-layout-background {
       background: #fff;
     }
     .children-page {
+      background: red;  
       height: calc(100vh - 94px);
       overflow: auto;
-      min-width: 1000px;
+    //   min-width: 1000px;
       width: calc(100% - 30px);
       box-sizing: border-box;
       margin: 15px;
       background: #fff;
       box-shadow: 0 2px 6px rgb(0 0 0 / 10%);
-      padding: 10px;
+      padding: 15px;
     }
   }
 }
@@ -53,4 +61,5 @@ body {
 .ant-layout.ant-layout-has-sider > .ant-layout,
 .ant-layout.ant-layout-has-sider > .ant-layout-content {
   overflow-x: visible !important;
+  box-sizing: border-box;
 }

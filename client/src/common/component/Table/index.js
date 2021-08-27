@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-23 19:39:29
- * @LastEditTime: 2021-08-23 19:45:05
+ * @LastEditTime: 2021-08-26 11:33:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/client/src/common/component/Table/index.js
@@ -19,26 +19,10 @@ import React, {
 } from "react";
 import { Layout, Table, Select } from "antd";
 
-export default class extends PureComponent {
-  getDataSource = () => {
-    return [];
-  };
-  getColumns = () => {
-    return [];
-  };
-  getTableProps = () => {
-    return {};
-  };
-  async render() {
-    return (
-      <Table
-        columns={this.getColumns()}
-        dataSource={this.getDataSource()}
-        bordered
-        title={() => "Header"}
-        footer={() => "Footer"}
-        {...this.getTableProps()}
-      />
-    );
-  }
-}
+const Index = (props) => {
+  const { dataSource = [], columns, tableProps = {} } = props;
+
+  return <Table {...props} />;
+};
+
+export default Index;

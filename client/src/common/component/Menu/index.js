@@ -59,7 +59,7 @@ const Performance = memo(
 const PerformanceIcon = (props) => <Icon component={Performance} />;
 export default memo(
   forwardRef((props, ref) => {
-    const { collapsed, match: { path, params: { id } = {} } = {} } = props;
+    const { match: { path, params: { id } = {} } = {} } = props;
     console.log("props=======================", props);
     const [selectedKeys, setSelectedKeys] = useState("-1");
     /*
@@ -551,50 +551,41 @@ export default memo(
     const onSearch = useCallback((val) => {});
 
     return (
-      <Sider
-        width="250"
-        className="sider"
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
+      <Menu
+        theme="dark"
+        mode="inline"
+        selectedKeys={[selectedKeys]}
+        onSelect={(value) => {
+          const { key: selectedKeys } = value;
+          setSelectedKeys(selectedKeys);
+        }}
+        defaultSelectedKeys={[selectedKeys]}
       >
-        <Menu
-          theme="dark"
-          mode="inline"
-          selectedKeys={[selectedKeys]}
-          onSelect={(value) => {
-            const { key: selectedKeys } = value;
-            setSelectedKeys(selectedKeys);
-          }}
-          defaultSelectedKeys={[selectedKeys]}
-        >
-          {isProjectPage() ? (
-            <Menu.Item key="-1" icon={<HomeOutlined />}>
-              <Select
-                style={{ width: "185px" }}
-                className="menu-select"
-                showSearch
-                placeholder="请选择项目"
-                optionFilterProp="children"
-                onChange={onChange}
-                onFocus={onFocus}
-                onBlur={onBlur}
-                onSearch={onSearch}
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
-              >
-                <Option value="jack">Jack</Option>
-                <Option value="lucy">Lucy</Option>
-                <Option value="tom">Tom</Option>
-              </Select>
-            </Menu.Item>
-          ) : null}
+        {isProjectPage() ? (
+          <Menu.Item key="-1" icon={<HomeOutlined />}>
+            <Select
+              style={{ width: "185px" }}
+              className="menu-select"
+              showSearch
+              placeholder="请选择项目"
+              optionFilterProp="children"
+              onChange={onChange}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              onSearch={onSearch}
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              <Option value="jack">Jack</Option>
+              <Option value="lucy">Lucy</Option>
+              <Option value="tom">Tom</Option>
+            </Select>
+          </Menu.Item>
+        ) : null}
 
-          {getMenu(menuData)}
-        </Menu>
-      </Sider>
+        {getMenu(menuData)}
+      </Menu>
     );
   })
 );

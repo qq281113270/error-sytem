@@ -35,9 +35,7 @@ import Header from "@/common/component/Header";
 import reducersStore from "@/redux/models/modelsStore";
 import Store, { mapRedux } from "@/redux";
 import { login, createUser, hello, getUser } from "@/common/js/request/index";
-
-const { Content } = Layout;
-
+const { Sider, Content } = Layout;
 // 权限跳转登录页面可以在这控制
 const Index = memo((props) => {
   const {
@@ -59,12 +57,22 @@ const Index = memo((props) => {
   const toggle = useCallback(() => {
     setCollapsed(!collapsed);
   }, [collapsed]);
-  console.log('home props=========',props)
-  console.log('breadcrumb=========',breadcrumb)
+  console.log("home props=========", props);
+  console.log("breadcrumb=========", breadcrumb);
   return (
     <Layout className="root-layout">
       {/*左侧菜单*/}
-      <Menu collapsed={collapsed} {...props} />
+      <Sider
+        width="250"
+        className="sider"
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+      >
+        {/*菜单*/}
+        <Menu collapsed={collapsed} {...props} />
+      </Sider>
+
       <Layout className="site-layout">
         {/*顶部*/}
         <Header
@@ -82,6 +90,7 @@ const Index = memo((props) => {
           breadcrumb={breadcrumb}
         ></Header>
 
+        {/*中间子页面*/}
         <div className="children-page">
           {Children.map(children, (child, index) => {
             return <> {child}</>;
