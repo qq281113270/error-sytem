@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-11-12 16:14:07
- * @LastEditTime: 2021-08-27 09:59:17
+ * @LastEditTime: 2021-09-23 15:23:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/client/src/pages/Home/pages/Index/index.js
@@ -182,8 +182,8 @@ class Index extends TablePage {
   };
 
   render() {
-    console.log("this.renderSearch=", this.renderSearch);
-    console.log("this.renderTable=", this.renderTable);
+    // console.log("this.renderSearch=", this.renderSearch);
+    // console.log("this.renderTable=", this.renderTable);
     return (
       <div>
         {this.renderSearch({

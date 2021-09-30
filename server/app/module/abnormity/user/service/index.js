@@ -1,4 +1,4 @@
-import { addUser, deleteUser, queryUser } from "../db/user";
+import { addUser, removeUser, queryUser } from "../db/user";
 import { unsupported, unauthorized } from "../constant";
 import { merge } from "../utils";
 import { createToken, verifyToken, destroyToken, getUserIfo } from "../redis";

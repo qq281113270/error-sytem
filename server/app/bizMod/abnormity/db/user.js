@@ -1,9 +1,16 @@
-import { connection, exec } from "./mysql";
+/*
+ * @Author: your name
+ * @Date: 2020-12-24 16:21:28
+ * @LastEditTime: 2021-09-26 15:37:19
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/server/app/bizMod/abnormity/db/user.js
+ */
+import { connection, exec, CheckTable } from "@/db";
 // 添加用户
 const addUser = async ({ name, phone, password }) => {
-  const sql = `insert into user(name,phone,password) values('${name}','${phone}',md5('${password}'));`;
- 
-  return await exec(sql);
+  const sql = "INSERT INTO user SET ?";
+  return await exec(sql, { name, phone, password });
 };
 
 //查询用户
@@ -35,15 +42,14 @@ const queryUser = async (andConditionData = {}, orConditionData = {}, sql) => {
       ? sql.substring(0, sql.length - 2)
       : sql;
 
-  
   return await exec(sql);
 };
 
 //删除用户
-const deleteUser = async (id) => {
+const removeUser = async (id) => {
   const sql = `DELETE  FROM user  WHERE id=${id};`;
   return await exec(sql);
 };
 
 // 导出
-export { addUser, deleteUser, queryUser };
+export { addUser, removeUser, queryUser };

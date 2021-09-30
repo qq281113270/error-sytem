@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-24 16:21:28
- * @LastEditTime: 2021-08-25 15:32:47
+ * @LastEditTime: 2021-09-30 09:53:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/client/src/redux/models/reducers/user.js
@@ -18,7 +18,7 @@ export default {
   },
   reducers: {
     setBreadcrumb(state, { payload }) {
-      console.log('payload======',payload)
+      console.log("payload======", payload);
       return {
         ...state,
         breadcrumb: [
@@ -50,7 +50,7 @@ export default {
   effects: (dispatch) => {
     return {
       async getUserInfo(state, { payload: param = {} }) {
-        const { data } = await getUserInfo(param);
+        const { data } = await getUserInfo();
 
         dispatch({
           modelsName: "user",

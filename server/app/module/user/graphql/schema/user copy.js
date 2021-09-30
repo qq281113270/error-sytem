@@ -111,7 +111,7 @@ var userType = new GraphQLObjectType({
 //           return yield user.save();
 //         })
 //       },
-//       deleteUser: {
+//       removeUser: {
 //         type: userType,
 //         args: {
 //           id: {

@@ -75,7 +75,7 @@ class Route {
           console.log("getTokenUserInfo catch=", error);
           response.userInfo = null;
           ctx.response.body = {
-             ...unauthorized,
+            ...unauthorized,
             message: "登录回话已过期，请重新登录",
           };
         });
@@ -83,13 +83,12 @@ class Route {
   }
   // 添加路由
   async addRouters() {
-    // new User(this.app, this.router);
     bizModRouter(this.app, this.router);
-
-    // new bizMod.abnormity.script.router(this.app, this.router)
+    //验证Token
     this.verifyToken();
-    console.log("serverSchema=", schema.typeDefs.schema);
-    console.log("resolvers=", schema.resolvers);
+    // console.log("serverSchema=", schema.typeDefs.schema);
+    // console.log("resolvers=", schema.resolvers);
+    // console.log("resolvers=", schema.resolvers);
     // 检验服务器 Schema
     CheckGraphql.validateSeverSchema({
       serverSchema: {
@@ -104,7 +103,7 @@ class Route {
     // 查询
     this.router.get("/data", async (ctx, next) => {
       const {
-        query: { query: clientSchema = "", variables = "{}" },
+        query: { query: clientSchema = "", variables },
         response,
         request,
       } = ctx;
@@ -113,7 +112,10 @@ class Route {
           // mutation = '', variables = {}
         },
       } = request;
-
+      console.log("clientSchema=", clientSchema);
+      console.log("variables=", variables);
+      // console.log("resolvers=", schema.resolvers);
+      // console.log("resolvers=", schema.resolvers);
       // response.console.error("这个是红色error日志", __filename);
       // response.console.info("这个是info", __filename);
       // response.console.warn("这个是warn", __filename);
@@ -172,12 +174,12 @@ class Route {
         },
         clientSchema: {
           schema: clientSchema,
-          variables: JSON.parse(variables),
+          variables: variables ? JSON.parse(variables) : {},
         },
       })
         .then((data) => {
           const { errors } = data;
-     
+
           if (errors) {
             response.body = {
               ...graphqlError,
@@ -263,7 +265,7 @@ class Route {
         },
         clientSchema: {
           schema: clientSchema,
-          variables: variables,
+          variables: variables||{},
         },
       })
         .then((data) => {

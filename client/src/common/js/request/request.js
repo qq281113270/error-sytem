@@ -1,6 +1,7 @@
 import XMLHttpRequest from "./XMLHttpRequest";
 import baseUrl from "./baseUrl";
 import { codeMap } from "./redirect";
+import token from "./token";
 import filterGraphqlData from "./filterGraphqlData";
 import {
   error as errorMessage,
@@ -28,13 +29,15 @@ export default class Request {
     },
   }; //
   // 去除 // 地址
-  static transformUrl(url) {
+  static transformUrl(baseUrl, url) {
     const urlHpptReg = /^(http\:\/\/)|^(https\:\/\/)/gi;
     const urlReg = /(\/\/)+/gi;
-    return (
-      url.match(urlHpptReg)[0] +
-      url.replace(urlHpptReg, "").replace(urlReg, "/")
-    );
+    return {
+      urlSuffix: url,
+      url:
+        (baseUrl + url).match(urlHpptReg)[0] +
+        (baseUrl + url).replace(urlHpptReg, "").replace(urlReg, "/"),
+    };
   }
   static guid() {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
@@ -56,131 +59,100 @@ export default class Request {
       // });
     }
   }
-  static post(url, parameter, options) {
-    const data = {
-      url,
-      parameter,
+  static post(url, parameter, options = {}) {
+    options = {
       method: "POST",
-      // dataType:'form',
       ...options,
     };
-    this.setLoad({
-      ...data,
-    });
-    return this.request(data, options);
+    return this.request(url, parameter, options);
   }
-  static get(url, parameter, options) {
-    const data = {
-      url,
-      parameter,
+  static get(url, parameter, options = {}) {
+    options = {
       method: "GET",
       ...options,
     };
-    this.setLoad({
-      ...data,
-    });
-    return this.request(data, options);
+    return this.request(url, parameter, options);
   }
-  static put(url, parameter, options) {
-    const data = {
-      url,
-      parameter,
+  static put(url, parameter, options = {}) {
+    options = {
       method: "PUT",
       ...options,
     };
-    this.setLoad({
-      ...data,
-    });
-    return this.request(data, options);
+
+    return this.request(url, parameter, options);
   }
-  static delete(url, parameter, options) {
-    const data = {
-      url,
-      parameter,
+  static delete(url, parameter, options = {}) {
+    options = {
       method: "DELETE",
       ...options,
     };
-    this.setLoad({
-      ...data,
-    });
-    return this.request(data, options);
+
+    return this.request(url, parameter, options);
   }
-  static trace(url, parameter, options) {
-    const data = {
-      url,
-      parameter,
+  static trace(url, parameter, options = {}) {
+    options = {
       method: "TRACE",
       ...options,
     };
-    this.setLoad({
-      ...data,
-    });
-    return this.request(data, options);
+
+    return this.request(url, parameter, options);
   }
-  static connect(url, parameter, options) {
-    const data = {
-      url,
-      parameter,
+  static connect(url, parameter, options = {}) {
+    options = {
       method: "CONNECT",
       ...options,
     };
-    this.setLoad({
-      ...data,
-    });
-    return this.request(data, options);
+    return this.request(url, parameter, options);
   }
-  static options(url, parameter, options) {
+  static options(url, parameter, options = {}) {
     const data = {
-      url,
-      parameter,
       method: "OPTIONS",
       ...options,
     };
-    this.setLoad({
-      ...data,
-    });
-    return this.request(data, options);
+
+    return this.request(url, parameter, options);
   }
-  static head(url, parameter, options) {
-    const data = {
-      url,
-      parameter,
+  static head(url, parameter, options = {}) {
+    options = {
       method: "HEAD",
       ...options,
     };
-    this.setLoad({
-      ...data,
-    });
-    return this.request(data, options);
+
+    return this.request(url, parameter, options);
   }
-  static request(data, options) {
+  static request(url, parameter, options) {
     let {
-      url = "",
       method,
-      parameter = {},
       headers = {},
       requestId = this.guid(),
       success = () => {},
-      // error = () => {},
       isPromise = true,
-    } = data;
-    let error = data.error || Request.error || (() => {});
-    url = this.transformUrl(this.baseUrl + url);
+    } = options;
+
+    let error = options.error || Request.error || (() => {});
+
+    const urls = this.transformUrl(this.baseUrl, url);
     let requestInterceptors =
-      data?.interceptors?.request ||
+      options?.interceptors?.request ||
       Request?.interceptors?.request ||
       ((config) => config);
     let responseInterceptors =
-      data?.interceptors?.response ||
+      options?.interceptors?.response ||
       Request?.interceptors?.response ||
       ((response) => response);
+
+    // this.setLoad({
+    //   url,
+    //   parameter,
+    //   ...options,
+    // });
 
     return isPromise
       ? new Promise((resolve, reject) => {
           new XMLHttpRequest().xhRequest(
             requestInterceptors({
               ...options,
-              url,
+              ...urls,
               method,
               parameter,
               headers: {
@@ -214,7 +186,7 @@ export default class Request {
       : new XMLHttpRequest().xhRequest(
           requestInterceptors({
             ...options,
-            url,
+            ...urls,
             method,
             parameter,
             headers: {
@@ -234,8 +206,9 @@ export default class Request {
         );
   }
   static uploadFile(url, parameter, options) {
+    const urls = this.transformUrl(this.baseUrl, url);
     const data = {
-      url,
+      ...urls,
       parameter,
       method: "POST",
       // ...options,
@@ -249,34 +222,33 @@ export default class Request {
       // error = () => {},
       method,
       // url,
-    } = data;
-    let error = Request.error || data.error || (() => {});
+    } = options;
+    let error = Request.error || options.error || (() => {});
 
     let requestInterceptors =
-      data?.interceptors?.request ||
+      options?.interceptors?.request ||
       Request?.interceptors?.request ||
       ((config) => config);
     let responseInterceptors =
-      data?.interceptors?.response ||
+      options?.interceptors?.response ||
       Request?.interceptors?.response ||
       ((response) => response);
 
-    url = this.transformUrl(this.baseUrl + url);
     const keys = Object.keys(parameter);
     const formData = new FormData();
     keys.forEach((key) => {
       formData.append(key, parameter[key]);
     });
-    this.setLoad({
-      ...data,
-      ...options,
-    });
+    // this.setLoad({
+    //   ...data,
+    //   ...options,
+    // });
     return isPromise
       ? new Promise((resolve, reject) => {
           new XMLHttpRequest().xhRequest(
             requestInterceptors({
               ...options,
-              url,
+              ...urls,
               method,
               parameter: formData,
               headers: {
@@ -299,7 +271,7 @@ export default class Request {
       : new XMLHttpRequest().xhRequest(
           requestInterceptors({
             ...options,
-            url,
+            ...urls,
             method,
             parameter: formData,
             headers: {
@@ -340,12 +312,14 @@ Request.error = (errorInfo) => {
 // 拦截器
 Request.interceptors = {
   // 请求拦截
-  request: (config) => {
+  request: async (config) => {
+    const { urlSuffix } = config;
     config = {
       ...config,
       headers: {
         ...config.headers,
-        token: localStorage.getItem("token"),
+        // 登录拦截
+        token: await token.get(urlSuffix),
       },
     };
     // return Promise.reject({
@@ -441,10 +415,10 @@ Graphql.error = (errorInfo) => {
     codeMap[code] && codeMap[code](errorInfo);
   }
 };
-//请求拦截
-Graphql.interceptors.request = (config) => {
-  return config;
-};
+// //请求拦截
+// Graphql.interceptors.request = (config) => {
+//   return config;
+// };
 // 响应拦截
 Graphql.interceptors.response = (response) => {
   const data = response[0] || {};
@@ -479,6 +453,7 @@ export const GraphqlClient = new Graphql({
     // },
     //响应拦截
     response: (response) => {
+      console.log("response=", response);
       return Graphql.interceptors.response(response);
     },
   },

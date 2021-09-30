@@ -35,6 +35,7 @@ import Header from "@/common/component/Header";
 import reducersStore from "@/redux/models/modelsStore";
 import Store, { mapRedux } from "@/redux";
 import { login, createUser, hello, getUser } from "@/common/js/request/index";
+import token from "@/common/js/request/token";
 const { Sider, Content } = Layout;
 // 权限跳转登录页面可以在这控制
 const Index = memo((props) => {
@@ -43,7 +44,19 @@ const Index = memo((props) => {
       user: { userInfo: { name, phone, account } = {}, breadcrumb = [] } = {},
     } = {},
     children,
+    history: { push },
   } = props;
+  console.log("props=", props);
+
+  useEffect(() => {
+    // 登录拦截
+    if (!token.get()) {
+      token.clearQueue();
+      push("/logLn");
+    }
+    return () => {};
+  }, [token.get()]);
+
   const [collapsed, setCollapsed] = useState(false);
   useEffect(() => {
     const {
@@ -57,8 +70,8 @@ const Index = memo((props) => {
   const toggle = useCallback(() => {
     setCollapsed(!collapsed);
   }, [collapsed]);
-  console.log("home props=========", props);
-  console.log("breadcrumb=========", breadcrumb);
+  // console.log("home props=========", props);
+  // console.log("breadcrumb=========", breadcrumb);
   return (
     <Layout className="root-layout">
       {/*左侧菜单*/}

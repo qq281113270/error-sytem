@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-11-11 11:21:09
- * @LastEditTime: 2021-08-23 16:46:47
+ * @LastEditTime: 2021-09-23 16:41:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/client/src/router/index.js
@@ -26,7 +26,13 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
-import { pathComponent, routePaths } from "./pathComponent";
+import {
+  pathComponent,
+  routePaths,
+  getChildComponent,
+  getRootComponent,
+  getChildComponentAddParentPath,
+} from "./pathComponent";
 import { navigateTo, redirectTo, openWindow, historyPush } from "./historyPush";
 import { getHistory, history, listen } from "./history";
 const Home = lazy(() => import("../pages/Home"));
@@ -35,23 +41,6 @@ const Routers = (props) => {
   const [rootComponent, setRootComponent] = useState([]);
   const [childComponent, setChildComponent] = useState([]);
 
-  // 递归查找子页面
-  const getChildComponent = useCallback(
-    (pathComponent, parentPath, flatPathComponent = []) => {
-      for (let item of pathComponent) {
-        const { children = [], name, path, component: Component } = item;
-        if (children && children.length) {
-          getChildComponent(children, path, flatPathComponent);
-        }
-        flatPathComponent.push({
-          ...item,
-          path: parentPath && parentPath != "/" ? `${parentPath}${path}` : path,
-        });
-      }
-      return flatPathComponent;
-    },
-    []
-  );
   useEffect(() => {
     // 监听路由变化
     // listen((location, action)=>{
@@ -59,18 +48,21 @@ const Routers = (props) => {
     //   console.log('action=====',action)
     // })
 
-    setRootComponent(
-      pathComponent.filter((item) => {
-        return item.name != "home";
-      })
-    );
+    setRootComponent(getRootComponent(pathComponent));
 
     setChildComponent(
       getChildComponent(
-        pathComponent.filter((item) => {
-          return item.name == "home";
-        })
+        getChildComponentAddParentPath(
+          pathComponent.filter((item) => {
+            return item.name == "home";
+          })
+        )
       )
+      // getChildComponent(
+      //   pathComponent.filter((item) => {
+      //     return item.name == "home";
+      //   })
+      // )
     );
   }, []);
   return (
@@ -85,7 +77,13 @@ const Routers = (props) => {
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
           {rootComponent.map((item, index) => {
-            const { component: ChildrenComponent, name, path ,to} = item;
+            const {
+              component: ChildrenComponent,
+              name,
+              path,
+              to,
+              redirect,
+            } = item;
             return (
               <Route
                 key={name}
@@ -95,7 +93,11 @@ const Routers = (props) => {
                 render={(props) => {
                   return (
                     // <Home {...props}>
-                    <ChildrenComponent {...props} />
+                    redirect ? (
+                      <Redirect key={name} to={redirect} />
+                    ) : (
+                      <ChildrenComponent {...props} />
+                    )
                     // </Home>
                   );
                 }}
@@ -104,7 +106,13 @@ const Routers = (props) => {
             );
           })}
           {childComponent.map((item, index) => {
-            const { component: ChildrenComponent, name, path,to } = item;
+            const {
+              component: ChildrenComponent,
+              name,
+              path,
+              to,
+              redirect,
+            } = item;
             return (
               <Route
                 key={name}
@@ -113,9 +121,10 @@ const Routers = (props) => {
                 path={path}
                 to={to}
                 render={(props) => {
-                  return (
+                  return redirect ? (
+                    <Redirect key={name} to={redirect} />
+                  ) : (
                     <Home {...props}>
-                    
                       <ChildrenComponent {...props} />
                     </Home>
                   );

@@ -1,63 +1,24 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-04 18:58:51
+ * @LastEditTime: 2021-09-26 10:46:39
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/server/app/db/checkTable.js
+ */
 import { connection, exec } from "./mysql";
 const { MYSQL_CONF } = require("../config/db");
 
 class CheckTable {
-  constructor() {
-    this.tables = [
-      {
-        name: "user",
-        sql: `CREATE TABLE user(
-                    id INT(11) PRIMARY KEY  auto_increment primary key,
-                    name VARCHAR(25),
-                    phone VARCHAR(200),
-                    password VARCHAR(255)
-                ) AUTO_INCREMENT=1;
-           `,
-      },
-      {
-          name: 'collect',
-          sql: `
-         CREATE TABLE collect(
-              id INT(11) PRIMARY KEY,
-              name VARCHAR(25)  NOT NULL,
-              phone INT(11)  NOT NULL,
-              user_id INT(11)  NOT NULL,
-              FOREIGN KEY(user_id) REFERENCES user(id)
-         );
-         `,
-      },
-      {
-          name: 'code',
-          sql: `
-          CREATE TABLE code(
-            id INT(11) PRIMARY KEY,
-            name VARCHAR(25),
-            collect_id INT(11),
-            FOREIGN KEY(collect_id) REFERENCES collect(id),
-            user_id INT(11),
-            FOREIGN KEY(user_id) REFERENCES user(id)
-            );
-          `,
-      },
-      {
-        name: 'role',
-        sql: `
-        CREATE TABLE role(
-          id INT(11) PRIMARY KEY,
-          name VARCHAR(25),
-          root TINYINT(2)
-          );
-        `,
-       },
-    ];
+  constructor(tables) {
+    this.tables = tables;
     this.init();
   }
   init() {
-    this.tables.forEach((table) => {
-      this.queryTable(table);
+    this.tables.forEach(async (table) => {
+      await  this.queryTable(table);
     });
   }
-  createTable() {}
   async checkTable(data, table) {
     if (data.length == 0) {
       await exec(table.sql)

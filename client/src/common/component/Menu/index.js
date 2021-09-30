@@ -60,7 +60,7 @@ const PerformanceIcon = (props) => <Icon component={Performance} />;
 export default memo(
   forwardRef((props, ref) => {
     const { match: { path, params: { id } = {} } = {} } = props;
-    console.log("props=======================", props);
+
     const [selectedKeys, setSelectedKeys] = useState("-1");
     /*
     menuData=[

@@ -40,10 +40,10 @@ const queryUser = async (andConditionData = {}, orConditionData = {}, sql) => {
 };
 
 //删除用户
-const deleteUser = async (id) => {
+const removeUser = async (id) => {
   const sql = `DELETE  FROM user  WHERE id=${id};`;
   return await exec(sql);
 };
 
 // 导出
-export { addUser, deleteUser, queryUser };
+export { addUser, removeUser, queryUser };

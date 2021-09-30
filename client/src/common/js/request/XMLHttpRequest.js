@@ -63,9 +63,9 @@ class XHR {
           this.change();
           this.send();
         })
-        .catch((options) => {
-          const { error = () => {}, complete = () => {} } = options;
-          console.error("http 请求异常,未发送http请求。");
+        .catch((errorInfo) => {
+          const { error = () => {}, complete = () => {} } = errorInfo;
+          console.error("http 请求异常,未发送http请求。", errorInfo);
           error(options);
         });
     } else {
@@ -117,6 +117,12 @@ class XHR {
   }
   // 创建XHR
   createXHR() {
+    const {
+      parameter: { graphqlName } = {},
+      urlSuffix,
+      headers: { token },
+    } = this.options;
+
     let xmlHttp = null;
     let errorMessage = [];
     if (window.XMLHttpRequest) {
@@ -135,6 +141,25 @@ class XHR {
         }
       }
     }
+    // 插入请求队列中
+    if (token) {
+      XHR.XHRQueue = XHR.XHRQueue
+        ? [
+            ...XHR.XHRQueue,
+            {
+              graphqlName,
+              urlSuffix,
+              xmlHttp,
+            },
+          ]
+        : [
+            {
+              graphqlName,
+              urlSuffix,
+              xmlHttp,
+            },
+          ];
+    }
     this.xmlHttp = xmlHttp;
   }
   // 设置 xhr属性
@@ -148,8 +173,13 @@ class XHR {
   // xhr 打开
   //发送数据
   open() {
-    const { url = "", method = "POST", async = true, parameter = {} } = this.options;
-    console.log(method == "GET" ? url + "?" + this.queryStringify(parameter) : url);
+    const {
+      url = "",
+      method = "POST",
+      async = true,
+      parameter = {},
+    } = this.options;
+
     this.xmlHttp.open(
       method,
       method == "GET" ? url + "?" + this.queryStringify(parameter) : url,
@@ -163,7 +193,7 @@ class XHR {
       ...defaultHeaders,
       ...headers,
     };
-    // console.log("headers=", headers);
+
     const keys = Object.keys(headers);
     keys.forEach((key) => {
       this.xmlHttp.setRequestHeader(key, headers[key]);
@@ -172,7 +202,7 @@ class XHR {
   // 设置跨域复杂请求cookie
   setWithCredentials() {
     const { withCredentials = false } = this.options;
-    // console.log("withCredentials==", withCredentials);
+
     this.xmlHttp.withCredentials = withCredentials;
     this.xmlHttp.crossDomain = withCredentials;
   }
@@ -181,7 +211,7 @@ class XHR {
     const { timeout = null } = this.options;
     if (timeout) {
       this.xmlHttp.timeout = timeout;
-      // console.log("timeout=", timeout);
+
       this.onTimeout();
     }
   }
@@ -205,31 +235,51 @@ class XHR {
       error = () => {},
       dataType = "json",
       complete = () => {},
+      urlSuffix,
+      parameter: { graphqlName } = {},
     } = this.options;
-    // console.log("this.xmlHttp.readyState=", this.xmlHttp.readyState);
-    // console.log('this.xmlHttp.status==',this.xmlHttp.status)
+    const XHRQueue = XHR.XHRQueue || [];
     if (this.xmlHttp.readyState == 4) {
       if (this.xmlHttp.status == 200) {
+        // 从队列中剔除
+        for (let index = XHRQueue.length - 1; index >= 0; index--) {
+          //是graphq请求
+          if (graphqlName && XHRQueue[index].graphqlName == graphqlName) {
+            XHRQueue.splice(index, 1);
+          } else if (XHRQueue[index].urlSuffix == urlSuffix) {
+            XHRQueue.splice(index, 1);
+          }
+        }
+
         complete(
           dataType == "json"
             ? JSON.parse(this.xmlHttp.responseText)
             : this.xmlHttp.responseText,
           this.xmlHttp,
-          this.options
+          {
+            ...this.options,
+            XHRQueue: XHR.XHRQueue || [],
+          }
         );
+
         success(
           dataType == "json"
             ? JSON.parse(this.xmlHttp.responseText)
             : this.xmlHttp.responseText,
           this.xmlHttp,
-          this.options
+          {
+            ...this.options,
+            XHRQueue: XHR.XHRQueue || [],
+          }
         );
       } else {
         console.error("http 请求异常");
-        console.log("this.xmlHttp.status=", this.xmlHttp.status);
         console.log("this.xmlHttp=", this.xmlHttp);
-        complete(this.xmlHttp.status, this.xmlHttp,this.options);
-        error(this.xmlHttp.status, this.xmlHttp,this.options);
+        complete(this.xmlHttp.status, this.xmlHttp, {
+          ...this.options,
+          XHRQueue: XHR.XHRQueue || [],
+        });
+        error(this.xmlHttp.status, this.xmlHttp, this.options);
       }
     } else {
       // complete(this.xmlHttp.status, this.xmlHttp);
@@ -245,7 +295,9 @@ class XHR {
     let { parameter = {}, method, dataType = "json" } = this.options;
     if (!(parameter instanceof FormData)) {
       parameter =
-        dataType == "json" ? JSON.stringify(parameter) : this.queryStringify(parameter); //this.queryStringify(data)
+        dataType == "json"
+          ? JSON.stringify(parameter)
+          : this.queryStringify(parameter); //this.queryStringify(data)
     }
     // const keys = Object.keys(data);
     // const formData = new FormData();

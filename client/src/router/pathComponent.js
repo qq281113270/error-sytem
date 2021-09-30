@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-11-11 11:21:09
- * @LastEditTime: 2021-08-25 15:46:33
+ * @LastEditTime: 2021-09-23 16:40:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/client/src/router/pathComponent.js
@@ -26,9 +26,14 @@ const ScriptException = lazy(() =>
   import("@/pages/Home/pages/ScriptException")
 );
 const CreateProject = lazy(() => import("@/pages/Home/pages/CreateProject"));
+const Overview = lazy(() => import("@/pages/Home/pages/Overview"));
 const Home = () => {
   return <Redirect to="/index" />;
 };
+
+// const App = () => {
+//   return <Redirect to="/app" />;
+// };
 
 const pathComponent = [
   {
@@ -53,36 +58,107 @@ const pathComponent = [
     component: Home,
     children: [
       {
-        name: "createProject",
-        path: "/createProject/:id?",
-        component: CreateProject,
-      },
-      {
         name: "index",
         path: "/index/:id?",
         component: Index,
         children: [
           {
-            name: "dndexdDetails",
+            name: "indexdDetails",
             path: "/details/:id?",
             component: IndexdDetails,
           },
         ],
       },
       {
-        name: "scriptException",
-        path: "/scriptException",
-        component: ScriptException,
+        name: "createProject",
+        path: "/createProject/:id?",
+        component: CreateProject,
+      },
+      {
+        name: "app",
+        path: "/app/:id",
+        component: Overview,
+        children: [
+          {
+            name: "exceptionsAndEvents",
+            path: "/exceptionsAndEvents",
+            component: Overview,
+            // redirect:"/index",
+            children: [
+              {
+                name: "scriptException",
+                path: "/scriptException",
+                component: ScriptException,
+              },
+            ],
+          },
+
+        ],
       },
     ],
   },
 ];
 
-const routePaths = pathComponent.reduce((acc, next) => {
-  acc = {
-    ...acc,
-    [next.name]: next.path,
-  };
-  return acc;
-}, {});
-export { pathComponent, routePaths };
+// 递归给子路由添加添加父亲地址
+const getChildComponentAddParentPath = (pathComponent, parentPath) => {
+  return pathComponent.map((item) => {
+    const { children = [], path } = item;
+    item = {
+      ...item,
+      children:
+        children && children.length
+          ? getChildComponentAddParentPath(
+              children,
+              parentPath && parentPath != "/" ? `${parentPath}${path}` : path
+            )
+          : [],
+      path: parentPath && parentPath != "/" ? `${parentPath}${path}` : path,
+    };
+    return item;
+  });
+};
+// 递归查找子页面
+const getChildComponent = (pathComponent, flatPathComponent = []) => {
+  for (let item of pathComponent) {
+    const { children = [], name, path, component: Component } = item;
+    children &&
+      children.length &&
+      getChildComponent(children, flatPathComponent);
+
+    flatPathComponent.push(item);
+  }
+  return flatPathComponent;
+};
+
+const getRootComponent = (pathComponent = []) => {
+  return pathComponent.filter((item) => {
+    return item.name != "home";
+  });
+};
+
+const routePaths = getRootComponent(pathComponent)
+  .concat(
+    getChildComponent(
+      getChildComponentAddParentPath(
+        pathComponent.filter((item) => {
+          return item.name == "home";
+        })
+      )
+    )
+  )
+  .reduce((acc, next) => {
+    acc = {
+      ...acc,
+      [next.name]: next.path,
+    };
+    return acc;
+  }, {});
+console.log("routePaths==", routePaths);
+
+export {
+  pathComponent,
+  routePaths,
+  getChildComponent,
+  getRootComponent,
+  getChildComponentAddParentPath,
+};

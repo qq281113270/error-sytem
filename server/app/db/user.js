@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-04 18:58:51
+ * @LastEditTime: 2021-09-26 14:37:28
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /error-sytem/server/app/db/user.js
+ */
 import { connection, exec } from "./mysql";
 // 添加用户
 const addUser = async ({ name, phone, password }) => {
