@@ -555,6 +555,10 @@ module.exports = function (webpackEnv) {
         },
       ],
     },
+    externals: {
+      // 'graphiql': 'GraphiQL',
+     
+  },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(

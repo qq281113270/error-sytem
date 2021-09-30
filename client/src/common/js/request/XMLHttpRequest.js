@@ -118,7 +118,7 @@ class XHR {
   // 创建XHR
   createXHR() {
     const {
-      parameter: { graphqlName } = {},
+      parameter: { operationName } = {},
       urlSuffix,
       headers: { token },
     } = this.options;
@@ -147,14 +147,14 @@ class XHR {
         ? [
             ...XHR.XHRQueue,
             {
-              graphqlName,
+              operationName,
               urlSuffix,
               xmlHttp,
             },
           ]
         : [
             {
-              graphqlName,
+              operationName,
               urlSuffix,
               xmlHttp,
             },
@@ -236,7 +236,7 @@ class XHR {
       dataType = "json",
       complete = () => {},
       urlSuffix,
-      parameter: { graphqlName } = {},
+      parameter: { operationName } = {},
     } = this.options;
     const XHRQueue = XHR.XHRQueue || [];
     if (this.xmlHttp.readyState == 4) {
@@ -244,7 +244,7 @@ class XHR {
         // 从队列中剔除
         for (let index = XHRQueue.length - 1; index >= 0; index--) {
           //是graphq请求
-          if (graphqlName && XHRQueue[index].graphqlName == graphqlName) {
+          if (operationName && XHRQueue[index].operationName == operationName) {
             XHRQueue.splice(index, 1);
           } else if (XHRQueue[index].urlSuffix == urlSuffix) {
             XHRQueue.splice(index, 1);

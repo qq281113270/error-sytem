@@ -208,20 +208,18 @@ class Route {
         request,
       } = ctx;
       const {
-        body: { mutation: clientSchema = "", variables = {} },
+        body: { query, mutation, variables = {} },
       } = request;
+      const clientSchema = query || mutation;
       response.console.info(
         `[clientSchema=${clientSchema}]`,
         `[variables=${variables}]`,
         `[${__filename}]`
       );
-      CheckGraphql.init({
+      await CheckGraphql.init({
         context: {
-          ctx: {
-            request: {},
-            response: {},
-          },
-          next: () => {},
+          ctx,
+          next,
         },
         serverSchema: {
           //输入类型
@@ -265,11 +263,24 @@ class Route {
         },
         clientSchema: {
           schema: clientSchema,
-          variables: variables||{},
+          variables: variables || {},
         },
       })
         .then((data) => {
-          console.log("data==", data);
+          const { errors } = data;
+
+          if (errors) {
+            response.body = {
+              ...graphqlError,
+              errors,
+            };
+          } else {
+            response.console.log(
+              `[body=${JSON.stringify(data)}]`,
+              `[${__filename}]`
+            );
+            response.body = data;
+          }
         })
         .catch((error) => {
           // console.error("clientSchema==", clientSchema);

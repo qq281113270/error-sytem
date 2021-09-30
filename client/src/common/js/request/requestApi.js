@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:03:45
- * @LastEditTime: 2021-09-29 14:43:15
+ * @LastEditTime: 2021-09-30 19:54:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/client/src/common/js/request/requestApi.js
@@ -45,7 +45,7 @@ export const mutation = (schema, parameter) => {
 //变异
 export const createUser = (parameter) => {
   return GraphqlClient.mutate({
-    graphqlName: "createUser",
+    operationName: "createUser",
     mutation: `
       mutation($name: String!) {
         createUser(name: $name) {
@@ -73,7 +73,7 @@ export const getUser = () => {
 //   更改
 export const setUserInfo = (parameter) => {
   return GraphqlClient.mutate({
-    graphqlName: "setUserInfo",
+    operationName: "setUserInfo",
     mutation: `
       mutation ($user: UserInfoInput!) {
         setUserInfo(user: $user) {
@@ -99,7 +99,7 @@ export const setUserInfo = (parameter) => {
 export const getUserInfo = (id = "") => {
   return GraphqlClient.query(
     {
-      graphqlName: "getUserInfo",
+      operationName: "getUserInfo",
       query: `
       query{
           getUserInfo(id: "${id}") {
