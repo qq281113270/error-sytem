@@ -1,12 +1,15 @@
 import userService from "../service";
 import { unsupported, unauthorized } from "@/constant";
-import { CheckDataType ,captureFnError ,captureClassError} from "@/utils";
+import { CheckDataType ,captureFnError ,captureClassError ,aa}  from "utils"; 
 import { setVerifyCode, getVerifyCode } from "../../../redis";
 // console.log('captureFnError==========',captureFnError)
 // console.log('captureClassError==========',captureClassError) 
 // console.log('CheckDataType==========',CheckDataType) 
+
+console.log('aa==========',aa) 
  
-@captureClassError()
+ 
+ @captureClassError()
 class Controller {
   static a=123
   static async query(ctx, next) {
@@ -104,12 +107,13 @@ class Controller {
       const { request, response } = ctx;
       var parameter = request.body; // 获取请求参数
       const { verificationCode } = parameter;
-      console.log(" ctx=", ctx);
-      console.log(" request=", request);
+      // console.log(" ctx=", ctx);
+      // console.log(" request=", request);
       console.log(" request.body=", request.body);
       console.log(" ctx.params=", ctx.params);
+      console.log('aa=',aa)
 
-        getVerifyCode(verificationCode)
+      await  getVerifyCode(verificationCode)
         .then(async () => {
           console.log("getVerifyCode then =======");
           //添加service

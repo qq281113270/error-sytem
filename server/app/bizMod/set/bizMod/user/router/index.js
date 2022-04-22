@@ -80,7 +80,7 @@ class router {
     //检查token
     this.threeLevelRoute.post("/verifyToken", async (ctx, next) => {
       var parameter = ctx.request.body; // 获取请求参数
-      console.log("parameter=", parameter);
+      // console.log("parameter=", parameter);
 
       await verifyToken(parameter.token)
         .then((data) => {

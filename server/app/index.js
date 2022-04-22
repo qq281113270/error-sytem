@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-29 09:32:02
- * @LastEditTime: 2022-04-22 16:52:09
+ * @LastEditTime: 2022-04-22 20:06:38
  * @LastEditors: Yao guan shou
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/server/app/index.js
@@ -82,11 +82,4 @@ class App {
   }
 }
 
-let app;
-try {
-  app = new App();
-} catch (e) {
-  console.log("e3===============", e);
-}
-
-export default app;
+export default new App();

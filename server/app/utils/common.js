@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-16 10:49:43
- * @LastEditTime: 2022-04-22 19:03:54
+ * @LastEditTime: 2022-04-22 19:51:14
  * @LastEditors: Yao guan shou
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/server/app/utils/common.js
@@ -90,8 +90,8 @@ const outHttpLog = ({ source, __filename, response }) => {
     `[http request : ${source[sourceKeys[0]].name}]`,
     `[path : /${__filename}]`
   );
-};
-
+}; 
+const aa = function(){}
 const captureClassError = () => {
   return (target) => {
     return new Proxy(target, {
@@ -124,4 +124,5 @@ export {
   outHttpLog,
   // captureFnError,
   captureClassError,
+  // aa
 };

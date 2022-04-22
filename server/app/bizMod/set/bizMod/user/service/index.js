@@ -153,7 +153,7 @@ class Service {
     const { username: name, phone, password } = parameter;
     const { request, response, cookies } = ctx;
 
-    console.log('parameter=',parameter)
+    // console.log('parameter=',parameter)
 
     var codeConfig = {
       size: 5, // 验证码长度

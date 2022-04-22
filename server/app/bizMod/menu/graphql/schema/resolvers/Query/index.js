@@ -19,7 +19,7 @@ export const queryMenu = async (root, parameter, source, fieldASTs) => {
 
   let data = await controller.query(ctx, next);
 
-  console.log("parameter=", parameter);
+  // console.log("parameter=", parameter);
 
   return {
     code: 200,

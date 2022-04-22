@@ -1,17 +1,17 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 16:02:26
- * @LastEditTime: 2021-09-30 09:50:48
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-04-22 19:39:28
+ * @LastEditors: Yao guan shou
  * @Description: In User Settings Edit
- * @FilePath: /error-sytem/server/app/bizMod/abnormity/bizMod/user/graphql/schema/resolvers/Query/index.js
+ * @FilePath: /error-sytem/server/app/bizMod/set/bizMod/user/graphql/schema/resolvers/Query/index.js
  */
 import { outHttpLog } from "@/utils";
 
 export const getUserInfo = (root, parameter, source, fieldASTs) => {
   const { ctx: { request, response } = {} } = root;
   const { id } = parameter || {};
-  console.log("parameter=", parameter);
+  // console.log("parameter=", parameter);
   // outHttpLog({
   //   source,
   //   response,
