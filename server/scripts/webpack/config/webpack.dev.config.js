@@ -2,6 +2,7 @@ import path from "path";
 import webpack from "webpack";
 import nodeExternals from "webpack-node-externals";
 export default {
+  mode:'development',
   entry: {},
   output: {
     //告诉 webpack 在 bundle 中引入「所包含模块信息」的相关注释

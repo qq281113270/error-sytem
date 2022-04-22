@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-12-29 09:32:02
- * @LastEditTime: 2021-09-26 14:39:04
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-04-22 16:52:09
+ * @LastEditors: Yao guan shou
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/server/app/index.js
  */
@@ -56,13 +56,13 @@ class App {
         console.log("mysql数据库连接成功");
         reslove();
       });
-    //   connection.end((err) => {
-    //     if (err) {
-    //       console.log("数据库连失败");
-    //       reject();
-    //       throw err;
-    //     }
-    //   });
+      //   connection.end((err) => {
+      //     if (err) {
+      //       console.log("数据库连失败");
+      //       reject();
+      //       throw err;
+      //     }
+      //   });
     });
   }
   addRoute() {
@@ -82,4 +82,11 @@ class App {
   }
 }
 
-export default new App();
+let app;
+try {
+  app = new App();
+} catch (e) {
+  console.log("e3===============", e);
+}
+
+export default app;

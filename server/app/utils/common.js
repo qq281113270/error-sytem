@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-12-16 10:49:43
- * @LastEditTime: 2021-08-18 11:45:32
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-04-22 19:03:54
+ * @LastEditors: Yao guan shou
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/server/app/utils/common.js
  */
@@ -17,9 +17,9 @@ import {
   specifiedRules,
   buildSchema,
 } from "graphql";
-
-import { CheckDataType } from "./CheckDataType";
+// chalk插件，用来在命令行中输入不同颜色的文字
 import chalk from "chalk";
+import { CheckDataType } from "./CheckDataType";
 
 const promise = (fn = () => {}) => {
   return new Promise((resolve, reject) => {
@@ -53,7 +53,7 @@ const checkSchema = (name) => {
           ) {
             target[key] = {
               ...(target[key] || {}),
-              ...checkSchemas(target[key]||{}, source[key]||{}),
+              ...checkSchemas(target[key] || {}, source[key] || {}),
             };
           } else {
             if (cache.includes(key)) {
@@ -92,4 +92,36 @@ const outHttpLog = ({ source, __filename, response }) => {
   );
 };
 
-export { promise, merge, checkSchema, exeValidateSchema, outHttpLog };
+const captureClassError = () => {
+  return (target) => {
+    return new Proxy(target, {
+      get(oTarget, sKey) {
+        return ["[object Function]", "[object AsyncFunction]"].includes(
+          Object.prototype.toString.call(oTarget[sKey])
+        )
+          ? (...ags) => {
+              try {
+                return oTarget[sKey].apply(target, ags);
+              } catch (error) {
+                // '可以发短信或者邮件给开发者'
+                console.error("node js 发生错误：", error);
+              }
+            }
+          : oTarget[sKey];
+      },
+      // set: function (oTarget, sKey, vValue) {
+
+      // },
+    });
+  };
+};
+
+export {
+  promise,
+  merge,
+  checkSchema,
+  exeValidateSchema,
+  outHttpLog,
+  // captureFnError,
+  captureClassError,
+};

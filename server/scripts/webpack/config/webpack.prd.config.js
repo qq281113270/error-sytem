@@ -1,9 +1,18 @@
+/*
+ * @Date: 2022-04-22 15:09:17
+ * @Author: Yao guan shou
+ * @LastEditors: Yao guan shou
+ * @LastEditTime: 2022-04-22 15:21:11
+ * @FilePath: /error-sytem/server/scripts/webpack/config/webpack.prd.config.js
+ * @Description: 
+ */
 import path from 'path';
 
 import TerserPlugin from 'terser-webpack-plugin';
 import os from 'os';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 export default {
+    mode:'production',
     watch: false,
     optimization: {
         // 压缩

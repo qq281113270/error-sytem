@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2020-12-24 16:21:28
- * @LastEditTime: 2021-09-24 12:12:45
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-04-22 18:59:14
+ * @LastEditors: Yao guan shou
  * @Description: In User Settings Edit
- * @FilePath: /error-sytem/server/app/bizMod/abnormity/bizMod/user/router/index.js
+ * @FilePath: /error-sytem/server/app/bizMod/set/bizMod/user/router/index.js
  */
 import controller from "../controller";
 import koaRoute from "koa-router"; // koa 路由中间件
@@ -73,7 +73,7 @@ class router {
   }
   login() {
     // 添加 接口
-
+    controller.a
     this.threeLevelRoute.post("/login", controller.login);
   }
   verifyToken() {
