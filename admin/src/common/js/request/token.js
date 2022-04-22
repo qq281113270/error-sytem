@@ -8,10 +8,11 @@
  */
 
 class Token {
-  constructor(doNotToken) {
+  constructor(doNotToken = []) {
     this.queue = [];
     //配置不需要token的请求
-    this.doNotToken = doNotToken || [
+    this.doNotToken = [
+      ...doNotToken,
       "/set/user/getVerifyCode",
       "/set/user/login",
     ];

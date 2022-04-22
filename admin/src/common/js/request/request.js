@@ -16,7 +16,7 @@ export default class Request {
   // 请求队列
   static requestQueue = [];
   // 默认请求头设置
-  static defaultHeader = {};
+  static defaultHeaders = {};
   //错误拦截
   static error(errorInfo) {}
   //请求拦截器
@@ -156,7 +156,7 @@ export default class Request {
               method,
               parameter,
               headers: {
-                ...this.defaultHeader,
+                ...this.defaultHeaderss,
                 ...headers,
                 ["request-id"]: requestId,
               },
@@ -190,7 +190,7 @@ export default class Request {
             method,
             parameter,
             headers: {
-              ...this.defaultHeader,
+              ...this.defaultHeaders,
               ...headers,
               ["request-id"]: requestId,
             },
@@ -293,7 +293,7 @@ export default class Request {
 //配置默认前缀
 Request.baseUrl = baseUrl;
 // 设置默认请求头
-Request.defaultHeader = {
+Request.defaultHeaders = {
   // token: localStorage.getItem("token"),
   // "content-type": "application/x-www-form-urlencoded",  //文件上传
   "Content-Type": "application/json;charset=utf-8",
