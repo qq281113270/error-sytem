@@ -48,19 +48,7 @@ const Index = (props) => {
     console.log("Failed:", errorInfo);
   };
 
-  const verifyCode = useCallback(async () => {
-    const data = await getVerifyCode();
-    const {
-      data: { svg },
-    } = data;
-    setVerifyCodeData({
-      svg,
-    });
-  }, []);
-  useEffect(() => {
-    verifyCode();
-  }, []);
-  const { svg = "" } = verifyCodeData;
+  useEffect(() => {}, []);
 
   return (
     <div className="center log-in">

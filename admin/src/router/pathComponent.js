@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2020-11-11 11:21:09
- * @LastEditTime: 2021-09-23 16:40:00
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-04-22 20:16:55
+ * @LastEditors: Yao guan shou
  * @Description: In User Settings Edit
- * @FilePath: /error-sytem/client/src/router/pathComponent.js
+ * @FilePath: /error-sytem/admin/src/router/pathComponent.js
  */
 
 import React, { lazy } from "react";
@@ -71,6 +71,11 @@ const pathComponent = [
       },
       {
         name: "createProject",
+        path: "/createProject/:id?",
+        component: CreateProject,
+      },
+      {
+        name: "user",
         path: "/createProject/:id?",
         component: CreateProject,
       },

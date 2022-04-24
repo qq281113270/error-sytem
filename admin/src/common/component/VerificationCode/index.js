@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-08-23 15:05:27
- * @LastEditTime: 2021-08-23 15:12:14
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-04-22 19:37:33
+ * @LastEditors: Yao guan shou
  * @Description: In User Settings Edit
- * @FilePath: /error-sytem/client/src/common/component/VerificationCode/index.js
+ * @FilePath: /error-sytem/admin/src/common/component/VerificationCode/index.js
  */
 import React, { useCallback, useEffect, useState } from "react";
 import { Form, Input } from "antd";
@@ -18,6 +18,7 @@ const Index = (props) => {
   const [verifyCodeData, setVerifyCodeData] = useState({});
 
   const verifyCode = useCallback(async () => {
+   
     const data = await getVerifyCode();
     const {
       data: { svg },

@@ -156,7 +156,7 @@ export default class Request {
               method,
               parameter,
               headers: {
-                ...this.defaultHeaderss,
+                ...this.defaultHeaders,
                 ...headers,
                 ["request-id"]: requestId,
               },
