@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:03:45
- * @LastEditTime: 2021-09-30 19:54:40
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-20 11:28:45
+ * @LastEditors: Yao guan shou
  * @Description: In User Settings Edit
- * @FilePath: /error-sytem/client/src/common/js/request/requestApi.js
+ * @FilePath: /error-sytem/admin/src/common/js/request/requestApi.js
  */
 import Request, { gql, GraphqlClient } from "./request";
 import filterGraphqlData from "./filterGraphqlData";
@@ -18,6 +18,7 @@ export const getVerifyCode = () => {
 
 // 注册
 export const register = (parameter) => {
+  debugger
   return Request.post("/set/user/register", parameter);
 };
 
@@ -142,6 +143,7 @@ export const getUserInfo = (id = "") => {
 
 export const hello = (data) => {
   return GraphqlClient.query({
+    operationName: "getUserInfo",
     name: "hello",
     query: gql`
             {

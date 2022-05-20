@@ -54,6 +54,8 @@ const Index = memo((props) => {
       token.clearQueue();
       push("/logLn");
     }
+    // hello()
+
     return () => {};
   }, [token.get()]);
 

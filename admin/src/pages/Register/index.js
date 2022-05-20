@@ -19,6 +19,7 @@ const Index = () => {
   const onFinish = async (values) => {
     // console.log('register=', register);
     // console.log('Success:', values);
+    console.log('values======',values)
     const data = await register(values);
     message.success("注册成功");
     setTimeout(() => {
@@ -143,7 +144,12 @@ const Index = () => {
         <VerificationCode />
         <Form.Item {...tailLayout}>
           <div className="buttons">
-            <Button className="submit" type="primary" htmlType="submit">
+            <Button className="submit" type="primary" htmlType="submit"
+            onClick={() => {
+              
+            }}
+            
+            >
               确定
             </Button>
             <Button
