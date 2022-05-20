@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-24 16:21:28
- * @LastEditTime: 2022-04-22 19:35:48
+ * @LastEditTime: 2022-04-26 10:25:49
  * @LastEditors: Yao guan shou
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/server/app/bizMod/set/redis/user.js
@@ -14,6 +14,9 @@ export const setVerifyCode = (key, value, time) => {
 };
 
 export const getVerifyCode = (key) => {
+  if (key === undefined) {
+    return Promise.reject();
+  }
   return Redis.get(key);
 };
 export {};

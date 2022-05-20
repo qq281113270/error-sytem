@@ -1,12 +1,15 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 16:02:26
- * @LastEditTime: 2022-04-22 19:39:28
+ * @LastEditTime: 2022-05-20 10:43:04
  * @LastEditors: Yao guan shou
  * @Description: In User Settings Edit
  * @FilePath: /error-sytem/server/app/bizMod/set/bizMod/user/graphql/schema/resolvers/Query/index.js
  */
 import { outHttpLog } from "@/utils";
+
+
+
 
 export const getUserInfo = (root, parameter, source, fieldASTs) => {
   const { ctx: { request, response } = {} } = root;
